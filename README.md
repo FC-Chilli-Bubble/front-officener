@@ -1,27 +1,12 @@
-# React + TypeScript + Vite
+## 이슈 작성 방법
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ 1. Issues 탭에서 `New issue` 버튼을 클릭한다.
+ 2. 상황에 맞는 템플릿을 선택한다. 기능 작업에 대한 Issue는 `Feature` 템플릿 선택!
+  ![image](https://github.com/FC-Chilli-Bubble/front-officener/assets/108085046/6d688786-da3e-4522-bb2e-f52fd89cabfb)
+ 3. 템플릿 양식에 맞춰 작성 후 `Assignees` 선택, `Labels`에 상황에 맞는 label 추가, `Projects`는 `Officener-Project`를 선택한다.
+    ![image](https://github.com/FC-Chilli-Bubble/front-officener/assets/108085046/3c872579-ce67-4d80-af86-336315c5cd7c)
+ 4. `Submit new issue` 버튼을 클릭해서 작성을 완료 한다.
 
-Currently, two official plugins are available:
+## PR 작성 방법
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- 추후 업로드 할게요!
