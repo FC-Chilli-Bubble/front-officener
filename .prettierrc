@@ -7,5 +7,6 @@
   "arrowParens": "avoid",
   "printWidth": 100,
   "tabWidth": 2,
-  "useTabs": false // 탭 대신 공백으로 들여쓰기
+  "useTabs": false, // 탭 대신 공백으로 들여쓰기
+  "singleAttributePerLine": true
 }
