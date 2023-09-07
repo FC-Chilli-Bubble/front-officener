@@ -12,7 +12,6 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Layout>
-          {/* TODO : Header Component 추가  */}
           <StyledBox>
             <Outlet />
           </StyledBox>
