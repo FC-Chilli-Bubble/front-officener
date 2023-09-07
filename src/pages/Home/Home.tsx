@@ -1,32 +1,139 @@
 import { styled } from "styled-components";
 
-import Header from "@/components/Common/Header";
 import Button from "@/components/Common/Button";
 import HomeHeader from "@/components/Home/HomeHeader";
-
+import IconRight from '@/assets/ico_right_arrow_g.svg';
+import { HOME_OFFICE } from "@/constants/commonUiData";
 const Home = () => {
 
   return (
     <>
       <HomeHeader />
       <StyledContainer>
-        <Button title="CTA 버튼" onClick={() => { console.log("click test"); }} />
-        <Button type="primary" title="Primary 버튼" onClick={() => { console.log("click test"); }} />
-        <Button title="비활성화 버튼" disabled onClick={() => { console.log("click test"); }} />
-        <Button title="길이 있는 버튼" width="50%" onClick={() => { console.log("click test"); }} />
+        {/* 빌딩 정보 */}
+        <StyledBuildingInfo>
+          <h3>미왕빌딩</h3>
+          <p>A동 102(COIPSG)호 칠리버블 </p>
+        </StyledBuildingInfo>
+        <StyledBox>
+          {/* 우리 오피스 소식 */}
+          <StyledOfficeInfo>
+            <div className="title">
+              <h6>우리 오피스 소식</h6>
+              <div className="title__more">
+                <span>더보기</span>
+                <img src={IconRight} alt="더보기" />
+              </div>
+            </div>
+            <StyledDivider />
+            <ul>
+              {
+                HOME_OFFICE.map(item => (<li key={item.title}>
+                  <h6>{item.title}</h6>
+                  <div>{item.content}</div>
+                </li>))
+              }
+            </ul>
+          </StyledOfficeInfo>
+
+          {/* 서비스 */}
+          <StyledServiceBox>
+            <h6></h6>
+            <StyledDivider />
+          </StyledServiceBox>
+
+        </StyledBox>
       </StyledContainer>
     </>
   );
 };
 
 const StyledContainer = styled.div`
-  padding: 0 16px;
+  position: relative;
+`;
 
-  // test
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 2000px;
+const StyledBuildingInfo = styled.div`
+  width: 100%;
+  padding: 123px 0 61px 25px;
+  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.marinblueColor};
+
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    height: 34px;
+  }
+
+  p {
+    font-size: 12px;
+    font-weight: 600;
+  }
+`;
+
+const StyledBox = styled.div`
+  padding: 0 16px 16px;
+`;
+
+const StyledOfficeInfo = styled.div`
+  width: 100%;
+  padding: 19px 14px 14px;
+  box-shadow: ${({ theme }) => theme.dropShadow.depth1};
+  background-color: ${({ theme }) => theme.colors.white};
+  margin-top: -45px;
+  margin-bottom: 4px;
+  border-radius: 16px;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 16px;
+    color: #696F79;
+    font-size: 12px;  
+  
+    .title__more {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+  }
+
+    li {
+      display: flex;
+      font-size: 12px;
+      line-height: 18px;
+      color: ${({ theme }) => theme.colors.grayColor5};
+      gap: 8px;
+
+      h6 {
+        width: 45px;
+        color: ${({ theme }) => theme.colors.grayColor9};
+      }
+
+      div {
+        cursor: pointer;
+      }
+    }
+`;
+
+const StyledServiceBox = styled.div`
+  width: 100%;
+  padding: 19px 17px;
+  box-shadow: ${({ theme }) => theme.dropShadow.depth1};
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 16px;
+
+  h6 {
+    color: #696F79;
+    font-size: 12px;  
+  }
+`;
+
+const StyledDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 12px 0;
+  background-color:  ${({ theme }) => theme.colors.grayColor1}; 
 `;
 
 export default Home;

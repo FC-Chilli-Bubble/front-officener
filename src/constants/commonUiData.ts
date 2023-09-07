@@ -42,3 +42,18 @@ export const NAV_MENU = [
     name: '/my-page'
   }
 ];
+
+export const HOME_OFFICE = [
+  {
+    title: '정기점검',
+    content: '10월 10일 엘리베이터 정기 점검 예정'
+  },
+  {
+    title: '공동생활',
+    content: '우리 오피스를 위한 공동생활 규칙'
+  },
+  {
+    title: '공지사항',
+    content: '10월 입주자 정기회의 일정 안내'
+  }
+];
