@@ -6,10 +6,16 @@ import IconMy from '@/assets/ico_my.svg';
 import IconHomeOff from '@/assets/ico_home_off.svg';
 import IconDeliveryOff from '@/assets/ico_delivery_off.svg';
 import IconMyOff from '@/assets/ico_my_off.svg';
+import IconMore from '@/assets/ico_more.svg';
 
 export const HEADER_LEFT_ICONS = {
   back: IconBack,
   close: IconClose,
+  none: null
+};
+
+export const HEADER_RIGHT_ICONS = {
+  more: IconMore,
   none: null
 };
 
