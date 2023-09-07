@@ -29,18 +29,22 @@ const BottomNavigation = () => {
 
 const StyledNav = styled.nav`
   width: 100%; 
-  height: 90px; 
+  height: 56px; 
+  padding: 9px 0 7px;
   background-color: ${({ theme }) => theme.colors.white};
   border-top: 0.3px solid ${({ theme }) => theme.colors.barBorderColor};
-    
+  position: sticky;
+  bottom: 0;
+  z-index: 1000;
+
   ul {
+    height: 100%;
     display: flex;
     justify-content: space-evenly;
   }
 `;
 
 const StyledNavItem = styled(Link) <{ $isActive: boolean; }>`
-  margin-top: 7px;
   display: flex;
   flex-direction: column;
   width: 84px;
@@ -48,10 +52,11 @@ const StyledNavItem = styled(Link) <{ $isActive: boolean; }>`
   align-items: center;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.black};
-  gap: 8px;
+  gap: 10px;
 
   img {
-    padding: 4px;
+    width: 20px;
+    height: 20px;
   }
 
   div {

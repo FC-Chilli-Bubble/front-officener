@@ -42,6 +42,9 @@ const StyledHeader = styled.header`
   align-items: center;
   padding: 16px 18px;
   background-color: ${({ theme }) => theme.colors.white};
+  z-index: 1000;
+  position: sticky;
+  top: 0;
 `;
 
 const StyledLeftIcon = styled.div`
@@ -53,7 +56,6 @@ const StyledLeftIcon = styled.div`
 const StyledTtile = styled.div`
   flex-grow: 1;
   text-align: center;
-  margin-right: 24px;
 `;
 
 const StyledRightIcon = styled.div`
