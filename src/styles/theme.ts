@@ -13,10 +13,13 @@ const colors = {
   successColor: '#15965A',
   borderColor: '#C7C7C7',
   grayColor1: '#F4F4F5', // divider color
+  grayColor3: '#D1D5DB',
   grayColor4: '#9CA3AF', // placeholder color
   grayColor5: '#6B7280', // label color
   grayColor6: '#4B5563', // font gray color
   grayColor10: '#9D9D9D',
+  barBorderColor: '#D8D8D8', // nav bar border
+  navColor: '#1F2937', // navigation Icon Color
   marinblueColor: '#2563EB', // 파란 배경 marinblue-l1
   redColor0: '#F13D2C'
 };

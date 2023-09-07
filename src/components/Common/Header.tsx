@@ -26,12 +26,14 @@ const Header = ({ leftIcon = "none", leftIconClick, title }: THeaderProps) => {
 };
 
 const StyledHeader = styled.header`
+  width: 100%;
   height: 56px;
   font-size: 18px;
   font-weight: 500;
   display: flex;
   align-items: center;
   padding: 16px 18px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const StyledLeftIcon = styled.div`
