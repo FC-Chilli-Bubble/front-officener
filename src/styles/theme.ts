@@ -2,7 +2,7 @@ const colors = {
   white: '#FFF',
   black: '#000',
   ctaColor: '#2563EB', // 진한 버튼
-  ctaHoberColor: '#2952C8   ',
+  ctaHoverColor: '#2952C8   ',
   ctaPressedColor: '#203787',
   ctaDisabledColor: '#2563EB66',
   primaryColor: '#E7F2FE', // 연한 버튼
@@ -27,7 +27,7 @@ const colors = {
 const dropShadow = {
   depth1: '0px 8px 16px 0px #D1D5DB40',
   depth2: '0px 10px 30px 0px #BFC4CD66',
-  depth3: '0px 15px 40px 0px #AEB3BD73',
+  depth3: '0px 15px 40px 0px #AEB3BD73'
 };
 
 const theme = {

@@ -32,7 +32,7 @@ export const NAV_MENU = [
     title: 'My',
     active: IconMy,
     inactive: IconMyOff,
-    path: 'javascript:void(0)',
+    path: '#',
     name: '/my-page'
   }
 ];

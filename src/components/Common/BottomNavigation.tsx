@@ -14,8 +14,8 @@ const BottomNavigation = () => {
       <ul>
         {
           NAV_MENU.map(nav => (
-            <li>
-              <StyledNavItem to={nav.path} isActive={currentPath.includes(nav.name)}>
+            <li key={nav.name}>
+              <StyledNavItem to={nav.path} $isActive={currentPath.includes(nav.name)}>
                 <img src={currentPath.includes(nav.name) ? nav.active : nav.inactive} />
                 <div>{nav.title}</div>
               </StyledNavItem>
@@ -39,7 +39,7 @@ const StyledNav = styled.nav`
   }
 `;
 
-const StyledNavItem = styled(Link) <{ isActive: boolean; }>`
+const StyledNavItem = styled(Link) <{ $isActive: boolean; }>`
   margin-top: 7px;
   display: flex;
   flex-direction: column;
@@ -56,7 +56,7 @@ const StyledNavItem = styled(Link) <{ isActive: boolean; }>`
 
   div {
     font-size: 10px;
-    color: ${({ isActive, theme }) => isActive ? theme.colors.black : theme.colors.grayColor3};
+    color: ${({ $isActive, theme }) => $isActive ? theme.colors.black : theme.colors.grayColor3};
   }
 `;
 
