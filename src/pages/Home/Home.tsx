@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import Button from "@/components/Common/Button";
 import HomeHeader from "@/components/Home/HomeHeader";
 import IconRight from '@/assets/ico_right_arrow_g.svg';
-import { HOME_OFFICE } from "@/constants/commonUiData";
+import { HOME_OFFICE, HOME_SERVICES } from "@/constants/commonUiData";
 const Home = () => {
 
   return (
@@ -38,8 +38,18 @@ const Home = () => {
 
           {/* 서비스 */}
           <StyledServiceBox>
-            <h6></h6>
+            <h6>입주자 전용 서비스</h6>
             <StyledDivider />
+            <ul>
+              {
+                HOME_SERVICES.map(service => (
+                  <li key={service.title}>
+                    <div></div>
+                    <p>{service.title}</p>
+                  </li>
+                ))
+              }
+            </ul>
           </StyledServiceBox>
 
         </StyledBox>
@@ -122,10 +132,41 @@ const StyledServiceBox = styled.div`
   box-shadow: ${({ theme }) => theme.dropShadow.depth1};
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px;
+  color: #696F79;
 
   h6 {
-    color: #696F79;
     font-size: 12px;  
+    font-weight: 500;
+    line-height: 18px;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    grid-row-gap: 21px;
+
+    li {
+      cursor: pointer;
+
+      div {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        background: #DAE9FE;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      p {
+        font-size: 10px;
+        line-height: 15px;
+        margin-top: 4px;
+        text-align: center;
+      }
+    }
+
   }
 `;
 
