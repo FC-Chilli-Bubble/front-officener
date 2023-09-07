@@ -1,8 +1,16 @@
+import { styled } from "styled-components";
+
 const Home = () => {
-  
+
   return (
-    <div>Home</div>
+    <StyledLayout>
+
+    </StyledLayout>
   );
 };
+
+const StyledLayout = styled.div`
+  
+`;
 
 export default Home;
