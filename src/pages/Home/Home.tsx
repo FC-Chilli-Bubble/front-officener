@@ -2,12 +2,13 @@ import { styled } from "styled-components";
 
 import Header from "@/components/Common/Header";
 import Button from "@/components/Common/Button";
+import HomeHeader from "@/components/Home/HomeHeader";
 
 const Home = () => {
 
   return (
     <>
-      <Header title="Home" />
+      <HomeHeader />
       <StyledContainer>
         <Button title="CTA 버튼" onClick={() => { console.log("click test"); }} />
         <Button type="primary" title="Primary 버튼" onClick={() => { console.log("click test"); }} />
