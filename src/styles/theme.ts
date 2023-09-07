@@ -1,6 +1,6 @@
 const colors = {
   white: '#FFF',
-  balck: '#000',
+  black: '#000',
   ctaColor: '#2563EB', // 진한 버튼
   ctaHoberColor: '#2952C8   ',
   ctaPressedColor: '#203787',

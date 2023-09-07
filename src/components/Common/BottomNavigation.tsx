@@ -1,10 +1,29 @@
 import { styled } from 'styled-components';
 
+import { NAV_MENU } from '@/constants/commonUiData';
+import { Link, useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
+
+
 const BottomNavigation = () => {
+  const pathName = useLocation().pathname;
+  const currentPath = useMemo(() => pathName === '/' ? '/home' : pathName, [pathName]);
+
   return (
     <StyledNav>
-
-    </StyledNav>
+      <ul>
+        {
+          NAV_MENU.map(nav => (
+            <li>
+              <StyledNavItem to={nav.path} isActive={currentPath.includes(nav.name)}>
+                <img src={currentPath.includes(nav.name) ? nav.active : nav.inactive} />
+                <div>{nav.title}</div>
+              </StyledNavItem>
+            </li>)
+          )
+        }
+      </ul>
+    </StyledNav >
   );
 };
 
@@ -13,10 +32,32 @@ const StyledNav = styled.nav`
   height: 90px; 
   background-color: ${({ theme }) => theme.colors.white};
   border-top: 0.3px solid ${({ theme }) => theme.colors.barBorderColor};
+    
   ul {
     display: flex;
     justify-content: space-evenly;
   }
 `;
 
-export default BottomNavigation;
+const StyledNavItem = styled(Link) <{ isActive: boolean; }>`
+  margin-top: 7px;
+  display: flex;
+  flex-direction: column;
+  width: 84px;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.black};
+  gap: 8px;
+
+  img {
+    padding: 4px;
+  }
+
+  div {
+    font-size: 10px;
+    color: ${({ isActive, theme }) => isActive ? theme.colors.black : theme.colors.grayColor3};
+  }
+`;
+
+export default BottomNavigation; 
