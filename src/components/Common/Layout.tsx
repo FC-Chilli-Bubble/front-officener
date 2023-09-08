@@ -13,7 +13,7 @@ const Layout = () => {
   );
 };
 
-const StyledLayout = styled.section`
+const StyledLayout = styled.div`
   height: inherit;
   position: relative ;
   max-width: 560px; // 협의 필요
@@ -22,15 +22,19 @@ const StyledLayout = styled.section`
 `;
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   height: 100%;
   position: relative;
 `;
 
 const StyledBox = styled.div`
-  flex: 1 1 0%;
-  padding: 0 16px;
+  height: 100%;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 

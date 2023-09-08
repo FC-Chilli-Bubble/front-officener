@@ -15,7 +15,7 @@ const NavLayout = () => {
   );
 };
 
-const StyledLayout = styled.section`
+const StyledLayout = styled.div`
   position: relative;
   height: inherit;
   max-width: 560px; // 협의 필요
@@ -24,15 +24,19 @@ const StyledLayout = styled.section`
 `;
 
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
   height: 100%;
   position: relative;
 `;
 
 const StyledBox = styled.div`
-  flex-grow: 1;
-  padding: 0 16px;
+  height: calc(100% - 56px);
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 
