@@ -4,12 +4,12 @@ import IconSearch from '@/assets/ico_search.svg';
 
 // type ErrorIconType = 'error' | 'none';
 
-type TheInputProps = {
+type TInputProps = {
   label?: string;
   placeholder: string;
 };
 
-const SearchInput = ({ label, placeholder }: TheInputProps) => {
+const SearchInput = ({ label, placeholder }: TInputProps) => {
   return (
     <InputLayout>
       <InputLabel htmlFor="input-box">{label}</InputLabel>

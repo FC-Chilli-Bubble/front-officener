@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
-type ButtonType = "cta" | "primary";
-type ButtonSize = "small" | "normal";
+type ButtonType = 'cta' | 'primary';
+type ButtonSize = 'small' | 'normal';
 
 type TButtonProps = {
   size?: ButtonSize;
@@ -12,9 +12,22 @@ type TButtonProps = {
   onClick: () => void;
 };
 
-const Button = ({ size = "normal", type = "cta", title, width = '100%', disabled = false, onClick }: TButtonProps) => {
+const Button = ({
+  size = 'normal',
+  type = 'cta',
+  title,
+  width = '100%',
+  disabled = false,
+  onClick
+}: TButtonProps) => {
   return (
-    <StyledButton size={size} type={type} title={title} width={width} disabled={disabled} onClick={onClick}>
+    <StyledButton
+      size={size}
+      type={type}
+      title={title}
+      width={width}
+      disabled={disabled}
+      onClick={onClick}>
       {title}
     </StyledButton>
   );
@@ -25,27 +38,32 @@ const StyledButton = styled.button<TButtonProps>`
   border: none;
   border-radius: 8px;
   width: ${({ width }) => width};
-  height: ${({ size }) => size === "normal" ? '60px' : '48px'};
+  height: ${({ size }) => (size === 'normal' ? '60px' : '48px')};
   padding: 0 24px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ type, theme }) => type === "cta" ? theme.colors.ctaColor : theme.colors.primaryColor};
+  background-color: ${({ type, theme }) =>
+    type === 'cta' ? theme.colors.ctaColor : theme.colors.primaryColor};
   font-size: 20px;
-  color: ${({ type, theme }) => type === "cta" ? theme.colors.white : theme.colors.ctaColor};
+  color: ${({ type, theme }) => (type === 'cta' ? theme.colors.white : theme.colors.ctaColor)};
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ type, theme }) => type === "cta" ? theme.colors.ctaHoverColor : theme.colors.primaryHoverColor};
+    background-color: ${({ type, theme }) =>
+      type === 'cta' ? theme.colors.ctaHoverColor : theme.colors.primaryHoverColor};
   }
 
   &:active {
-    background-color: ${({ type, theme }) => type === "cta" ? theme.colors.ctaPressedColor : theme.colors.primaryPressedColor};
+    background-color: ${({ type, theme }) =>
+      type === 'cta' ? theme.colors.ctaPressedColor : theme.colors.primaryPressedColor};
   }
 
   &:disabled {
-    color: ${({ type, theme }) => type === "cta" ? theme.colors.white : theme.colors.ctaDisabledColor};
-    background-color: ${({ type, theme }) => type === "cta" ? theme.colors.ctaDisabledColor : theme.colors.primaryPressedColor};
+    color: ${({ type, theme }) =>
+      type === 'cta' ? theme.colors.white : theme.colors.ctaDisabledColor};
+    background-color: ${({ type, theme }) =>
+      type === 'cta' ? theme.colors.ctaDisabledColor : theme.colors.primaryPressedColor};
   }
 `;
 

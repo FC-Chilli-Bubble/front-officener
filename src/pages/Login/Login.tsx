@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import SelectedInput from '@/components/Common/SelectedInput';
 import SearchInput from '@/components/Common/SearchInput';
 import FormField from '@/components/Common/FormField';
+import Tags from '@/components/Common/Tags';
 
 const Login = () => {
   return (
@@ -10,8 +11,21 @@ const Login = () => {
       <br />
       <h1>테스트 페이지</h1>
       <p>위치 : components/Common/ </p>
+      <p>[함께주문 카테고리 태그]</p>
       <p>Tags.tsx</p>
-      
+      <Tags
+        title="음식 태그"
+        onClick={() => {
+          console.log('click test');
+        }}
+      />
+      <Tags
+        title="음식 태그"
+        unActive
+        onClick={() => {
+          console.log('click test');
+        }}
+      />
       <br />
       <h3>SelectedInput.tsx</h3>
       <SelectedInput
@@ -92,7 +106,6 @@ const StyledContainer = styled.div`
   // test
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 10px;
 `;
 

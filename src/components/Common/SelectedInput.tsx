@@ -4,14 +4,14 @@ import { INPUT_ERROR_MESSAGE } from '@/constants/commonUiData';
 
 type ErrorIconType = 'error' | 'none';
 
-type TheInputProps = {
+type TInputProps = {
   label?: string;
   placeholder: string;
   errorIcon?: ErrorIconType;
   onClick: () => void;
 };
 
-const SelectedInput = ({ label, placeholder, errorIcon = 'none', onClick }: TheInputProps) => {
+const SelectedInput = ({ label, placeholder, errorIcon = 'none', onClick }: TInputProps) => {
   return (
     <InputLayout>
       <InputLabel htmlFor="input-box">{label}</InputLabel>

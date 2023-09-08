@@ -5,7 +5,7 @@ import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiD
 type ErrorRedIconType = 'wrong' | 'error' | 'none';
 type CheckIconType = 'check' | 'none';
 
-type TheInputProps = {
+type TInputProps = {
   isType: string;
   label: string;
   placeholder: string;
@@ -25,7 +25,7 @@ const FormField = ({
   redErrorIcon = 'none',
   errorMessage,
   checkIcon = 'none'
-}: TheInputProps) => {
+}: TInputProps) => {
   return (
     <InputLayout>
       {isRequired ? (

@@ -1,14 +1,14 @@
 import { styled } from 'styled-components';
 
-type ButtonType = 'cta' | 'primary';
-type ButtonSize = 'small' | 'normal';
+type TagType = 'cta' | 'primary';
+type TagSize = 'small' | 'normal';
 
-type TButtonProps = {
-  size?: ButtonSize;
-  type?: ButtonType;
+type TtagProps = {
+  size?: TagSize;
+  type?: TagType;
   title: string;
   width?: string;
-  disabled?: boolean;
+  unActive?: boolean;
   onClick: () => void;
 };
 
@@ -17,23 +17,23 @@ const Tags = ({
   type = 'cta',
   title,
   width = '100%',
-  disabled = false,
+  unActive = false,
   onClick
-}: TButtonProps) => {
+}: TtagProps) => {
   return (
-    <StyledButton
+    <StyledTag
       size={size}
       type={type}
       title={title}
       width={width}
-      disabled={disabled}
+      unActive={unActive}
       onClick={onClick}>
       {title}
-    </StyledButton>
+    </StyledTag>
   );
 };
 
-const StyledButton = styled.button<TButtonProps>`
+const StyledTag = styled.button<TtagProps>`
   outline: none;
   border: none;
   border-radius: 8px;
@@ -59,7 +59,7 @@ const StyledButton = styled.button<TButtonProps>`
       type === 'cta' ? theme.colors.ctaPressedColor : theme.colors.primaryPressedColor};
   }
 
-  &:disabled {
+  &:active {
     color: ${({ type, theme }) =>
       type === 'cta' ? theme.colors.white : theme.colors.ctaDisabledColor};
     background-color: ${({ type, theme }) =>
