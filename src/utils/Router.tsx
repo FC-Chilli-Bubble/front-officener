@@ -24,6 +24,11 @@ export const router = createBrowserRouter([
             path: '',
             element: <Home />,
             errorElement: <ErrorComponent />
+          },
+          {
+            path: '/delivery',
+            element: <Home />,
+            errorElement: <ErrorComponent />
           }
         ]
       },
