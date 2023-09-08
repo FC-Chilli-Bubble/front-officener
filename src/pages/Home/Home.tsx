@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
 
-import Button from "@/components/Common/Button";
 import HomeHeader from "@/components/Home/HomeHeader";
 import IconRight from '@/assets/ico_right_arrow_g.svg';
-import { HOME_OFFICE, HOME_SERVICES } from "@/constants/commonUiData";
+import { HOME_OFFICE } from "@/constants/commonUiData";
+import { HOME_SERVICES } from "@/constants/serviceMenus";
 const Home = () => {
 
   return (
