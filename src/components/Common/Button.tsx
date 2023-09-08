@@ -45,7 +45,7 @@ const StyledButton = styled.button<TButtonProps>`
   align-items: center;
   background-color: ${({ type, theme }) =>
     type === 'cta' ? theme.colors.ctaColor : theme.colors.primaryColor};
-  font-size: 20px;
+  font-size: ${({ size }) => (size === 'normal' ? '20px' : '16px')};
   color: ${({ type, theme }) => (type === 'cta' ? theme.colors.white : theme.colors.ctaColor)};
   cursor: pointer;
 

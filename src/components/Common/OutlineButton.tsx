@@ -29,7 +29,7 @@ const StyledButton = styled.button<TOutlineButtonProps>`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.white};
-  font-size: 20px;
+  font-size: ${({ size }) => size === "normal" ? '20px' : '16px'};
   color: ${({ theme }) => theme.colors.ctaColor};
   cursor: pointer;
 
