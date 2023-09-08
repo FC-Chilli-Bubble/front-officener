@@ -3,21 +3,21 @@ import { styled } from "styled-components";
 import Header from "@/components/Common/Header";
 import Button from "@/components/Common/Button";
 import OutlineButton from "@/components/Common/OutlineButton";
-import Modal from "@/components/Common/Modal";
-import { IModal } from "@/types/IModal";
+import { useModal } from "@/hooks/useModal";
+import MODAL_DATAS from "@/constants/modalDatas";
 
 const Home = () => {
-  const testModalData: IModal = {
-    title: "채팅방을 나가시겠습니까?",
-    content: "",
-    positive: "나가기",
-    positiveCallback: () => {
-      console.log("나가기 클릭");
-    },
-    negative: "닫기",
-    negativeCallback: () => {
-      console.log("닫기 클릭");
-    },
+  // 전역 모달 CustomHooks
+  const { openModal } = useModal();
+
+  const handleModalOpen = () => {
+    // 페이지에 띄운 모달정보를 openModal함수의 파라미터로 전달
+    openModal({
+      ...MODAL_DATAS.testModal,
+      positiveCallback: () => {
+        console.log("모달 나가기 클릭 콜백");
+      }
+    });
   };
 
   return (
@@ -28,9 +28,8 @@ const Home = () => {
         <Button size="small" title="CTA 버튼 Small" onClick={() => { console.log("click test"); }} />
         <Button type="primary" title="Primary 버튼" onClick={() => { console.log("click test"); }} />
         <Button title="비활성화 버튼" disabled onClick={() => { console.log("click test"); }} />
-        <Button title="길이 있는 버튼" width="50%" onClick={() => { console.log("click test"); }} />
+        <Button title="모달 테스트" width="50%" onClick={handleModalOpen} />
         <OutlineButton title="테두리 버튼" onClick={() => { console.log("click test"); }} />
-        <Modal data={testModalData} />
       </StyledContainer>
     </>
   );

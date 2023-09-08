@@ -46,7 +46,6 @@ const StyledHeader = styled.header`
   align-items: center;
   padding: 16px 18px;
   background-color: ${({ theme }) => theme.colors.white};
-  z-index: 1000;
   position: sticky;
   top: 0;
 `;

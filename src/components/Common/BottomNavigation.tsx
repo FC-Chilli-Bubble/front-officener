@@ -35,7 +35,6 @@ const StyledNav = styled.nav`
   border-top: 0.3px solid ${({ theme }) => theme.colors.barBorderColor};
   position: sticky;
   bottom: 0;
-  z-index: 1000;
 
   ul {
     height: 100%;

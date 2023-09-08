@@ -1,26 +1,45 @@
 import { styled } from 'styled-components';
-import OutlineButton from '@/components/Common/OutlineButton';
+
 import Button from '@/components/Common/Button';
-import { IModal } from '@/types/IModal';
+import OutlineButton from '@/components/Common/OutlineButton';
+import { useModal } from '@/hooks/useModal';
 
-type TModalProps = {
-  data: IModal;
-};
+const Modal = () => {
+  const { modalState, closeModal } = useModal();
 
-const Modal = ({ data }: TModalProps) => {
+  const handleNegativeClick = () => {
+    if (modalState.negativeCallback) {
+      modalState.negativeCallback();
+    }
+    closeModal();
+  };
+
+  const handlePositiveClick = () => {
+    if (modalState.positiveCallback) {
+      modalState.positiveCallback();
+    }
+    closeModal();
+  };
+
   return (
-    <StyledModalLayout>
-      <StyledModalContainer >
-        <StyledModal>
-          <h2>{data.title}</h2>
-          {data.content && <p>{data.content}</p>}
-          <StyledButtonBox>
-            <Button title={data.positive} onClick={data.positiveCallback} size='small' />
-            {data.negative && data.negativeCallback && <OutlineButton title={data.negative} onClick={data.negativeCallback} size='small' />}
-          </StyledButtonBox>
-        </StyledModal>
-      </StyledModalContainer>
-    </StyledModalLayout>
+    <>
+      {
+        modalState.isOpen && (
+          <StyledModalLayout>
+            <StyledModalContainer onClick={closeModal}>
+              <StyledModal>
+                <h2>{modalState.title}</h2>
+                {modalState.content && <p>{modalState.content}</p>}
+                <StyledButtonBox>
+                  <Button title={modalState.positive} onClick={handlePositiveClick} size='small' />
+                  {modalState.negative && <OutlineButton title={modalState.negative} onClick={handleNegativeClick} size='small' />}
+                </StyledButtonBox>
+              </StyledModal>
+            </StyledModalContainer>
+          </StyledModalLayout>
+        )
+      }
+    </>
   );
 };
 
