@@ -5,6 +5,7 @@ import Button from "@/components/Common/Button";
 import OutlineButton from "@/components/Common/OutlineButton";
 import { useModal } from "@/hooks/useModal";
 import MODAL_DATAS from "@/constants/modalDatas";
+import TimePicker from "@/components/Delivery/TimePicker";
 
 const Home = () => {
   // 전역 모달 CustomHooks
@@ -30,6 +31,8 @@ const Home = () => {
         <Button title="비활성화 버튼" disabled onClick={() => { console.log("click test"); }} />
         <Button title="모달 테스트" width="50%" onClick={handleModalOpen} />
         <OutlineButton title="테두리 버튼" onClick={() => { console.log("click test"); }} />
+
+        <TimePicker />
       </StyledContainer>
     </>
   );
