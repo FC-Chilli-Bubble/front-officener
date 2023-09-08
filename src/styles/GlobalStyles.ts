@@ -33,6 +33,11 @@ const GlobalStyles = createGlobalStyle`
     border: none;
     outline: none;
     cursor: pointer;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
   }
   ::placeholder{
     font-size: 16px;

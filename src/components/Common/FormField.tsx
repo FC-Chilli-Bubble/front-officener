@@ -6,6 +6,7 @@ type ErrorRedIconType = 'error' | 'none';
 type CheckIconType = 'check' | 'none';
 
 type TheInputProps = {
+  isType: string;
   label: string;
   placeholder: string;
   isRequired?: boolean;
@@ -17,6 +18,7 @@ type TheInputProps = {
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
 
 const FormField = ({
+  isType,
   label,
   isRequired = false,
   placeholder,
@@ -37,15 +39,18 @@ const FormField = ({
       <InputContainer>
         {redErrorIcon == 'none' ? (
           <InputBox
-            type="text"
+            type={isType}
             placeholder={placeholder}
-            id="input-box"></InputBox>
+            id="input-box"
+            name={isType}
+            required></InputBox>
         ) : (
           <ErrorInputBox
             type="text"
             placeholder={placeholder}
-            id="input-box"></ErrorInputBox>
-        )}  
+            id="input-box"
+            required></ErrorInputBox>
+        )}
         {checkIcon !== 'none' && (
           <InnerIcon
             src={INPUT_CHECK_ICONS[checkIcon]}
