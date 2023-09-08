@@ -2,6 +2,7 @@ import IconBack from '@/assets/ico_back.svg';
 import IconClose from '@/assets/ico_close.svg';
 
 import IconError from '@/assets/ico_error.svg';
+import IconWrong from '@/assets/ico_wrong.svg';
 import IconRedError from '@/assets/ico_red_error.svg';
 import IconCheck from '@/assets/ico_check.svg';
 import IconHome from '@/assets/ico_home.svg';
@@ -25,6 +26,7 @@ export const INPUT_ERROR_MESSAGE = {
 };
 
 export const INPUT_REDERROR_MESSAGE = {
+  wrong: IconWrong,
   error: IconRedError,
   none: null
 };

@@ -9,7 +9,9 @@ const Login = () => {
     <StyledContainer>
       <br />
       <h1>테스트 페이지</h1>
-      <p>인풋요소 : components/Common/ </p>
+      <p>위치 : components/Common/ </p>
+      <p>Tags.tsx</p>
+      
       <br />
       <h3>SelectedInput.tsx</h3>
       <SelectedInput
@@ -28,7 +30,7 @@ const Login = () => {
           console.log('컴포넌트 변경각');
         }}
       />
-
+      <br />
       <h3>SearchInput.tsx</h3>
       <SearchInput
         label={'건물'}
@@ -37,8 +39,7 @@ const Login = () => {
       <br />
       <h3>FormField.tsx</h3>
       <div>
-        1. [isType]을 속성으로 넣어뒀지만 제대로 걸러지지 않아서 정규표현식으로 유효성 검사 철저히
-        해야함.
+        1. 혹시 보시고 누락된 설정이 있으면 말씀부탁드립니다!
         <br />
         2. 속성 선택 : <br />
         3. 라벨 | placeholder 내용 | 에러(아이콘)표시 | 에러 메세지 내용 | 필수입력란 [*]표시 |
@@ -50,9 +51,16 @@ const Login = () => {
       <FormField
         isType="email"
         label={'아이디'}
-        placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동'}
+        placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-x아이콘'}
+        redErrorIcon="wrong"
+        errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'}
+      />
+      <FormField
+        isType="email"
+        label={'아이디'}
+        placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-!아이콘'}
         redErrorIcon="error"
-        errorMessage={'아이디를 입력해 주세요.'}
+        errorMessage={'이메일을 입력해 주세요.'}
       />
       <FormField
         isType="text"

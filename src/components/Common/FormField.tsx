@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiData';
 
-type ErrorRedIconType = 'error' | 'none';
+type ErrorRedIconType = 'wrong' | 'error' | 'none';
 type CheckIconType = 'check' | 'none';
 
 type TheInputProps = {
@@ -46,9 +46,10 @@ const FormField = ({
             required></InputBox>
         ) : (
           <ErrorInputBox
-            type="text"
+            type={isType}
             placeholder={placeholder}
             id="input-box"
+            name={isType}
             required></ErrorInputBox>
         )}
         {checkIcon !== 'none' && (
@@ -116,6 +117,9 @@ const InputBox = styled.input`
   &:focus {
     color: ${({ theme }) => theme.colors.grayColor9};
     border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+    &::placeholder {
+      color: transparent;
+    }
   }
 `;
 const ErrorInputBox = styled.input`
@@ -129,6 +133,11 @@ const ErrorInputBox = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.redColor0};
   ::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
+  }
+  &:focus {
+    &::placeholder {
+      color: transparent;
+    }
   }
 `;
 
