@@ -26,7 +26,7 @@ const StyledButton = styled.button<TButtonProps>`
   border-radius: 8px;
   width: ${({ width }) => width};
   height: ${({ size }) => size === "normal" ? '60px' : '48px'};
-  padding: 0 23px;
+  padding: 0 24px;
   display: flex;
   justify-content: center;
   align-items: center;
