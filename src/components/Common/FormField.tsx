@@ -1,4 +1,4 @@
-import { styled, css } from 'styled-components';
+import { styled } from 'styled-components';
 
 import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiData';
 
@@ -35,10 +35,17 @@ const FormField = ({
         <RequiredLabel htmlFor="input-box">{label}</RequiredLabel>
       )}
       <InputContainer>
-        <InputBox
-          type="text"
-          placeholder={placeholder}
-          id="input-box"></InputBox>
+        {redErrorIcon == 'none' ? (
+          <InputBox
+            type="text"
+            placeholder={placeholder}
+            id="input-box"></InputBox>
+        ) : (
+          <ErrorInputBox
+            type="text"
+            placeholder={placeholder}
+            id="input-box"></ErrorInputBox>
+        )}  
         {checkIcon !== 'none' && (
           <InnerIcon
             src={INPUT_CHECK_ICONS[checkIcon]}
@@ -103,6 +110,20 @@ const InputBox = styled.input`
   }
   &:focus {
     color: ${({ theme }) => theme.colors.grayColor9};
+    border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+  }
+`;
+const ErrorInputBox = styled.input`
+  display: flex;
+  width: 100%;
+  height: 48px;
+  padding: 13px 24px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.redColor0};
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.grayColor3};
   }
 `;
 
