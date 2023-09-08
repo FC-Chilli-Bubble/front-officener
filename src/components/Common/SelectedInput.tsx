@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 import { INPUT_ERROR_MESSAGE } from '@/constants/commonUiData';
 
 type ErrorIconType = 'error' | 'none';
@@ -7,9 +8,10 @@ type TheInputProps = {
   label?: string;
   placeholder: string;
   errorIcon?: ErrorIconType;
+  onClick: () => void;
 };
 
-const SelectedInput = ({ label, placeholder, errorIcon = 'none' }: TheInputProps) => {
+const SelectedInput = ({ label, placeholder, errorIcon = 'none', onClick }: TheInputProps) => {
   return (
     <InputLayout>
       <InputLabel htmlFor="input-box">{label}</InputLabel>
@@ -17,7 +19,8 @@ const SelectedInput = ({ label, placeholder, errorIcon = 'none' }: TheInputProps
         <InputBox
           type="text"
           placeholder={placeholder}
-          id="input-box"></InputBox>
+          id="input-box"
+          onClick={onClick}></InputBox>
         <InnerText>변경</InnerText>
       </InputContainer>
       {errorIcon !== 'none' && (
@@ -38,24 +41,24 @@ const InputLayout = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  font-size: 16px;
 `;
 
 const InputLabel = styled.label`
   color: ${({ theme }) => theme.colors.grayColor5};
-  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  font-weight: 400;
 `;
 
 const InputContainer = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const InputBox = styled.input`
   display: flex;
-  width: 343px;
+  width: 100%;
   height: 48px;
   padding: 13px 24px;
   align-items: center;
@@ -73,7 +76,6 @@ const InnerText = styled.span`
   right: 17px;
   bottom: 17px;
   text-align: right;
-  font-size: 16px;
   cursor: pointer;
 `;
 

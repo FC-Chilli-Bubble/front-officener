@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-// import { INPUT_SEARCH_ICON } from '@/constants/commonUiData';
+
 import IconSearch from '@/assets/ico_search.svg';
 
 // type ErrorIconType = 'error' | 'none';
@@ -32,24 +32,24 @@ const InputLayout = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  font-size: 16px;
 `;
 
 const InputLabel = styled.label`
   color: ${({ theme }) => theme.colors.grayColor5};
-  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  font-weight: 400;
 `;
 
 const InputContainer = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const InputBox = styled.input`
   display: flex;
-  width: 343px;
+  width: 100%;
   height: 48px;
   padding: 13px 24px;
   align-items: center;
@@ -60,8 +60,15 @@ const InputBox = styled.input`
     color: ${({ theme }) => theme.colors.grayColor4};
     text-indent: 20px;
   }
+  &:focus {
+    &::placeholder {
+      color: transparent;
+    }
+    & + img {
+      opacity: 0;
+    }
+  }
 `;
-
 
 const SearchImage = styled.img`
   position: absolute;

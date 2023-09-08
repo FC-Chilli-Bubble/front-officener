@@ -1,6 +1,6 @@
 import { styled, css } from 'styled-components';
-import { INPUT_REDERROR_MESSAGE } from '@/constants/commonUiData';
-import { INPUT_CHECK_ICONS } from '@/constants/commonUiData';
+
+import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiData';
 
 type ErrorRedIconType = 'error' | 'none';
 type CheckIconType = 'check' | 'none';
@@ -38,8 +38,7 @@ const FormField = ({
         <InputBox
           type="text"
           placeholder={placeholder}
-          id="input-box"
-          redError={redErrorIcon === 'error'}></InputBox>
+          id="input-box"></InputBox>
         {checkIcon !== 'none' && (
           <InnerIcon
             src={INPUT_CHECK_ICONS[checkIcon]}
@@ -87,11 +86,12 @@ const Required = styled.span`
 
 const InputContainer = styled.div`
   position: relative;
+  width: 100%;
 `;
 
-const InputBox = styled.input<{ redError: boolean }>`
+const InputBox = styled.input`
   display: flex;
-  width: 343px;
+  width: 100%;
   height: 48px;
   padding: 13px 24px;
   align-items: center;
@@ -104,11 +104,6 @@ const InputBox = styled.input<{ redError: boolean }>`
   &:focus {
     color: ${({ theme }) => theme.colors.grayColor9};
   }
-  ${({ redError }) =>
-    redError &&
-    css`
-      border: 1px solid red; /* redError가 true일 때 border 색상을 빨간색으로 변경 */
-    `}
 `;
 
 const InnerIcon = styled.img`
