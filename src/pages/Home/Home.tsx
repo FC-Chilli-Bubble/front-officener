@@ -10,6 +10,7 @@ const Home = () => {
       <Header title="Home" />
       <StyledContainer>
         <Button title="CTA 버튼" onClick={() => { console.log("click test"); }} />
+        <Button size="small" title="CTA 버튼 Small" onClick={() => { console.log("click test"); }} />
         <Button type="primary" title="Primary 버튼" onClick={() => { console.log("click test"); }} />
         <Button title="비활성화 버튼" disabled onClick={() => { console.log("click test"); }} />
         <Button title="길이 있는 버튼" width="50%" onClick={() => { console.log("click test"); }} />

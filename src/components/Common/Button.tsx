@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
 
 type ButtonType = "cta" | "primary";
+type ButtonSize = "small" | "normal";
 
 type TButtonProps = {
+  size?: ButtonSize;
   type?: ButtonType;
   title: string;
   width?: string;
@@ -10,9 +12,9 @@ type TButtonProps = {
   onClick: () => void;
 };
 
-const Button = ({ type = "cta", title, width = '100%', disabled = false, onClick }: TButtonProps) => {
+const Button = ({ size = "normal", type = "cta", title, width = '100%', disabled = false, onClick }: TButtonProps) => {
   return (
-    <StyledButton type={type} title={title} width={width} disabled={disabled} onClick={onClick}>
+    <StyledButton size={size} type={type} title={title} width={width} disabled={disabled} onClick={onClick}>
       {title}
     </StyledButton>
   );
@@ -23,7 +25,8 @@ const StyledButton = styled.button<TButtonProps>`
   border: none;
   border-radius: 8px;
   width: ${({ width }) => width};
-  height: 60px;
+  height: ${({ size }) => size === "normal" ? '60px' : '48px'};
+  padding: 0 23px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,8 +44,8 @@ const StyledButton = styled.button<TButtonProps>`
   }
 
   &:disabled {
-    color: ${({ theme }) => theme.colors.ctaDisabledColor};
-    background-color: ${({ type, theme }) => type === "cta" ? theme.colors.primaryDisabledColor : theme.colors.primaryPressedColor};
+    color: ${({ type, theme }) => type === "cta" ? theme.colors.white : theme.colors.ctaDisabledColor};
+    background-color: ${({ type, theme }) => type === "cta" ? theme.colors.ctaDisabledColor : theme.colors.primaryPressedColor};
   }
 `;
 
