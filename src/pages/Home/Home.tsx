@@ -4,7 +4,16 @@ import HomeHeader from "@/components/Home/HomeHeader";
 import IconRight from '@/assets/ico_right_arrow_g.svg';
 import { HOME_OFFICE } from "@/constants/commonUiData";
 import { HOME_SERVICES } from "@/constants/serviceMenus";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleServiceClick = (title: string) => {
+    if (title === '엘리베이터') {
+      navigate('/elevator');
+      return;
+    }
+  };
 
   return (
     <>
@@ -43,8 +52,10 @@ const Home = () => {
             <ul>
               {
                 HOME_SERVICES.map(service => (
-                  <li key={service.title}>
-                    <div></div>
+                  <li key={service.title} onClick={() => { handleServiceClick(service.title); }}>
+                    <div>
+                      <img src={service.icon} alt={service.title} />
+                    </div>
                     <p>{service.title}</p>
                   </li>
                 ))
