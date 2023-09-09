@@ -13,7 +13,7 @@ type TTagProps = {
   onClick: () => void;
 };
 
-const Tags = ({ width = 'fixed', title, onClick }: TTagProps) => {
+const Tag = ({ width = 'fixed', title, onClick }: TTagProps) => {
   const [isActive, setIsActive] = useState(false);
   const [type, setType] = useRecoilState<{ [key: string]: TagType }>(tagState);
 
@@ -63,4 +63,4 @@ const StyledTag = styled.button<TTagProps>`
   }
 `;
 
-export default Tags;
+export default Tag;
