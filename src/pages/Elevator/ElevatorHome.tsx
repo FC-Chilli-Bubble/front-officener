@@ -16,6 +16,7 @@ const ElevatorHome = () => {
           </TextContainer>
           <SettingButton>엘리베이터 설정</SettingButton>
         </ElevatorSetting>
+        <Elevators></Elevators>
       </StyledContainer>
     </StyledLayout>
   );
@@ -27,10 +28,11 @@ const StyledContainer = styled.div`
 const StyledLayout = styled.div``;
 
 const ElevatorSetting = styled.div`
+  background-color: yellow;
   position: absolute;
   height: 110px;
   width: 300px;
-  margin: 10px 9%;
+  margin: 10px 10%;
 `;
 
 const TextContainer = styled.div`
@@ -50,9 +52,19 @@ const ElevatorNumber = styled.span`
   justify-content: center;
 `;
 
-const SettingButton = styled.button`
+const SettingButton = styled.div`
+  background-color: blanchedalmond;
   position: absolute;
   display: flex;
-  margin:;
+  width: 220px;
+  height: 50px;
+  margin: 70px 12%;
+`;
+
+const Elevators = styled.div`
+  background-color: royalblue;
+  width: 350px;
+  height: 300px;
+  margin-top: 70%;
 `;
 export default ElevatorHome;
