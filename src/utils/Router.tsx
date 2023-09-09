@@ -6,16 +6,16 @@ import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
-
+import ElevatorHome from '@/pages/Elevator/ElevatorHome';
 
 export const router = createBrowserRouter([
   {
-    path: "",
+    path: '',
     element: <App />,
     errorElement: <NotFound />, // 404 페이지 컴포넌트
     children: [
       {
-        path: "/",
+        path: '/',
         element: <NavLayout />,
         errorElement: <ErrorComponent />,
         children: [
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path: "/",
+        path: '/',
         element: <Layout />,
         errorElement: <ErrorComponent />,
         children: [
@@ -41,6 +41,11 @@ export const router = createBrowserRouter([
           {
             path: '/login',
             element: <Home />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/elevartor',
+            element: <ElevatorHome />,
             errorElement: <ErrorComponent />
           }
         ]
