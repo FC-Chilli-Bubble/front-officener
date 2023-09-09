@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useState } from 'react';
 
 import SelectedInput from '@/components/Common/SelectedInput';
 import SearchInput from '@/components/Common/SearchInput';
@@ -6,26 +7,59 @@ import FormField from '@/components/Common/FormField';
 import Tags from '@/components/Common/Tags';
 
 const Login = () => {
+  const foods = [
+    '분식',
+    '족발,보쌈',
+    '회,일식',
+    '찜,탕,찌개',
+    '피자',
+    '치킨',
+    '아시안',
+    '백반',
+    '카페,디저트',
+    '중식',
+    '고기,구이',
+    '도시락'
+  ];
+
+  const [tagStates, setTagStates] = useState<{ [key: string]: 'primary' | 'cta' }>({});
+
+  const toggleTagType = (food: string) => {
+    setTagStates(prevTagStates => ({
+      ...prevTagStates,
+      [food]: prevTagStates[food] === 'cta' ? 'primary' : 'cta'
+    }));
+  };
+
   return (
     <StyledContainer>
-      <br />
-      <h1>테스트 페이지</h1>
       <p>위치 : components/Common/ </p>
-      <p>[함께주문 카테고리 태그]</p>
-      <p>Tags.tsx</p>
-      <Tags
-        title="음식 태그"
-        onClick={() => {
-          console.log('click test');
-        }}
-      />
-      <Tags
-        title="음식 태그"
-        unActive
-        onClick={() => {
-          console.log('click test');
-        }}
-      />
+      <h1>=======================================================</h1>
+      <p>Tags.tsx | 🔖 배달선택필터 : 가로 길이 fixed</p>
+      <StyledBox>
+        {foods.map((food, index) => (
+          <Tags
+            key={index}
+            title={food}
+            width="fixed"
+            type={tagStates[food] || 'cta'}
+            onClick={() => toggleTagType(food)}
+          />
+        ))}
+      </StyledBox>
+      <p>Tags.tsx | 🔖 함께주문 silder태그 : 가로 길이 nonfixed</p>
+      <StyledBox>
+        {foods.map((food, index) => (
+          <Tags
+            key={index}
+            title={food}
+            width="nonfixed"
+            type={tagStates[food] || 'cta'}
+            onClick={() => toggleTagType}
+          />
+        ))}
+      </StyledBox>
+      <h1>=======================================================</h1>
       <br />
       <h3>SelectedInput.tsx</h3>
       <SelectedInput
@@ -106,6 +140,12 @@ const StyledContainer = styled.div`
   // test
   display: flex;
   flex-direction: column;
+  gap: 10px;
+`;
+const StyledBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 10px;
 `;
 
