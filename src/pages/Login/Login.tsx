@@ -23,13 +23,10 @@ const Login = () => {
     '도시락'
   ];
 
-  const [tagStates, setTagStates] = useState<{ [key: string]: 'primary' | 'cta' }>({});
-
-  const toggleTagType = (food: string) => {
-    setTagStates(prevTagStates => ({
-      ...prevTagStates,
-      [food]: prevTagStates[food] === 'cta' ? 'primary' : 'cta'
-    }));
+  // const [tagStates, setTagStates] = useState({});
+  const [isActive, setIsActive] = useState(false);
+  const onClickTag = () => {
+    setIsActive(!isActive);
   };
 
   return (
@@ -44,8 +41,8 @@ const Login = () => {
             key={index}
             title={food}
             width="fixed"
-            type={tagStates[food] || 'cta'}
-            onClick={() => toggleTagType(food)}
+            isActive={isActive ? true : false}
+            onClick={onClickTag}
           />
         ))}
       </StyledBox>
@@ -56,8 +53,8 @@ const Login = () => {
             key={index}
             title={food}
             width="nonfixed"
-            type={tagStates[food] || 'cta'}
-            onClick={() => toggleTagType}
+            isActive={isActive ? true : false}
+            onClick={onClickTag}
           />
         ))}
       </StyledBox>
