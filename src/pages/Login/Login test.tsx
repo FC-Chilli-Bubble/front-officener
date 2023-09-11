@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import Header from '@/components/Common/Header';
 import SelectedInput from '@/components/Common/SelectedInput';
@@ -110,8 +110,9 @@ const LoginTest = () => {
           label={'아이디'}
           placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-x아이콘'}
           redErrorIcon="wrong"
-          errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'}
-        />
+          errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'} value={''} onChange={function (event: ChangeEvent<HTMLInputElement>): void {
+            throw new Error('Function not implemented.');
+          } }        />
         <FormField
           isType="email"
           label={'아이디'}

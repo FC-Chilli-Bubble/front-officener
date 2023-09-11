@@ -1,5 +1,5 @@
+import React from 'react';
 import { styled } from 'styled-components';
-
 import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiData';
 
 type ErrorRedIconType = 'wrong' | 'error' | 'none';
@@ -8,14 +8,14 @@ type CheckIconType = 'check' | 'none';
 type TInputProps = {
   isType: string;
   label: string;
+  value: string;
   placeholder: string;
   isRequired?: boolean;
   redErrorIcon?: ErrorRedIconType;
   errorMessage?: string;
   checkIcon?: CheckIconType;
+  onChange: (newValue: string) => void;
 };
-
-// isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
 
 const FormField = ({
   isType,
@@ -24,8 +24,14 @@ const FormField = ({
   placeholder,
   redErrorIcon = 'none',
   errorMessage,
-  checkIcon = 'none'
+  checkIcon = 'none',
+  onChange,
 }: TInputProps) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onChange(newValue);
+  };
+
   return (
     <InputLayout>
       {isRequired ? (
@@ -37,25 +43,30 @@ const FormField = ({
         <RequiredLabel htmlFor="input-box">{label}</RequiredLabel>
       )}
       <InputContainer>
-        {redErrorIcon == 'none' ? (
+        {redErrorIcon === 'none' ? (
           <InputBox
             type={isType}
             placeholder={placeholder}
             id="input-box"
             name={isType}
-            required></InputBox>
+            required
+            onChange={handleInputChange}
+          />
         ) : (
           <ErrorInputBox
             type={isType}
             placeholder={placeholder}
             id="input-box"
             name={isType}
-            required></ErrorInputBox>
+            required
+            onChange={handleInputChange}
+          />
         )}
         {checkIcon !== 'none' && (
           <InnerIcon
             src={INPUT_CHECK_ICONS[checkIcon]}
-            alt=""></InnerIcon>
+            alt=""
+          />
         )}
       </InputContainer>
       {redErrorIcon !== 'none' && (
@@ -111,7 +122,7 @@ const InputBox = styled.input`
   gap: 10px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-  ::placeholder {
+  &::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
   &:focus {
