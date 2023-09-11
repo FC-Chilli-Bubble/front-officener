@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { styled } from 'styled-components';
-import BottomNavigation from './BottomNavigation';
+
+import BottomNavigation from '@/components/Common//BottomNavigation';
 
 const NavLayout = () => {
   return (

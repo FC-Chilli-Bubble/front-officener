@@ -4,9 +4,8 @@ const colors = {
   ctaColor: '#2563EB', // 진한 버튼
   ctaHoverColor: '#2952C8   ',
   ctaPressedColor: '#203787',
-  ctaDisabledColor: '#2563EB66',
+  ctaDisabledColor: '#DAE9FE',
   primaryColor: '#E7F2FE', // 연한 버튼
-  primaryHoverColor: '#D4E3FB',
   primaryPressedColor: '#C0D4F8',
   primaryDisabledColor: '#D4E3FB66',
   errorColor: '#DE291D',
