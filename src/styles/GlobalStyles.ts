@@ -1,5 +1,5 @@
-import reset from "styled-reset";
-import { createGlobalStyle } from "styled-components";
+import reset from 'styled-reset';
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -25,6 +25,26 @@ const GlobalStyles = createGlobalStyle`
 
   ol, ul{
     list-style: none;
+  }
+  input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+  }
+  ::placeholder{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color: #9CA3AF;
   }
 `;
 
