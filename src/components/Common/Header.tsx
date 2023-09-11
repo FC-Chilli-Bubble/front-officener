@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 
 import { HEADER_LEFT_ICONS, HEADER_RIGHT_ICONS } from '@/constants/commonUiData';
 
+
 type LeftIconType = "back" | "close" | "none";
 type RightIconType = "more" | "none";
 
@@ -17,9 +18,12 @@ const Header = ({ leftIcon = "none", leftIconClick, title, rightIcon = "none", r
   return (
     <StyledHeader>
       <StyledLeftIcon onClick={leftIconClick}>
-        {
-          leftIcon !== "none" && <img src={HEADER_LEFT_ICONS[leftIcon]} alt="" />
-        }
+        {leftIcon !== 'none' && (
+          <img
+            src={HEADER_LEFT_ICONS[leftIcon]}
+            alt=""
+          />
+        )}
       </StyledLeftIcon>
       <StyledTtile>
         {title}
@@ -42,7 +46,6 @@ const StyledHeader = styled.header`
   align-items: center;
   padding: 16px 18px;
   background-color: ${({ theme }) => theme.colors.white};
-  z-index: 1000;
   position: sticky;
   top: 0;
 `;

@@ -4,9 +4,8 @@ const colors = {
   ctaColor: '#2563EB', // 진한 버튼
   ctaHoverColor: '#2952C8   ',
   ctaPressedColor: '#203787',
-  ctaDisabledColor: '#2563EB66',
+  ctaDisabledColor: '#DAE9FE',
   primaryColor: '#E7F2FE', // 연한 버튼
-  primaryHoverColor: '#D4E3FB',
   primaryPressedColor: '#C0D4F8',
   primaryDisabledColor: '#D4E3FB66',
   errorColor: '#DE291D',
@@ -17,6 +16,7 @@ const colors = {
   grayColor4: '#9CA3AF', // placeholder color
   grayColor5: '#6B7280', // label color
   grayColor6: '#4B5563', // font gray color
+  grayColor9: '#111827',
   grayColor10: '#9D9D9D',
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color

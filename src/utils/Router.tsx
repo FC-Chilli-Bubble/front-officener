@@ -3,6 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '@/App';
 import Home from '@/pages/Home/Home';
 import Deliverypage from '@/pages/Deliverypage/index';
+import Login from '@/pages/Login/Login';
+import Register from '@/pages/Register/Register';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
@@ -45,7 +47,12 @@ export const router = createBrowserRouter([
           // Navigation이 없는 페이지는 아래에 추가해주시면 됩니다!
           {
             path: '/login',
-            element: <Home />,
+            element: <Login />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/register',
+            element: <Register />,
             errorElement: <ErrorComponent />
           }
         ]
