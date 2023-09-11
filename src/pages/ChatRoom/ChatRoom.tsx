@@ -1,18 +1,23 @@
+import ChatAlert from "@/components/ChatRoom/ChatAlert";
 import ChatBubble from "@/components/ChatRoom/ChatBubble";
+import ChatInput from "@/components/ChatRoom/ChatInput";
 import { styled } from "styled-components";
 
 const ChatRoom = () => {
 
   return (
-    <StyledLayout>
+    <Container>
         <h1>Chat</h1>
         <ChatBubble />
-    </StyledLayout>
+        <ChatAlert />
+        <ChatInput />
+    </Container>
   );
 };
 
-const StyledLayout = styled.div`
-  
-`;
-
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;  
 export default ChatRoom;
