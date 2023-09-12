@@ -5,10 +5,14 @@ import styled from "styled-components";
 import Header from "@/components/Common/Header";
 import Button from "@/components/Common/Button";
 import FormField from "@/components/Common/FormField";
+import BottomSheetModal from "@/components/Common/BottomSheetModal";
 import MODAL_DATAS from "@/constants/modalDatas";
 import { useModal } from "@/hooks/useModal";
 import OutlineButton from "@/components/Common/OutlineButton";
 import { useNavigate } from "react-router";
+import TagList from "@/components/Delivery/TagList";
+import { useRecoilState } from "recoil";
+import { postTagAtom } from "@/states/postTagAtom";
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 
@@ -21,6 +25,9 @@ const DeliveryPost = () => {
   const [storeName, setStoreName] = useState('');
   const [storeLink, setStoreLink] = useState('');
   const [deliveryTip, setDeliveryTip] = useState('');
+  const [isOpen, setOpen] = useState(false);
+  const [savedTag] = useRecoilState(postTagAtom);
+
   const navigate = useNavigate();
 
   // const handleModalOpen = () => {
@@ -41,7 +48,7 @@ const DeliveryPost = () => {
   };
 
   const handleClickTagSelect = () => {
-
+    setOpen(true);
   };
 
   // x 버튼 뒤로가기
@@ -52,10 +59,15 @@ const DeliveryPost = () => {
   // 입력사항 유효성 검사
   useEffect(() => {
     if (stepNum === 1) {
-      setIsValid(storeName !== '' && storeLink !== '' && deliveryTip !== '');
+      setIsValid(storeName !== '' && storeLink !== '' && deliveryTip !== '' && savedTag !== null);
       return;
     }
-  }, [stepNum, storeName, storeLink, deliveryTip]);
+  }, [stepNum, storeName, storeLink, deliveryTip, savedTag]);
+
+  // 바텀시트 닫기
+  const closeBottomSheet = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -97,13 +109,20 @@ const DeliveryPost = () => {
             태그
             <span>*</span>
           </StyledLabel>
-          <OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />
+          {
+            savedTag ? <div>{savedTag}</div> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
+          }
+
         </StyledTagBox>
       </StyledContainer>
 
       <StyledButtonBox>
         <Button title={PostButtonTitle[stepNum]} onClick={handleClickButton} disabled={!isValid} />
       </StyledButtonBox>
+
+      <BottomSheetModal isOpen={isOpen} onClose={closeBottomSheet}>
+        <TagList closeSheet={closeBottomSheet} />
+      </BottomSheetModal>
     </>
   );
 };
