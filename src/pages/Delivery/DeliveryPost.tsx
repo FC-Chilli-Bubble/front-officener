@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Header from "@/components/Common/Header";
@@ -30,16 +30,6 @@ const DeliveryPost = () => {
 
   const navigate = useNavigate();
 
-  // const handleModalOpen = () => {
-  //   // 페이지에 띄운 모달정보를 openModal함수의 파라미터로 전달
-  //   openModal({
-  //     ...MODAL_DATAS.testModal,
-  //     positiveCallback: () => {
-  //       console.log("모달 나가기 클릭 콜백");
-  //     }
-  //   });
-  // };
-
   const handleClickButton = () => {
     if (stepNum === 1) {
       setStepNum(2);
@@ -53,7 +43,12 @@ const DeliveryPost = () => {
 
   // x 버튼 뒤로가기
   const handleClickClose = () => {
-    navigate(-1);
+    openModal({
+      ...MODAL_DATAS.WARN_NOT_SAVED,
+      positiveCallback: () => {
+        navigate(-1);
+      }
+    });
   };
 
   // 입력사항 유효성 검사
