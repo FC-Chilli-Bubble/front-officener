@@ -15,18 +15,18 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState<boolean>(false);
-  //오류메시지 상태저장
+  // 오류 메시지 상태
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
-
-  const handleServiceClick = (title: string) => {
-    if (title === '로그인') {
+  // 헤더 뒤로가기 버튼
+  const handleServiceClick = () => {
       navigate('/');
+      console.log('이동함');
       return;
-    }
   };
+  // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {
     navigate('/intro/register');
     return;
@@ -36,7 +36,7 @@ const Login = () => {
   const handleEmailChange = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('wrong');
+      setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
@@ -48,6 +48,7 @@ const Login = () => {
       setEmailErrorIcon('none');
     }
   };
+
   // 비밀번호 입력 유효성 검사
   const handlePasswordChange = (newPassword: string) => {
     setPassword(newPassword);
@@ -77,7 +78,7 @@ const Login = () => {
       return;
     } else {
       setIsValid(false);
-      console.log('안녕');
+      console.log('유효성 검사 실패');
     }
   };
 
@@ -88,13 +89,17 @@ const Login = () => {
     if (isValid) {
       // 유효성 검사가 통과되면 로그인 로직 수행
       try {
-        // 여기에 실제 로그인 로직을 구현하세요.
-        // 서버로 이메일과 비밀번호를 전송하고 인증을 수행합니다.
-        // 예를 들어, Axios 또는 fetch를 사용하여 API 호출을 수행할 수 있습니다.
-        // 로그인에 성공하면 다음 페이지로 이동하거나, 성공 메시지를 표시하거나 필요한 작업을 수행합니다.
+        // 로그인 로직을 구현
+        // 1. 서버로 이메일과 비밀번호를 전송하고 인증을 수행(API Axios호출)
+        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
       } catch (error) {
         console.error('로그인 실패:', error);
+        setEmailErrorIcon('wrong');
+        setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        setPwsErrorIcon('error');
+        setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
       }
+      return;
     }
   };
 
@@ -103,6 +108,7 @@ const Login = () => {
       <Header
         title="로그인"
         leftIcon="back"
+        leftIconClick={handleServiceClick}
       />
       <StyledLayout>
         <StyledContainer onSubmit={handleLoginSubmit}>
@@ -133,7 +139,7 @@ const Login = () => {
               title="로그인"
               disabled={!isValid}
               onClick={() => {
-                handleServiceClick;
+                handleLoginSubmit;
               }}
             />
             <StyledFindAccount>
