@@ -26,7 +26,7 @@ const DeliveryPost = () => {
   const [storeLink, setStoreLink] = useState('');
   const [deliveryTip, setDeliveryTip] = useState('');
   const [isOpen, setOpen] = useState(false);
-  const [savedTag] = useRecoilState(postTagAtom);
+  const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
 
   const navigate = useNavigate();
 
@@ -67,6 +67,11 @@ const DeliveryPost = () => {
   // 바텀시트 닫기
   const closeBottomSheet = () => {
     setOpen(false);
+  };
+
+  const handleClickSavedTag = () => {
+    setSavedTag(null);
+    setOpen(true);
   };
 
   return (
@@ -110,7 +115,7 @@ const DeliveryPost = () => {
             <span>*</span>
           </StyledLabel>
           {
-            savedTag ? <div>{savedTag}</div> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
+            savedTag ? <StyledTag onClick={handleClickSavedTag}>{savedTag}</StyledTag> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
           }
 
         </StyledTagBox>
@@ -149,7 +154,22 @@ const StyledTagBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+`;
 
+const StyledTag = styled.button`
+  outline: none;
+  border: 1.2px solid ${({ theme }) => theme.colors.ctaColor};
+  border-radius: 8px;
+  width: fit-content;
+  height: 48px;
+  padding: 0 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.ctaColor};
+  background-color: ${({ theme }) => theme.colors.primaryHoverColor};
+  cursor: pointer;
 `;
 
 const StyledButtonBox = styled.div`
