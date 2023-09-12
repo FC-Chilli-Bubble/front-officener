@@ -5,12 +5,14 @@ import { useRecoilState } from 'recoil';
 
 import { HOURES, MINUTES, TIME } from '@/constants/pickerData';
 import { timePickerAtom } from '@/states/timePickerAtom';
+import { postAtom } from "@/states/postAtom";
 
 type TTimePickerProps = {
   closeSheet: () => void;
 };
 
 const TimePicker = ({ closeSheet }: TTimePickerProps) => {
+  const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTime, setSavedTime] = useRecoilState(timePickerAtom);
   const [pickerValue, setPickerValue] = useState({
     time: savedTime.time || 'PM',
@@ -21,6 +23,7 @@ const TimePicker = ({ closeSheet }: TTimePickerProps) => {
   const handleClickSave = () => {
     closeSheet();
     setSavedTime(pickerValue);
+    setPostData({ ...postData, closedTime: `${pickerValue.time} ${pickerValue.houres}:${pickerValue.minutes}` });
   };
 
   return (

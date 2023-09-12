@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
@@ -30,7 +30,7 @@ const PostStep2 = ({ openBottomSheet }: TPostStep2Props) => {
       <div>
         <StyledLabel htmlFor="bank"> 이체 정보입력<span>*</span></StyledLabel>
         <StyledDropdown>
-          <select required id='bank'>
+          <select required id='bank' value={postData.bank} onChange={(e) => { setPostData({ ...postData, bank: e.target.value }); }}>
             <option value="" disabled selected>은행/증권사</option>
             <option value="우리">우리은행</option>
             <option value="신한">신한은행</option>
@@ -39,7 +39,7 @@ const PostStep2 = ({ openBottomSheet }: TPostStep2Props) => {
           </select>
           <img src={IconDown} />
         </StyledDropdown>
-        <StyledInput placeholder='계좌번호' type='number' />
+        <StyledInput placeholder='계좌번호' type='number' value={postData.account} onChange={(e) => { setPostData({ ...postData, account: e.target.value }); }} />
       </div>
 
       {/* 이체 마감시간 */}
@@ -54,7 +54,7 @@ const PostStep2 = ({ openBottomSheet }: TPostStep2Props) => {
       <StyledBox>
         <StyledLabel htmlFor='maxNum'>최대 참여인원<span>*</span></StyledLabel>
         <StyledDropdown>
-          <select required id='maxNum'>
+          <select required id='maxNum' value={(postData.maximumNum ?? '').toString()} onChange={(e) => { setPostData({ ...postData, maximumNum: Number(e.target.value) }); }}>
             <option value="" disabled selected>인원선택</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -69,7 +69,7 @@ const PostStep2 = ({ openBottomSheet }: TPostStep2Props) => {
       {/* 추가 설명 */}
       <div>
         <StyledLabel htmlFor='desc'>추가 설명</StyledLabel>
-        <StyledTextArea id='desc' placeholder='배달비 걱정 없이 함께 배달 시켜요!' />
+        <StyledTextArea id='desc' placeholder='배달비 걱정 없이 함께 배달 시켜요!' value={postData.decription} onChange={(e) => { setPostData({ ...postData, decription: e.target.value }); }} />
       </div>
     </>
   );

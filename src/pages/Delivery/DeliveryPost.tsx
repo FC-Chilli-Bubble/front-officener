@@ -51,6 +51,7 @@ const DeliveryPost = () => {
       setIsValid(postData.storeName !== '' && postData.storeLink !== '' && postData.tag !== '' && (postData.deliveryTip ? postData.deliveryTip : '').toString() !== '');
       return;
     }
+    setIsValid(postData.bank !== '' && postData.account !== '' && postData.closedTime !== '' && (postData.maximumNum ? postData.maximumNum : '').toString() !== '');
   }, [postData, stepNum]);
 
   // 바텀시트 닫기
