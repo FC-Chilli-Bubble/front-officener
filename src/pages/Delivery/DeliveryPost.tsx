@@ -12,6 +12,8 @@ import PostStep1 from "@/components/Delivery/PostStep1";
 import MODAL_DATAS from "@/constants/modalDatas";
 import { useModal } from "@/hooks/useModal";
 import { postAtom } from "@/states/postAtom";
+import TimePicker from "@/components/Delivery/TimePicker";
+import PostStep2 from "@/components/Delivery/PostStep2";
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
@@ -44,6 +46,7 @@ const DeliveryPost = () => {
 
   // 입력사항 유효성 검사
   useEffect(() => {
+    // setIsValid(true)
     if (stepNum === 1) {
       setIsValid(postData.storeName !== '' && postData.storeLink !== '' && postData.tag !== '' && (postData.deliveryTip ? postData.deliveryTip : '').toString() !== '');
       return;
@@ -70,7 +73,9 @@ const DeliveryPost = () => {
 
       <StyledContainer onClick={handleCloseBottomSheet}>
         {
-          stepNum === 1 ? <PostStep1 openBottomSheet={handleOpenBottomSheet} /> : <div></div>
+          stepNum === 1
+            ? <PostStep1 openBottomSheet={handleOpenBottomSheet} />
+            : <PostStep2 openBottomSheet={handleOpenBottomSheet} />
         }
       </StyledContainer>
 
@@ -79,7 +84,12 @@ const DeliveryPost = () => {
       </StyledButtonBox>
 
       <BottomSheetModal isOpen={isOpen} onClose={closeBottomSheet}>
-        <TagList closeSheet={closeBottomSheet} />
+        {
+          stepNum === 1
+            ? <TagList closeSheet={closeBottomSheet} />
+            : <TimePicker closeSheet={closeBottomSheet} />
+        }
+
       </BottomSheetModal>
     </>
   );
@@ -91,9 +101,26 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+
+  input, textarea {
+  outline: none;
+  font-size: 16px;
+  margin-top: 8px;
+  width: 100%;
+  padding: 13px 24px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grayColor3};
+  
+    ::placeholder {
+      color: ${({ theme }) => theme.colors.grayColor3};
+    }
+  
+    &:focus {
+      border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+    }
+  }
 `;
-
-
 
 const StyledButtonBox = styled.div`
   width: 100%;

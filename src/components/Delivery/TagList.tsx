@@ -28,7 +28,7 @@ const TagList = React.memo(({ closeSheet }: TTagListProps) => {
 
   return (
     <StyledContainer>
-      <StyledConfirm onClick={handleSaveTag}>확인</StyledConfirm>
+      <StyledConfirm onClick={handleSaveTag} disabled={selectedTag === ''}>확인</StyledConfirm>
       <div>
         <h2>배달하는 가게의 태그를 선택해주세요</h2>
         <p>태그는 1개만 선택 가능합니다</p>
@@ -47,7 +47,7 @@ const TagList = React.memo(({ closeSheet }: TTagListProps) => {
 });
 
 const StyledContainer = styled.div`
-  padding: 20px;
+  padding: 0px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -77,9 +77,13 @@ const StyledConfirm = styled.button`
   outline: none;
   border: none;
   font-size: 15px;
-  color: #636363;
+  color: ${({ theme }) => theme.colors.ctaColor};
   align-self: flex-end;
   background: transparent;
+
+  &:disabled {
+    color: #636363;
+  }
 `;
 
 export default TagList;
