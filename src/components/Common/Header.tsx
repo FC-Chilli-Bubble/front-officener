@@ -48,6 +48,7 @@ const StyledHeader = styled.header`
   background-color: ${({ theme }) => theme.colors.white};
   position: sticky;
   top: 0;
+  z-index: 1;
 `;
 
 const StyledLeftIcon = styled.div`

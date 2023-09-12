@@ -48,9 +48,7 @@ const FormField = ({
             id="input-box"
             name={isType}
             value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
+            onChange={(e) => { onChange(e.target.value); }}
             required></InputBox>
         ) : (
           <ErrorInputBox
@@ -59,9 +57,7 @@ const FormField = ({
             id="input-box"
             name={isType}
             value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
+            onChange={(e) => { onChange(e.target.value); }}
             required></ErrorInputBox>
         )}
         {isValid && (
@@ -69,6 +65,7 @@ const FormField = ({
             src={IconCheck}
             alt="Valid"
           />
+
         )}
       </InputContainer>
       {redErrorIcon !== 'none' && (
