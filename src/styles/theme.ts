@@ -16,6 +16,7 @@ const colors = {
   grayColor4: '#9CA3AF', // placeholder color
   grayColor5: '#6B7280', // label color
   grayColor6: '#4B5563', // font gray color
+  grayColor9: '#111827',
   grayColor10: '#9D9D9D',
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color
