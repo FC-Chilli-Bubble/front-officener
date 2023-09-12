@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const postTagAtom = atom<string | null>({
+export const postTagAtom = atom<string>({
   key: 'postTagAtom',
-  default: null
+  default: ''
 });

@@ -5,20 +5,23 @@ import { useRecoilState } from "recoil";
 import Tag from '@/components/Common/Tag';
 import { FOOD_TAG } from '@/constants/commonUiData';
 import { postTagAtom } from "@/states/postTagAtom";
+import { postAtom } from "@/states/postAtom";
 
 type TTagListProps = {
   closeSheet: () => void;
 };
 
 const TagList = React.memo(({ closeSheet }: TTagListProps) => {
+  const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
-  const [selectedTag, setSelectedTag] = useState<string | null>(savedTag);
+  const [selectedTag, setSelectedTag] = useState<string>(savedTag);
 
   const handleClickTag = (tag: string) => {
     setSelectedTag(tag);
   };
 
   const handleSaveTag = () => {
+    setPostData({ ...postData, tag: selectedTag ?? '' });
     setSavedTag(selectedTag);
     closeSheet();
   };

@@ -1,32 +1,27 @@
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import Header from "@/components/Common/Header";
 import Button from "@/components/Common/Button";
-import FormField from "@/components/Common/FormField";
 import BottomSheetModal from "@/components/Common/BottomSheetModal";
+import TagList from "@/components/Delivery/TagList";
+import PostStep1 from "@/components/Delivery/PostStep1";
 import MODAL_DATAS from "@/constants/modalDatas";
 import { useModal } from "@/hooks/useModal";
-import OutlineButton from "@/components/Common/OutlineButton";
-import { useNavigate } from "react-router";
-import TagList from "@/components/Delivery/TagList";
-import { useRecoilState } from "recoil";
-import { postTagAtom } from "@/states/postTagAtom";
+import { postAtom } from "@/states/postAtom";
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
-
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
 
 const DeliveryPost = () => {
   const { openModal } = useModal();
   const [stepNum, setStepNum] = useState<1 | 2>(1);
   const [isValid, setIsValid] = useState(false);
-  const [storeName, setStoreName] = useState('');
-  const [storeLink, setStoreLink] = useState('');
-  const [deliveryTip, setDeliveryTip] = useState('');
   const [isOpen, setOpen] = useState(false);
-  const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
+  const [postData] = useRecoilState(postAtom);
 
   const navigate = useNavigate();
 
@@ -35,10 +30,6 @@ const DeliveryPost = () => {
       setStepNum(2);
       return;
     }
-  };
-
-  const handleClickTagSelect = () => {
-    setOpen(true);
   };
 
   // x 버튼 뒤로가기
@@ -54,66 +45,33 @@ const DeliveryPost = () => {
   // 입력사항 유효성 검사
   useEffect(() => {
     if (stepNum === 1) {
-      setIsValid(storeName !== '' && storeLink !== '' && deliveryTip !== '' && savedTag !== null);
+      setIsValid(postData.storeName !== '' && postData.storeLink !== '' && postData.tag !== '' && (postData.deliveryTip ? postData.deliveryTip : '').toString() !== '');
       return;
     }
-  }, [stepNum, storeName, storeLink, deliveryTip, savedTag]);
+  }, [postData, stepNum]);
 
   // 바텀시트 닫기
   const closeBottomSheet = () => {
     setOpen(false);
   };
 
-  const handleClickSavedTag = () => {
-    setSavedTag(null);
+  const handleOpenBottomSheet = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setOpen(true);
+  };
+
+  const handleCloseBottomSheet = () => {
+    setOpen(false);
   };
 
   return (
     <>
       <Header leftIcon="close" title={PostTitles[stepNum]} leftIconClick={handleClickClose} />
 
-      <StyledContainer>
-        <FormField
-          isType="text"
-          label='가게이름'
-          isRequired
-          placeholder='가게이름을 작성해주세요'
-          isValid={storeName !== ''}
-          value={storeName}
-          onChange={(value) => setStoreName(value)}
-        />
-
-        <FormField
-          isType="text"
-          label='메뉴판 링크'
-          isRequired
-          placeholder='가게링크를 복사해주세요'
-          isValid={storeLink !== ''}
-          value={storeLink}
-          onChange={(value) => setStoreLink(value)}
-        />
-
-        <FormField
-          isType="number"
-          label='배달비'
-          isRequired
-          placeholder='배달비를 작성해주세요'
-          isValid={deliveryTip !== ''}
-          value={deliveryTip}
-          onChange={(value) => setDeliveryTip(value)}
-        />
-
-        <StyledTagBox>
-          <StyledLabel htmlFor="input-box">
-            태그
-            <span>*</span>
-          </StyledLabel>
-          {
-            savedTag ? <StyledTag onClick={handleClickSavedTag}>{savedTag}</StyledTag> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
-          }
-
-        </StyledTagBox>
+      <StyledContainer onClick={handleCloseBottomSheet}>
+        {
+          stepNum === 1 ? <PostStep1 openBottomSheet={handleOpenBottomSheet} /> : <div></div>
+        }
       </StyledContainer>
 
       <StyledButtonBox>
@@ -135,37 +93,7 @@ const StyledContainer = styled.div`
   gap: 40px;
 `;
 
-const StyledLabel = styled.label`
-  color: ${({ theme }) => theme.colors.grayColor5};
-  line-height: normal;
 
-  span {
-    color: ${({ theme }) => theme.colors.redColor0};
-    margin-left: 5px;
-  }
-`;
-
-const StyledTagBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const StyledTag = styled.button`
-  outline: none;
-  border: 1.2px solid ${({ theme }) => theme.colors.ctaColor};
-  border-radius: 8px;
-  width: fit-content;
-  height: 48px;
-  padding: 0 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.ctaColor};
-  background-color: ${({ theme }) => theme.colors.primaryHoverColor};
-  cursor: pointer;
-`;
 
 const StyledButtonBox = styled.div`
   width: 100%;
