@@ -4,23 +4,38 @@ import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
+import { useNavigate } from 'react-router-dom';
 
 type ErrorRedIconType = 'wrong' | 'error' | 'none';
 
 const Login = () => {
+  const navigate = useNavigate();
+  // 유효성 검사
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isValid, setIsValid] = useState<boolean>(false);
+  //오류메시지 상태저장
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
-  const [isValid, setIsValid] = useState<boolean>(false);
   const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
+
+  const handleServiceClick = (title: string) => {
+    if (title === '로그인') {
+      navigate('/');
+      return;
+    }
+  };
+  const handleNavigate = () => {
+    navigate('/intro/register');
+    return;
+  };
 
   // 이메일 입력 유효성 검사
   const handleEmailChange = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('error');
+      setEmailErrorIcon('wrong');
       setEmailMsg('이메일을 입력해 주세요');
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
@@ -48,7 +63,7 @@ const Login = () => {
       setPwsErrorIcon('none');
     }
   };
-  
+
   // 이메일과 비밀번호 업데이트 감지
   useEffect(() => {
     updateLoginButtonState(email, password);
@@ -57,9 +72,11 @@ const Login = () => {
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
+      console.log('유효성 검사 통과');
       return;
     } else {
       setIsValid(false);
+      console.log('안녕');
     }
   };
 
@@ -86,49 +103,54 @@ const Login = () => {
         title="로그인"
         leftIcon="back"
       />
-      <LoginLayout>
-        <LoginContainer onSubmit={handleLoginSubmit}>
-          <FormField
-            isType="email"
-            label="아이디"
-            value={email}
-            placeholder="이메일을 입력해 주세요."
-            onChange={handleEmailChange}
-            errorMessage={emailMsg}
-            redErrorIcon={emailErrorIcon}
-          />
-          <FormField
-            isType="password"
-            label="비밀번호"
-            value={password}
-            placeholder="비밀번호를 입력해 주세요."
-            onChange={handlePasswordChange}
-            errorMessage={pwdMsg}
-            redErrorIcon={pwsErrorIcon}
-          />
-          <LoginButton>
+      <StyledLayout>
+        <StyledContainer onSubmit={handleLoginSubmit}>
+          <StyledInput>
+            <FormField
+              isType="email"
+              label="아이디"
+              value={email}
+              placeholder="이메일을 입력해 주세요."
+              onChange={handleEmailChange}
+              errorMessage={emailMsg}
+              redErrorIcon={emailErrorIcon}
+            />
+          </StyledInput>
+          <StyledInput>
+            <FormField
+              isType="password"
+              label="비밀번호"
+              value={password}
+              placeholder="비밀번호를 입력해 주세요."
+              onChange={handlePasswordChange}
+              errorMessage={pwdMsg}
+              redErrorIcon={pwsErrorIcon}
+            />
+          </StyledInput>
+          <StyledButton>
             <Button
               title="로그인"
               disabled={!isValid}
               onClick={() => {
-                console.log('컴포넌트 변경각');
+                handleServiceClick;
               }}
             />
-            <FindAccount>
+            <StyledFindAccount>
               <a>아이디찾기</a>
               <a>비밀번호찾기</a>
-            </FindAccount>
-          </LoginButton>
-        </LoginContainer>
-        <SignupContainer>
-          오피스너 계정이 없으신가요? <SignupBox>회원가입</SignupBox>
-        </SignupContainer>
-      </LoginLayout>
+            </StyledFindAccount>
+          </StyledButton>
+        </StyledContainer>
+        <StyledSignupContainer>
+          오피스너 계정이 없으신가요?
+          <StyledSignupBox onClick={handleNavigate}>회원가입</StyledSignupBox>
+        </StyledSignupContainer>
+      </StyledLayout>
     </>
   );
 };
 
-const LoginLayout = styled.div`
+const StyledLayout = styled.div`
   padding: 0 16px;
   position: relative;
   top: 18px;
@@ -139,19 +161,23 @@ const LoginLayout = styled.div`
   gap: 10px;
 `;
 
-const LoginContainer = styled.form`
+const StyledContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
 `;
-const LoginButton = styled.div`
+const StyledInput = styled.div`
+  height: 98px;
+`;
+
+const StyledButton = styled.div`
   display: flex;
   margin: 10px 0;
   flex-direction: column;
   justify-content: space-between;
 `;
-const FindAccount = styled.div`
+const StyledFindAccount = styled.div`
   display: flex;
   justify-content: space-around;
   font-size: 12px;
@@ -170,13 +196,13 @@ const FindAccount = styled.div`
     }
   }
 `;
-const SignupContainer = styled.p`
+const StyledSignupContainer = styled.p`
   display: flex;
   justify-content: center;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.grayColor6};
 `;
-const SignupBox = styled.a`
+const StyledSignupBox = styled.a`
   color: ${({ theme }) => theme.colors.ctaColor};
   padding-left: 5px;
   cursor: pointer;

@@ -8,7 +8,7 @@ import FormField from '@/components/Common/FormField';
 import Tag from '@/components/Common/Tag';
 import OutlineTag from '@/components/Common/OutlineTag';
 
-const LoginTest = () => {
+const LoginEx = () => {
   const foods = [
     '분식',
     '족발,보쌈',
@@ -162,4 +162,4 @@ const StyledBox = styled.div`
   gap: 10px;
 `;
 
-export default LoginTest;
+export default LoginEx;
