@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
 import Header from '@/components/Common/Header';
 import SelectedInput from '@/components/Common/SelectedInput';
@@ -28,6 +28,10 @@ const LoginEx = () => {
   const [isActive, setIsActive] = useState(false);
   const onClickTag = () => {
     setIsActive(!isActive);
+  };
+
+  const handleChange = (value: string) => {
+    console.log('인풋박스 내용 출력: ', value);
   };
 
   return (
@@ -110,35 +114,47 @@ const LoginEx = () => {
           label={'아이디'}
           placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-x아이콘'}
           redErrorIcon="wrong"
-          errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'} value={''} onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-            throw new Error('Function not implemented.');
-          } }        />
+          errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'}
+          value={''}
+          onChange={handleChange}
+        />
         <FormField
           isType="email"
           label={'아이디'}
           placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-!아이콘'}
           redErrorIcon="error"
           errorMessage={'이메일을 입력해 주세요.'}
+          value={''}
+          onChange={handleChange}
         />
         <FormField
           isType="text"
           label={'가게이름'}
           isRequired // * 표시 여부
           placeholder={'필수 입력란-기본'}
+          value={''}
+          onChange={handleChange}
         />
         <FormField
           isType="url"
           label={'메뉴판 링크'}
           isRequired // * 표시 여부
           placeholder={'메뉴판은 url만 입력되게끔'}
-          checkIcon="check"
+          redErrorIcon="error"
+          errorMessage="메뉴판~~~~메뉴판 입력 누락햤쟈나~"
+          value={''}
+          onChange={handleChange}
         />
         <FormField
           isType="number"
           label={'배달비'}
           isRequired // * 표시 여부
+          isValid //   ✔️ 체크 표시 여부
           placeholder={'필수 입력란-양식통과'}
-          checkIcon="check"
+          redErrorIcon="none"
+          errorMessage="none"
+          value={''}
+          onChange={handleChange}
         />
       </div>
 
