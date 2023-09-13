@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
+
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
-import { useNavigate } from 'react-router-dom';
 
 type ErrorRedIconType = 'wrong' | 'error' | 'none';
 
