@@ -7,7 +7,6 @@ import Register from '@/pages/Register/Register';
 import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
-import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
 import ElevatorHome from '@/pages/Elevator/ElevatorHome';
