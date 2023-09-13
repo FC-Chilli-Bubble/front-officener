@@ -10,6 +10,7 @@ import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
 import MyPage from '@/pages/MyPage/MyPage';
+import MyProfile from '@/pages/MyPage/MyProfile';
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,11 @@ export const router = createBrowserRouter([
           {
             path: '/delivery/post',
             element: <DeliveryPost />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/mypage/profile',
+            element: <MyProfile />,
             errorElement: <ErrorComponent />
           }
         ]
