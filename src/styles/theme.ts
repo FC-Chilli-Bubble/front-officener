@@ -6,6 +6,7 @@ const colors = {
   ctaPressedColor: '#203787',
   ctaDisabledColor: '#DAE9FE',
   primaryColor: '#E7F2FE', // 연한 버튼
+  primaryHoverColor: '#E7F2FE80', // 연한 버튼
   primaryPressedColor: '#C0D4F8',
   primaryDisabledColor: '#D4E3FB66',
   errorColor: '#DE291D',

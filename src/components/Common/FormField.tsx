@@ -124,7 +124,7 @@ const InputBox = styled.input`
   gap: 10px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-  ::placeholder {
+  &::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
   &:focus {
