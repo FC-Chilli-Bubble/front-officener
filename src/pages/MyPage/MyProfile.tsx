@@ -1,12 +1,12 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import Header from '@/components/Common/Header';
 import ProfileImage from '@/assets/img_profile.svg';
 import ProfileItem from '@/components/MyPage/ProfileItem';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Common/Button';
-import { useModal } from '@/hooks/useModal';
 import MODAL_DATAS from '@/constants/modalDatas';
+import { useModal } from '@/hooks/useModal';
 
 
 const MyProfile = () => {
