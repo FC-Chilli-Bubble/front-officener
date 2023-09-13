@@ -22,7 +22,8 @@ const colors = {
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color
   marinblueColor: '#2563EB', // 파란 배경 marinblue-l1
-  redColor0: '#F13D2C'
+  redColor0: '#F13D2C',
+  grayColor90: '#1a1a1a'
 };
 
 const dropShadow = {
