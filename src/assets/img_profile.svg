@@ -1,0 +1,24 @@
+<svg width="126" height="126" viewBox="0 0 126 126" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_957_7243)">
+<circle cx="63" cy="62" r="62" fill="#F4F4F5"/>
+<circle cx="62.4417" cy="44.1258" r="25.8108" fill="white" stroke="#E5E7EB" stroke-width="2"/>
+<mask id="mask0_957_7243" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="1" y="0" width="124" height="124">
+<circle cx="63" cy="62" r="62" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_957_7243)">
+<circle cx="62.7202" cy="122.605" r="45.0811" fill="white" stroke="#E5E7EB" stroke-width="2"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_957_7243" x="0" y="0" width="126" height="126" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.655 0 0 0 0 0.655 0 0 0 0 0.655 0 0 0 1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_957_7243"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_957_7243" result="shape"/>
+</filter>
+</defs>
+</svg>
