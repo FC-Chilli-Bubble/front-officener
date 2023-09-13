@@ -1,22 +1,19 @@
 // import { useState } from 'react';
 import { styled } from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 
-const SignupStep2 = () => {
-  // const navigate = useNavigate();
+interface ISignupStep2Props {
+  // eslint-disable-next-line no-unused-vars
+  setStepNum: (stepNum: number) => void; // Define the prop for setStepNum
+}
 
-  // 헤더 뒤로가기 버튼
-  // const handleServiceClick = (title: string) => {
-  //   if (title == '가입약관') {
-  //     navigate('/');
-  //     console.log('이동함');
-  //     return;
-  //   }
-  // };
-
+const SignupStep2 = ({ setStepNum }: ISignupStep2Props) => {
+  const handleServiceClick = () => {
+    setStepNum(1); // Use setStepNum from props to update the step
+    return;
+  };
   const handleBuildingSearch = (building: string) => {
     console.log('건물 검색: ', building);
   };
@@ -24,9 +21,9 @@ const SignupStep2 = () => {
   return (
     <>
       <Header
-        title="가입약관"
+        title="근무 위치 등록"
         leftIcon="back"
-        // leftIconClick={handleServiceClick}
+        leftIconClick={handleServiceClick}
       />
       <StyledLayout>
         <StyledIntroContainer>

@@ -10,7 +10,7 @@ import SignupStep4 from '@/components/Signup/SignupStep4';
 const Register = () => {
   // const navigate = useNavigate();
   const [isValid, setIsValid] = useState<boolean>(true);
-  const [stepNum, setStepNum] = useState(1);
+  const [stepNum, setStepNum] = useState<number>(1);
 
   // 헤더 뒤로가기 버튼
   // const handleServiceClick = (title: string) => {
@@ -38,7 +38,11 @@ const Register = () => {
   if (stepNum === 1) {
     currentStepComponent = <SignupStep1 />;
   } else if (stepNum === 2) {
-    currentStepComponent = <SignupStep2 />;
+    currentStepComponent = (
+      <SignupStep2
+        stepNum={stepNum}
+      />
+    );
   } else if (stepNum === 3) {
     currentStepComponent = <SignupStep3 />;
   } else {
