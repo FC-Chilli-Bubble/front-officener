@@ -5,7 +5,7 @@ import { styled } from 'styled-components';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 
-function SignupStep2() {
+const SignupStep2 = () => {
   // const navigate = useNavigate();
 
   // 헤더 뒤로가기 버튼
@@ -18,7 +18,7 @@ function SignupStep2() {
   // };
 
   const handleBuildingSearch = (building: string) => {
-    console.log('건물 검색: ', building)
+    console.log('건물 검색: ', building);
   };
 
   return (
@@ -52,7 +52,7 @@ function SignupStep2() {
       </StyledLayout>
     </>
   );
-}
+};
 const StyledLayout = styled.div`
   padding: 0 17px;
   display: flex;

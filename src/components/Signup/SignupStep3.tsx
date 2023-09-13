@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-function SignupStep3() {
-  return (
-    <div>
-      으아아아아아아아!!!!!!!!
-    </div>
-  )
-}
+const SignupStep3 = () => {
+  return <div>선택 영역</div>;
+};
 
-export default SignupStep3
+export default SignupStep3;

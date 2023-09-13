@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 
-function SignupStep1() {
+const SignupStep1 = () => {
   // const navigate = useNavigate();
 
   // 헤더 뒤로가기 버튼
@@ -40,7 +40,7 @@ function SignupStep1() {
       </StyledLayout>
     </>
   );
-}
+};
 const StyledLayout = styled.div`
   padding: 0 17px;
   display: flex;

@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-function Intro() {
+const Intro = () => {
   const navigate = useNavigate();
   const handleNavigateSignup = () => {
     navigate('/intro/register');
@@ -30,7 +30,7 @@ function Intro() {
       </StyledLayout>
     </>
   );
-}
+};
 const StyledLayout = styled.div`
   padding: 0 17px;
   height: 100%;

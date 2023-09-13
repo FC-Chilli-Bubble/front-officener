@@ -5,8 +5,9 @@ import { styled } from 'styled-components';
 import SignupStep1 from '@/components/Signup/SignupStep1';
 import SignupStep2 from '@/components/Signup/SignupStep2';
 import SignupStep3 from '@/components/Signup/SignupStep3';
+import SignupStep4 from '@/components/Signup/SignupStep4';
 
-function Register() {
+const Register = () => {
   // const navigate = useNavigate();
   const [isValid, setIsValid] = useState<boolean>(true);
   const [stepNum, setStepNum] = useState(1);
@@ -20,11 +21,11 @@ function Register() {
   //   }
   // };
 
-  // ⚠️임시 코드
-  const Sample = () => {
-    setIsValid(false);
-  };
-  Sample();
+  // // ⚠️임시 코드
+  // const Sample = () => {
+  //   setIsValid(false);
+  // };
+  // Sample();
 
   const handleNextStep = () => {
     // 다음 스텝으로 이동하는 로직을 추가하세요.
@@ -41,7 +42,7 @@ function Register() {
   } else if (stepNum === 3) {
     currentStepComponent = <SignupStep3 />;
   } else {
-    // 다른 스텝 컴포넌트가 있다면 여기에 추가할 수 있습니다.
+    currentStepComponent = <SignupStep4 />;
   }
   return (
     <>
@@ -57,7 +58,7 @@ function Register() {
       </StyledLayout>
     </>
   );
-}
+};
 const StyledLayout = styled.div`
   height: 100vh;
 `;
