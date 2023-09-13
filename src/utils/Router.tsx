@@ -4,7 +4,9 @@ import App from '@/App';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
 import Register from '@/pages/Register/Register';
+import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
+import ErrorComponent from '@/components/Common/ErrorComponent';
 import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
@@ -48,11 +50,6 @@ export const router = createBrowserRouter([
           {
             path: '/register',
             element: <Register />,
-            errorElement: <ErrorComponent />
-          },
-          {
-            path: '/elevartor',
-            element: <ElevatorHome />,
             errorElement: <ErrorComponent />
           }
         ]

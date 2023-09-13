@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 
-import { INPUT_REDERROR_MESSAGE, INPUT_CHECK_ICONS } from '@/constants/commonUiData';
+import { INPUT_REDERROR_MESSAGE } from '@/constants/commonUiData';
+import IconCheck from '@/assets/ico_check.svg';
 
 type ErrorRedIconType = 'wrong' | 'error' | 'none';
-type CheckIconType = 'check' | 'none';
 
 type TInputProps = {
   isType: string;
@@ -12,11 +12,13 @@ type TInputProps = {
   isRequired?: boolean;
   redErrorIcon?: ErrorRedIconType;
   errorMessage?: string;
-  checkIcon?: CheckIconType;
+  isValid?: boolean;
+  value: string;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (value: string) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
-
 const FormField = ({
   isType,
   label,
@@ -24,7 +26,9 @@ const FormField = ({
   placeholder,
   redErrorIcon = 'none',
   errorMessage,
-  checkIcon = 'none'
+  isValid = false,
+  value,
+  onChange
 }: TInputProps) => {
   return (
     <InputLayout>
@@ -43,6 +47,8 @@ const FormField = ({
             placeholder={placeholder}
             id="input-box"
             name={isType}
+            value={value}
+            onChange={(e) => { onChange(e.target.value); }}
             required></InputBox>
         ) : (
           <ErrorInputBox
@@ -50,12 +56,14 @@ const FormField = ({
             placeholder={placeholder}
             id="input-box"
             name={isType}
+            value={value}
+            onChange={(e) => { onChange(e.target.value); }}
             required></ErrorInputBox>
         )}
-        {checkIcon !== 'none' && (
+        {isValid && (
           <InnerIcon
-            src={INPUT_CHECK_ICONS[checkIcon]}
-            alt=""></InnerIcon>
+            src={IconCheck}
+            alt="Valid" />
         )}
       </InputContainer>
       {redErrorIcon !== 'none' && (

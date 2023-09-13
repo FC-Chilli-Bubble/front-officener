@@ -7,7 +7,8 @@ type TOutlineButtonProps = {
   title: string;
   width?: string;
   disabled?: boolean;
-  onClick: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const OutlineButton = ({

@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 import SelectedInput from '@/components/Common/SelectedInput';
 import SearchInput from '@/components/Common/SearchInput';
-import FormField from '@/components/Common/FormField';
 import Tag from '@/components/Common/Tag';
 import OutlineTag from '@/components/Common/OutlineTag';
 
@@ -103,40 +102,6 @@ const Login = () => {
         <div>
           오후 8시 push | 수정사항 : 포커스 시 블루, 에러 시 레드로 보더색상 변경 && isType옵션 추가
         </div>
-        <FormField
-          isType="email"
-          label={'아이디'}
-          placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-x아이콘'}
-          redErrorIcon="wrong"
-          errorMessage={'이메일 또는 비밀번호가 틀렸습니다.'}
-        />
-        <FormField
-          isType="email"
-          label={'아이디'}
-          placeholder={'에러 메세지 노출과 인풋박스 테두리 색상 연동-!아이콘'}
-          redErrorIcon="error"
-          errorMessage={'이메일을 입력해 주세요.'}
-        />
-        <FormField
-          isType="text"
-          label={'가게이름'}
-          isRequired // * 표시 여부
-          placeholder={'필수 입력란-기본'}
-        />
-        <FormField
-          isType="url"
-          label={'메뉴판 링크'}
-          isRequired // * 표시 여부
-          placeholder={'메뉴판은 url만 입력되게끔'}
-          checkIcon="check"
-        />
-        <FormField
-          isType="number"
-          label={'배달비'}
-          isRequired // * 표시 여부
-          placeholder={'필수 입력란-양식통과'}
-          checkIcon="check"
-        />
       </div>
 
       <br />

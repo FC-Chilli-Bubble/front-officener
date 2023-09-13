@@ -64,7 +64,7 @@ const Home = () => {
           </StyledServiceBox>
 
         </StyledBox>
-      </StyledContainer>
+      </StyledContainer >
     </>
   );
 };
@@ -187,5 +187,6 @@ const StyledDivider = styled.div`
   margin: 12px 0;
   background-color:  ${({ theme }) => theme.colors.grayColor1}; 
 `;
+
 
 export default Home;

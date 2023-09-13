@@ -45,7 +45,6 @@ const Modal = () => {
 
 const StyledModalLayout = styled.div`
   width: 100%;
-  z-index: 9999;
 `;
 
 const StyledModalContainer = styled.div`
@@ -57,6 +56,7 @@ const StyledModalContainer = styled.div`
   background: rgba(0, 0, 0, 0.67);
   display: flex;
   justify-content: center;
+  z-index: 9999;
 `;
 
 const StyledModal = styled.div`
