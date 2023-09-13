@@ -9,6 +9,7 @@ import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
+import MyPage from '@/pages/MyPage/MyPage';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,11 @@ export const router = createBrowserRouter([
           {
             path: '/delivery',
             element: <Home />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/mypage',
+            element: <MyPage />,
             errorElement: <ErrorComponent />
           }
         ]
