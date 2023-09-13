@@ -4,6 +4,7 @@ import App from '@/App';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
 import Register from '@/pages/Register/Register';
+import Intro from '@/pages/Register/Intro';
 import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
@@ -47,7 +48,12 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/register',
+            path: '/intro',
+            element: <Intro />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/intro/register',
             element: <Register />,
             errorElement: <ErrorComponent />
           },
