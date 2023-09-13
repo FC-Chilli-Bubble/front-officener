@@ -50,6 +50,11 @@ export const router = createBrowserRouter([
             path: '/register',
             element: <Register />,
             errorElement: <ErrorComponent />
+          },
+          {
+            path: '/elevator',
+            element: <ElevatorHome />,
+            errorElement: <ErrorComponent />
           }
         ]
       }
