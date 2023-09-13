@@ -48,7 +48,9 @@ const FormField = ({
             id="input-box"
             name={isType}
             value={value}
-            onChange={(e) => { onChange(e.target.value); }}
+            onChange={e => {
+              onChange(e.target.value);
+            }}
             required></InputBox>
         ) : (
           <ErrorInputBox
@@ -57,13 +59,16 @@ const FormField = ({
             id="input-box"
             name={isType}
             value={value}
-            onChange={(e) => { onChange(e.target.value); }}
+            onChange={e => {
+              onChange(e.target.value);
+            }}
             required></ErrorInputBox>
         )}
         {isValid && (
           <InnerIcon
             src={IconCheck}
-            alt="Valid" />
+            alt="Valid"
+          />
         )}
       </InputContainer>
       {redErrorIcon !== 'none' && (
@@ -119,7 +124,7 @@ const InputBox = styled.input`
   gap: 10px;
   border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-  ::placeholder {
+  &::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
   &:focus {
