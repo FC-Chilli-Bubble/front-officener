@@ -46,6 +46,10 @@ const GlobalStyles = createGlobalStyle`
     line-height: normal;
     color: #9CA3AF;
   }
+
+  button {
+    outline: none;
+  }
 `;
 
 export default GlobalStyles;
