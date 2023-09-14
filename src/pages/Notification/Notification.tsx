@@ -1,13 +1,27 @@
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 import Header from '@/components/Common/Header';
-import styled from 'styled-components';
+import DummyNotifications from './DummyNotifications';
+import NotificationItem from '@/components/Notification/NotificationItem';
+
 
 const Notification = () => {
   const navigate = useNavigate();
+  const newNotifications = DummyNotifications.filter(noti => !noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
+  const lastNotifications = DummyNotifications.filter(noti => noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
 
   const handleClickBack = () => {
     navigate(-1);
+  };
+
+  const handleClickNotification = () => {
+    // TODO : 개별 읽음 처리
+  };
+
+  const handleClickReadAll = () => {
+    // TODO : 모두 읽음 처리
   };
 
   return (
@@ -17,15 +31,34 @@ const Notification = () => {
         <div>
           <StyledNewTitle>
             <h2>새로운 알림</h2>
-            <button>모두 읽음</button>
+            <button onClick={handleClickReadAll}>모두 읽음</button>
           </StyledNewTitle>
-          <StyledEmptyMessage>
-            새로운 알림이 없습니다.
-          </StyledEmptyMessage>
+          {
+            newNotifications.length > 0
+              ? (
+                <ul>
+                  {
+                    newNotifications.map(notification =>
+                      <NotificationItem key={notification.date} notification={notification} onClick={handleClickNotification} />)
+                  }
+                </ul>
+              )
+              : <StyledEmptyMessage>새로운 알림이 없습니다.</StyledEmptyMessage>
+          }
         </div>
-
         <div>
           <h2>지난 알림</h2>
+          {
+            lastNotifications.length > 0
+              ? (
+                <ul>
+                  {
+                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickBack} />)
+                  }
+                </ul>
+              )
+              : <StyledEmptyMessage>알림이 없습니다.</StyledEmptyMessage>
+          }
         </div>
       </StyledContainer>
     </>
