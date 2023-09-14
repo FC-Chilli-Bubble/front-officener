@@ -2,20 +2,24 @@
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
-import FormField from '@/components/Common/FormField';
+import SearchButton from '@/components/Common/SearchButton';
 
 interface ISignupStep2Props {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void; // Define the prop for setStepNum
+  setStepNum: (stepNum: number) => void;
 }
 
 const SignupStep2 = ({ setStepNum }: ISignupStep2Props) => {
   const handleServiceClick = () => {
-    setStepNum(1); // Use setStepNum from props to update the step
+    setStepNum(1);
+    console.log('이전 페이지로');
     return;
   };
-  const handleBuildingSearch = (building: string) => {
-    console.log('건물 검색: ', building);
+  const handleBuildingSearch = () => {
+    console.log('건물 검색: ');
+    // 최초 API 요청할 땐 => '건물검색 : 건물',
+    setStepNum(3);
+    // API 요청 이후 => '건물 검색 : 오피스'
   };
 
   return (
@@ -33,15 +37,10 @@ const SignupStep2 = ({ setStepNum }: ISignupStep2Props) => {
           </StyledItroBox>
           <StyledTermContainer>
             <StyledTermBox>
-              <FormField
-                isType="text"
+              <SearchButton
                 label="건물"
-                isRequired
-                placeholder="건물이름으로 검색"
-                redErrorIcon="none"
-                isValid
-                value=""
-                onChange={handleBuildingSearch}
+                placeholder="나의 오피스 찾기"
+                onClick={handleBuildingSearch}
               />
             </StyledTermBox>
           </StyledTermContainer>
@@ -58,12 +57,14 @@ const StyledIntroContainer = styled.div`
   margin-top: 40px;
   width: 100%;
   height: 557px;
+  padding-bottom: 391px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* background-color: red; */
 `;
 const StyledItroBox = styled.div`
-  padding: 0 11px;
+  padding: 0 3px;
   display: flex;
   flex-direction: column;
   font-weight: 600;
@@ -76,9 +77,10 @@ const StyledTermContainer = styled.div`
   flex-direction: column;
 `;
 const StyledTermBox = styled.div`
-  height: 158px;
-  background-color: #8080803a;
+  height: 187px;
+  /* background-color: #8080803a; */
   display: flex;
+  flex-direction: column;
 `;
 
 export default SignupStep2;

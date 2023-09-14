@@ -31,18 +31,18 @@ const FormField = ({
   onChange
 }: TInputProps) => {
   return (
-    <InputLayout>
+    <StyledLayout>
       {isRequired ? (
-        <InputLabel htmlFor="input-box">
+        <StyledLabel htmlFor="input-box">
           {label}
           <Required>*</Required>
-        </InputLabel>
+        </StyledLabel>
       ) : (
         <RequiredLabel htmlFor="input-box">{label}</RequiredLabel>
       )}
-      <InputContainer>
+      <StyledContainer>
         {redErrorIcon == 'none' ? (
-          <InputBox
+          <StyledBox
             type={isType}
             placeholder={placeholder}
             id="input-box"
@@ -51,9 +51,9 @@ const FormField = ({
             onChange={e => {
               onChange(e.target.value);
             }}
-            required></InputBox>
+            required></StyledBox>
         ) : (
-          <ErrorInputBox
+          <StyledErrorIBox
             type={isType}
             placeholder={placeholder}
             id="input-box"
@@ -62,29 +62,29 @@ const FormField = ({
             onChange={e => {
               onChange(e.target.value);
             }}
-            required></ErrorInputBox>
+            required></StyledErrorIBox>
         )}
         {isValid && (
-          <InnerIcon
+          <StyledIcon
             src={IconCheck}
             alt="Valid"
           />
         )}
-      </InputContainer>
+      </StyledContainer>
       {redErrorIcon !== 'none' && (
-        <ErrorMessage>
+        <StyledIErrorMessage>
           <StyledImage
             src={INPUT_REDERROR_MESSAGE[redErrorIcon]}
             alt=""
           />
           {errorMessage}
-        </ErrorMessage>
+        </StyledIErrorMessage>
       )}
-    </InputLayout>
+    </StyledLayout>
   );
 };
 
-const InputLayout = styled.div`
+const StyledLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -94,7 +94,7 @@ const InputLayout = styled.div`
   font-size: 16px;
 `;
 
-const InputLabel = styled.label`
+const StyledLabel = styled.label`
   color: ${({ theme }) => theme.colors.grayColor5};
   line-height: normal;
 `;
@@ -110,12 +110,12 @@ const Required = styled.span`
   margin-left: 5px;
 `;
 
-const InputContainer = styled.div`
+const StyledContainer = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const InputBox = styled.input`
+const StyledBox = styled.input`
   display: flex;
   width: 100%;
   height: 48px;
@@ -135,7 +135,7 @@ const InputBox = styled.input`
     }
   }
 `;
-const ErrorInputBox = styled.input`
+const StyledErrorIBox = styled.input`
   display: flex;
   width: 100%;
   height: 48px;
@@ -154,7 +154,7 @@ const ErrorInputBox = styled.input`
   }
 `;
 
-const InnerIcon = styled.img`
+const StyledIcon = styled.img`
   position: absolute;
   color: ${({ theme }) => theme.colors.grayColor4};
   right: 17px;
@@ -163,7 +163,7 @@ const InnerIcon = styled.img`
   cursor: pointer;
 `;
 
-const ErrorMessage = styled.span`
+const StyledIErrorMessage = styled.span`
   display: flex;
   color: ${({ theme }) => theme.colors.redColor0};
   font-size: 10px;

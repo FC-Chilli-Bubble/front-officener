@@ -29,6 +29,10 @@ export const INPUT_REDERROR_MESSAGE = {
   error: IconRedError,
   none: null
 };
+export const INPUT_GRAYERROR_MESSAGE = {
+  error: IconRedError,
+  none: null
+};
 
 export const INPUT_CHECK_ICONS = {
   check: IconCheck,

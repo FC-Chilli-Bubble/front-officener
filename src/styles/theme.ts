@@ -22,6 +22,8 @@ const colors = {
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color
   marinblueColor: '#2563EB', // 파란 배경 marinblue-l1
+  marinblueColord1: '#2544A7', // 파란 배경 marinblue-d1
+  marinblueColord2: '#203787', // 파란 배경 marinblue-d2
   redColor0: '#F13D2C',
   grayColor90: '#1a1a1a'
 };

@@ -9,7 +9,7 @@ import SignupStep4 from '@/components/Signup/SignupStep4';
 
 const Register = () => {
   // const navigate = useNavigate();
-  const [isValid, setIsValid] = useState<boolean>(true);
+  // const [isValid, setIsValid] = useState<boolean>(true);
   const [stepNum, setStepNum] = useState<number>(1);
 
   // 헤더 뒤로가기 버튼
@@ -33,20 +33,21 @@ const Register = () => {
   };
 
   let currentStepComponent;
+  let buttonText;
 
   // stepNum에 따라 현재 스텝의 컴포넌트를 선택합니다.
   if (stepNum === 1) {
     currentStepComponent = <SignupStep1 />;
+    buttonText = '다음';
   } else if (stepNum === 2) {
-    currentStepComponent = (
-      <SignupStep2
-        stepNum={stepNum}
-      />
-    );
+    currentStepComponent = <SignupStep2 setStepNum={setStepNum} />;
+    buttonText = '다음';
   } else if (stepNum === 3) {
-    currentStepComponent = <SignupStep3 />;
+    currentStepComponent = <SignupStep3 setStepNum={setStepNum} />;
+    buttonText = '선택완료';
   } else {
-    currentStepComponent = <SignupStep4 />;
+    currentStepComponent = <SignupStep4 setStepNum={setStepNum} />;
+    buttonText = '네, 확인했어요';
   }
   return (
     <>
@@ -54,9 +55,9 @@ const Register = () => {
         <SytledBox>
           {currentStepComponent}
           <StyledButton
-            disabled={!isValid}
+            // disabled={!isValid}
             onClick={handleNextStep}>
-            다음
+            {buttonText}
           </StyledButton>
         </SytledBox>
       </StyledLayout>
@@ -70,9 +71,12 @@ const SytledBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* background-color: blue; */
 `;
 
 const StyledButton = styled.button`
+  position: relative;
+  bottom:0px;
   height: 60px;
   margin: 17px;
   display: flex;
@@ -88,14 +92,6 @@ const StyledButton = styled.button`
   line-height: 27px;
   color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.ctaPressedColor};
-  }
-
-  &:active {
-    background-color: ${({ theme }) => theme.colors.ctaPressedColor};
-  }
 `;
 
 export default Register;

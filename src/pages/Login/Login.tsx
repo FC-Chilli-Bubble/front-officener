@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 
-
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
@@ -24,9 +23,9 @@ const Login = () => {
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
-      navigate('/');
-      console.log('이동함');
-      return;
+    navigate('/');
+    console.log('이동함');
+    return;
   };
   // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {

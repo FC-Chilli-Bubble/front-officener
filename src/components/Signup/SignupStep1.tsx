@@ -1,6 +1,5 @@
 // import { useState } from 'react';
 import { styled } from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
 
 import Header from '@/components/Common/Header';
 
@@ -24,19 +23,19 @@ const SignupStep1 = () => {
         // leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledIntroContainer>
-          <StyledItroBox>
+        <StyledContainer>
+          <StyledBox>
             반가워요!
             <br /> 오피스너입니다.
             <div>
               오피스너 서비스를 이용하기 위해서는 <br />
               약관 동의가 필요해요!
             </div>
-          </StyledItroBox>
+          </StyledBox>
           <StyledTermContainer>
             <StyledTermBox>약관 동의 영역</StyledTermBox>
           </StyledTermContainer>
-        </StyledIntroContainer>
+        </StyledContainer>
       </StyledLayout>
     </>
   );
@@ -45,15 +44,16 @@ const StyledLayout = styled.div`
   padding: 0 17px;
   display: flex;
 `;
-const StyledIntroContainer = styled.div`
+const StyledContainer = styled.div`
   margin-top: 40px;
   width: 100%;
   height: 557px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* background-color: red; */
 `;
-const StyledItroBox = styled.div`
+const StyledBox = styled.div`
   padding: 0 11px;
   display: flex;
   flex-direction: column;

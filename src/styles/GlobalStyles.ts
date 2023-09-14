@@ -46,6 +46,14 @@ const GlobalStyles = createGlobalStyle`
     line-height: normal;
     color: #9CA3AF;
   }
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
 `;
 
 export default GlobalStyles;
