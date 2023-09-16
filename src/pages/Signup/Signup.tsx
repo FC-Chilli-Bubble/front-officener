@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import SignupStep1 from '@/components/Signup/SignupStep1';
-import SignupStep2 from '@/components/Signup/SignupStep2';
-import SignupStep3 from '@/components/Signup/SignupStep3';
-import SignupStep4 from '@/components/Signup/SignupStep4';
+import SignupStep5 from '@/components/Signup/SignupStep5';
+import SignupStep6 from '@/components/Signup/SignupStep6';
+import SignupStep7 from '@/components/Signup/SignupStep7';
 
-const Register = () => {
+const Signup = () => {
+  const [stepNum, setStepNum] = useState<number>(5);
   const navigate = useNavigate();
-  const [stepNum, setStepNum] = useState<number>(1);
   // const [isValid, setIsValid] = useState<boolean>(true);
 
   // 헤더 뒤로가기 버튼
@@ -28,35 +27,27 @@ const Register = () => {
   // Sample();
 
   const handleNextStep = () => {
-    if (stepNum === 2) {
-      setStepNum(4);
-    } else if (stepNum === 3) {
-      setStepNum(2);
-    } else if (stepNum === 4) {
-      navigate('/signup');
+    if (stepNum === 7) {
+      navigate('/login');
       console.log('이동함');
-      return;
     } else {
       setStepNum(stepNum + 1);
     }
-  };
+  }
 
   let currentStepComponent;
   let buttonText;
 
-  // stepNum에 따라 현재 스텝의 컴포넌트를 선택합니다.
-  if (stepNum === 1) {
-    currentStepComponent = <SignupStep1 />;
+
+  if (stepNum === 5) {
+    currentStepComponent = <SignupStep5 />;
     buttonText = '다음';
-  } else if (stepNum === 2) {
-    currentStepComponent = <SignupStep2 setStepNum={setStepNum} />;
+  } else if (stepNum === 6) {
+    currentStepComponent = <SignupStep6 setStepNum={setStepNum} />;
     buttonText = '다음';
-  } else if (stepNum === 3) {
-    currentStepComponent = <SignupStep3 setStepNum={setStepNum} />;
-    buttonText = '선택완료';
   } else {
-    currentStepComponent = <SignupStep4 setStepNum={setStepNum} />;
-    buttonText = '네, 확인했어요!';
+    currentStepComponent = <SignupStep7 setStepNum={setStepNum} />;
+    buttonText = '닫기!';
   }
   return (
     <>
@@ -73,6 +64,7 @@ const Register = () => {
     </>
   );
 };
+
 const StyledLayout = styled.div`
   height: 100vh;
 `;
@@ -86,7 +78,6 @@ const StyledBox = styled.div`
   height: calc(100% - 60px - 56px); //버튼이랑 헤더 영역 빼기
   /* background-color: blue; */
 `;
-
 const StyledButton = styled.button`
   margin: auto 17px;
   height: 60px;
@@ -102,4 +93,4 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default Register;
+export default Signup;

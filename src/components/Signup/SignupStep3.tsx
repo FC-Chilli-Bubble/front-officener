@@ -30,7 +30,7 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
   //  입력 submit
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // 폼 제출 기본 동작 막기
-    performSearch(); // 원하는 작업 수행 (예: 검색)
+    handleBuildingSearch(); // 원하는 작업 수행 (예: 검색)
   };
   //  검색 입력 중
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
@@ -41,14 +41,19 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
 
   // 버튼 submit
   const handleButtonClick = () => {
-    performSearch();
+    handleBuildingSearch();
     console.log('검색 버튼 클릭');
   };
 
   //  검색 수행 함수
-  const performSearch = () => {
-    const results = buildingData.filter(building => building.startsWith(inputValue));
+  const handleBuildingSearch = () => {
+    //  API 호출 함수로직
+    // 호출 후
+    const results = buildingData.data.buildings.filter(building =>
+      building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+    );
     setSearchResults(results);
+    setSearchResults(null);
   };
 
   return (
@@ -78,8 +83,11 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
           </StyledFormBox>
           <StyledLine />
           <ul>
-            {searchResults.map((result, index) => (
-              <li key={index}>{result}</li>
+            {searchResults.map(building => (
+              <li key={building.id}>
+                {building.buildingName}
+                <button onClick={() => setSelectedBuilding(building)}>하위 오피스 보기</button>
+              </li>
             ))}
           </ul>
         </StyledContainer>

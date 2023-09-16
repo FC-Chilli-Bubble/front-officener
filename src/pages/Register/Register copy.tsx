@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import SignupStep1 from '@/components/Signup/SignupStep1';
 import SignupStep2 from '@/components/Signup/SignupStep2';
@@ -8,9 +8,9 @@ import SignupStep3 from '@/components/Signup/SignupStep3';
 import SignupStep4 from '@/components/Signup/SignupStep4';
 
 const Register = () => {
-  const navigate = useNavigate();
-  const [stepNum, setStepNum] = useState<number>(1);
+  // const navigate = useNavigate();
   // const [isValid, setIsValid] = useState<boolean>(true);
+  const [stepNum, setStepNum] = useState<number>(1);
 
   // 헤더 뒤로가기 버튼
   // const handleServiceClick = (title: string) => {
@@ -28,17 +28,8 @@ const Register = () => {
   // Sample();
 
   const handleNextStep = () => {
-    if (stepNum === 2) {
-      setStepNum(4);
-    } else if (stepNum === 3) {
-      setStepNum(2);
-    } else if (stepNum === 4) {
-      navigate('/signup');
-      console.log('이동함');
-      return;
-    } else {
-      setStepNum(stepNum + 1);
-    }
+    // 다음 스텝으로 이동하는 로직을 추가하세요.
+    setStepNum(stepNum + 1);
   };
 
   let currentStepComponent;
