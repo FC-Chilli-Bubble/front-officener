@@ -2,43 +2,53 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
-import Button from '@/components/Common/Button';
-import FormFieldButton from '@/components/Common/FormFieldButton';
+// 임시 데이터
+import { buildingData } from '@/components/Signup/buildingData';
 
 interface ISignupStep3Props {
+  placeholder: string;
+  value: string;
   // eslint-disable-next-line no-unused-vars
   setStepNum: (stepNum: number) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (value: string) => void;
+  onClick: () => void;
+  disabled?: boolean;
 }
 
 const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
-  const [searchBuilding, setSearchBuilding] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [searchResults, setSearchResults] = useState<string[]>([]); // 검색 결과 상태
-  const [selectedhBuilding, setSelectedBuilding] = useState<string>('건물 이름으로 검색');
-  const [isValid, setIsValid] = useState<boolean>(false);
+  // const [selectedhBuilding, setSelectedBuilding] = useState<string>('건물 이름으로 검색');
+  // const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleServiceClick = () => {
     setStepNum(2);
     console.log('이전 페이지로');
     return;
   };
-
+  //  입력 submit
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); // 폼 제출 기본 동작 막기
+    performSearch(); // 원하는 작업 수행 (예: 검색)
+  };
   //  검색 입력 중
-  const handleBuildingSearch = (buildinginName: string) => {
-    setSearchBuilding(buildinginName);
-    console.log('검색 중:', buildinginName);
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    const value = e.target.value;
+    setInputValue(value);
+    console.log('검색 중:', value);
   };
 
-  //  검색 버튼 submit
-  const handleSearchButton = () => {
+  // 버튼 submit
+  const handleButtonClick = () => {
     performSearch();
     console.log('검색 버튼 클릭');
   };
 
   //  검색 수행 함수
   const performSearch = () => {
-    // 실제 검색 로직을 여기에 구현
-    // 검색 결과를 setSearchResults로 설정
-    // setSearchResults(['결과1', '결과2', ...]);
+    const results = buildingData.filter(building => building.startsWith(inputValue));
+    setSearchResults(results);
   };
 
   return (
@@ -50,31 +60,23 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
       />
       <StyledLayout>
         <StyledContainer>
-          <StyledSearchBox>
-            <FormFieldButton
-              isType="text"
-              label="건물"
-              placeholder={selectedhBuilding}
-              value={searchBuilding}
-              onChange={handleBuildingSearch}
-              size="small"
-              title="검색"
-              isValid={!isValid}
-              onClick={() => {
-                handleSearchButton;
-              }}
+          <StyledLabel htmlFor="search-bar">건물</StyledLabel>
+          <StyledFormBox onSubmit={handleFormSubmit}>
+            <StyledInput
+              id="search-bar"
+              type="text"
+              placeholder="건물 이름으로 검색"
+              value={inputValue}
+              onChange={handleInputChange}
             />
-            {/* <Button
-              title="검색"
-              size="small"
-              width="20%"
-              disabled={!isValid}
-              onClick={() => {
-                handleSearchButton;
-              }}
-            /> */}
-          </StyledSearchBox>
-          <hr />
+            <StyledButton
+              type="button"
+              onClick={handleButtonClick}
+              disabled={inputValue === ''}>
+              검색
+            </StyledButton>
+          </StyledFormBox>
+          <StyledLine />
           <ul>
             {searchResults.map((result, index) => (
               <li key={index}>{result}</li>
@@ -86,39 +88,77 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
   );
 };
 const StyledLayout = styled.div`
+  height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
+  /* background-color: green; */
 `;
 const StyledContainer = styled.div`
-  margin: 70px 0;
-  padding-bottom: 290px;
+  padding-top: 40px;
   width: 100%;
-  height: 415px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* background-color: red; */
-  & > hr {
-    width: 100%;
-    border: 1px solid ${({ theme }) => theme.colors.grayColor3};
+`;
+
+const StyledFormBox = styled.form`
+  height: 75px;
+  display: flex;
+  /* background-color: #808080; */
+`;
+const StyledLabel = styled.label`
+  color: ${({ theme }) => theme.colors.grayColor5};
+  font-weight: 400;
+  line-height: 30px;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  height: 48px;
+  padding: 13px 24px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.grayColor4};
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.grayColor3};
+  }
+  &:focus {
+    color: ${({ theme }) => theme.colors.grayColor9};
+    border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+    &::placeholder {
+      color: transparent;
+    }
+  }
+`;
+const StyledButton = styled.button`
+  width: 78px;
+  height: 48px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ disabled, theme }) =>
+    disabled ? theme.colors.grayColor1 : theme.colors.ctaColor};
+  color: ${({ disabled, theme }) => (disabled ? theme.colors.grayColor4 : theme.colors.white)};
+  font-size: 16px;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  &:active {
+    background-color: ${({ theme }) => theme.colors.ctaPressedColor};
   }
 `;
 
-// const StyledButton = styled.div`
-//   display: flex;
-//   margin: 10px 0;
-//   flex-direction: column;
-//   justify-content: space-between;
-// `;
-
-// const StyledTermContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
-
-const StyledSearchBox = styled.form`
-  height: 75px;
-  width: 100%;
-  /* background-color: #8080803a; */
+const StyledLine = styled.hr`
+  position: relative;
+  left: -17px;
+  top: 30px;
+  width: 130%;
+  border: 1px solid ${({ theme }) => theme.colors.grayColor3};
 `;
 export default SignupStep3;

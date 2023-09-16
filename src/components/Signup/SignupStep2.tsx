@@ -30,40 +30,42 @@ const SignupStep2 = ({ setStepNum }: ISignupStep2Props) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledIntroContainer>
-          <StyledItroBox>
+        <StyledContainer>
+          <StyledBox>
             근무하는 오피스를
             <br /> 선택해주세요.
-          </StyledItroBox>
-          <StyledTermContainer>
-            <StyledTermBox>
+          </StyledBox>
+          <StyledSearchContainer>
+            <StyledSearchBox>
               <SearchButton
                 label="건물"
                 placeholder="나의 오피스 찾기"
                 onClick={handleBuildingSearch}
               />
-            </StyledTermBox>
-          </StyledTermContainer>
-        </StyledIntroContainer>
+            </StyledSearchBox>
+          </StyledSearchContainer>
+        </StyledContainer>
       </StyledLayout>
     </>
   );
 };
 const StyledLayout = styled.div`
+  height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
+  /* background-color: green; */
 `;
-const StyledIntroContainer = styled.div`
-  margin-top: 40px;
+const StyledContainer = styled.div`
   width: 100%;
-  height: 557px;
+  height: 100%;
+  padding-top: 40px;
   padding-bottom: 391px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   /* background-color: red; */
 `;
-const StyledItroBox = styled.div`
+const StyledBox = styled.div`
   padding: 0 3px;
   display: flex;
   flex-direction: column;
@@ -72,11 +74,11 @@ const StyledItroBox = styled.div`
   line-height: 31px;
   color: ${({ theme }) => theme.colors.black};
 `;
-const StyledTermContainer = styled.div`
+const StyledSearchContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StyledTermBox = styled.div`
+const StyledSearchBox = styled.div`
   height: 187px;
   /* background-color: #8080803a; */
   display: flex;

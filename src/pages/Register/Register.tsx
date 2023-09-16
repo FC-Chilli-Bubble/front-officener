@@ -47,19 +47,19 @@ const Register = () => {
     buttonText = '선택완료';
   } else {
     currentStepComponent = <SignupStep4 setStepNum={setStepNum} />;
-    buttonText = '네, 확인했어요';
+    buttonText = '네, 확인했어요!';
   }
   return (
     <>
       <StyledLayout>
-        <SytledBox>
-          {currentStepComponent}
+        <SytledComponent>
+          <StyledBox>{currentStepComponent}</StyledBox>
           <StyledButton
             // disabled={!isValid}
             onClick={handleNextStep}>
             {buttonText}
           </StyledButton>
-        </SytledBox>
+        </SytledComponent>
       </StyledLayout>
     </>
   );
@@ -67,21 +67,20 @@ const Register = () => {
 const StyledLayout = styled.div`
   height: 100vh;
 `;
-const SytledBox = styled.div`
+const SytledComponent = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  `;
+const StyledBox = styled.div`
+  height: calc(100% - 60px - 56px); //버튼이랑 헤더 영역 빼기
   /* background-color: blue; */
 `;
 
 const StyledButton = styled.button`
-  position: relative;
-  bottom:0px;
+  margin: auto 17px;
   height: 60px;
-  margin: 17px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   outline: none;
   border: none;
   border-radius: 8px;

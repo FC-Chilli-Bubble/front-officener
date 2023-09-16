@@ -2,6 +2,7 @@
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
+import TermCheck from '@/components/Signup/TermCheck';
 
 const SignupStep1 = () => {
   // const navigate = useNavigate();
@@ -33,7 +34,9 @@ const SignupStep1 = () => {
             </div>
           </StyledBox>
           <StyledTermContainer>
-            <StyledTermBox>약관 동의 영역</StyledTermBox>
+            <StyledTermBox>
+              <TermCheck />
+            </StyledTermBox>
           </StyledTermContainer>
         </StyledContainer>
       </StyledLayout>
@@ -41,13 +44,15 @@ const SignupStep1 = () => {
   );
 };
 const StyledLayout = styled.div`
+  height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
+  /* background-color: green; */
 `;
 const StyledContainer = styled.div`
-  margin-top: 40px;
   width: 100%;
-  height: 557px;
+  height: 100%;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -74,8 +79,7 @@ const StyledTermContainer = styled.div`
 `;
 const StyledTermBox = styled.div`
   height: 158px;
-  background-color: #8080803a;
-  display: flex;
+  /* background-color: #2720435e; */
 `;
 
 export default SignupStep1;

@@ -95,12 +95,13 @@ const StyledInputBox = styled.input`
       color: transparent;
     }
   }
+  
 `;
 
 const StyledButtonBox = styled.button<TSearchProps>`
   width: 78px;
   height: ${({ size }) => (size === 'normal' ? '60px' : '48px')};
-  padding: 0 20px;
+  padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +113,6 @@ const StyledButtonBox = styled.button<TSearchProps>`
   border: none;
   border-radius: 8px;
   cursor: pointer;
-
   &:active {
     background-color: ${({ isValid, theme }) =>
       isValid ? theme.colors.ctaPressedColor : theme.colors.ctaPressedColor};

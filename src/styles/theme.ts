@@ -13,6 +13,7 @@ const colors = {
   successColor: '#15965A',
   borderColor: '#C7C7C7',
   grayColor1: '#F4F4F5', // divider color
+  grayColor2: '#E5E7EB', // divider color
   grayColor3: '#D1D5DB',
   grayColor4: '#9CA3AF', // placeholder color
   grayColor5: '#6B7280', // label color

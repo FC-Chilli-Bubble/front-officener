@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
+import ico_arrow from '@/assets/ico_arrow.svg';
 
 interface ISignupStep3Props {
   // eslint-disable-next-line no-unused-vars
@@ -32,19 +33,30 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
           </StyledBox>
           <StyledCardBox>
             <SytledCard>
-              오피스너
-              <br />
-              입주카드
+              <StyledTitle>
+                오피스너
+                <br />
+                입주카드
+              </StyledTitle>
               <img
                 src={ico_building}
                 alt="빌딩Img"
               />
-              <div>미왕빌딩</div>
-              <div>서울 강남구 강남대로</div>
-              <div>A동 103(COIPSG)호</div>
-              <div>칠리버블</div>
+              <StyledBuilding>미왕빌딩</StyledBuilding>
+              <StyledAddress>서울 강남구 강남대로</StyledAddress>
+              <SytledOffice>
+                A동 103(COIPSG)호
+                <br />
+                칠리버블
+              </SytledOffice>
             </SytledCard>
-            <StyledLink>나의 입주 정보와 다르다면? </StyledLink>
+            <StyledLink>
+              나의 입주 정보와 다르다면
+              <img
+                src={ico_arrow}
+                alt="화살표"
+              />
+            </StyledLink>
           </StyledCardBox>
         </StyledContainer>
       </StyledLayout>
@@ -52,13 +64,15 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
   );
 };
 const StyledLayout = styled.div`
+  height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
+  /* background-color: green; */
 `;
 const StyledContainer = styled.div`
-  margin-top: 40px;
-  height: 566px;
   width: 100%;
+  height: 100%;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -70,7 +84,6 @@ const StyledBox = styled.div`
   padding: 0 11px;
   display: flex;
   flex-direction: column;
-
   font-weight: 600;
   font-size: 24px;
   line-height: 31px;
@@ -88,25 +101,51 @@ const StyledCardBox = styled.div`
   height: 415px;
   width: 100%;
   display: flex;
-  margin-bottom: 20px;
+  padding-top: 20px;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   /* background-color: green; */
 `;
 const SytledCard = styled.div`
   height: 310px;
   width: 236px;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.grayColor6};
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.dropShadow.depth1};
   border-radius: 20px;
+  img {
+    width: 66px;
+  }
 `;
+const StyledTitle = styled.div`
+  padding: 10px 0;
+  line-height: 18px;
+`;
+const StyledBuilding = styled.div`
+  padding: 10px 0;
+  font-size: 16px;
+`;
+const StyledAddress = styled.div`
+
+`;
+
+const SytledOffice = styled.div`
+  padding-top: 40px;
+  line-height: 16px;
+`;
+
 const StyledLink = styled.a`
-  padding: 20px;
+  padding: 10px;
   color: ${({ theme }) => theme.colors.ctaColor};
   cursor: pointer;
+  img {
+    padding-left: 15px;
+  }
 `;
 
 export default SignupStep4;
