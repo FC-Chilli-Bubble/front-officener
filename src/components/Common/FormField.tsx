@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { INPUT_REDERROR_MESSAGE } from '@/constants/commonUiData';
 import IconCheck from '@/assets/ico_check.svg';
 
-type ErrorRedIconType = 'wrong' | 'error' | 'none';
+type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
 
 type TInputProps = {
   isType: string;
@@ -13,9 +13,9 @@ type TInputProps = {
   redErrorIcon?: ErrorRedIconType;
   errorMessage?: string;
   isValid?: boolean;
-  value: string;
+  value: string | number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
@@ -54,6 +54,7 @@ const FormField = ({
             required></StyledBox>
         ) : (
           <StyledErrorIBox
+            redErrorIcon={redErrorIcon}
             type={isType}
             placeholder={placeholder}
             id="input-box"
@@ -72,7 +73,7 @@ const FormField = ({
         )}
       </StyledContainer>
       {redErrorIcon !== 'none' && (
-        <StyledIErrorMessage>
+        <StyledIErrorMessage redErrorIcon={redErrorIcon}>
           <StyledImage
             src={INPUT_REDERROR_MESSAGE[redErrorIcon]}
             alt=""
@@ -86,6 +87,7 @@ const FormField = ({
 
 const StyledLayout = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
@@ -135,7 +137,7 @@ const StyledBox = styled.input`
     }
   }
 `;
-const StyledErrorIBox = styled.input`
+const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
   width: 100%;
   height: 48px;
@@ -143,7 +145,14 @@ const StyledErrorIBox = styled.input`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.redColor0};
+  border: 1px solid
+    ${({ redErrorIcon, theme }) => {
+      if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
+        return theme.colors.errorColor; // 빨간색 (wrong 또는 error)
+      } else {
+        return theme.colors.grayColor4; // 회색 (나머지)
+      }
+    }};
   ::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
@@ -163,9 +172,17 @@ const StyledIcon = styled.img`
   cursor: pointer;
 `;
 
-const StyledIErrorMessage = styled.span`
+const StyledIErrorMessage = styled.span<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
-  color: ${({ theme }) => theme.colors.redColor0};
+  color: ${({ redErrorIcon, theme }) => {
+    if (redErrorIcon === 'none') {
+      return theme.colors.grayColor4;
+    } else if (redErrorIcon === 'correct') {
+      return theme.colors.successColor;
+    } else {
+      return theme.colors.errorColor;
+    }
+  }};
   font-size: 10px;
   font-style: normal;
   line-height: 15px; /* 150% */

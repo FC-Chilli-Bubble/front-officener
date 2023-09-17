@@ -26,18 +26,8 @@ const Signup = () => {
   // };
   // Sample();
 
-  const handleNextStep = () => {
-    if (stepNum === 7) {
-      navigate('/login');
-      console.log('이동함');
-    } else {
-      setStepNum(stepNum + 1);
-    }
-  }
-
   let currentStepComponent;
   let buttonText;
-
 
   if (stepNum === 5) {
     currentStepComponent = <SignupStep5 />;
@@ -49,6 +39,18 @@ const Signup = () => {
     currentStepComponent = <SignupStep7 setStepNum={setStepNum} />;
     buttonText = '닫기!';
   }
+
+  const handleNextStep = () => {
+    if (stepNum === 7) {
+      navigate('/login');
+      console.log('이동함');
+      return;
+    } else {
+      setStepNum(stepNum + 1);
+      console.log('이동함');
+    }
+  };
+
   return (
     <>
       <StyledLayout>

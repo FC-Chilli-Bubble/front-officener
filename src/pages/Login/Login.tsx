@@ -8,7 +8,7 @@ import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
 
-type ErrorRedIconType = 'wrong' | 'error' | 'none';
+type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,8 +19,8 @@ const Login = () => {
   // 오류 메시지 상태
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
-  const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
-  const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
+  const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorRedIconType>('none');
+  const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorRedIconType>('none');
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
     navigate('/');
@@ -34,13 +34,13 @@ const Login = () => {
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: string) => {
-    setEmail(newEmail);
+  const handleEmailChange = (newEmail: string|number) => {
+    setEmail(newEmail.toString());
     if (!newEmail) {
       setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
       return;
-    } else if (!EMAIL_REGEX.test(newEmail)) {
+    } else if (!EMAIL_REGEX.test(newEmail.toString())) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
       return;
@@ -51,13 +51,13 @@ const Login = () => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string) => {
-    setPassword(newPassword);
+  const handlePasswordChange = (newPassword: string | number) => {
+    setPassword(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 입력해 주세요');
       return;
-    } else if (!PASSWORD_REGEX.test(newPassword)) {
+    } else if (!PASSWORD_REGEX.test(newPassword.toString())) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
       return;
