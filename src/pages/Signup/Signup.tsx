@@ -58,7 +58,8 @@ const Signup = () => {
           <StyledBox>{currentStepComponent}</StyledBox>
           <StyledButton
             // disabled={!isValid}
-            onClick={handleNextStep}>
+            onClick={handleNextStep}
+            >
             {buttonText}
           </StyledButton>
         </SytledComponent>
@@ -78,7 +79,6 @@ const SytledComponent = styled.div`
 `;
 const StyledBox = styled.div`
   height: calc(100% - 60px - 56px); //버튼이랑 헤더 영역 빼기
-  /* background-color: blue; */
 `;
 const StyledButton = styled.button`
   margin: auto 17px;

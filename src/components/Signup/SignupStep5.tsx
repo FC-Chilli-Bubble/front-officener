@@ -28,13 +28,13 @@ const SignupStep5 = () => {
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: string) => {
-    setEmail(newEmail);
+  const handleEmailChange = (newEmail: number | string) => {
+    setEmail(newEmail.toString());
     if (!newEmail) {
       setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
       return;
-    } else if (!EMAIL_REGEX.test(newEmail)) {
+    } else if (!EMAIL_REGEX.test(newEmail.toString())) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
       return;
@@ -45,13 +45,13 @@ const SignupStep5 = () => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string) => {
-    setPassword(newPassword);
+  const handlePasswordChange = (newPassword: number | string) => {
+    setPassword(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 입력해 주세요');
       return;
-    } else if (!PASSWORD_REGEX.test(newPassword)) {
+    } else if (!PASSWORD_REGEX.test(newPassword.toString())) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
       return;
@@ -61,8 +61,8 @@ const SignupStep5 = () => {
     }
   };
   // 비밀번호 재확인
-  const handlePasswordVerify = (newPassword: string) => {
-    setPasswordVerify(newPassword);
+  const handlePasswordVerify = (newPassword: number | string) => {
+    setPasswordVerify(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 다시 입력해 주세요');

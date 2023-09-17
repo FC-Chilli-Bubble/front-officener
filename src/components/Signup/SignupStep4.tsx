@@ -64,19 +64,16 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
   );
 };
 const StyledLayout = styled.div`
-  height: calc(100% - 56px);
+  height: calc(100% - 60px - 56px);
   padding: 0 17px;
-  display: flex;
-  /* background-color: green; */
 `;
 const StyledContainer = styled.div`
   width: 100%;
-  height: 100%;
-  padding-top: 40px;
+  height: 536px;
+  margin-top: 23px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: red; */
 `;
 
 const StyledBox = styled.div`

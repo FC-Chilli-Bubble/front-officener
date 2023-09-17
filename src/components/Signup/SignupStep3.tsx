@@ -2,23 +2,26 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
+import FormField from '@/components/Common/FormField';
 // 임시 데이터
-import { buildingData } from '@/components/Signup/buildingData';
+// import { buildingData } from '@/components/Signup/buildingData';
 
 interface ISignupStep3Props {
-  placeholder: string;
-  value: string;
   // eslint-disable-next-line no-unused-vars
   setStepNum: (stepNum: number) => void;
+  // placeholder: string;
+  // value: string;
   // eslint-disable-next-line no-unused-vars
-  onChange: (value: string) => void;
-  onClick: () => void;
-  disabled?: boolean;
+  // onChange: (value: string) => void;
+  // onClick: () => void;
+  // disabled?: boolean;
 }
 
 const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<string[]>([]); // 검색 결과 상태
+  // const [buildinName, setBuildinName] = useState<string>('');
+  // const [searchResults, setSearchResults] = useState<string[]>([]);
+  // 검색 결과 상태
   // const [selectedhBuilding, setSelectedBuilding] = useState<string>('건물 이름으로 검색');
   // const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -33,15 +36,15 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
     handleBuildingSearch(); // 원하는 작업 수행 (예: 검색)
   };
   //  검색 입력 중
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    const value = e.target.value;
-    setInputValue(value);
-    console.log('검색 중:', value);
+  const handleInputChange = (newBuildinName: number | string) => {
+    // setBuildinName(newBuildinName.toString());
+    setInputValue(newBuildinName.toString());
+    console.log('검색 중:', newBuildinName);
   };
 
   // 버튼 submit
   const handleButtonClick = () => {
-    handleBuildingSearch();
+    // handleBuildingSearch();
     console.log('검색 버튼 클릭');
   };
 
@@ -49,11 +52,11 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
   const handleBuildingSearch = () => {
     //  API 호출 함수로직
     // 호출 후
-    const results = buildingData.data.buildings.filter(building =>
-      building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setSearchResults(results);
-    setSearchResults(null);
+    // const results = buildingData.data.buildings.filter(building =>
+    //   building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+    // );
+    // setSearchResults(results);
+    // setSearchResults(null);
   };
 
   return (
@@ -67,12 +70,14 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
         <StyledContainer>
           <StyledLabel htmlFor="search-bar">건물</StyledLabel>
           <StyledFormBox onSubmit={handleFormSubmit}>
-            <StyledInput
-              id="search-bar"
-              type="text"
-              placeholder="건물 이름으로 검색"
+            <FormField
+              isType="text"
+              label=""
               value={inputValue}
+              placeholder="건물 이름으로 검색"
               onChange={handleInputChange}
+              errorMessage=""
+              redErrorIcon={'none'}
             />
             <StyledButton
               type="button"
@@ -83,12 +88,12 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
           </StyledFormBox>
           <StyledLine />
           <ul>
-            {searchResults.map(building => (
+            {/* {searchResults.map(building => (
               <li key={building.id}>
                 {building.buildingName}
                 <button onClick={() => setSelectedBuilding(building)}>하위 오피스 보기</button>
               </li>
-            ))}
+            ))} */}
           </ul>
         </StyledContainer>
       </StyledLayout>
@@ -99,7 +104,6 @@ const StyledLayout = styled.div`
   height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
-  /* background-color: green; */
 `;
 const StyledContainer = styled.div`
   padding-top: 40px;
@@ -107,14 +111,12 @@ const StyledContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* background-color: red; */
 `;
 
 const StyledFormBox = styled.form`
   height: 75px;
   display: flex;
-  /* background-color: #808080; */
+  align-items: end;
 `;
 const StyledLabel = styled.label`
   color: ${({ theme }) => theme.colors.grayColor5};
@@ -122,30 +124,11 @@ const StyledLabel = styled.label`
   line-height: 30px;
 `;
 
-const StyledInput = styled.input`
-  width: 100%;
-  height: 48px;
-  padding: 13px 24px;
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.grayColor4};
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.grayColor3};
-  }
-  &:focus {
-    color: ${({ theme }) => theme.colors.grayColor9};
-    border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
-    &::placeholder {
-      color: transparent;
-    }
-  }
-`;
 const StyledButton = styled.button`
   width: 78px;
   height: 48px;
   padding: 0 10px;
+  margin-left: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
