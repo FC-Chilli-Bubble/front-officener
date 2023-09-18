@@ -4,20 +4,18 @@ import Down from 'assets/icon_elevatorDown.svg';
 import { DummyElevators } from '@/pages/Elevator/Dummydata';
 import styled from 'styled-components';
 
-interface IPropsStatus {
-  full: string;
-  repair: string;
-  normal: string;
-}
-
 interface IObjectElevators {
   elevatorId: number;
-  floor: number | undefined;
-  direction: string;
-  status: IPropsStatus;
+  floor?: number | undefined;
+  direction: "stop" | "up" | "down";
+  status: "normal" | "repair" | "full";
 }
 
-const ChoiceCard = () => {
+type TChoiceCardProps = {
+  elevator: IObjectElevators;
+};
+
+const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
   const ElevatorSetting = (direction: string) => {
     if (direction === 'stop') {
       return <img src={Stop} />;
@@ -29,31 +27,25 @@ const ChoiceCard = () => {
   };
 
   return (
-    <>
-      {DummyElevators.map(elevator => (
-        <div key={elevator.status}>
-          <StyledElevator>
-            <div className="title">
-              <h2>{elevator.elevatorId}호기</h2>
-            </div>
-            <div className="elevatorInfo">
-              <h2>{elevator.floor}</h2>
-              <p>{ElevatorSetting(elevator.direction)}</p>
-            </div>
-            <div
-              className="status"
-              key={elevator.status}>
-              <p>만원</p>
-              <p>수리중</p>
-            </div>
-          </StyledElevator>
-        </div>
-      ))}
-    </>
+    <StyledElevator key={elevator.elevatorId}>
+      <div className="title">
+        <h2>{elevator.elevatorId}호기</h2>
+      </div>
+      <div className="elevatorInfo">
+        <h2>{elevator.floor}</h2>
+        <p>{ElevatorSetting(elevator.direction)}</p>
+      </div>
+      <StyledStatus status={elevator.status}>
+        <p className='full'>만원</p>
+        <p className='repair'>수리중</p>
+      </StyledStatus>
+    </StyledElevator>
   );
 };
 
 const StyledElevator = styled.li`
+  width: 100%;
+  max-width: 200px;
   border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
   border-radius: 20px;
   box-shadow: ${({ theme }) => theme.dropShadow.depth3};
@@ -73,17 +65,27 @@ const StyledElevator = styled.li`
       margin-right: 10px;
     }
   }
-  .status {
-    height: 60px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-evenly;
+`;
+
+const StyledStatus = styled.div<{ status: string; }>`
+
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+
     p {
-      color: ${({ theme }) => theme.colors.grayColor3};
       font-size: 25px;
       font-weight: 400;
+
+      &.full {
+        color: ${({ status, theme }) => status === "full" ? theme.colors.redColor0 : theme.colors.grayColor3};
+      }
+
+      &.repair {
+        color: ${({ status, theme }) => status === 'repair' ? theme.colors.marinblueColor : theme.colors.grayColor3};
+      }
     }
-  }
 `;
 
 export default ChoiceCard;
