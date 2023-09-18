@@ -1,17 +1,16 @@
 import { styled } from 'styled-components';
 
-import blue_arrow from '@/assets/ico_blue_arrow.svg'
+import blue_arrow from '@/assets/ico_blue_arrow.svg';
 
 interface ICheckListProps {
   label: string;
   checked: boolean;
   // eslint-disable-next-line no-unused-vars
   onChange: (isChecked: boolean) => void;
+  isRequired: boolean;
 }
 
-
 const CheckList = ({ label, checked, onChange }: ICheckListProps) => {
-
   const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.checked);
   };
@@ -43,7 +42,7 @@ const StyledLabel = styled.label`
   font-weight: 200;
   color: ${({ theme }) => theme.colors.grayColor4};
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   position: relative;
   padding-left: 25px;
   cursor: pointer;

@@ -31,41 +31,34 @@ const SignupStep2 = ({ setStepNum }: ISignupStep2Props) => {
       />
       <StyledLayout>
         <StyledContainer>
-          <StyledBox>
-            근무하는 오피스를
-            <br /> 선택해주세요.
-          </StyledBox>
-          <StyledSearchContainer>
-            <StyledSearchBox>
-              <SearchButton
-                label="건물"
-                placeholder="나의 오피스 찾기"
-                onClick={handleBuildingSearch}
-              />
-            </StyledSearchBox>
-          </StyledSearchContainer>
+          근무하는 오피스를
+          <br /> 선택해주세요.
         </StyledContainer>
+        <StyledSearchContainer>
+          <SearchButton
+            label="건물"
+            placeholder="나의 오피스 찾기"
+            onClick={handleBuildingSearch}
+          />
+        </StyledSearchContainer>
       </StyledLayout>
     </>
   );
 };
+
 const StyledLayout = styled.div`
+  width: 100%;
   height: calc(100% - 56px);
   padding: 0 17px;
-  display: flex;
-  /* background-color: green; */
-`;
-const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
   padding-top: 40px;
+
   padding-bottom: 391px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   /* background-color: red; */
 `;
-const StyledBox = styled.div`
+const StyledContainer = styled.div`
   padding: 0 3px;
   display: flex;
   flex-direction: column;
@@ -75,14 +68,10 @@ const StyledBox = styled.div`
   color: ${({ theme }) => theme.colors.black};
 `;
 const StyledSearchContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const StyledSearchBox = styled.div`
   height: 187px;
-  /* background-color: #8080803a; */
   display: flex;
   flex-direction: column;
 `;
+
 
 export default SignupStep2;

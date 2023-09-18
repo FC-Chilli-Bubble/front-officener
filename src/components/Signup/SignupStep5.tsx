@@ -1,14 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 
+interface ISignupStep3Props {
+  // eslint-disable-next-line no-unused-vars
+  setStepNum: (stepNum: number) => void;
+}
+
 type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
 
-const SignupStep5 = () => {
+const SignupStep5 = ({ setStepNum }: ISignupStep3Props) => {
   // 유효성 검사
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,10 +24,9 @@ const SignupStep5 = () => {
   const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
 
-  const navigate = useNavigate();
   const handleServiceClick = () => {
-    navigate('/intro/register');
-    console.log('이동함');
+    setStepNum(4);
+    console.log('이전 페이지로');
     return;
   };
 
@@ -123,8 +126,7 @@ const SignupStep5 = () => {
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
-      <StyledLayout>
-        <StyledContainer onSubmit={handleLoginSubmit}>
+        <StyledLayout onSubmit={handleLoginSubmit}>
           <StyledInput>
             <FormField
               isType="email"
@@ -156,8 +158,7 @@ const SignupStep5 = () => {
               redErrorIcon={pwsErrorIcon}
             />
           </StyledInput>
-        </StyledContainer>
-      </StyledLayout>
+        </StyledLayout>
     </>
   );
 };
@@ -165,19 +166,13 @@ const StyledLayout = styled.div`
   padding: 0 16px;
   position: relative;
   top: 18px;
-  height: calc(100% - 60px - 56px); //버튼이랑 헤더 영역 빼기
+  height: 276px; 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
+  /* background-color: red; */
 `;
 
-const StyledContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-  height: 274px;
-`;
+
 const StyledInput = styled.div`
   height: 98px;
   margin-bottom: 23px;

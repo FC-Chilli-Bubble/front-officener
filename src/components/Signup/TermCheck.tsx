@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 
 import CheckList from '@/components/Signup/CheckList';
 
-const TermCheck = () => {
+const TermCheck = ({ onChildCheckChange }) => {
   const [allChecked, setAllChecked] = useState(false);
   const [childChecked, setChildChecked] = useState([false, false, false]);
 
@@ -27,55 +27,51 @@ const TermCheck = () => {
 
   return (
     <>
-      <StyledLayout>
-        <StyledComponent>
-          <StyledBox>
-            <StyledLabel htmlFor="check">
-              <input
-                type="checkbox"
-                id="check"
-                name="check"
-                checked={allChecked}
-                onChange={handleAllCheckChange}
-              />
-              <span></span>
-              전체 동의
-            </StyledLabel>
-          </StyledBox>
-          <StyledChecklist>
-            <CheckList
-              label="서비스 이용약관 (필수)"
-              checked={childChecked[0]}
-              onChange={isChecked => handleChildCheckChange(0, isChecked)}
+      <StyledLayout00>
+        <StyledContainer00>
+          <StyledLabel00 htmlFor="check">
+            <input
+              type="checkbox"
+              id="check"
+              name="check"
+              checked={allChecked}
+              onChange={handleAllCheckChange}
             />
-            <CheckList
-              label="개인정보 처리방침 (필수)"
-              checked={childChecked[1]}
-              onChange={isChecked => handleChildCheckChange(1, isChecked)}
-            />
-            <CheckList
-              label="마케팅 정보 수신 (선택)"
-              checked={childChecked[2]}
-              onChange={isChecked => handleChildCheckChange(2, isChecked)}
-            />
-          </StyledChecklist>
-        </StyledComponent>
-      </StyledLayout>
+            <span></span>
+            전체 동의
+          </StyledLabel00>
+        </StyledContainer00>
+        <CheckList
+          label="서비스 이용약관 (필수)"
+          checked={childChecked[0]}
+          onChange={isChecked => handleChildCheckChange(0, isChecked)}
+          isRequired={true}
+        />
+        <CheckList
+          label="개인정보 처리방침 (필수)"
+          checked={childChecked[1]}
+          onChange={isChecked => handleChildCheckChange(1, isChecked)}
+          isRequired={true}
+        />
+        <CheckList
+          label="마케팅 정보 수신 (선택)"
+          checked={childChecked[2]}
+          onChange={isChecked => handleChildCheckChange(2, isChecked)}
+          isRequired={false}
+        />
+      </StyledLayout00>
     </>
   );
 };
 
-const StyledLayout = styled.div`
-  height: 100%;
+const StyledLayout00 = styled.div`
   width: 100%;
-  /* background-color: #ff9c9c42; */
-`;
-
-const StyledComponent = styled.div`
+  height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
 `;
-const StyledBox = styled.div`
+
+const StyledContainer00 = styled.div`
   display: flex;
   justify-content: space-between;
   /* background-color: #0000ff20; */
@@ -84,7 +80,8 @@ const StyledBox = styled.div`
   padding-bottom: 24px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayColor2};
 `;
-const StyledLabel = styled.label`
+
+const StyledLabel00 = styled.label`
   display: block;
   position: relative;
   padding-left: 25px;
@@ -123,10 +120,6 @@ const StyledLabel = styled.label`
       transform: rotate(45deg);
     }
   }
-`;
-
-const StyledChecklist = styled.div`
-  /* background-color: yellow; */
 `;
 
 export default TermCheck;

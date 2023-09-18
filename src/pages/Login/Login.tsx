@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: string|number) => {
+  const handleEmailChange = (newEmail: string | number) => {
     setEmail(newEmail.toString());
     if (!newEmail) {
       setEmailErrorIcon('error');
@@ -67,11 +67,6 @@ const Login = () => {
     }
   };
 
-  // 이메일과 비밀번호 업데이트 감지
-  useEffect(() => {
-    updateLoginButtonState(email, password);
-  }, [email, password]);
-
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
@@ -86,23 +81,48 @@ const Login = () => {
   // 로그인 로직
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    // let res = '';
     if (isValid) {
       // 유효성 검사가 통과되면 로그인 로직 수행
       try {
         // 로그인 로직을 구현
         // 1. 서버로 이메일과 비밀번호를 전송하고 인증을 수행(API Axios호출)
-        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
+        // const response = await axios.post(
+          //   LOGIN_URL,
+          //   JSON.stringify{(email, password)},
+        //   {
+        //     headers: { 'Content-Type': 'application/json' }
+        //   }
+        // );
+        // // Login Successful
+        // res = 'Login Successful!';
+        // navigate('/');
       } catch (error) {
-        console.error('로그인 실패:', error);
-        setEmailErrorIcon('wrong');
-        setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
-        setPwsErrorIcon('error');
-        setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // if (!error?.response) {
+        //   console.error('로그인 실패:', error);
+        // } else if (error.response?.status === 401) {
+        //   setEmailErrorIcon('wrong');
+        //   setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // } else {
+        //   setPwsErrorIcon('error');
+        //   setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // }
+        return;
       }
-      return;
     }
   };
+
+  // 이메일과 비밀번호 업데이트 감지
+  useEffect(() => {
+    updateLoginButtonState(email, password);
+  }, [email, password]);
+
+  // 로그인 상태면 메인으로~
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     navigate('/')
+  //   }
+  // },[])
 
   return (
     <>
@@ -122,6 +142,7 @@ const Login = () => {
               onChange={handleEmailChange}
               errorMessage={emailMsg}
               redErrorIcon={emailErrorIcon}
+              isRequired
             />
           </StyledInput>
           <StyledInput>
@@ -133,6 +154,7 @@ const Login = () => {
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
               redErrorIcon={pwsErrorIcon}
+              isRequired
             />
           </StyledInput>
           <StyledButton>

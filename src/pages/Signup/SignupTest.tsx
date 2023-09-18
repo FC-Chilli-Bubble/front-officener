@@ -6,7 +6,7 @@ import SignupStep5 from '@/components/Signup/SignupStep5';
 import SignupStep6 from '@/components/Signup/SignupStep6';
 import SignupStep7 from '@/components/Signup/SignupStep7';
 
-const Signup = () => {
+const SignupTest = () => {
   const [stepNum, setStepNum] = useState<number>(5);
   const navigate = useNavigate();
   // const [isValid, setIsValid] = useState<boolean>(true);
@@ -30,7 +30,7 @@ const Signup = () => {
   let buttonText;
 
   if (stepNum === 5) {
-    currentStepComponent = <SignupStep5 />;
+    currentStepComponent = <SignupStep5 setStepNum={setStepNum} />;
     buttonText = '다음';
   } else if (stepNum === 6) {
     currentStepComponent = <SignupStep6 setStepNum={setStepNum} />;
@@ -58,8 +58,7 @@ const Signup = () => {
           <StyledBox>{currentStepComponent}</StyledBox>
           <StyledButton
             // disabled={!isValid}
-            onClick={handleNextStep}
-            >
+            onClick={handleNextStep}>
             {buttonText}
           </StyledButton>
         </SytledComponent>
@@ -95,4 +94,4 @@ const StyledButton = styled.button`
   cursor: pointer;
 `;
 
-export default Signup;
+export default SignupTest;

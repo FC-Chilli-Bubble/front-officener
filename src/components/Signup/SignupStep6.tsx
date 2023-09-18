@@ -112,22 +112,22 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
   };
 
   // 인증 번호 확인 함수
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  //   if (name && phoneNumber && verifyCode === receivedVerifyCode) {
-  //     try {
-  //       // 1. 서버로 이름과 전화번호를 전송(API Axios호출)
-  //       // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
-  //       setVerifyNumErrorIcon('correct');
-  //       setVerifyNumMsg('인증이 완료되었습니다.');
+    if (name && phoneNumber && verifyCode === receivedVerifyCode) {
+      try {
+        // 1. 서버로 이름과 전화번호를 전송(API Axios호출)
+        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
+        setVerifyNumErrorIcon('correct');
+        setVerifyNumMsg('인증이 완료되었습니다.');
   setVerificationComplete(true);
-  //     } catch (error) {
-  //       // console.error('로그인 실패:', error);
-  //     }
-  //     return;
-  //   }
-  // };
+      } catch (error) {
+        // console.error('로그인 실패:', error);
+      }
+      return;
+    }
+  };
 
   return (
     <>
@@ -138,7 +138,7 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
       />
       <StyledLayout>
         <StyledContainer
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         >
           <StyledInput>
             <FormField

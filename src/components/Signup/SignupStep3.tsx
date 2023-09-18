@@ -9,12 +9,6 @@ import FormField from '@/components/Common/FormField';
 interface ISignupStep3Props {
   // eslint-disable-next-line no-unused-vars
   setStepNum: (stepNum: number) => void;
-  // placeholder: string;
-  // value: string;
-  // eslint-disable-next-line no-unused-vars
-  // onChange: (value: string) => void;
-  // onClick: () => void;
-  // disabled?: boolean;
 }
 
 const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
@@ -67,45 +61,41 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledContainer>
-          <StyledLabel htmlFor="search-bar">건물</StyledLabel>
-          <StyledFormBox onSubmit={handleFormSubmit}>
-            <FormField
-              isType="text"
-              label=""
-              value={inputValue}
-              placeholder="건물 이름으로 검색"
-              onChange={handleInputChange}
-              errorMessage=""
-              redErrorIcon={'none'}
-            />
-            <StyledButton
-              type="button"
-              onClick={handleButtonClick}
-              disabled={inputValue === ''}>
-              검색
-            </StyledButton>
-          </StyledFormBox>
-          <StyledLine />
-          <ul>
-            {/* {searchResults.map(building => (
+        <StyledLabel htmlFor="search-bar">건물</StyledLabel>
+        <StyledFormContainer onSubmit={handleFormSubmit}>
+          <FormField
+            isType="text"
+            label=""
+            value={inputValue}
+            placeholder="건물 이름으로 검색"
+            onChange={handleInputChange}
+            errorMessage=""
+            redErrorIcon={'none'}
+          />
+          <StyledButton
+            type="button"
+            onClick={handleButtonClick}
+            disabled={inputValue === ''}>
+            검색
+          </StyledButton>
+        </StyledFormContainer>
+        <StyledLine />
+        <ul>
+          {/* {searchResults.map(building => (
               <li key={building.id}>
                 {building.buildingName}
                 <button onClick={() => setSelectedBuilding(building)}>하위 오피스 보기</button>
               </li>
             ))} */}
-          </ul>
-        </StyledContainer>
+        </ul>
       </StyledLayout>
     </>
   );
 };
+
 const StyledLayout = styled.div`
   height: calc(100% - 56px);
   padding: 0 17px;
-  display: flex;
-`;
-const StyledContainer = styled.div`
   padding-top: 40px;
   width: 100%;
   height: 100%;
@@ -113,7 +103,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledFormBox = styled.form`
+const StyledFormContainer = styled.form`
   height: 75px;
   display: flex;
   align-items: end;

@@ -23,32 +23,27 @@ const SignupStep7 = ({ setStepNum }: ISignupStep3Props) => {
       />
       <StyledLayout>
         <StyledContainer>
-          <StyledBox>
-            짝짝짝
+          짝짝짝
+          <br />
+          홍길동님
+          <br />
+          입주 축하드려요!
+          <div>
+            미왕빌딩 A동 102(COIPSG)호 칠리버블
             <br />
-            홍길동님
-            <br />
-            입주 축하드려요!
-            <div>
-              미왕빌딩 A동 102(COIPSG)호 칠리버블
-              <br />
-              관리센터 승인이 완료되었어요.
-            </div>
-          </StyledBox>
+            관리센터 승인이 완료되었어요.
+          </div>
         </StyledContainer>
       </StyledLayout>
     </>
   );
 };
+
 const StyledLayout = styled.div`
   height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
-  /* background-color: green; */
-`;
-const StyledContainer = styled.div`
   width: 100%;
-  height: 100%;
   padding-top: 40px;
   display: flex;
   flex-direction: column;
@@ -56,7 +51,7 @@ const StyledContainer = styled.div`
   /* background-color: red; */
 `;
 
-const StyledBox = styled.div`
+const StyledContainer = styled.div`
   height: 95px;
   padding: 0 11px;
   display: flex;

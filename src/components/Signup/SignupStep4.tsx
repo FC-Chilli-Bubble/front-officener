@@ -25,65 +25,61 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
       />
       <StyledLayout>
         <StyledContainer>
-          <StyledBox>
-            미왕빌딩
-            <br />
-            입주자시군요!
-            <div>입주 정보를 확인해 주세요.</div>
-          </StyledBox>
-          <StyledCardBox>
-            <SytledCard>
-              <StyledTitle>
-                오피스너
-                <br />
-                입주카드
-              </StyledTitle>
-              <img
-                src={ico_building}
-                alt="빌딩Img"
-              />
-              <StyledBuilding>미왕빌딩</StyledBuilding>
-              <StyledAddress>서울 강남구 강남대로</StyledAddress>
-              <SytledOffice>
-                A동 103(COIPSG)호
-                <br />
-                칠리버블
-              </SytledOffice>
-            </SytledCard>
-            <StyledLink>
-              나의 입주 정보와 다르다면
-              <img
-                src={ico_arrow}
-                alt="화살표"
-              />
-            </StyledLink>
-          </StyledCardBox>
+          미왕빌딩
+          <br />
+          입주자시군요!
+          <div>입주 정보를 확인해 주세요.</div>
         </StyledContainer>
+        <StyledCardContainer>
+          <SytledCard>
+            <StyledTitle>
+              오피스너
+              <br />
+              입주카드
+            </StyledTitle>
+            <img
+              src={ico_building}
+              alt="빌딩Img"
+            />
+            <StyledBuilding>미왕빌딩</StyledBuilding>
+            <StyledAddress>서울 강남구 강남대로</StyledAddress>
+            <SytledOffice>
+              A동 103(COIPSG)호
+              <br />
+              칠리버블
+            </SytledOffice>
+          </SytledCard>
+          <StyledLink>
+            나의 입주 정보와 다르다면
+            <img
+              src={ico_arrow}
+              alt="화살표"
+            />
+          </StyledLink>
+        </StyledCardContainer>
       </StyledLayout>
     </>
   );
 };
+
 const StyledLayout = styled.div`
-  height: calc(100% - 60px - 56px);
-  padding: 0 17px;
-`;
-const StyledContainer = styled.div`
   width: 100%;
-  height: 536px;
+  height: calc(100% - 60px);
+  padding: 0 17px;
   margin-top: 23px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* background-color: red; */
 `;
 
-const StyledBox = styled.div`
+const StyledContainer = styled.div`
   height: 95px;
   padding: 0 11px;
   display: flex;
   flex-direction: column;
   font-weight: 600;
   font-size: 24px;
-  line-height: 31px;
+  line-height: 30px;
   /* background: greenyellow; */
   color: ${({ theme }) => theme.colors.ctaColor};
   & > div {
@@ -94,8 +90,8 @@ const StyledBox = styled.div`
     line-height: 28px;
   }
 `;
-const StyledCardBox = styled.div`
-  height: 415px;
+const StyledCardContainer = styled.div`
+  height: 80%;
   width: 100%;
   display: flex;
   padding-top: 20px;
@@ -127,9 +123,7 @@ const StyledBuilding = styled.div`
   padding: 10px 0;
   font-size: 16px;
 `;
-const StyledAddress = styled.div`
-
-`;
+const StyledAddress = styled.div``;
 
 const SytledOffice = styled.div`
   padding-top: 40px;

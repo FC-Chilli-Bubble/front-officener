@@ -3,9 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '@/App';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
-import Intro from '@/pages/Register/Intro';
-import Register from '@/pages/Register/Register';
-import Signup from '@/pages/Signup/Signup';
+import Intro from '@/pages/Signup/Intro';
+import Signup from '@/pages/Signup/Singup'
 import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
@@ -60,12 +59,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/intro/register',
-            element: <Register />,
-            errorElement: <ErrorComponent />
-          },
-          {
-            path: '/signup',
+            path: '/intro/signup',
             element: <Signup />,
             errorElement: <ErrorComponent />
           },
