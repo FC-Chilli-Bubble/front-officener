@@ -59,8 +59,8 @@ export const NAV_MENU = [
     title: 'My',
     active: IconMy,
     inactive: IconMyOff,
-    path: '#',
-    name: '/my-page'
+    path: '/mypage',
+    name: '/mypage'
   }
 ];
 
@@ -92,6 +92,25 @@ export const FOOD_TAG = [
   '중식',
   '고기,구이',
   '도시락'
+];
+
+export const MY_PAGE_MENU = [
+  {
+    title: '내 정보 보기',
+    path: '/mypage/profile'
+  },
+  {
+    title: '오피스 관리',
+    path: '#'
+  },
+  {
+    title: '구성원 관리',
+    path: '#'
+  },
+  {
+    title: '설정',
+    path: '#'
+  }
 ];
 
 export const Floor_TAG = [
