@@ -7,6 +7,7 @@ import { useState } from 'react';
 import ChoiceCard from '@/components/Common/Elevator/ChoiceCard';
 import MissingCard from '@/components/Common/Elevator/MissingCard';
 import FloorList from '@/components/Common/Elevator/FloorList';
+import { DummyElevators } from './Dummydata';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
@@ -55,11 +56,9 @@ const ElevatorHome = () => {
           </StyledSettingButton>
         </StyledStyledElevatorSetting>
         <StyledElevators>
-          {/* <MissingCard />
-          <MissingCard />
-          <MissingCard />
-          <MissingCard /> */}
-          <ChoiceCard />
+          {
+            DummyElevators.map(elevator => <ChoiceCard elevator={elevator} />)
+          }
         </StyledElevators>
       </StyledContainer>
     </StyledLayout>
@@ -98,10 +97,6 @@ const StyledElevators = styled.ul`
   gap: 10px 10px;
   padding: 5px 5px;
   justify-items: center;
-  div {
-    width: 100%;
-    max-width: 200px;
-  }
 `;
 
 export default ElevatorHome;

@@ -1,4 +1,4 @@
-export const DummyElevators = [
+export const DummyElevators: IObjectElevators[] = [
   {
     elevatorId: 1, // 엘리베이터 호기
     floor: 21, // 엘리베이터 위치 층
@@ -23,3 +23,10 @@ export const DummyElevators = [
     status: 'normal' // or "repair", "full"
   }
 ];
+
+interface IObjectElevators {
+  elevatorId: number;
+  floor?: number;
+  direction: 'stop' | 'up' | 'down';
+  status: 'normal' | 'repair' | 'full';
+}
