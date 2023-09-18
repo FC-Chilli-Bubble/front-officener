@@ -2,9 +2,24 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
-import { DummyElevators } from './Dummydata';
+import BottomSheetModal from '@/components/Common/BottomSheetModal';
+import { useState } from 'react';
+import ChoiceCard from '@/components/Common/Elevator/ChoiceCard';
+import MissingCard from '@/components/Common/Elevator/MissingCard';
+import FloorList from '@/components/Common/Elevator/FloorList';
 
 const ElevatorHome = () => {
+  const [isOpen, setOpen] = useState(false);
+
+  const handleElevatorSetting = () => {
+    setOpen(true);
+  };
+
+  // 바텀시트 닫기
+  const closeBottomSheet = () => {
+    setOpen(false);
+  };
+
   return (
     <StyledLayout>
       <Header
@@ -21,21 +36,30 @@ const ElevatorHome = () => {
               type="primary"
               title="엘리베이터 설정"
               onClick={() => {
-                console.log('click test');
+                handleElevatorSetting();
               }}
             />
+            <BottomSheetModal
+              isOpen={isOpen}
+              onClose={() => setOpen(false)}>
+              <>
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                  }}>
+                  닫기
+                </button>
+                <FloorList closeSheet={closeBottomSheet} />
+              </>
+            </BottomSheetModal>
           </StyledSettingButton>
         </StyledStyledElevatorSetting>
         <StyledElevators>
-          {DummyElevators?.map(elevator => (
-            <Elevator>
-              <div>
-                <h2>{elevator.elevatorId}</h2>
-                <h2>{elevator.floor}</h2>
-                <h2>{elevator.direction}</h2>
-              </div>
-            </Elevator>
-          ))}
+          {/* <MissingCard />
+          <MissingCard />
+          <MissingCard />
+          <MissingCard /> */}
+          <ChoiceCard />
         </StyledElevators>
       </StyledContainer>
     </StyledLayout>
@@ -58,6 +82,7 @@ const StyledStyledElevatorSetting = styled.div`
 const StyledElevatorTitle = styled.h2`
   font-size: 25px;
   text-align: center;
+  font-weight: bold;
 `;
 
 const StyledSettingButton = styled.div`
@@ -65,27 +90,18 @@ const StyledSettingButton = styled.div`
 `;
 
 const StyledElevators = styled.ul`
-  background-color: royalblue;
   margin-top: 37px;
   display: grid;
   grid-template-rows: repeat(2, 217px);
-  grid-template-columns: repeat(2,  1fr);
+  grid-template-columns: repeat(2, 1fr);
   text-align: center;
   gap: 10px 10px;
   padding: 5px 5px;
   justify-items: center;
-
-  h2 {
-    color: gray;
-    margin-top: 17px;
+  div {
+    width: 100%;
+    max-width: 200px;
   }
-`;
-
-const Elevator = styled.li`
-  background-color: #fff;
-  border-radius: 20px;
-  width: 100%;
-  max-width: 200px;
 `;
 
 export default ElevatorHome;

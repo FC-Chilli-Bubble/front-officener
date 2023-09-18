@@ -1,26 +1,25 @@
 export const DummyElevators = [
   {
     elevatorId: 1, // 엘리베이터 호기
-    floor: 1, // 엘리베이터 위치 층
-    direction: 'up', // or "down"
-    status: 'normal' // ,"repair", "full"
-  },
-  {
-    elevatorId: 2, // 엘리베이터 호기
-    floor: 14, // 엘리베이터 위치 층
-    direction: 'down', // or "up"
-    status: 'full' // or "repair", "normal"
+    floor: 21, // 엘리베이터 위치 층
+    direction: 'up', // or "down" or "up"
+    status: 'full' // ,"repair", "full"
   },
   {
     elevatorId: 3, // 엘리베이터 호기
+    direction: 'stop', // or "up" or "stop"
+    status: 'repair' // or "repair", "normal"
+  },
+  {
+    elevatorId: 11, // 엘리베이터 호기
     floor: 7, // 엘리베이터 위치 층
-    direction: 'up', // or "down"
+    direction: 'down', // or "down" or "stop"
     status: 'normal' // or "repair", "normal"
   },
   {
-    elevatorId: 4, // 엘리베이터 호기
-    floor: 13, // 엘리베이터 위치 층
-    direction: 'down', // or "up"
+    elevatorId: 12, // 엘리베이터 호기
+    floor: 12, // 엘리베이터 위치 층
+    direction: 'stop', // or "up" or "stop"
     status: 'normal' // or "repair", "full"
   }
 ];
