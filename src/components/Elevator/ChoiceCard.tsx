@@ -91,8 +91,6 @@ const StyledStatus = styled.div<{ status: string }>`
   p {
     font-size: 24px;
     font-weight: 600;
-    line-height: 31.2px;
-
     &.full {
       color: ${({ status, theme }) =>
         status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};

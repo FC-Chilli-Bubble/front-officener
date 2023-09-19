@@ -77,7 +77,6 @@ const StyledElevatorTitle = styled.h2`
   font-size: 24px;
   text-align: center;
   font-weight: 600;
-  line-height: 31.2px;
 `;
 
 const StyledSettingButton = styled.div`
