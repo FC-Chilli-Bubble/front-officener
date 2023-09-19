@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { getName } from './ChatFunctions';
+import { getName } from '@/components/ChatRoom/ChatFunctions';
 
 type Tprops = {
   senderId: number;

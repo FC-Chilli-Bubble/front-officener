@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import { useModal } from '@/hooks/useModal';
 import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from '@/components/Common/Button';
 import IconCopy from '@/assets/chatrooms/ico_copy.svg';
 import IconWon from '@/assets/chatrooms/ico_won.svg';

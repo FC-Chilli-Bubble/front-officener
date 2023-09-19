@@ -1,27 +1,17 @@
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
+
 import {
   chatDeclarationDataAtom,
   declarationStepAtom,
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
-import styled from 'styled-components';
+import { DECLARATION_DATA } from '@/constants/declarationCategory';
 
 const ChatDeclarationStep1 = () => {
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
-
-  const DECLARATION_DATA = [
-    '홍보/상업성',
-    '같은 내용 도배',
-    '욕설/인신공격',
-    '음란/선정성',
-    '불법정보',
-    '개인정보 노출',
-    '권리침해 신고',
-    '관련 없는 내용',
-    '기타'
-  ];
 
   const handleCloseBottomSheet = () => {
     setIsBottomsheetOpen(false);
