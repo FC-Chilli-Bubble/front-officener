@@ -126,39 +126,42 @@ const SignupStep5 = ({ setStepNum }: ISignupStep3Props) => {
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
-        <StyledLayout onSubmit={handleLoginSubmit}>
-          <StyledInput>
-            <FormField
-              isType="email"
-              label="아이디"
-              value={email}
-              placeholder="이메일을 입력해 주세요."
-              onChange={handleEmailChange}
-              errorMessage={emailMsg}
-              redErrorIcon={emailErrorIcon}
-            />
-          </StyledInput>
-          <StyledInput>
-            <FormField
-              isType="password"
-              label="비밀번호"
-              value={password}
-              placeholder="영문,숫자,특수기호 포함 8~16자입니다."
-              onChange={handlePasswordChange}
-              errorMessage={''}
-              redErrorIcon="none"
-            />
-            <FormField
-              isType="password"
-              label=""
-              value={passwordVerify}
-              placeholder="비밀번호를 다시 입력해 주세요."
-              onChange={handlePasswordVerify}
-              errorMessage={pwdMsg}
-              redErrorIcon={pwsErrorIcon}
-            />
-          </StyledInput>
-        </StyledLayout>
+      <StyledLayout onSubmit={handleLoginSubmit}>
+        <StyledInput>
+          <FormField
+            isType="email"
+            label="아이디"
+            name="email"
+            value={email}
+            placeholder="이메일을 입력해 주세요."
+            onChange={handleEmailChange}
+            errorMessage={emailMsg}
+            redErrorIcon={emailErrorIcon}
+          />
+        </StyledInput>
+        <StyledInput>
+          <FormField
+            isType="password"
+            label="비밀번호"
+            name="password"
+            value={password}
+            placeholder="영문,숫자,특수기호 포함 8~16자입니다."
+            onChange={handlePasswordChange}
+            errorMessage={''}
+            redErrorIcon="none"
+          />
+          <FormField
+            isType="password"
+            label=""
+            name="password"
+            value={passwordVerify}
+            placeholder="비밀번호를 다시 입력해 주세요."
+            onChange={handlePasswordVerify}
+            errorMessage={pwdMsg}
+            redErrorIcon={pwsErrorIcon}
+          />
+        </StyledInput>
+      </StyledLayout>
     </>
   );
 };
@@ -166,12 +169,11 @@ const StyledLayout = styled.div`
   padding: 0 16px;
   position: relative;
   top: 18px;
-  height: 276px; 
+  height: 276px;
   display: flex;
   flex-direction: column;
   /* background-color: red; */
 `;
-
 
 const StyledInput = styled.div`
   height: 98px;

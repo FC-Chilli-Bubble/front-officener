@@ -14,6 +14,7 @@ type TInputProps = {
   errorMessage?: string;
   isValid?: boolean;
   value: string | number;
+  name: string;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string | number) => void;
 };

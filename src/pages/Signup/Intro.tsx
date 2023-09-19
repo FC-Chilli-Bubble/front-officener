@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Intro = () => {
   const navigate = useNavigate();
   const handleNavigateSignup = () => {
-    navigate('/intro/register');
+    navigate('/intro/signup');
     return;
   };
   const handleNavigateLogin = () => {

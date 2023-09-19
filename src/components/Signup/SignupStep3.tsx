@@ -66,6 +66,7 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
           <FormField
             isType="text"
             label=""
+            name='search-bar'
             value={inputValue}
             placeholder="건물 이름으로 검색"
             onChange={handleInputChange}
