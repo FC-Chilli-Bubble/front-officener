@@ -4,15 +4,16 @@ import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
+import Button from '@/components/Common/Button';
 
-interface ISignupStep3Props {
+interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void;
+  onNextStep: (stepNum: number) => void;
 }
 
 type TErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
 
-const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
+const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState(0);
@@ -24,9 +25,16 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
   const [isValid, setIsValid] = useState(false);
   // 인증요청 버튼 텍스트 상태
   const [isVerificationComplete, setVerificationComplete] = useState(false);
+  // 버튼 상태
+  const [disabled, setDisabled] = useState(false); //임시로 false
 
   const handleServiceClick = () => {
-    setStepNum(5);
+    onNextStep(5);
+    console.log('이전 페이지로');
+    return;
+  };
+  const handleNextStep = () => {
+    onNextStep(7);
     console.log('이전 페이지로');
     return;
   };
@@ -121,7 +129,7 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
         // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
         setVerifyNumErrorIcon('correct');
         setVerifyNumMsg('인증이 완료되었습니다.');
-  setVerificationComplete(true);
+        setVerificationComplete(true);
       } catch (error) {
         // console.error('로그인 실패:', error);
       }
@@ -137,14 +145,13 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledContainer
-        onSubmit={handleSubmit}
-        >
+        <StyledContainer onSubmit={handleSubmit}>
           <StyledInput>
             <FormField
               isType="text"
               label="이름"
               value={name}
+              name=""
               placeholder="실명을 입력해 주세요."
               onChange={handleNameChange}
               errorMessage={''}
@@ -156,6 +163,7 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
               <FormField
                 isType="number"
                 label="휴대폰 번호"
+                name=""
                 value={phoneNumber === 0 ? '' : phoneNumber}
                 placeholder="‘_’없이 숫자만 입력해 주세요."
                 onChange={handlePhoneNumberChange}
@@ -170,8 +178,9 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
               </StyledButton>
             </StyledBox>
             <FormField
-              isType="number"
+              isType={'number'}
               label=""
+              name={''}
               value={verifyCode === 0 ? '' : verifyCode}
               placeholder="6자리 인증번호를 입력해 주세요."
               onChange={handleVerifyCodeChange}
@@ -180,13 +189,24 @@ const SignupStep6 = ({ setStepNum }: ISignupStep3Props) => {
             />
           </StyledInput>
         </StyledContainer>
+        <Button
+          size={'normal'}
+          type={'cta'}
+          title={'다음'}
+          width={'100%'}
+          disabled={disabled}
+          onClick={handleNextStep}
+        />
       </StyledLayout>
     </>
   );
 };
 const StyledLayout = styled.div`
-  height: calc(100% - 60px - 56px);
+  height: calc(100% - 56px);
   padding: 0 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 const StyledContainer = styled.div`
   width: 100%;

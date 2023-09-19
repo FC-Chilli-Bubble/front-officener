@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,48 +10,48 @@ import SignupStep5 from '@/components/Signup/SignupStep5';
 import SignupStep6 from '@/components/Signup/SignupStep6';
 import SignupStep7 from '@/components/Signup/SignupStep7';
 
-const Signup = () => {
-  const [stepNum, setStepNum] = useState(1);
-  const navigate = useNavigate();
+// 함수 타입을 인터페이스로 정의
+interface IStepHandler {
+  // eslint-disable-next-line no-unused-vars
+  (nextStepNum: number): void;
+}
 
-  const handleNextStep = () => {
-    if (stepNum === 2) {
-      setStepNum(4);
-    } else if (stepNum === 3) {
-      setStepNum(2);
-    } else if (stepNum === 7) {
+const Signup = () => {
+  const navigate = useNavigate();
+  const [stepNum, setStepNum] = useState(1);
+  // const [nextStepNum, setNextStepNum] = useState<number | null>(null); // 선택한 다음 스텝 번호
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleNextStep: IStepHandler = nextStepNum => {
+    setStepNum(nextStepNum);
+    if (nextStepNum === 7) {
       navigate('/login');
       console.log('이동함');
-    } else {
-      setStepNum(stepNum + 1);
     }
   };
 
-  let currentStepComponent;
+  const currentStepComponent = useMemo(() => {
+    switch (stepNum) {
+      case 1:
+        return <SignupStep1 onNextStep={handleNextStep} />;
+      case 2:
+        return <SignupStep2 onNextStep={handleNextStep} />;
+      case 3:
+        return <SignupStep3 onNextStep={handleNextStep} />;
+      case 4:
+        return <SignupStep4 onNextStep={handleNextStep} />;
+      case 5:
+        return <SignupStep5 onNextStep={handleNextStep} />;
+      case 6:
+        return <SignupStep6 onNextStep={handleNextStep} />;
+      default:
+        return <SignupStep7 onNextStep={handleNextStep} />;
+    }
+  }, [stepNum]);
 
-  // stepNum에 따라 현재 스텝의 컴포넌트를 선택합니다.
-  if (stepNum === 1) {
-    currentStepComponent = <SignupStep1 onNextStep={handleNextStep} />;
-    // buttonText = '다음';
-  } else if (stepNum === 2) {
-    currentStepComponent = <SignupStep2 setStepNum={setStepNum} />;
-    // buttonText = '다음';
-  } else if (stepNum === 3) {
-    currentStepComponent = <SignupStep3 setStepNum={setStepNum} />;
-    // buttonText = '선택완료';
-  } else if (stepNum === 4) {
-    currentStepComponent = <SignupStep4 setStepNum={setStepNum} />;
-    // buttonText = '네, 확인했어요!';
-  } else if (stepNum === 5) {
-    currentStepComponent = <SignupStep5 setStepNum={setStepNum} />;
-    // buttonText = '다음';
-  } else if (stepNum === 6) {
-    currentStepComponent = <SignupStep6 setStepNum={setStepNum} />;
-    // buttonText = '다음';
-  } else {
-    currentStepComponent = <SignupStep7 setStepNum={setStepNum} />;
-    // buttonText = '닫기!';
-  }
+  useEffect(() => {
+    console.log(`Step changed to ${stepNum}`);
+  }, [stepNum]);
 
   return (
     <>

@@ -88,15 +88,15 @@ const Login = () => {
         // 로그인 로직을 구현
         // 1. 서버로 이메일과 비밀번호를 전송하고 인증을 수행(API Axios호출)
         // const response = await axios.post(
-          //   LOGIN_URL,
-          //   JSON.stringify{(email, password)},
+        //   LOGIN_URL,
+        //   JSON.stringify{(email, password)},
         //   {
         //     headers: { 'Content-Type': 'application/json' }
         //   }
         // );
         // // Login Successful
         // res = 'Login Successful!';
-        // navigate('/');
+        navigate('/');
       } catch (error) {
         // if (!error?.response) {
         //   console.error('로그인 실패:', error);
@@ -121,7 +121,9 @@ const Login = () => {
   // useEffect(() => {
   //   if (accessToken) {
   //     navigate('/')
-  //   }
+  //   } else {
+  // navigate('/login')
+  // }
   // },[])
 
   return (
@@ -138,7 +140,7 @@ const Login = () => {
               isType="email"
               label="아이디"
               value={email}
-              name='email'
+              name="email"
               placeholder="이메일을 입력해 주세요."
               onChange={handleEmailChange}
               errorMessage={emailMsg}
@@ -151,7 +153,7 @@ const Login = () => {
               isType="password"
               label="비밀번호"
               value={password}
-              name='password'
+              name="password"
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
@@ -198,9 +200,12 @@ const StyledContainer = styled.form`
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
+  /* background-color: green; */
 `;
 const StyledInput = styled.div`
   height: 98px;
+  margin-bottom: 10px;
+  /* background-color: blue; */
 `;
 
 const StyledButton = styled.div`

@@ -1,19 +1,28 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
 import ico_arrow from '@/assets/ico_arrow.svg';
+import Button from '@/components/Common/Button';
 
-interface ISignupStep3Props {
+interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void;
+  onNextStep: (stepNum: number) => void;
 }
 
-const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
+const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
+  const [disabled, setDisabled] = useState(false); //임시로 false
+
   const handleServiceClick = () => {
-    setStepNum(2);
+    onNextStep(2);
     console.log('이전 페이지로');
     return;
+  };
+
+  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
+  const handleNextStep = () => {
+    onNextStep(5);
   };
 
   return (
@@ -57,6 +66,14 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
             />
           </StyledLink>
         </StyledCardContainer>
+        <Button
+          size={'normal'}
+          type={'cta'}
+          title={'네, 확인했어요!'}
+          width={'100%'}
+          disabled={disabled}
+          onClick={handleNextStep}
+        />
       </StyledLayout>
     </>
   );
@@ -64,9 +81,9 @@ const SignupStep4 = ({ setStepNum }: ISignupStep3Props) => {
 
 const StyledLayout = styled.div`
   width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 56px);
   padding: 0 17px;
-  margin-top: 23px;
+  padding-top: 23px;
   display: flex;
   flex-direction: column;
   /* background-color: red; */
@@ -119,6 +136,7 @@ const StyledTitle = styled.div`
   padding: 10px 0;
   line-height: 18px;
 `;
+
 const StyledBuilding = styled.div`
   padding: 10px 0;
   font-size: 16px;

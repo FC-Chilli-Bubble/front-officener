@@ -3,12 +3,16 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
+import Button from '@/components/Common/Button';
 
-const SignupStep1 = ({ onNextStep }) => {
+interface SignupStepProps {
+  // eslint-disable-next-line no-unused-vars
+  onNextStep: (stepNum: number) => void;
+}
+const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
   const [allChecked, setAllChecked] = useState(false);
   const [childChecked, setChildChecked] = useState([false, false, false]);
   const [disabled, setDisabled] = useState(true);
-  const [buttonText, setbuttonText] = useState('다음');
 
   // 전체 동의 체크박스 변경 호출
   const handleAllCheckChange = () => {
@@ -36,10 +40,9 @@ const SignupStep1 = ({ onNextStep }) => {
   };
 
   // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
+  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
   const handleNextStep = () => {
-    setbuttonText('로딩 중...');
-    // 버튼 텍스트를 변경하여 사용자에게 진행 중임을 알릴 수도 있습니다.
-    onNextStep();
+    onNextStep(2); 
   };
 
   return (
@@ -93,11 +96,14 @@ const SignupStep1 = ({ onNextStep }) => {
             />
           </StyledTermContainer>
         </StyledContainer>
-        <StyledButton
+        <Button
+          size={'normal'}
+          type={'cta'}
+          title={'다음'}
+          width={'100%'}
           disabled={disabled}
-          onClick={handleNextStep}>
-          {buttonText}
-        </StyledButton>
+          onClick={handleNextStep}
+        />
       </StyledLayout>
     </>
   );
@@ -112,6 +118,7 @@ const StyledLayout = styled.div`
   justify-content: space-between;
   /* background-color: #00ff04; */
 `;
+
 const StyledContainer = styled.div`
   height: 100%;
   display: flex;
@@ -196,20 +203,20 @@ const StyledCheckAll = styled.label`
   }
 `;
 
-const StyledButton = styled.button`
-  height: 60px;
-  margin: 34px 0;
-  outline: none;
-  border: none;
-  border-radius: 8px;
-  background-color: ${({ disabled, theme }) =>
-    disabled ? theme.colors.ctaDisabledColor : theme.colors.ctaColor};
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 27px;
-  color: ${({ theme }) => theme.colors.white};
-  cursor: pointer;
-`;
+// const StyledButton = styled.button`
+//   height: 60px;
+//   margin: 34px 0;
+//   outline: none;
+//   border: none;
+//   border-radius: 8px;
+//   background-color: ${({ disabled, theme }) =>
+//     disabled ? theme.colors.ctaDisabledColor : theme.colors.ctaColor};
+//   font-size: 20px;
+//   font-style: normal;
+//   font-weight: 500;
+//   line-height: 27px;
+//   color: ${({ theme }) => theme.colors.white};
+//   cursor: pointer;
+// `;
 
 export default SignupStep1;

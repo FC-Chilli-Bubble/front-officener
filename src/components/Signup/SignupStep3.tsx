@@ -3,16 +3,21 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
+import Button from '@/components/Common/Button';
+
 // 임시 데이터
 // import { buildingData } from '@/components/Signup/buildingData';
 
-interface ISignupStep3Props {
+interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void;
+  onNextStep: (stepNum: number) => void;
 }
 
-const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
+const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [disabled, setDisabled] = useState(false); //임시로 false
+  const [buttonText, setButtonText] = useState('다음');
+
   // const [buildinName, setBuildinName] = useState<string>('');
   // const [searchResults, setSearchResults] = useState<string[]>([]);
   // 검색 결과 상태
@@ -20,7 +25,7 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
   // const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleServiceClick = () => {
-    setStepNum(2);
+    onNextStep(2);
     console.log('이전 페이지로');
     return;
   };
@@ -41,7 +46,10 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
     // handleBuildingSearch();
     console.log('검색 버튼 클릭');
   };
-
+  const handleNextStep = () => {
+    setButtonText('선택완료'); //이 페이지에선 버튼명 변경 없음 //삭제할것
+    onNextStep(2);
+  };
   //  검색 수행 함수
   const handleBuildingSearch = () => {
     //  API 호출 함수로직
@@ -51,6 +59,7 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
     // );
     // setSearchResults(results);
     // setSearchResults(null);
+
   };
 
   return (
@@ -61,34 +70,42 @@ const SignupStep3 = ({ setStepNum }: ISignupStep3Props) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledLabel htmlFor="search-bar">건물</StyledLabel>
         <StyledFormContainer onSubmit={handleFormSubmit}>
           <FormField
-            isType="text"
-            label=""
-            name='search-bar'
+            isType={'text'}
+            label={'건물'}
+            name={'text'}
             value={inputValue}
             placeholder="건물 이름으로 검색"
             onChange={handleInputChange}
             errorMessage=""
             redErrorIcon={'none'}
           />
-          <StyledButton
+          <StyledFormButton
             type="button"
             onClick={handleButtonClick}
             disabled={inputValue === ''}>
             검색
-          </StyledButton>
+          </StyledFormButton>
         </StyledFormContainer>
         <StyledLine />
-        <ul>
+        {/* Ul은 컴포넌트화 할 예정 */}
+        <StyledListBox>
           {/* {searchResults.map(building => (
               <li key={building.id}>
                 {building.buildingName}
                 <button onClick={() => setSelectedBuilding(building)}>하위 오피스 보기</button>
               </li>
             ))} */}
-        </ul>
+        </StyledListBox>
+        <Button
+          size={'normal'}
+          type={'cta'}
+          title={buttonText}
+          width={'100%'}
+          disabled={disabled}
+          onClick={handleNextStep}
+        />
       </StyledLayout>
     </>
   );
@@ -102,20 +119,17 @@ const StyledLayout = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* background-color: red; */
 `;
 
 const StyledFormContainer = styled.form`
   height: 75px;
   display: flex;
   align-items: end;
-`;
-const StyledLabel = styled.label`
-  color: ${({ theme }) => theme.colors.grayColor5};
-  font-weight: 400;
-  line-height: 30px;
+  /* background-color: green; */
 `;
 
-const StyledButton = styled.button`
+const StyledFormButton = styled.button`
   width: 78px;
   height: 48px;
   padding: 0 10px;
@@ -143,4 +157,10 @@ const StyledLine = styled.hr`
   width: 130%;
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
 `;
+
+const StyledListBox = styled.div`
+  margin-top: 40px;
+  height: calc(100% - 315px);
+`;
+
 export default SignupStep3;

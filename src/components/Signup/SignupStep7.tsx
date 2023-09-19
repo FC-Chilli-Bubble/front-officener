@@ -2,14 +2,14 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 
-interface ISignupStep3Props {
+interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void;
+  onNextStep: (stepNum: number) => void;
 }
 
-const SignupStep7 = ({ setStepNum }: ISignupStep3Props) => {
+const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
   const handleServiceClick = () => {
-    setStepNum(6);
+    onNextStep(6);
     console.log('이전 페이지로');
     return;
   };

@@ -5,14 +5,16 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 
-interface ISignupStep3Props {
+import Button from '@/components/Common/Button';
+
+interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
-  setStepNum: (stepNum: number) => void;
+  onNextStep: (stepNum: number) => void;
 }
 
 type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
 
-const SignupStep5 = ({ setStepNum }: ISignupStep3Props) => {
+const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,9 +25,16 @@ const SignupStep5 = ({ setStepNum }: ISignupStep3Props) => {
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
+  // 버튼 상태
+  const [disabled, setDisabled] = useState(false); //임시로 false
 
   const handleServiceClick = () => {
-    setStepNum(4);
+    onNextStep(4);
+    console.log('이전 페이지로');
+    return;
+  };
+  const handleNextStep = () => {
+    onNextStep(6);
     console.log('이전 페이지로');
     return;
   };
@@ -127,54 +136,69 @@ const SignupStep5 = ({ setStepNum }: ISignupStep3Props) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout onSubmit={handleLoginSubmit}>
-        <StyledInput>
-          <FormField
-            isType="email"
-            label="아이디"
-            name="email"
-            value={email}
-            placeholder="이메일을 입력해 주세요."
-            onChange={handleEmailChange}
-            errorMessage={emailMsg}
-            redErrorIcon={emailErrorIcon}
-          />
-        </StyledInput>
-        <StyledInput>
-          <FormField
-            isType="password"
-            label="비밀번호"
-            name="password"
-            value={password}
-            placeholder="영문,숫자,특수기호 포함 8~16자입니다."
-            onChange={handlePasswordChange}
-            errorMessage={''}
-            redErrorIcon="none"
-          />
-          <FormField
-            isType="password"
-            label=""
-            name="password"
-            value={passwordVerify}
-            placeholder="비밀번호를 다시 입력해 주세요."
-            onChange={handlePasswordVerify}
-            errorMessage={pwdMsg}
-            redErrorIcon={pwsErrorIcon}
-          />
-        </StyledInput>
+        <StyleContainer>
+          <StyledInput>
+            <FormField
+              isType="email"
+              label="아이디"
+              name="email"
+              value={email}
+              placeholder="이메일을 입력해 주세요."
+              onChange={handleEmailChange}
+              errorMessage={emailMsg}
+              redErrorIcon={emailErrorIcon}
+            />
+          </StyledInput>
+          <StyledInput>
+            <FormField
+              isType="password"
+              label="비밀번호"
+              name="password"
+              value={password}
+              placeholder="영문,숫자,특수기호 포함 8~16자입니다."
+              onChange={handlePasswordChange}
+              errorMessage={''}
+              redErrorIcon="none"
+            />
+            <FormField
+              isType="password"
+              label=""
+              name="password"
+              value={passwordVerify}
+              placeholder="비밀번호를 다시 입력해 주세요."
+              onChange={handlePasswordVerify}
+              errorMessage={pwdMsg}
+              redErrorIcon={pwsErrorIcon}
+            />
+          </StyledInput>
+        </StyleContainer>
+        <Button
+          size={'normal'}
+          type={'cta'}
+          title={'다음'}
+          width={'100%'}
+          disabled={disabled}
+          onClick={handleNextStep}
+        />
       </StyledLayout>
     </>
   );
 };
 const StyledLayout = styled.div`
-  padding: 0 16px;
   position: relative;
   top: 18px;
-  height: 276px;
+  height: calc(100% - 56px);
+  /* height: 276px; */
+  padding: 0 16px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   /* background-color: red; */
 `;
 
+const StyleContainer = styled.div`
+  margin-bottom: 23px;
+`;
 const StyledInput = styled.div`
   height: 98px;
   margin-bottom: 23px;
