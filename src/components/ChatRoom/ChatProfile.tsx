@@ -21,6 +21,8 @@ const ChatProfile = ({ senderId }: TsenderId) => {
   const USER_ICON = IconUser;
   const BADGE_REMITTED = IconGreenWon;
 
+  const myid = 1; //로그인시 받아오는 내 데이터 연동
+
   const handleDeclarationClick = () => {
     setDeclarationStep(1);
     setIsBottomsheetOpen(true);
@@ -46,19 +48,6 @@ const ChatProfile = ({ senderId }: TsenderId) => {
     );
   };
 
-  // const handleClickExile = () => {
-  //   openModal({
-  //     ...modalDataHost.exileExitModal,
-  //     positiveCallback: () => {
-  //       //api 호출
-  //       console.log(getName(senderId), '강퇴');
-  //     },
-  //     negativeCallback: () => {
-  //       closeModal();
-  //     }
-  //   });
-  // };
-
   const handleClickProfileIcon = () => {
     const profileModalDataGuest = {
       content: modalProfile(),
@@ -69,20 +58,23 @@ const ChatProfile = ({ senderId }: TsenderId) => {
       positive: '강퇴하기',
       negative: '닫기'
     };
-    isHost(senderId)
+    const handleClickExile = () => {
+      openModal({
+        ...modalDataHost.exileExitModal,
+        positiveCallback: () => {
+          //api 호출
+          console.log(getName(senderId), '강퇴');
+        },
+        negativeCallback: () => {
+          closeModal();
+        }
+      });
+    };
+    isHost(myid)
       ? openModal({
           ...profileModalDataHost,
           positiveCallback: () => {
-            openModal({
-              ...modalDataHost.exileExitModal,
-              positiveCallback: () => {
-                //api 호출
-                console.log(getName(senderId), '강퇴');
-              },
-              negativeCallback: () => {
-                closeModal();
-              }
-            });
+            handleClickExile();
           },
           negativeCallback: () => {
             closeModal();

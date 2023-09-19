@@ -4,10 +4,9 @@ import { getName } from './ChatFunctions';
 type Tprops = {
   senderId: number;
   type: string;
-  keyNum: number;
 };
 
-const ChatAlert = ({ senderId, type, keyNum }: Tprops) => {
+const ChatAlert = ({ senderId, type }: Tprops) => {
   const renderAlertText = (type: string) => {
     switch (type) {
       case 'REMITTED_ALERT':
@@ -16,13 +15,13 @@ const ChatAlert = ({ senderId, type, keyNum }: Tprops) => {
         return '님이 나가기 요청을 했어요! 호스트님 확인해주세요';
       case 'ENTER_ALERT':
         return '님이 참여한 배달의 모집이 완료되었습니다.';
+      default:
+        return '알람 메세지 오류!';
     }
   };
 
   return (
-    <StyledContainer
-      id={type}
-      key={keyNum}>
+    <StyledContainer id={type}>
       <StyledNameSpace>{getName(senderId)}</StyledNameSpace>
       <p>{renderAlertText(type)}</p>
     </StyledContainer>
