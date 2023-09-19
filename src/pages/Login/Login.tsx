@@ -29,7 +29,7 @@ const Login = () => {
   };
   // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {
-    navigate('/intro/register');
+    navigate('/intro/login');
     return;
   };
 
@@ -138,6 +138,7 @@ const Login = () => {
               isType="email"
               label="아이디"
               value={email}
+              name='email'
               placeholder="이메일을 입력해 주세요."
               onChange={handleEmailChange}
               errorMessage={emailMsg}
@@ -150,6 +151,7 @@ const Login = () => {
               isType="password"
               label="비밀번호"
               value={password}
+              name='password'
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}

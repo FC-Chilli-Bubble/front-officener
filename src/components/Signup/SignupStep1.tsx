@@ -4,21 +4,19 @@ import { styled } from 'styled-components';
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
 
-
-type ICheckProps = {
-  // eslint-disable-next-line no-unused-vars
-  onChildCheckChange: (isCheckedArray: boolean[]) => void;
-};
-
-
-const SignupStep1 = ({onChildCheckChange}:ICheckProps) => {
+const SignupStep1 = ({ onNextStep }) => {
   const [allChecked, setAllChecked] = useState(false);
   const [childChecked, setChildChecked] = useState([false, false, false]);
+  const [disabled, setDisabled] = useState(true);
+  const [buttonText, setbuttonText] = useState('다음');
 
   // 전체 동의 체크박스 변경 호출
   const handleAllCheckChange = () => {
-    setAllChecked(!allChecked);
-    setChildChecked([!allChecked, !allChecked, !allChecked]);
+    const newAllChecked = !allChecked;
+    setAllChecked(newAllChecked);
+    setChildChecked([newAllChecked, newAllChecked, newAllChecked]);
+    const disabled = newAllChecked || !childChecked.slice(0, -1).every(isChecked => isChecked);
+    setDisabled(!disabled);
   };
 
   // 세부 체크박스가 변경 호출
@@ -32,8 +30,16 @@ const SignupStep1 = ({onChildCheckChange}:ICheckProps) => {
     } else {
       setAllChecked(false);
     }
-    // 모든 체크박스 상태를 부모 컴포넌트로 전달
-    onChildCheckChange(newChildChecked);
+
+    const disabled = !newChildChecked.slice(0, -1).every(isChecked => isChecked);
+    setDisabled(disabled);
+  };
+
+  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
+  const handleNextStep = () => {
+    setbuttonText('로딩 중...');
+    // 버튼 텍스트를 변경하여 사용자에게 진행 중임을 알릴 수도 있습니다.
+    onNextStep();
   };
 
   return (
@@ -45,63 +51,75 @@ const SignupStep1 = ({onChildCheckChange}:ICheckProps) => {
       />
       <StyledLayout>
         <StyledContainer>
-          반가워요!
-          <br /> 오피스너입니다.
-          <div>
-            오피스너 서비스를 이용하기 위해서는 <br />
-            약관 동의가 필요해요!
-          </div>
+          <StyledBox>
+            반가워요!
+            <br /> 오피스너입니다.
+            <div>
+              오피스너 서비스를 이용하기 위해서는 <br />
+              약관 동의가 필요해요!
+            </div>
+          </StyledBox>
+          <StyledTermContainer>
+            <StyledTermBox>
+              <StyledCheckAll htmlFor="check">
+                <input
+                  type="checkbox"
+                  id="check"
+                  name="check"
+                  checked={allChecked}
+                  onChange={handleAllCheckChange}
+                />
+                <span></span>
+                전체 동의
+              </StyledCheckAll>
+            </StyledTermBox>
+            <CheckList
+              label="서비스 이용약관 (필수)"
+              checked={childChecked[0]}
+              onChange={isChecked => handleChildCheckChange(0, isChecked)}
+              isRequired={true}
+            />
+            <CheckList
+              label="개인정보 처리방침 (필수)"
+              checked={childChecked[1]}
+              onChange={isChecked => handleChildCheckChange(1, isChecked)}
+              isRequired={true}
+            />
+            <CheckList
+              label="마케팅 정보 수신 (선택)"
+              checked={childChecked[2]}
+              onChange={isChecked => handleChildCheckChange(2, isChecked)}
+              isRequired={false}
+            />
+          </StyledTermContainer>
         </StyledContainer>
-        <StyledTermContainer>
-          <StyledTermBox>
-            <StyledCheckAll htmlFor="check">
-              <input
-                type="checkbox"
-                id="check"
-                name="check"
-                checked={allChecked}
-                onChange={handleAllCheckChange}
-              />
-              <span></span>
-              전체 동의
-            </StyledCheckAll>
-          </StyledTermBox>
-          <CheckList
-            label="서비스 이용약관 (필수)"
-            checked={childChecked[0]}
-            onChange={isChecked => handleChildCheckChange(0, isChecked)}
-            isRequired={true}
-          />
-          <CheckList
-            label="개인정보 처리방침 (필수)"
-            checked={childChecked[1]}
-            onChange={isChecked => handleChildCheckChange(1, isChecked)}
-            isRequired={true}
-          />
-          <CheckList
-            label="마케팅 정보 수신 (선택)"
-            checked={childChecked[2]}
-            onChange={isChecked => handleChildCheckChange(2, isChecked)}
-            isRequired={false}
-          />
-        </StyledTermContainer>
+        <StyledButton
+          disabled={disabled}
+          onClick={handleNextStep}>
+          {buttonText}
+        </StyledButton>
       </StyledLayout>
     </>
   );
 };
 
 const StyledLayout = styled.div`
-  width: 100%;
   height: calc(100% - 56px);
   padding: 0 17px;
   padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: red; */
+  /* background-color: #00ff04; */
+`;
+const StyledContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
-const StyledContainer = styled.div`
+const StyledBox = styled.div`
   padding: 0 11px;
   display: flex;
   flex-direction: column;
@@ -115,12 +133,14 @@ const StyledContainer = styled.div`
     font-size: 16px;
     line-height: 28px;
   }
+  /* background: green; */
 `;
 
 const StyledTermContainer = styled.div`
   display: flex;
   height: 158px;
   flex-direction: column;
+  /* background-color: #0000ffac; */
 `;
 
 const StyledTermBox = styled.div`
@@ -129,7 +149,6 @@ const StyledTermBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: #0000ff20; */
   font-size: 20px;
   font-weight: 500;
   padding-bottom: 24px;
@@ -175,6 +194,22 @@ const StyledCheckAll = styled.label`
       transform: rotate(45deg);
     }
   }
+`;
+
+const StyledButton = styled.button`
+  height: 60px;
+  margin: 34px 0;
+  outline: none;
+  border: none;
+  border-radius: 8px;
+  background-color: ${({ disabled, theme }) =>
+    disabled ? theme.colors.ctaDisabledColor : theme.colors.ctaColor};
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27px;
+  color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
 `;
 
 export default SignupStep1;

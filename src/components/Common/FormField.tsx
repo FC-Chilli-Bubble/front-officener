@@ -29,43 +29,31 @@ const FormField = ({
   errorMessage,
   isValid = false,
   value,
+
   onChange
 }: TInputProps) => {
   return (
     <StyledLayout>
       {isRequired ? (
-        <StyledLabel htmlFor="input-box">
+        <StyledLabel htmlFor={isType}>
           {label}
           <Required>*</Required>
         </StyledLabel>
       ) : (
-        <RequiredLabel htmlFor="input-box">{label}</RequiredLabel>
+        <RequiredLabel htmlFor={isType}>{label}</RequiredLabel>
       )}
       <StyledContainer>
-        {redErrorIcon == 'none' ? (
-          <StyledBox
-            type={isType}
-            placeholder={placeholder}
-            id="input-box"
-            name={isType}
-            value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
-            required></StyledBox>
-        ) : (
-          <StyledErrorIBox
-            redErrorIcon={redErrorIcon}
-            type={isType}
-            placeholder={placeholder}
-            id="input-box"
-            name={isType}
-            value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
-            required></StyledErrorIBox>
-        )}
+        <StyledErrorIBox
+          redErrorIcon={redErrorIcon}
+          type={isType}
+          placeholder={placeholder}
+          id={isType}
+          name={isType}
+          value={value}
+          onChange={e => {
+            onChange(e.target.value);
+          }}
+          required></StyledErrorIBox>
         {isValid && (
           <StyledIcon
             src={IconCheck}
@@ -79,7 +67,7 @@ const FormField = ({
             src={INPUT_REDERROR_MESSAGE[redErrorIcon]}
             alt=""
           />
-          {errorMessage}
+          <span>{errorMessage}</span>
         </StyledIErrorMessage>
       )}
     </StyledLayout>
@@ -118,26 +106,27 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const StyledBox = styled.input`
-  display: flex;
-  width: 100%;
-  height: 48px;
-  padding: 13px 24px;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.grayColor3};
-  }
-  &:focus {
-    color: ${({ theme }) => theme.colors.grayColor9};
-    border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
-    &::placeholder {
-      color: transparent;
-    }
-  }
-`;
+// const StyledBox = styled.input`
+//   display: flex;
+//   width: 100%;
+//   height: 48px;
+//   padding: 13px 24px;
+//   align-items: center;
+//   gap: 10px;
+//   border-radius: 8px;
+//   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
+//   &::placeholder {
+//     color: ${({ theme }) => theme.colors.grayColor3};
+//   }
+//   &:focus {
+//     color: ${({ theme }) => theme.colors.grayColor9};
+//     border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+//     &::placeholder {
+//       color: transparent;
+//     }
+//   }
+// `;
+
 const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
   width: 100%;
@@ -173,7 +162,7 @@ const StyledIcon = styled.img`
   cursor: pointer;
 `;
 
-const StyledIErrorMessage = styled.span<{ redErrorIcon: ErrorRedIconType }>`
+const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
   color: ${({ redErrorIcon, theme }) => {
     if (redErrorIcon === 'none') {
