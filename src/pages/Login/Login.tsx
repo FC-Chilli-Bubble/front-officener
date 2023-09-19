@@ -29,7 +29,7 @@ const Login = () => {
   };
   // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {
-    navigate('/intro/login');
+    navigate('/intro/signup');
     return;
   };
 
