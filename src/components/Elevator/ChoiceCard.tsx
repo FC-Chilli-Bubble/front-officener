@@ -5,8 +5,8 @@ import Down from '@/assets/icon_elevatorDown.svg';
 
 interface IObjectElevators {
   elevatorId: number;
-  floor?: number | undefined;
-  direction: 'stop' | 'up' | 'down';
+  floor: number | null;
+  direction: 'stop' | 'up' | 'down' | null;
   status: 'normal' | 'repair' | 'full';
 }
 
@@ -15,13 +15,15 @@ type TChoiceCardProps = {
 };
 
 const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
-  const ElevatorSetting = (direction: string) => {
-    if (direction === 'stop') {
-      return <img src={Stop} />;
-    } else if (direction === 'up') {
-      return <img src={Up} />;
-    } else {
+  const ElevatorSetting = (direction: string | null) => {
+    if (direction === 'down') {
       return <img src={Down} />;
+    }
+    if (direction === 'up') {
+      return <img src={Up} />;
+    }
+    {
+      return <img src={Stop} />;
     }
   };
 
