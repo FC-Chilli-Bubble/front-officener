@@ -1,16 +1,23 @@
 import { styled } from 'styled-components';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DummyElevators } from './Dummydata';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
-import { useState } from 'react';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
 import MissingCard from '@/components/Elevator/MissingCard';
 import FloorList from '@/components/Elevator/FloorList';
-import { DummyElevators } from './Dummydata';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleClickClose = () => {
+    navigate(-1);
+  };
 
   const handleElevatorSetting = () => {
     setOpen(true);
@@ -26,6 +33,7 @@ const ElevatorHome = () => {
       <Header
         leftIcon="back"
         title="엘리베이터"
+        leftIconClick={handleClickClose}
       />
       <StyledContainer>
         <StyledStyledElevatorSetting>
