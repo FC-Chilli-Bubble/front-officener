@@ -5,7 +5,7 @@ import IconGreenWon from '@/assets/chatrooms/ico_wonGreen.svg';
 import { getName, isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
 import { MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { useModal } from '@/hooks/useModal';
-import ChatProfileModal from './ChatProfileModal';
+import ChatProfileModal from '@/components/ChatRoom/ChatProfileModal';
 
 type TsenderId = {
   senderId: number;
