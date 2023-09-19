@@ -1,29 +1,99 @@
 import styled from 'styled-components';
 import IconUser from '@/assets/ico_user.svg';
 import IconGreenWon from '@/assets/chatrooms/ico_wonGreen.svg';
-import { getName, isRemitted } from './ChatFunctions';
+import { getCompany, getName, isHost, isRemitted } from './ChatFunctions';
+import { modalDataHost } from '@/constants/chatRoomModalData';
 import { useModal } from '@/hooks/useModal';
+import { useSetRecoilState } from 'recoil';
+import {
+  declarationStepAtom,
+  isDeclarationBottomsheetOpenAtom
+} from '@/states/chatDeclarationAtom';
 
 type TsenderId = {
   senderId: number;
 };
 
 const ChatProfile = ({ senderId }: TsenderId) => {
+  const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
+  const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const { openModal, closeModal } = useModal();
   const USER_ICON = IconUser;
   const BADGE_REMITTED = IconGreenWon;
 
+  const handleDeclarationClick = () => {
+    setDeclarationStep(1);
+    setIsBottomsheetOpen(true);
+  };
+
+  const modalProfile = () => {
+    return (
+      <StyledProfileModal>
+        <StyledIcon>
+          <img
+            src={USER_ICON}
+            alt=""
+          />
+        </StyledIcon>
+        <div>
+          <StyledNameWrap>
+            <StyledName>{getName(senderId)}</StyledName>
+            <StyledButton onClick={handleDeclarationClick}>신고</StyledButton>
+          </StyledNameWrap>
+          <div>{getCompany(senderId)}</div>
+        </div>
+      </StyledProfileModal>
+    );
+  };
+
+  // const handleClickExile = () => {
+  //   openModal({
+  //     ...modalDataHost.exileExitModal,
+  //     positiveCallback: () => {
+  //       //api 호출
+  //       console.log(getName(senderId), '강퇴');
+  //     },
+  //     negativeCallback: () => {
+  //       closeModal();
+  //     }
+  //   });
+  // };
+
   const handleClickProfileIcon = () => {
-    const profileModalData = {
-      content: getName(senderId),
+    const profileModalDataGuest = {
+      content: modalProfile(),
       positive: '닫기'
     };
-    openModal({
-      ...profileModalData,
-      positiveCallback: () => {
-        closeModal();
-      }
-    });
+    const profileModalDataHost = {
+      content: modalProfile(),
+      positive: '강퇴하기',
+      negative: '닫기'
+    };
+    isHost(senderId)
+      ? openModal({
+          ...profileModalDataHost,
+          positiveCallback: () => {
+            openModal({
+              ...modalDataHost.exileExitModal,
+              positiveCallback: () => {
+                //api 호출
+                console.log(getName(senderId), '강퇴');
+              },
+              negativeCallback: () => {
+                closeModal();
+              }
+            });
+          },
+          negativeCallback: () => {
+            closeModal();
+          }
+        })
+      : openModal({
+          ...profileModalDataGuest,
+          positiveCallback: () => {
+            closeModal();
+          }
+        });
   };
 
   return (
@@ -50,10 +120,29 @@ const StyledProfileCard = styled.div`
   align-items: center;
   gap: 8px;
 `;
+const StyledProfileModal = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+`;
 const StyledIcon = styled.div`
   width: 46px;
   height: 46px;
   cursor: pointer;
 `;
-
+const StyledNameWrap = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 6px;
+`;
+const StyledName = styled.div`
+  font-size: 20px;
+`;
+const StyledButton = styled.div`
+  border: none;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.grayColor6};
+  cursor: pointer;
+`;
 export default ChatProfile;
