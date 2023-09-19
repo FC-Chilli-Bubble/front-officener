@@ -20,6 +20,7 @@ const colors = {
   grayColor6: '#4B5563', // font gray color
   grayColor9: '#111827',
   grayColor10: '#9D9D9D',
+  grayColor11: '#636363',
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color
   marinblueColor: '#2563EB', // 파란 배경 marinblue-l1
