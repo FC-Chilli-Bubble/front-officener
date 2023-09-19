@@ -44,21 +44,15 @@ const ElevatorHome = () => {
               isOpen={isOpen}
               onClose={() => setOpen(false)}>
               <>
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                  }}>
-                  닫기
-                </button>
                 <FloorList closeSheet={closeBottomSheet} />
               </>
             </BottomSheetModal>
           </StyledSettingButton>
         </StyledStyledElevatorSetting>
         <StyledElevators>
-          {
-            DummyElevators.map(elevator => <ChoiceCard elevator={elevator} />)
-          }
+          {DummyElevators.map(elevator => (
+            <ChoiceCard elevator={elevator} />
+          ))}
         </StyledElevators>
       </StyledContainer>
     </StyledLayout>

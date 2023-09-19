@@ -1,14 +1,13 @@
 import Stop from 'assets/icon_elevatorStop.svg';
 import Up from 'assets/icon_elevatorUp.svg';
 import Down from 'assets/icon_elevatorDown.svg';
-import { DummyElevators } from '@/pages/Elevator/Dummydata';
 import styled from 'styled-components';
 
 interface IObjectElevators {
   elevatorId: number;
   floor?: number | undefined;
-  direction: "stop" | "up" | "down";
-  status: "normal" | "repair" | "full";
+  direction: 'stop' | 'up' | 'down';
+  status: 'normal' | 'repair' | 'full';
 }
 
 type TChoiceCardProps = {
@@ -27,7 +26,9 @@ const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
   };
 
   return (
-    <StyledElevator key={elevator.elevatorId}>
+    <StyledElevator
+      key={elevator.elevatorId}
+      status={elevator.status}>
       <div className="title">
         <h2>{elevator.elevatorId}호기</h2>
       </div>
@@ -36,19 +37,27 @@ const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
         <p>{ElevatorSetting(elevator.direction)}</p>
       </div>
       <StyledStatus status={elevator.status}>
-        <p className='full'>만원</p>
-        <p className='repair'>수리중</p>
+        <p className="full">만원</p>
+        <p className="repair">수리중</p>
       </StyledStatus>
     </StyledElevator>
   );
 };
 
-const StyledElevator = styled.li`
+const StyledElevator = styled.li<{ status: string }>`
   width: 100%;
   max-width: 200px;
-  border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+  border: 1px solid
+    ${({ status, theme }) =>
+      status === 'full'
+        ? theme.colors.redColor0
+        : theme.colors.marinblueColor && status === 'normal'
+        ? theme.colors.marinblueColor
+        : theme.colors.white && status === 'repair'
+        ? theme.colors.white
+        : theme.colors.marinblueColor};
   border-radius: 20px;
-  box-shadow: ${({ theme }) => theme.dropShadow.depth3};
+  box-shadow: ${({ theme }) => theme.dropShadow.depth2};
   .title {
     color: ${({ theme }) => theme.colors.grayColor6};
     margin-top: 17px;
@@ -67,25 +76,26 @@ const StyledElevator = styled.li`
   }
 `;
 
-const StyledStatus = styled.div<{ status: string; }>`
-
+const StyledStatus = styled.div<{ status: string }>`
   height: 60px;
   margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
 
-    p {
-      font-size: 25px;
-      font-weight: 400;
+  p {
+    font-size: 25px;
+    font-weight: 400;
 
-      &.full {
-        color: ${({ status, theme }) => status === "full" ? theme.colors.redColor0 : theme.colors.grayColor3};
-      }
-
-      &.repair {
-        color: ${({ status, theme }) => status === 'repair' ? theme.colors.marinblueColor : theme.colors.grayColor3};
-      }
+    &.full {
+      color: ${({ status, theme }) =>
+        status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};
     }
+
+    &.repair {
+      color: ${({ status, theme }) =>
+        status === 'repair' ? theme.colors.marinblueColor : theme.colors.grayColor3};
+    }
+  }
 `;
 
 export default ChoiceCard;

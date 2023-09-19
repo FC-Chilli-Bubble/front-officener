@@ -4,25 +4,36 @@ import { useRecoilState } from 'recoil';
 
 import Tag from '@/components/Common/Tag';
 import { Floor_TAG } from '@/constants/commonUiData';
-import { postTagAtom } from '@/states/postTagAtom';
-import { postAtom } from '@/states/postAtom';
+import { floorAtom } from '@/states/floorAtom';
 
 type TFloorListProps = {
   closeSheet: () => void;
 };
 
 const FloorList = React.memo(({ closeSheet }: TFloorListProps) => {
-  const [postData, setPostData] = useRecoilState(postAtom);
-  const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
-  const [selectedTag, setSelectedTag] = useState<string>(savedTag);
+  // 1. api 호출
+  // 2. 응답 -> [1, 2, 3, 4]
+  // 3. setSavedTags([1,2,3,4])
+  // 4.
+  const [savedTags, setSavedTags] = useRecoilState(floorAtom);
+  const [selectedTags, setSelectedTags] = useState<string[]>(savedTags);
 
   const handleClickTag = (tag: string) => {
-    setSelectedTag(tag);
+    // 이미 선택되어 있는 경우 선택 해제
+    console.log('selectedTags : ', selectedTags);
+    if (selectedTags.includes(tag)) {
+      const newTags = selectedTags.filter(t => t !== tag);
+      console.log('newTags : ', newTags);
+      setSelectedTags(newTags);
+      return;
+    }
+    // 선택 처리
+    setSelectedTags([...selectedTags, tag]);
+    console.log('selectedTags2 : ', [...selectedTags, tag]);
   };
 
   const handleSaveTag = () => {
-    setPostData({ ...postData, tag: selectedTag ?? '' });
-    setSavedTag(selectedTag);
+    setSavedTags(selectedTags);
     closeSheet();
   };
 
@@ -30,7 +41,7 @@ const FloorList = React.memo(({ closeSheet }: TFloorListProps) => {
     <StyledContainer>
       <StyledConfirm
         onClick={handleSaveTag}
-        disabled={selectedTag === ''}>
+        disabled={selectedTags.length === 0}>
         확인
       </StyledConfirm>
       <div>
@@ -43,7 +54,7 @@ const FloorList = React.memo(({ closeSheet }: TFloorListProps) => {
             <Tag
               width="fixed"
               title={tag}
-              isActive={selectedTag === tag}
+              isActive={selectedTags.includes(tag)}
               onClick={() => {
                 handleClickTag(tag);
               }}
