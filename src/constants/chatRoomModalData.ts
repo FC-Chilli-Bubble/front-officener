@@ -1,4 +1,4 @@
-export const modalDataGuest = {
+export const MODAL_DATA_GUEST = {
   sendModal: {
     title: '호스트에게 송금 완료 하셨나요?',
     positive: '예',
@@ -27,7 +27,7 @@ export const modalDataGuest = {
     positive: '닫기'
   }
 };
-export const modalDataHost = {
+export const MODAL_DATA_HOST = {
   participationEndsdModal: {
     title: '추가적인 참여자가 들어올 수 없도록 참여를 마감합니다.',
     positive: '예',

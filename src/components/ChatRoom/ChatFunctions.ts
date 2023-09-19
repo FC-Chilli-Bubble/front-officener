@@ -1,4 +1,4 @@
-import { messageData } from '../../apis/dummy_ChatAPI';
+import { messageData } from '@/apis/dummy_ChatAPI';
 
 export const getName = (senderId: number) => {
   const getMemberData = messageData.members.find(member => member.id === senderId);

@@ -17,6 +17,7 @@ const ChatInput = () => {
     setInputValue('');
   };
 
+  //엔터 누를 때 보내기
   const handleKeyPress = e => {
     e.key === 'Enter' && handleSubmit(e);
   };

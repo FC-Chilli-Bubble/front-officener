@@ -7,6 +7,7 @@ type Tprops = {
 };
 
 const ChatAlert = ({ senderId, type }: Tprops) => {
+  //알람 타입 지정
   const renderAlertText = (type: string) => {
     switch (type) {
       case 'REMITTED_ALERT':

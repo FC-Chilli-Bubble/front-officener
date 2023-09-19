@@ -18,6 +18,7 @@ const ChatDeclarationBotomSheet = () => {
     setIsBottomsheetOpen(false);
   };
 
+  //단계별로 컴포넌트 실행
   const renderBottomSheet = () => {
     switch (declarationStep) {
       case 1:

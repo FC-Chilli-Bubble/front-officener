@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   chatDeclarationDataAtom,
   declarationStepAtom,
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
+import styled from 'styled-components';
 
 const ChatDeclarationStep1 = () => {
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
@@ -40,7 +40,13 @@ const ChatDeclarationStep1 = () => {
         <StyledCancelButton onClick={handleCloseBottomSheet}>취소</StyledCancelButton>
       </StyledSheetBoxTitle>
       {DECLARATION_DATA.map(data => {
-        return <StyledCategory onClick={() => handleCategoryClick(data)}>{data}</StyledCategory>;
+        return (
+          <StyledCategory
+            key={data}
+            onClick={() => handleCategoryClick(data)}>
+            {data}
+          </StyledCategory>
+        );
       })}
     </StyledSheetContainer>
   );

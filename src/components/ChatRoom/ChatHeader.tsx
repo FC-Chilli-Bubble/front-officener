@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useModal } from '@/hooks/useModal';
-import { modalDataGuest, modalDataHost } from '@/constants/chatRoomModalData';
+import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from '@/components/Common/Button';
@@ -15,8 +15,8 @@ const ChatHeader = () => {
   //로그인시 데이터 내려받아 사용
   const changeButtonnGuest = isRemitted(myid) ? '수령완료' : '송금완료';
   const changeModalGuest = isRemitted(myid)
-    ? modalDataGuest.receiveModal
-    : modalDataGuest.sendModal;
+    ? MODAL_DATA_GUEST.receiveModal
+    : MODAL_DATA_GUEST.sendModal;
 
   const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(false);
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
@@ -24,7 +24,7 @@ const ChatHeader = () => {
   const handleClickHostButton = (title: string) => {
     title === '배달'
       ? openModal({
-          ...modalDataHost.receiveModal,
+          ...MODAL_DATA_HOST.receiveModal,
           positiveCallback: () => {
             console.log('버튼클릭완료');
             //api 통신 연결
@@ -35,7 +35,7 @@ const ChatHeader = () => {
           }
         })
       : openModal({
-          ...modalDataHost.participationEndsdModal,
+          ...MODAL_DATA_HOST.participationEndsdModal,
           positiveCallback: () => {
             console.log('버튼클릭완료');
             //api 통신 연결

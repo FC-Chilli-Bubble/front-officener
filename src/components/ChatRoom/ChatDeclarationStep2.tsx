@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
 import { useState } from 'react';
+import styled from 'styled-components';
 
 const ChatDeclarationStep1 = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);

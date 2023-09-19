@@ -23,22 +23,30 @@ const Modal = () => {
 
   return (
     <>
-      {
-        modalState.isOpen && (
-          <StyledModalLayout>
-            <StyledModalContainer onClick={closeModal}>
-              <StyledModal>
-                <h2>{modalState.title}</h2>
-                {modalState.content && <p>{modalState.content}</p>}
-                <StyledButtonBox>
-                  <Button title={modalState.positive} onClick={handlePositiveClick} size='small' />
-                  {modalState.negative && <OutlineButton title={modalState.negative} onClick={handleNegativeClick} size='small' />}
-                </StyledButtonBox>
-              </StyledModal>
-            </StyledModalContainer>
-          </StyledModalLayout>
-        )
-      }
+      {modalState.isOpen && (
+        <StyledModalLayout>
+          <StyledModalContainer onClick={closeModal}>
+            <StyledModal>
+              <h2>{modalState.title}</h2>
+              {modalState.content && <div>{modalState.content}</div>}
+              <StyledButtonBox>
+                <Button
+                  title={modalState.positive}
+                  onClick={handlePositiveClick}
+                  size="small"
+                />
+                {modalState.negative && (
+                  <OutlineButton
+                    title={modalState.negative}
+                    onClick={handleNegativeClick}
+                    size="small"
+                  />
+                )}
+              </StyledButtonBox>
+            </StyledModal>
+          </StyledModalContainer>
+        </StyledModalLayout>
+      )}
     </>
   );
 };
@@ -66,7 +74,6 @@ const StyledModal = styled.div`
   text-align: center;
   width: 310px;
   margin: auto;
-  
 
   h2 {
     font-size: 14px;
@@ -74,7 +81,7 @@ const StyledModal = styled.div`
     color: ${({ theme }) => theme.colors.grayColor6};
   }
 
-  p {
+  div {
     margin-top: 13px;
     font-size: 12px;
     line-height: 18px;

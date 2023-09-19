@@ -138,16 +138,16 @@ export const messageData = {
       name: '김종팔',
       companyName: '아모레시픽 컴퍼니',
       profileImage: '김종팔.png',
-      amI: false,
+      amI: true,
       isHost: true,
-      hasRemitted: true
+      hasRemitted: false
     },
     {
       id: 2,
       name: '김종국',
       companyName: '아모레시픽 컴퍼니',
       profileImage: '서울대김종국.png',
-      amI: true,
+      amI: false,
       isHost: false,
       hasRemitted: true
     },

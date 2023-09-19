@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import IconUser from '@/assets/ico_user.svg';
 import IconGreenWon from '@/assets/chatrooms/ico_wonGreen.svg';
-import { getCompany, getName, isHost, isRemitted } from './ChatFunctions';
-import { modalDataHost } from '@/constants/chatRoomModalData';
+import { getCompany, getName, isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
+import { MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { useModal } from '@/hooks/useModal';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -60,7 +60,7 @@ const ChatProfile = ({ senderId }: TsenderId) => {
     };
     const handleClickExile = () => {
       openModal({
-        ...modalDataHost.exileExitModal,
+        ...MODAL_DATA_HOST.exileExitModal,
         positiveCallback: () => {
           //api 호출
           console.log(getName(senderId), '강퇴');

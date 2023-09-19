@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import { messageData } from '../../apis/dummy_ChatAPI';
-import { isSenderMe } from './ChatFunctions';
-import ChatAlert from './ChatAlert';
-import ChatProfile from './ChatProfile';
+import { messageData } from '@/apis/dummy_ChatAPI';
+import { isSenderMe } from '@/components/ChatRoom/ChatFunctions';
 import { useEffect, useRef } from 'react';
+import ChatAlert from '@/components/ChatRoom/ChatAlert';
+import ChatProfile from '@/components/ChatRoom/ChatProfile';
 
 type TMessageContent = {
   messageId: number;
@@ -14,11 +14,12 @@ type TMessageContent = {
 };
 const ChatBubble = () => {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
-
+  //맨 끝으로 렌더
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'auto' });
   }, []);
 
+  //말풍선 렌더
   const renderChatStyledBubbles = (messageContent: TMessageContent, index: number) => {
     //이전의 메세지와 보내는 사람이 같은지 판별
     const isSameAuthorAsPrevious =
