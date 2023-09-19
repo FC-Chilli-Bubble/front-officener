@@ -40,5 +40,4 @@ const StyledBox = styled.div`
   }
 `;
 
-
 export default NavLayout;
