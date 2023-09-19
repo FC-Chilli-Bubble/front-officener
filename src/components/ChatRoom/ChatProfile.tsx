@@ -25,6 +25,7 @@ const ChatProfile = ({ senderId }: TsenderId) => {
 
   const handleDeclarationClick = () => {
     setDeclarationStep(1);
+    closeModal();
     setIsBottomsheetOpen(true);
   };
 
@@ -125,6 +126,7 @@ const StyledIcon = styled.div`
 `;
 const StyledNameWrap = styled.div`
   display: flex;
+  align-items: end;
   gap: 20px;
   margin-bottom: 6px;
 `;

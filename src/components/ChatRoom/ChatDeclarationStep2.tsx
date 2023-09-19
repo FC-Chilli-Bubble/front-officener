@@ -7,9 +7,11 @@ const ChatDeclarationStep1 = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
   const [textAreaValue, setTextAreaValue] = useState('');
+  const [textAreaCount, setTextAreaCount] = useState(0);
 
   const handleOnChange = e => {
     setTextAreaValue(e.target.value);
+    setTextAreaCount(e.target.value.length);
   };
 
   const handleBackClick = () => {
@@ -26,8 +28,11 @@ const ChatDeclarationStep1 = () => {
       <StyledSheetBoxTitle>채팅메시지 신고</StyledSheetBoxTitle>
       <StyledInputWrep>
         <StyledText>더 자세히 알려주세요</StyledText>
-        <StyledTextarea onChange={handleOnChange} />
-        <StyledTextCount>0/2000</StyledTextCount>
+        <StyledTextarea
+          onChange={handleOnChange}
+          maxLength={2000}
+        />
+        <StyledTextCount>{textAreaCount}/2000</StyledTextCount>
       </StyledInputWrep>
       <StyledButtonWrep>
         <StyledButton onClick={handleBackClick}>뒤로</StyledButton>
