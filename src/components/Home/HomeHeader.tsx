@@ -1,13 +1,16 @@
 import { styled } from "styled-components";
 
 import IconBell from '@/assets/ico_bell_w.svg';
+import { Link } from "react-router-dom";
 
 const HomeHeader = () => {
   return (
     <StyledHeader>
       <h1>오피스너</h1>
       <div>
-        <img src={IconBell} alt="알림" />
+        <Link to={'/notification'}>
+          <img src={IconBell} alt="알림" />
+        </Link>
       </div>
     </StyledHeader>
   );
