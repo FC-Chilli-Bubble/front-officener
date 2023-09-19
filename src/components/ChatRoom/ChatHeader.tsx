@@ -1,10 +1,65 @@
+import { useState } from 'react';
 import { styled } from 'styled-components';
-import Button from '../Common/Button';
-import IconCopy from '@/assets/ico_copy.svg';
-import IconWon from '@/assets/ico_won.svg';
-import IconAlarm from '@/assets/ico_alarm.svg';
+import { useModal } from '@/hooks/useModal';
+import { modalDataGuest, modalDataHost } from '@/constants/chatRoomModalData';
+import { isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Button from '@/components/Common/Button';
+import IconCopy from '@/assets/chatrooms/ico_copy.svg';
+import IconWon from '@/assets/chatrooms/ico_won.svg';
+import IconAlarm from '@/assets/chatrooms/ico_alarm.svg';
 
 const ChatHeader = () => {
+  const { openModal, closeModal } = useModal();
+  const myid = 1;
+  //로그인시 데이터 내려받아 사용
+  const changeButtonnGuest = isRemitted(myid) ? '수령완료' : '송금완료';
+  const changeModalGuest = isRemitted(myid)
+    ? modalDataGuest.receiveModal
+    : modalDataGuest.sendModal;
+
+  const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(false);
+  const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
+
+  const handleClickHostButton = (title: string) => {
+    title === '배달'
+      ? openModal({
+          ...modalDataHost.receiveModal,
+          positiveCallback: () => {
+            console.log('버튼클릭완료');
+            //api 통신 연결
+            setIsReceiveButtonDisabled(true);
+          },
+          negativeCallback: () => {
+            closeModal();
+          }
+        })
+      : openModal({
+          ...modalDataHost.participationEndsdModal,
+          positiveCallback: () => {
+            console.log('버튼클릭완료');
+            //api 통신 연결
+            setIsEndButtonDisabled(true);
+          },
+          negativeCallback: () => {
+            closeModal();
+          }
+        });
+  };
+
+  const handleClickGuestButton = () => {
+    openModal({
+      ...changeModalGuest,
+      positiveCallback: () => {
+        console.log('버튼클릭완료');
+        //api 통신 연결
+      },
+      negativeCallback: () => {
+        closeModal();
+      }
+    });
+  };
+
   const roomInfo = {
     bankName: '카카오뱅크',
     acountNumber: '12312314123',
@@ -29,15 +84,17 @@ const ChatHeader = () => {
           </StyledIcon>
           호스트 계좌번호
         </StyledDetailTitle>
-        <div>
-          {roomInfo.bankName} {roomInfo.acountNumber}
-        </div>
-        <StyledIcon>
-          <img
-            src={CHAT_HEADER_ICONS['copy']}
-            alt=""
-          />
-        </StyledIcon>
+        <CopyToClipboard text={`${roomInfo.bankName} ${roomInfo.acountNumber}`}>
+          <StyledAcountNumber>
+            {roomInfo.bankName} {roomInfo.acountNumber}
+            <StyledIconButton>
+              <img
+                src={CHAT_HEADER_ICONS['copy']}
+                alt=""
+              />
+            </StyledIconButton>
+          </StyledAcountNumber>
+        </CopyToClipboard>
       </StyledDetail>
       <StyledDetail>
         <StyledDetailTitle>
@@ -51,11 +108,28 @@ const ChatHeader = () => {
         </StyledDetailTitle>
         <div>{roomInfo.limitTime}</div>
       </StyledDetail>
-      <Button
-        size="small"
-        title="송금완료"
-        onClick={() => console.log('송금완료')}
-      />
+      {isHost(myid) ? (
+        <StyledButtonWrap>
+          <Button
+            size="small"
+            title="배달완료"
+            onClick={() => handleClickHostButton('배달')}
+            disabled={isReceiveButtonDisabled}
+          />
+          <Button
+            size="small"
+            title="참여 마감하기"
+            onClick={() => handleClickHostButton('참여마감')}
+            disabled={isEndButtonDisabled}
+          />
+        </StyledButtonWrap>
+      ) : (
+        <Button
+          size="small"
+          title={changeButtonnGuest}
+          onClick={handleClickGuestButton}
+        />
+      )}
     </StyledContainer>
   );
 };
@@ -92,6 +166,24 @@ const StyledIcon = styled.div`
   width: 16px;
   height: 16px;
   cursor: pointer;
+`;
+const StyledAcountNumber = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const StyledIconButton = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+`;
+const StyledButtonWrap = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  padding: 0 8px;
 `;
 
 export default ChatHeader;

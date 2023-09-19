@@ -3,6 +3,7 @@ import { messageData } from '../../apis/dummy_ChatAPI';
 import { isSenderMe } from './ChatFunctions';
 import ChatAlert from './ChatAlert';
 import ChatProfile from './ChatProfile';
+import { useEffect, useRef } from 'react';
 
 type TMessageContent = {
   messageId: number;
@@ -12,6 +13,12 @@ type TMessageContent = {
   sendTime: string;
 };
 const ChatBubble = () => {
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'auto' });
+  }, []);
+
   const renderChatStyledBubbles = (messageContent: TMessageContent, index: number) => {
     //이전의 메세지와 보내는 사람이 같은지 판별
     const isSameAuthorAsPrevious =
@@ -48,10 +55,11 @@ const ChatBubble = () => {
           <ChatAlert
             senderId={messageContent.senderId}
             type={messageContent.messageType}
-            keyNum={messageContent.messageId}
+            key={messageContent.messageId}
           />
         );
       })}
+      <div ref={messageEndRef}></div>
     </StyledContainer>
   );
 };
