@@ -7,16 +7,22 @@ import { useModal } from '@/hooks/useModal';
 const Modal = () => {
   const { modalState, closeModal } = useModal();
 
-  const handleNegativeClick = () => {
+  const handleNegativeClick = (event?: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     if (modalState.negativeCallback) {
+      closeModal();
       modalState.negativeCallback();
+      return;
     }
     closeModal();
   };
 
-  const handlePositiveClick = () => {
+  const handlePositiveClick = (event?: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     if (modalState.positiveCallback) {
+      closeModal();
       modalState.positiveCallback();
+      return;
     }
     closeModal();
   };
@@ -26,9 +32,17 @@ const Modal = () => {
       {modalState.isOpen && (
         <StyledModalLayout>
           <StyledModalContainer onClick={closeModal}>
-            <StyledModal>
-              <h2>{modalState.title}</h2>
-              {modalState.content && <div>{modalState.content}</div>}
+            <StyledModal
+              onClick={e => {
+                e.stopPropagation();
+              }}>
+              {modalState.title && <h2>{modalState.title}</h2>}
+              {modalState.content &&
+                (typeof modalState.content === 'string' ? (
+                  <StyledMessage>{modalState.content}</StyledMessage>
+                ) : (
+                  modalState.content
+                ))}
               <StyledButtonBox>
                 <Button
                   title={modalState.positive}
@@ -80,13 +94,13 @@ const StyledModal = styled.div`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.grayColor6};
   }
+`;
 
-  div {
-    margin-top: 13px;
-    font-size: 12px;
-    line-height: 18px;
-    color: ${({ theme }) => theme.colors.grayColor5};
-  }
+const StyledMessage = styled.p`
+  margin-top: 13px;
+  font-size: 12px;
+  line-height: 18px;
+  color: ${({ theme }) => theme.colors.grayColor5};
 `;
 
 const StyledButtonBox = styled.div`

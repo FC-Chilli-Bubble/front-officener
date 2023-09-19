@@ -12,6 +12,7 @@ import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
 import MyPage from '@/pages/MyPage/MyPage';
 import MyProfile from '@/pages/MyPage/MyProfile';
+import Notification from '@/pages/Notification/Notification';
 import ChatRoom from '@/pages/ChatRoom/ChatRoom';
 
 export const router = createBrowserRouter([
@@ -72,6 +73,11 @@ export const router = createBrowserRouter([
           {
             path: '/mypage/profile',
             element: <MyProfile />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/notification',
+            element: <Notification />,
             errorElement: <ErrorComponent />
           },
           {
