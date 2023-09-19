@@ -6,10 +6,15 @@ import Deliverypage from '@/pages/Deliverypage/DeliveryPage';
 import DetailsPage from '@/pages/Deliverypage/DetailsPage';
 import Login from '@/pages/Login/Login';
 import Register from '@/pages/Register/Register';
+import Intro from '@/pages/Register/Intro';
+import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
 import Layout from '@/components/Common/Layout';
 import NavLayout from '@/components/Common/NavLayout';
+import MyPage from '@/pages/MyPage/MyPage';
+import MyProfile from '@/pages/MyPage/MyProfile';
+import Notification from '@/pages/Notification/Notification';
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +42,11 @@ export const router = createBrowserRouter([
             path: '/Deliverypage',
             element: <Deliverypage />,
             errorElement: <ErrorComponent />
+          },
+          {
+            path: '/mypage',
+            element: <MyPage />,
+            errorElement: <ErrorComponent />
           }
         ]
       },
@@ -52,8 +62,28 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/register',
+            path: '/intro',
+            element: <Intro />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/intro/register',
             element: <Register />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/delivery/post',
+            element: <DeliveryPost />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/mypage/profile',
+            element: <MyProfile />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/notification',
+            element: <Notification />,
             errorElement: <ErrorComponent />
           },
           {

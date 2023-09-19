@@ -6,6 +6,7 @@ const colors = {
   ctaPressedColor: '#203787',
   ctaDisabledColor: '#DAE9FE',
   primaryColor: '#E7F2FE', // 연한 버튼
+  primaryHoverColor: '#E7F2FE80', // 연한 버튼
   primaryPressedColor: '#C0D4F8',
   primaryDisabledColor: '#D4E3FB66',
   errorColor: '#DE291D',
@@ -21,7 +22,8 @@ const colors = {
   barBorderColor: '#D8D8D8', // nav bar border
   navColor: '#1F2937', // navigation Icon Color
   marinblueColor: '#2563EB', // 파란 배경 marinblue-l1
-  redColor0: '#F13D2C'
+  redColor0: '#F13D2C',
+  grayColor90: '#1a1a1a'
 };
 
 const dropShadow = {

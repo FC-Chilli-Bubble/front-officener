@@ -19,7 +19,6 @@ export const HEADER_LEFT_ICONS = {
   none: null
 };
 
-
 export const INPUT_ERROR_MESSAGE = {
   error: IconError,
   none: null
@@ -60,8 +59,8 @@ export const NAV_MENU = [
     title: 'My',
     active: IconMy,
     inactive: IconMyOff,
-    path: '#',
-    name: '/my-page'
+    path: '/mypage',
+    name: '/mypage'
   }
 ];
 
@@ -77,5 +76,39 @@ export const HOME_OFFICE = [
   {
     title: '공지사항',
     content: '10월 입주자 정기회의 일정 안내'
+  }
+];
+
+export const FOOD_TAG = [
+  '족발,보쌈',
+  '회,일식',
+  '찜,탕,찌개',
+  '피자',
+  '치킨',
+  '아시안',
+  '백반',
+  '분식',
+  '카페,디저트',
+  '중식',
+  '고기,구이',
+  '도시락'
+];
+
+export const MY_PAGE_MENU = [
+  {
+    title: '내 정보 보기',
+    path: '/mypage/profile'
+  },
+  {
+    title: '오피스 관리',
+    path: '#'
+  },
+  {
+    title: '구성원 관리',
+    path: '#'
+  },
+  {
+    title: '설정',
+    path: '#'
   }
 ];

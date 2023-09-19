@@ -7,16 +7,22 @@ import { useModal } from '@/hooks/useModal';
 const Modal = () => {
   const { modalState, closeModal } = useModal();
 
-  const handleNegativeClick = () => {
+  const handleNegativeClick = (event?: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     if (modalState.negativeCallback) {
+      closeModal();
       modalState.negativeCallback();
+      return;
     }
     closeModal();
   };
 
-  const handlePositiveClick = () => {
+  const handlePositiveClick = (event?: React.MouseEvent<HTMLElement>) => {
+    event?.stopPropagation();
     if (modalState.positiveCallback) {
+      closeModal();
       modalState.positiveCallback();
+      return;
     }
     closeModal();
   };
@@ -27,9 +33,12 @@ const Modal = () => {
         modalState.isOpen && (
           <StyledModalLayout>
             <StyledModalContainer onClick={closeModal}>
-              <StyledModal>
-                <h2>{modalState.title}</h2>
-                {modalState.content && <p>{modalState.content}</p>}
+              <StyledModal onClick={(e) => { e.stopPropagation(); }}>
+                {modalState.title && <h2>{modalState.title}</h2>}
+                {modalState.content && (typeof modalState.content === 'string'
+                  ? <StyledMessage>{modalState.content}</StyledMessage>
+                  : modalState.content)
+                }
                 <StyledButtonBox>
                   <Button title={modalState.positive} onClick={handlePositiveClick} size='small' />
                   {modalState.negative && <OutlineButton title={modalState.negative} onClick={handleNegativeClick} size='small' />}
@@ -45,7 +54,6 @@ const Modal = () => {
 
 const StyledModalLayout = styled.div`
   width: 100%;
-  z-index: 9999;
 `;
 
 const StyledModalContainer = styled.div`
@@ -57,6 +65,7 @@ const StyledModalContainer = styled.div`
   background: rgba(0, 0, 0, 0.67);
   display: flex;
   justify-content: center;
+  z-index: 9999;
 `;
 
 const StyledModal = styled.div`
@@ -73,13 +82,13 @@ const StyledModal = styled.div`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.grayColor6};
   }
+`;
 
-  p {
-    margin-top: 13px;
-    font-size: 12px;
-    line-height: 18px;
-    color: ${({ theme }) => theme.colors.grayColor5};
-  }
+const StyledMessage = styled.p`
+  margin-top: 13px;
+  font-size: 12px;
+  line-height: 18px;
+  color: ${({ theme }) => theme.colors.grayColor5};
 `;
 
 const StyledButtonBox = styled.div`
