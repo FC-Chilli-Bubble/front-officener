@@ -13,6 +13,7 @@ import NavLayout from '@/components/Common/NavLayout';
 import MyPage from '@/pages/MyPage/MyPage';
 import MyProfile from '@/pages/MyPage/MyProfile';
 import Notification from '@/pages/Notification/Notification';
+import ElevatorHome from '@/pages/Elevator/ElevatorHome';
 import ChatRoom from '@/pages/ChatRoom/ChatRoom';
 
 export const router = createBrowserRouter([
@@ -66,8 +67,8 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/delivery/post',
-            element: <DeliveryPost />,
+            path: '/elevator',
+            element: <ElevatorHome />,
             errorElement: <ErrorComponent />
           },
           {
