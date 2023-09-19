@@ -16,13 +16,13 @@ export default MissingCard;
 const StyledContainer = styled.div`
   width: 100%;
   max-width: 200px;
-  border: 1px dashed ${({ theme }) => theme.colors.grayColor4};
+  border: 1px dashed ${({ theme }) => theme.colors.grayColor3};
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   p {
     font-size: 15px;
-    color: ${({ theme }) => theme.colors.grayColor3};
+    color: ${({ theme }) => theme.colors.grayColor4};
   }
 `;
