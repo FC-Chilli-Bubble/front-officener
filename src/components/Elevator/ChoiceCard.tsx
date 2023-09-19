@@ -1,7 +1,7 @@
-import Stop from 'assets/icon_elevatorStop.svg';
-import Up from 'assets/icon_elevatorUp.svg';
-import Down from 'assets/icon_elevatorDown.svg';
 import styled from 'styled-components';
+import Stop from '@/assets/icon_elevatorStop.svg';
+import Up from '@/assets/icon_elevatorUp.svg';
+import Down from '@/assets/icon_elevatorDown.svg';
 
 interface IObjectElevators {
   elevatorId: number;
@@ -32,10 +32,10 @@ const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
       <div className="title">
         <h2>{elevator.elevatorId}호기</h2>
       </div>
-      <div className="elevatorInfo">
-        <h2>{elevator.floor}</h2>
-        <p>{ElevatorSetting(elevator.direction)}</p>
-      </div>
+      <SyledInfo>
+        {elevator.floor && <h2>{elevator.floor}</h2>}
+        {ElevatorSetting(elevator.direction)}
+      </SyledInfo>
       <StyledStatus status={elevator.status}>
         <p className="full">만원</p>
         <p className="repair">수리중</p>
@@ -51,40 +51,45 @@ const StyledElevator = styled.li<{ status: string }>`
     ${({ status, theme }) =>
       status === 'full'
         ? theme.colors.redColor0
-        : theme.colors.marinblueColor && status === 'normal'
-        ? theme.colors.marinblueColor
-        : theme.colors.white && status === 'repair'
+        : status === 'repair'
         ? theme.colors.white
         : theme.colors.marinblueColor};
   border-radius: 20px;
   box-shadow: ${({ theme }) => theme.dropShadow.depth2};
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0 40px;
+
   .title {
+    font-size: 16px;
     color: ${({ theme }) => theme.colors.grayColor6};
-    margin-top: 17px;
+    font-weight: 400;
   }
-  .elevatorInfo {
-    margin-top: 17px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    h2 {
-      font-size: 60px;
-      font-weight: bold;
-      margin-right: 10px;
-    }
+`;
+
+const SyledInfo = styled.div`
+  margin-top: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  h2 {
+    text-align: center;
+    font-size: 64px;
+    font-weight: 900;
+    margin-right: 10px;
   }
 `;
 
 const StyledStatus = styled.div<{ status: string }>`
-  height: 60px;
-  margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
+  margin: 20px 0 0;
 
   p {
-    font-size: 25px;
-    font-weight: 400;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 31.2px;
 
     &.full {
       color: ${({ status, theme }) =>

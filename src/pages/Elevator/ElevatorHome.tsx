@@ -4,9 +4,9 @@ import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import { useState } from 'react';
-import ChoiceCard from '@/components/Common/Elevator/ChoiceCard';
-import MissingCard from '@/components/Common/Elevator/MissingCard';
-import FloorList from '@/components/Common/Elevator/FloorList';
+import ChoiceCard from '@/components/Elevator/ChoiceCard';
+import MissingCard from '@/components/Elevator/MissingCard';
+import FloorList from '@/components/Elevator/FloorList';
 import { DummyElevators } from './Dummydata';
 
 const ElevatorHome = () => {
@@ -52,6 +52,7 @@ const ElevatorHome = () => {
         <StyledElevators>
           {DummyElevators.map(elevator => (
             <ChoiceCard elevator={elevator} />
+            // <MissingCard />
           ))}
         </StyledElevators>
       </StyledContainer>
@@ -73,9 +74,10 @@ const StyledStyledElevatorSetting = styled.div`
 `;
 
 const StyledElevatorTitle = styled.h2`
-  font-size: 25px;
+  font-size: 24px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
+  line-height: 31.2px;
 `;
 
 const StyledSettingButton = styled.div`
@@ -88,8 +90,7 @@ const StyledElevators = styled.ul`
   grid-template-rows: repeat(2, 217px);
   grid-template-columns: repeat(2, 1fr);
   text-align: center;
-  gap: 10px 10px;
-  padding: 5px 5px;
+  gap: 14px;
   justify-items: center;
 `;
 
