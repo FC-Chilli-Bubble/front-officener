@@ -46,6 +46,7 @@ const GlobalStyles = createGlobalStyle`
     line-height: normal;
     color: #9CA3AF;
   }
+  
   button {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -53,6 +54,7 @@ const GlobalStyles = createGlobalStyle`
     border: none;
     background-color: transparent;
     cursor: pointer;
+    outline: none;
   }
 `;
 
