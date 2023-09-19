@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import Header from '@/components/Common/Header';
 
@@ -8,9 +9,16 @@ interface SignupStepProps {
 }
 
 const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
+  const navigate = useNavigate();
+
   const handleServiceClick = () => {
     onNextStep(6);
     console.log('이전 페이지로');
+    return;
+  };
+  // 로그인 페이지 이동 버튼
+  const handleNavigate = () => {
+    navigate('/login');
     return;
   };
 
@@ -34,6 +42,7 @@ const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
             관리센터 승인이 완료되었어요.
           </div>
         </StyledContainer>
+        <StyledCLick onClick={handleNavigate}>닫기</StyledCLick>
       </StyledLayout>
     </>
   );
@@ -46,12 +55,14 @@ const StyledLayout = styled.div`
   width: 100%;
   padding-top: 40px;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: space-between;
   /* background-color: red; */
 `;
 
 const StyledContainer = styled.div`
+  width: 100%;
   height: 95px;
   padding: 0 11px;
   display: flex;
@@ -68,6 +79,14 @@ const StyledContainer = styled.div`
     font-size: 16px;
     line-height: 28px;
   }
+`;
+const StyledCLick = styled.a`
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 32px;
+  padding: 5px;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.grayColor6};
 `;
 
 export default SignupStep7;

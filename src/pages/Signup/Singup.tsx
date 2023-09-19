@@ -24,10 +24,10 @@ const Signup = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleNextStep: IStepHandler = nextStepNum => {
     setStepNum(nextStepNum);
-    if (nextStepNum === 7) {
-      navigate('/login');
-      console.log('이동함');
-    }
+    // if (nextStepNum === 7) {
+    //   navigate('/login');
+    //   console.log('이동함');
+    // }
   };
 
   const currentStepComponent = useMemo(() => {
