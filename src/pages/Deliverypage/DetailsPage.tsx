@@ -71,29 +71,27 @@ const DetailsPage = () => {
         {data && <PhotoCard food={data} />}
         <StyledDivider />
         <HostInfo />
-        <FooterButtons
-          buttonState={buttonState}
-          handleButtonClick={handleButtonClick}
-          handleDeleteClick={handleDeleteClick}
-        />
-        {isDeleteModalVisible && <DeleteModal onClose={handleCloseModal} />}
       </StyledContainer>
+      <FooterButtons
+        buttonState={buttonState}
+        handleButtonClick={handleButtonClick}
+        handleDeleteClick={handleDeleteClick}
+      />
+      {isDeleteModalVisible && <DeleteModal onClose={handleCloseModal} />}
     </>
   );
 };
 
 const StyledContainer = styled.div`
   position: relative;
-  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const StyledDivider = styled.div`
   width: 100%;
-  margin: 15px 0 15px 0;
-  height: 15px;
+  height: 11px;
   background-color: ${props => props.theme.colors.grayColor1};
 `;
 

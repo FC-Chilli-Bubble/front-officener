@@ -1,3 +1,5 @@
+import Food1 from '@/assets/food/Rectangle 487.svg';
+
 export interface IFoodData {
   사진?: string;
   가게이름: string;
@@ -12,7 +14,7 @@ export const foodData: {
 } = {
   분식: [
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '분식 천국1',
       참여인원: 3,
       배달비: '3,001원',
@@ -20,7 +22,7 @@ export const foodData: {
       이체해야하는시간: '18:01'
     },
     {
-      사진: 'src/assets/food/Rectangle 487-3.svg',
+      사진: Food1,
       가게이름: '분식 천국2',
       참여인원: 3,
       배달비: '3,002원',
@@ -28,7 +30,7 @@ export const foodData: {
       이체해야하는시간: '18:02'
     },
     {
-      사진: 'src/assets/food/Rectangle 487-2.svg',
+      사진: Food1,
       가게이름: '분식 천국3',
       참여인원: 3,
       배달비: '3,003원',
@@ -39,7 +41,7 @@ export const foodData: {
   ],
   '족발,보쌈': [
     {
-      사진: 'src/assets/food/Rectangle 477-1.svg',
+      사진: Food1,
       가게이름: '족발 전설1',
       참여인원: 2,
       배달비: '4,001원',
@@ -47,7 +49,7 @@ export const foodData: {
       이체해야하는시간: '19:01'
     },
     {
-      사진: 'src/assets/food/Rectangle 487-2.svg',
+      사진: Food1,
       가게이름: '족발 전설2',
       참여인원: 2,
       배달비: '4,002원',
@@ -55,7 +57,7 @@ export const foodData: {
       이체해야하는시간: '19:02'
     },
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '족발 전설3',
       참여인원: 2,
       배달비: '4,003원',
@@ -66,7 +68,7 @@ export const foodData: {
   ],
   '회,일식': [
     {
-      사진: 'src/assets/food/Rectangle 487-2.svg',
+      사진: Food1,
       가게이름: '회1',
       참여인원: 4,
       배달비: '5,001원',
@@ -74,7 +76,7 @@ export const foodData: {
       이체해야하는시간: '20:01'
     },
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '회2',
       참여인원: 4,
       배달비: '5,002원',
@@ -82,7 +84,7 @@ export const foodData: {
       이체해야하는시간: '20:02'
     },
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '회3',
       참여인원: 4,
       배달비: '5,003원',
@@ -93,7 +95,7 @@ export const foodData: {
   ],
   '찜, 탕, 찌개': [
     {
-      사진: 'src/assets/food/Rectangle 487-3.svg',
+      사진: Food1,
       가게이름: '찜1',
       참여인원: 4,
       배달비: '5,001원',
@@ -101,7 +103,7 @@ export const foodData: {
       이체해야하는시간: '20:01'
     },
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '탕2',
       참여인원: 4,
       배달비: '5,002원',
@@ -109,7 +111,7 @@ export const foodData: {
       이체해야하는시간: '20:02'
     },
     {
-      사진: 'src/assets/food/Rectangle 487.svg',
+      사진: Food1,
       가게이름: '찌개3',
       참여인원: 4,
       배달비: '5,003원',

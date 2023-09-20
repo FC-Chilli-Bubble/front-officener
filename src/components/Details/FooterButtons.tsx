@@ -19,13 +19,13 @@ const FooterButtons: React.FC<{
   handleButtonClick: () => void;
   handleDeleteClick: () => void;
 }> = ({ buttonState, handleButtonClick, handleDeleteClick }) => (
-  <ButtonContainer>
+  <StyledButtonBox >
     {buttonState !== ButtonStates.ACTIONS ? (
       <StyledDeliveryTogetherButton onClick={handleButtonClick}>
         {buttonState}
       </StyledDeliveryTogetherButton>
     ) : (
-      <>
+      <StyledHostButtons>
         <StyledActionButton
           variant="primary"
           onClick={handleButtonClick}>
@@ -36,35 +36,38 @@ const FooterButtons: React.FC<{
           onClick={handleDeleteClick}>
           삭제
         </StyledActionButton>
-        <StyledActionButton onClick={handleButtonClick}>채팅창 참여</StyledActionButton>
-      </>
+        <StyledActionButton className='cta' onClick={handleButtonClick}>채팅창 참여</StyledActionButton>
+      </StyledHostButtons>
     )}
-  </ButtonContainer>
+  </StyledButtonBox>
 );
 
-const ButtonContainer = styled.div`
-  background-color: ${props => props.theme.colors.white};
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const StyledButtonBox = styled.div`
   width: 100%;
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.1);
   height: 100px;
-  box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.2);
-  z-index: 999;
+  bottom: 0;
+  padding: 21px;
+  z-index: 100;
+  position: absolute;
 `;
 
 const StyledDeliveryTogetherButton = styled.button`
   background-color: ${props => props.theme.colors.marinblueColor};
   color: ${props => props.theme.colors.white};
   font-size: 18px;
-  width: 340px;
+  width: 100%;
   height: 60px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   position: relative;
+`;
+
+const StyledHostButtons = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const StyledActionButton = styled.button<StyledActionButtonProps>`
@@ -77,10 +80,13 @@ const StyledActionButton = styled.button<StyledActionButtonProps>`
 
   padding: 10px 20px;
   height: 48px;
-  margin: 5px;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
+
+  &.cta {
+    flex-grow: 1;
+  }
 `;
 
 export default FooterButtons;
