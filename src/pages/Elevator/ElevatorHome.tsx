@@ -7,7 +7,6 @@ import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
-import MissingCard from '@/components/Elevator/MissingCard';
 import FloorList from '@/components/Elevator/FloorList';
 
 const ElevatorHome = () => {
