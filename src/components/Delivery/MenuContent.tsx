@@ -4,12 +4,13 @@ import TogetherDelivery from './TogetherDelivery';
 import OrderList from './OrderList';
 import FoodItem from './FoodItem';
 import ChatItem from './ChatItem';
+import { IFoodData } from '@/pages/Deliverypage/dummyData';
 
 interface IMenuContentProps {
   selectedMenu: string;
   selectedCategory: string;
-  handleCategoryClick: (category: string) => void;
-  data: any;
+  handleCategoryClick: (_category: string) => void;
+  data: IFoodData | null;
 }
 
 const MenuContent: React.FC<IMenuContentProps> = ({
@@ -22,41 +23,57 @@ const MenuContent: React.FC<IMenuContentProps> = ({
     return (
       <div>
         <TogetherDelivery selectedCategory={selectedCategory} />
-        <OrderList
-          data={data}
-          selectedCategory={selectedCategory}
-          handleCategoryClick={handleCategoryClick}
-        />
-        <FoodItem
-          food={data}
-          showTimeLimit={false}
-          listStyle
-        />
-        <FoodItem
-          food={data}
-          showTimeLimit={false}
-          listStyle
-        />
-        <FoodItem
-          food={data}
-          showTimeLimit={false}
-          listStyle
-        />
-        <FoodItem
-          food={data}
-          showTimeLimit={false}
-          listStyle
-        />
+        {data && (
+          <OrderList
+            data={data}
+            selectedCategory={selectedCategory}
+            handleCategoryClick={handleCategoryClick}
+          />
+        )}
+
+        {data && (
+          <FoodItem
+            food={data}
+            showTimeLimit={false}
+            listStyle
+          />
+        )}
+
+        {data && (
+          <FoodItem
+            food={data}
+            showTimeLimit={false}
+            listStyle
+          />
+        )}
+
+        {data && (
+          <FoodItem
+            food={data}
+            showTimeLimit={false}
+            listStyle
+          />
+        )}
+
+        {data && (
+          <FoodItem
+            food={data}
+            showTimeLimit={false}
+            listStyle
+          />
+        )}
       </div>
     );
   } else if (selectedMenu === '내가 참여한 배달') {
     return (
       <div>
-        <FoodItem
-          food={data}
-          showTimeLimit={false}
-          listStyle
-        />
+        {data && (
+          <FoodItem
+            food={data}
+            showTimeLimit={false}
+            listStyle
+          />
+        )}
       </div>
     );
   } else if (selectedMenu === '나의 채팅') {

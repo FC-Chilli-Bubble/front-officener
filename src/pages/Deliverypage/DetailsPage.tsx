@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { foodData } from './dummyData';
+import { foodData, IFoodData } from './dummyData';
 import Header from '@/components/Details/Header';
 import FoodItem from '@/components/Details/FoodItem';
 import PhotoCard from '@/components/Details/PhotoCard';
@@ -8,24 +8,24 @@ import HostInfo from '@/components/Details/HostInfo';
 import FooterButtons from '@/components/Details/FooterButtons';
 import DeleteModal from '@/components/Details/DeleteModal';
 
-interface IFoodData {
-  사진?: string;
-  가게이름: string;
-  참여인원: number;
-  배달비: string;
-  태그: string[];
-  이체해야하는시간: string;
-}
-
+// eslint-disable-next-line no-unused-vars
 enum ButtonStates {
+  // eslint-disable-next-line no-unused-vars
   JOIN_DELIVERY = '함께 배달',
+  // eslint-disable-next-line no-unused-vars
   JOIN_CHAT = '채팅창 참여',
+  // eslint-disable-next-line no-unused-vars
   ACTIONS = 'ACTIONS'
 }
 
 const DetailsPage = () => {
   const [data, setData] = useState<IFoodData | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState('분식');
+
+  // const [selectedCategory, setSelectedCategory] = useState('분식');
+  const selectedCategoryState = useState('분식');
+  const selectedCategory = selectedCategoryState[0];
+  // const setSelectedCategory = selectedCategoryState[1];
+
   const [buttonState, setButtonState] = useState(ButtonStates.JOIN_DELIVERY);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -67,8 +67,8 @@ const DetailsPage = () => {
     <>
       <Header />
       <StyledContainer>
-        <FoodItem food={data} />
-        <PhotoCard food={data} />
+        {data && <FoodItem food={data} />}
+        {data && <PhotoCard food={data} />}
         <StyledDivider />
         <HostInfo />
         <FooterButtons

@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { IFoodData } from '@/pages/Deliverypage/dummyData';
 
 interface IOrderListProps {
   selectedCategory: string;
-  handleCategoryClick: (category: string) => void;
+  handleCategoryClick: (_category: string) => void;
+  data: IFoodData;
 }
 
 const OrderList: React.FC<IOrderListProps> = ({ selectedCategory, handleCategoryClick }) => {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 interface ITopMenuProps {
   selectedMenu: string;
-  handleMenuClick: (menu: string) => void;
+  handleMenuClick: (_menu: string) => void;
 }
 
 const TopMenu: React.FC<ITopMenuProps> = ({ selectedMenu, handleMenuClick }) => {

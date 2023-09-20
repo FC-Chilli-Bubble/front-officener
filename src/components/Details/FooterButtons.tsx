@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// eslint-disable-next-line no-unused-vars
 enum ButtonStates {
+  // eslint-disable-next-line no-unused-vars
   JOIN_DELIVERY = '함께 배달',
+  // eslint-disable-next-line no-unused-vars
   JOIN_CHAT = '채팅창 참여',
+  // eslint-disable-next-line no-unused-vars
   ACTIONS = 'ACTIONS'
 }
+type StyledActionButtonProps = {
+  variant?: 'primary' | 'default';
+};
 
 const FooterButtons: React.FC<{
   buttonState: ButtonStates;
@@ -60,7 +67,7 @@ const StyledDeliveryTogetherButton = styled.button`
   position: relative;
 `;
 
-const StyledActionButton = styled.button`
+const StyledActionButton = styled.button<StyledActionButtonProps>`
   background-color: ${props =>
     props.variant === 'primary' ? props.theme.colors.white : props.theme.colors.marinblueColor};
   color: ${props =>

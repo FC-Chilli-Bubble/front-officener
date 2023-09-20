@@ -1,4 +1,15 @@
-export const foodData = {
+export interface IFoodData {
+  사진?: string;
+  가게이름: string;
+  참여인원: number;
+  배달비: string;
+  태그: string[];
+  이체해야하는시간: string;
+}
+
+export const foodData: {
+  [key: string]: IFoodData[];
+} = {
   분식: [
     {
       사진: 'src/assets/food/Rectangle 487.svg',

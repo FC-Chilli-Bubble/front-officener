@@ -1,18 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { foodData } from './dummyData';
+import { foodData, IFoodData } from './dummyData';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
-
-interface IFoodData {
-  사진?: string;
-  가게이름: string;
-  참여인원: number;
-  배달비: string;
-  태그: string[];
-  이체해야하는시간: string;
-}
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
@@ -29,11 +20,11 @@ const DeliveryPage = () => {
     }
   }, [selectedCategory]);
 
-  const handleMenuClick = menu => {
+  const handleMenuClick = (menu: string) => {
     setSelectedMenu(menu);
   };
 
-  const handleCategoryClick = category => {
+  const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
 
