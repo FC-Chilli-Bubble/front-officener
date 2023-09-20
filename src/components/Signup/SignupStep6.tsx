@@ -197,14 +197,16 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             />
           </StyledInput>
         </StyledContainer>
-        <Button
-          size={'normal'}
-          type={'cta'}
-          title={'다음'}
-          width={'100%'}
-          disabled={disabled}
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            disabled={disabled}
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -251,6 +253,10 @@ const StyledButton = styled.button`
   &:active {
     background-color: ${({ theme }) => theme.colors.ctaPressedColor};
   }
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep6;

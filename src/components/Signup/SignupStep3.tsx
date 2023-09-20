@@ -122,14 +122,16 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
               </li>
             ))} */}
         </StyledListBox>
-        <Button
-          size="normal"
-          type="cta"
-          title="검색"
-          width="100%"
-          disabled={disabled}
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            disabled={disabled}
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -182,6 +184,10 @@ const StyledLine = styled.hr`
 const StyledListBox = styled.div`
   height: calc(100% - 300px);
   margin-top: 12px;
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep3;

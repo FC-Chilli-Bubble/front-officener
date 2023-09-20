@@ -173,14 +173,16 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
             />
           </StyledInput>
         </StyleContainer>
-        <Button
-          size="normal"
-          type="cta"
-          title="다음"
-          width="100%"
-          disabled={disabled}
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            disabled={disabled}
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -201,6 +203,10 @@ const StyledInput = styled.div`
   top: 0;
   height: 98px;
   margin-bottom: 23px;
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep5;

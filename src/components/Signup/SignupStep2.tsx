@@ -70,14 +70,16 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
             />
           )}
         </StyledSearchContainer>
-        <Button
-          size="normal"
-          type="cta"
-          title="다음"
-          width="100%"
-          disabled={disabled}
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            disabled={disabled}
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -109,6 +111,10 @@ const StyledSearchContainer = styled.div`
   height: 187px;
   display: flex;
   flex-direction: column;
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep2;

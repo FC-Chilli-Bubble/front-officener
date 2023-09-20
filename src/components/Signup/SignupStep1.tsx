@@ -94,14 +94,16 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
             />
           </StyledTermContainer>
         </StyledContainer>
-        <Button
-          size="normal"
-          type="cta"
-          title="다음"
-          width="100%"
-          disabled={disabled}
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            disabled={disabled}
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -196,6 +198,10 @@ const StyledCheckAll = styled.label`
       transform: rotate(45deg);
     }
   }
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep1;
