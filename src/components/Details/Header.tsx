@@ -4,9 +4,9 @@ import styled from 'styled-components';
 const Header: React.FC = () => (
   <StyledHeader>
     <h3>함께 배달시 유의사항</h3>
-    <StyledP>- 이체시간을 엄수해주세요!</StyledP>
-    <StyledP>- 호스트님께 감사인사를 꼭 해주세요</StyledP>
-    <StyledP>- 빠른 응답 부탁드립니다!</StyledP>
+    <StyledP>-&gt; 이체시간을 엄수해주세요!</StyledP>
+    <StyledP>-&gt; 호스트님께 감사인사를 꼭 해주세요</StyledP>
+    <StyledP>-&gt; 빠른 응답 부탁드립니다!</StyledP>
   </StyledHeader>
 );
 

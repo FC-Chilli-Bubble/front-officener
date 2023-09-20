@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import IconProfile from '@/assets/food/Vector.svg';
+
 const HostInfo: React.FC = () => {
   return (
     <StyledHostInfo>
       <h4>호스트 (주문자)</h4> <br />
       <HostDetailContainer>
         <img
-          src="src/assets/food/Vector.svg"
+          src={IconProfile}
           alt="Food Photo"
         />
         <h3>빵먹다살찐떡</h3>
@@ -25,32 +27,35 @@ const HostInfo: React.FC = () => {
 };
 
 const StyledHostInfo = styled.div`
-  padding: 10px 0 0 25px;
-  border-radius: 15px;
+  padding: 24px 16px;
   align-self: flex-start;
   position: relative;
-  height: 300px;
+  margin-bottom: 100px;
 
   h4 {
     color: ${props => props.theme.colors.grayColor10};
     font-size: 14px;
     font-weight: 500;
   }
+
   h3 {
     font-size: 14px;
     font-weight: 400;
     padding-left: 10px;
   }
+
   h2 {
     color: ${props => props.theme.colors.grayColor10};
     font-size: 14px;
     font-weight: 500;
   }
+
   h1 {
     font-size: 14px;
     font-weight: 700;
     padding-left: 40px;
   }
+
   p {
     color: black;
     font-size: 12px;

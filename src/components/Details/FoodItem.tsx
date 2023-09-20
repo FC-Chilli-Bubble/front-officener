@@ -10,7 +10,7 @@ interface IFoodData {
   이체해야하는시간: string;
 }
 
-const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
+const FoodItem: React.FC<{ food: IFoodData; }> = ({ food }) => {
   return (
     <StyledFoodCardListStyle>
       <img
@@ -39,11 +39,10 @@ const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
 };
 
 const StyledFoodCardListStyle = styled.div`
-  padding: 10px;
-  margin: 10px 5px;
+  padding: 16px;
   display: flex;
   align-items: start;
-  gap: 10px;
+  gap: 16px;
 
   > img {
     flex-shrink: 0;
@@ -57,7 +56,7 @@ const StyledFoodCardListStyle = styled.div`
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
   }
 `;
 

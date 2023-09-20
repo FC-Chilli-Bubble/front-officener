@@ -37,11 +37,6 @@ export const router = createBrowserRouter([
           },
           {
             path: '/delivery',
-            element: <Home />,
-            errorElement: <ErrorComponent />
-          },
-          {
-            path: '/Deliverypage',
             element: <Deliverypage />,
             errorElement: <ErrorComponent />
           },
@@ -89,7 +84,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/DetailsPage',
+            path: '/delivery/details',
             element: <DetailsPage />,
             errorElement: <ErrorComponent />
           },
