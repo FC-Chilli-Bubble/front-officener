@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { INPUT_REDERROR_MESSAGE } from '@/constants/commonUiData';
 import IconCheck from '@/assets/ico_check.svg';
 
-type ErrorRedIconType = 'wrong' | 'error' | 'none';
+type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
 
 type TInputProps = {
   isType: string;
@@ -13,13 +13,16 @@ type TInputProps = {
   redErrorIcon?: ErrorRedIconType;
   errorMessage?: string;
   isValid?: boolean;
-  value: string;
+  value: string | number;
+  name: string;
+  maxLength?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
 const FormField = ({
+  name,
   isType,
   label,
   isRequired = false,
@@ -28,64 +31,55 @@ const FormField = ({
   errorMessage,
   isValid = false,
   value,
+  maxLength,
   onChange
 }: TInputProps) => {
   return (
-    <InputLayout>
+    <StyledLayout>
       {isRequired ? (
-        <InputLabel htmlFor="input-box">
+        <StyledLabel htmlFor={isType}>
           {label}
           <Required>*</Required>
-        </InputLabel>
+        </StyledLabel>
       ) : (
-        <RequiredLabel htmlFor="input-box">{label}</RequiredLabel>
+        <RequiredLabel htmlFor={isType}>{label}</RequiredLabel>
       )}
-      <InputContainer>
-        {redErrorIcon == 'none' ? (
-          <InputBox
-            type={isType}
-            placeholder={placeholder}
-            id="input-box"
-            name={isType}
-            value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
-            required></InputBox>
-        ) : (
-          <ErrorInputBox
-            type={isType}
-            placeholder={placeholder}
-            id="input-box"
-            name={isType}
-            value={value}
-            onChange={e => {
-              onChange(e.target.value);
-            }}
-            required></ErrorInputBox>
-        )}
+      <StyledContainer>
+        <StyledErrorIBox
+          redErrorIcon={redErrorIcon}
+          type={isType}
+          placeholder={placeholder}
+          id={name}
+          name={name}
+          value={value}
+          maxLength={maxLength}
+          onChange={e => {
+            onChange(e.target.value);
+          }}
+          required></StyledErrorIBox>
         {isValid && (
-          <InnerIcon
+          <StyledIcon
             src={IconCheck}
             alt="Valid"
           />
         )}
-      </InputContainer>
+      </StyledContainer>
       {redErrorIcon !== 'none' && (
-        <ErrorMessage>
+        <StyledIErrorMessage redErrorIcon={redErrorIcon}>
           <StyledImage
             src={INPUT_REDERROR_MESSAGE[redErrorIcon]}
             alt=""
           />
-          {errorMessage}
-        </ErrorMessage>
+          <span>{errorMessage}</span>
+        </StyledIErrorMessage>
       )}
-    </InputLayout>
+    </StyledLayout>
   );
 };
 
-const InputLayout = styled.div`
+const StyledLayout = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
@@ -94,7 +88,7 @@ const InputLayout = styled.div`
   font-size: 16px;
 `;
 
-const InputLabel = styled.label`
+const StyledLabel = styled.label`
   color: ${({ theme }) => theme.colors.grayColor5};
   line-height: normal;
 `;
@@ -110,12 +104,33 @@ const Required = styled.span`
   margin-left: 5px;
 `;
 
-const InputContainer = styled.div`
+const StyledContainer = styled.div`
   position: relative;
   width: 100%;
 `;
 
-const InputBox = styled.input`
+// const StyledBox = styled.input`
+//   display: flex;
+//   width: 100%;
+//   height: 48px;
+//   padding: 13px 24px;
+//   align-items: center;
+//   gap: 10px;
+//   border-radius: 8px;
+//   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
+//   &::placeholder {
+//     color: ${({ theme }) => theme.colors.grayColor3};
+//   }
+//   &:focus {
+//     color: ${({ theme }) => theme.colors.grayColor9};
+//     border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
+//     &::placeholder {
+//       color: transparent;
+//     }
+//   }
+// `;
+
+const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
   width: 100%;
   height: 48px;
@@ -123,27 +138,14 @@ const InputBox = styled.input`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.grayColor3};
-  }
-  &:focus {
-    color: ${({ theme }) => theme.colors.grayColor9};
-    border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
-    &::placeholder {
-      color: transparent;
-    }
-  }
-`;
-const ErrorInputBox = styled.input`
-  display: flex;
-  width: 100%;
-  height: 48px;
-  padding: 13px 24px;
-  align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.redColor0};
+  border: 1px solid
+    ${({ redErrorIcon, theme }) => {
+      if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
+        return theme.colors.errorColor; // 빨간색 (wrong 또는 error)
+      } else {
+        return theme.colors.grayColor4; // 회색 (나머지)
+      }
+    }};
   ::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
@@ -154,7 +156,7 @@ const ErrorInputBox = styled.input`
   }
 `;
 
-const InnerIcon = styled.img`
+const StyledIcon = styled.img`
   position: absolute;
   color: ${({ theme }) => theme.colors.grayColor4};
   right: 17px;
@@ -163,9 +165,17 @@ const InnerIcon = styled.img`
   cursor: pointer;
 `;
 
-const ErrorMessage = styled.span`
+const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorRedIconType }>`
   display: flex;
-  color: ${({ theme }) => theme.colors.redColor0};
+  color: ${({ redErrorIcon, theme }) => {
+    if (redErrorIcon === 'none') {
+      return theme.colors.grayColor4;
+    } else if (redErrorIcon === 'correct') {
+      return theme.colors.successColor;
+    } else {
+      return theme.colors.errorColor;
+    }
+  }};
   font-size: 10px;
   font-style: normal;
   line-height: 15px; /* 150% */

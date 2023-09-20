@@ -4,6 +4,7 @@ import IconClose from '@/assets/ico_close.svg';
 import IconError from '@/assets/ico_error.svg';
 import IconWrong from '@/assets/ico_wrong.svg';
 import IconRedError from '@/assets/ico_red_error.svg';
+import IconGreenCheck from '@/assets/ico_green_check.svg';
 import IconCheck from '@/assets/ico_check.svg';
 import IconHome from '@/assets/ico_home.svg';
 import IconDelivery from '@/assets/ico_delivery.svg';
@@ -26,6 +27,11 @@ export const INPUT_ERROR_MESSAGE = {
 
 export const INPUT_REDERROR_MESSAGE = {
   wrong: IconWrong,
+  error: IconRedError,
+  correct: IconGreenCheck,
+  none: null
+};
+export const INPUT_GRAYERROR_MESSAGE = {
   error: IconRedError,
   none: null
 };
@@ -111,4 +117,19 @@ export const MY_PAGE_MENU = [
     title: '설정',
     path: '#'
   }
+];
+
+export const Floor_TAG = [
+  '1호기',
+  '2호기',
+  '3호기',
+  '4호기',
+  '5호기',
+  '6호기',
+  '7호기',
+  '8호기',
+  '9호기',
+  '10호기',
+  '11호기',
+  '12호기'
 ];

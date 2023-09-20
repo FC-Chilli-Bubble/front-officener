@@ -51,19 +51,19 @@ const StyledButton = styled.button<TButtonProps>`
 
   &:hover {
     background-color: ${({ type, theme }) =>
-    type === 'cta' ? theme.colors.ctaHoverColor : theme.colors.primaryHoverColor};
+      type === 'cta' ? theme.colors.ctaHoverColor : theme.colors.primaryHoverColor};
   }
 
   &:active {
     background-color: ${({ type, theme }) =>
-    type === 'cta' ? theme.colors.ctaPressedColor : theme.colors.primaryPressedColor};
+      type === 'cta' ? theme.colors.ctaPressedColor : theme.colors.primaryPressedColor};
   }
 
   &:disabled {
     color: ${({ type, theme }) =>
-    type === 'cta' ? theme.colors.white : theme.colors.ctaDisabledColor};
+      type === 'cta' ? theme.colors.white : theme.colors.ctaDisabledColor};
     background-color: ${({ type, theme }) =>
-    type === 'cta' ? theme.colors.ctaDisabledColor : theme.colors.primaryPressedColor};
+      type === 'cta' ? theme.colors.ctaDisabledColor : theme.colors.primaryPressedColor};
   }
 `;
 
