@@ -62,13 +62,15 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
             />
           </StyledLink>
         </StyledCardContainer>
-        <Button
-          size="normal"
-          type="cta"
-          title="네, 확인했어요!"
-          width="100%"
-          onClick={handleNextStep}
-        />
+        <StyledButtonContainer>
+          <Button
+            size="normal"
+            type="cta"
+            title="다음"
+            width="100%"
+            onClick={handleNextStep}
+          />
+        </StyledButtonContainer>
       </StyledLayout>
     </>
   );
@@ -156,6 +158,10 @@ const StyledLink = styled.a`
   img {
     padding-left: 15px;
   }
+`;
+
+const StyledButtonContainer = styled.div`
+  margin: 30px 0;
 `;
 
 export default SignupStep4;
