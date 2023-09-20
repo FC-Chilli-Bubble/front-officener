@@ -48,6 +48,12 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     outline: none;
   }
 `;

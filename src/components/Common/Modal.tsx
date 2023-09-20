@@ -29,25 +29,38 @@ const Modal = () => {
 
   return (
     <>
-      {
-        modalState.isOpen && (
-          <StyledModalLayout>
-            <StyledModalContainer onClick={closeModal}>
-              <StyledModal onClick={(e) => { e.stopPropagation(); }}>
-                {modalState.title && <h2>{modalState.title}</h2>}
-                {modalState.content && (typeof modalState.content === 'string'
-                  ? <StyledMessage>{modalState.content}</StyledMessage>
-                  : modalState.content)
-                }
-                <StyledButtonBox>
-                  <Button title={modalState.positive} onClick={handlePositiveClick} size='small' />
-                  {modalState.negative && <OutlineButton title={modalState.negative} onClick={handleNegativeClick} size='small' />}
-                </StyledButtonBox>
-              </StyledModal>
-            </StyledModalContainer>
-          </StyledModalLayout>
-        )
-      }
+      {modalState.isOpen && (
+        <StyledModalLayout>
+          <StyledModalContainer onClick={closeModal}>
+            <StyledModal
+              onClick={e => {
+                e.stopPropagation();
+              }}>
+              {modalState.title && <h2>{modalState.title}</h2>}
+              {modalState.content &&
+                (typeof modalState.content === 'string' ? (
+                  <StyledMessage>{modalState.content}</StyledMessage>
+                ) : (
+                  modalState.content
+                ))}
+              <StyledButtonBox>
+                <Button
+                  title={modalState.positive}
+                  onClick={handlePositiveClick}
+                  size="small"
+                />
+                {modalState.negative && (
+                  <OutlineButton
+                    title={modalState.negative}
+                    onClick={handleNegativeClick}
+                    size="small"
+                  />
+                )}
+              </StyledButtonBox>
+            </StyledModal>
+          </StyledModalContainer>
+        </StyledModalLayout>
+      )}
     </>
   );
 };
@@ -75,7 +88,6 @@ const StyledModal = styled.div`
   text-align: center;
   width: 310px;
   margin: auto;
-  
 
   h2 {
     font-size: 14px;

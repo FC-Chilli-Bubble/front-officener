@@ -5,8 +5,8 @@ import Home from '@/pages/Home/Home';
 import Deliverypage from '@/pages/Deliverypage/DeliveryPage';
 import DetailsPage from '@/pages/Deliverypage/DetailsPage';
 import Login from '@/pages/Login/Login';
-import Register from '@/pages/Register/Register';
-import Intro from '@/pages/Register/Intro';
+import Intro from '@/pages/Signup/Intro';
+import Signup from '@/pages/Signup/Singup';
 import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
@@ -15,6 +15,8 @@ import NavLayout from '@/components/Common/NavLayout';
 import MyPage from '@/pages/MyPage/MyPage';
 import MyProfile from '@/pages/MyPage/MyProfile';
 import Notification from '@/pages/Notification/Notification';
+import ElevatorHome from '@/pages/Elevator/ElevatorHome';
+import ChatRoom from '@/pages/ChatRoom/ChatRoom';
 
 export const router = createBrowserRouter([
   {
@@ -67,13 +69,13 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/intro/register',
-            element: <Register />,
+            path: '/intro/signup',
+            element: <Signup />,
             errorElement: <ErrorComponent />
           },
           {
-            path: '/delivery/post',
-            element: <DeliveryPost />,
+            path: '/elevator',
+            element: <ElevatorHome />,
             errorElement: <ErrorComponent />
           },
           {
@@ -89,6 +91,16 @@ export const router = createBrowserRouter([
           {
             path: '/DetailsPage',
             element: <DetailsPage />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/chatroom',
+            element: <ChatRoom />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/delivery/post',
+            element: <DeliveryPost />,
             errorElement: <ErrorComponent />
           }
         ]
