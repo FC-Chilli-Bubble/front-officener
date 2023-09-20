@@ -8,9 +8,13 @@ import Button from '@/components/Common/Button';
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
+  buildingName: string;
+  officeName: string;
 }
-const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
+const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false); //임시로 false
+  const [selectedBuilding, setSelectedBuilding] = useState('');
+  const [selectedOffice, setSelectedOffice] = useState('');
 
   const handleServiceClick = () => {
     onNextStep(1);
@@ -18,17 +22,26 @@ const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
     return;
   };
 
-  const handleBuildingSearch = () => {
-    console.log('건물 검색: ');
-    // 최초 API 요청할 땐 => '건물검색 : 건물',
-    // API 요청 이후 => '건물 검색 : 오피스'
-    onNextStep(3);
-    return
-  };
-
-  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
+  // 페이지 이동 버튼함수
   const handleNextStep = () => {
     onNextStep(4);
+  };
+  // 빌딩 선택 버튼
+  const handleBuildingSelect = () => {
+    onNextStep(3);
+    // onNextStep(3, selectedBuilding);
+    // 여기서 선택된 건물을 사용하도록 설정
+    setSelectedBuilding(buildingName); // 선택된 건물에 대한 로직 추가
+    setDisabled(false); // 에러때문에 임시 작성
+    // setDisabled(selectedOffice === '');
+  };
+  // 오피스 선택 버튼
+  const handleOfficeSelect = () => {
+    onNextStep(3);
+    // onNextStep(3, selectedOffice);
+    // 여기서 선택된 오피스를 사용하도록 설정
+    setSelectedOffice(officeName); // 선택된 오피스에 대한 로직 추가
+    // setDisabled(selectedBuilding === '');
   };
 
   return (
@@ -46,15 +59,22 @@ const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
         <StyledSearchContainer>
           <SearchButton
             label="건물"
-            placeholder="나의 오피스 찾기"
-            onClick={handleBuildingSearch}
+            placeholder={selectedBuilding || '나의 오피스 찾기'}
+            onClick={handleBuildingSelect}
           />
+          {selectedBuilding && (
+            <SearchButton
+              label="오피스"
+              placeholder={selectedOffice || '오피스 찾기'}
+              onClick={handleOfficeSelect}
+            />
+          )}
         </StyledSearchContainer>
         <Button
-          size={'normal'}
-          type={'cta'}
-          title={'다음'}
-          width={'100%'}
+          size="normal"
+          type="cta"
+          title="다음"
+          width="100%"
           disabled={disabled}
           onClick={handleNextStep}
         />
@@ -67,7 +87,6 @@ const StyledLayout = styled.div`
   height: calc(100% - 56px);
   padding: 0 17px;
   padding-top: 40px;
-  /* padding-bottom: 391px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -82,7 +101,6 @@ const StyledContainer = styled.div`
   font-size: 24px;
   line-height: 31px;
   color: ${({ theme }) => theme.colors.black};
-  /* background-color: blue; */
 `;
 
 const StyledSearchContainer = styled.div`
@@ -91,7 +109,6 @@ const StyledSearchContainer = styled.div`
   height: 187px;
   display: flex;
   flex-direction: column;
-  /* background-color: green; */
 `;
 
 export default SignupStep2;

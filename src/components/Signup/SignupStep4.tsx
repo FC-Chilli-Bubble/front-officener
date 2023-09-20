@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
@@ -12,15 +11,12 @@ interface SignupStepProps {
 }
 
 const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
-  const [disabled, setDisabled] = useState(false); //임시로 false
-
   const handleServiceClick = () => {
     onNextStep(2);
     console.log('이전 페이지로');
     return;
   };
 
-  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
   const handleNextStep = () => {
     onNextStep(5);
   };
@@ -67,11 +63,10 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
           </StyledLink>
         </StyledCardContainer>
         <Button
-          size={'normal'}
-          type={'cta'}
-          title={'네, 확인했어요!'}
-          width={'100%'}
-          disabled={disabled}
+          size="normal"
+          type="cta"
+          title="네, 확인했어요!"
+          width="100%"
           onClick={handleNextStep}
         />
       </StyledLayout>
@@ -81,12 +76,11 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
 
 const StyledLayout = styled.div`
   width: 100%;
-  height: calc(100% - 56px);
+  height: calc(100% - 56px); //이 페이지만
   padding: 0 17px;
   padding-top: 23px;
   display: flex;
   flex-direction: column;
-  /* background-color: red; */
 `;
 
 const StyledContainer = styled.div`
@@ -97,7 +91,6 @@ const StyledContainer = styled.div`
   font-weight: 600;
   font-size: 24px;
   line-height: 30px;
-  /* background: greenyellow; */
   color: ${({ theme }) => theme.colors.ctaColor};
   & > div {
     color: ${({ theme }) => theme.colors.grayColor6};
@@ -107,22 +100,22 @@ const StyledContainer = styled.div`
     line-height: 28px;
   }
 `;
+
 const StyledCardContainer = styled.div`
-  height: 80%;
-  width: 100%;
+  height: calc(100% - 200px);
   display: flex;
-  padding-top: 20px;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  /* background-color: green; */
 `;
+
 const SytledCard = styled.div`
   height: 310px;
   width: 236px;
+  padding: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.grayColor6};
   background-color: ${({ theme }) => theme.colors.white};
@@ -131,7 +124,12 @@ const SytledCard = styled.div`
   img {
     width: 66px;
   }
+  @media (max-height: 720px) {
+    height: auto; // 화면 높이가 820px보다 작을 때 height를 자동으로 조정
+    width: 65%; // 너비를 화면에 맞게 조정
+  }
 `;
+
 const StyledTitle = styled.div`
   padding: 10px 0;
   line-height: 18px;
@@ -146,10 +144,13 @@ const StyledAddress = styled.div``;
 const SytledOffice = styled.div`
   padding-top: 40px;
   line-height: 16px;
+  @media (max-height: 720px) {
+    padding-top: 20px;
+  }
 `;
 
 const StyledLink = styled.a`
-  padding: 10px;
+  padding: 5px;
   color: ${({ theme }) => theme.colors.ctaColor};
   cursor: pointer;
   img {

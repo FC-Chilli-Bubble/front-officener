@@ -13,7 +13,7 @@ type TInputProps = {
 const SearchButton = ({ label, placeholder, isMessage = false, onClick }: TInputProps) => {
   return (
     <StyledLayout>
-      <StyledLabel htmlFor="input-box">{label}</StyledLabel>
+      <StyledLabel>{label}</StyledLabel>
       <StyledContainer>
         <StyledBox onClick={onClick}>{placeholder}</StyledBox>
         <SearchImage

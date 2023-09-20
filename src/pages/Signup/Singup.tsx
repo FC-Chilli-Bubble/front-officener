@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { styled } from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import SignupStep1 from '@/components/Signup/SignupStep1';
 import SignupStep2 from '@/components/Signup/SignupStep2';
@@ -35,7 +35,13 @@ const Signup = () => {
       case 1:
         return <SignupStep1 onNextStep={handleNextStep} />;
       case 2:
-        return <SignupStep2 onNextStep={handleNextStep} />;
+        return (
+          <SignupStep2
+            onNextStep={handleNextStep}
+            buildingName=""
+            officeName=""
+          />
+        );
       case 3:
         return <SignupStep3 onNextStep={handleNextStep} />;
       case 4:

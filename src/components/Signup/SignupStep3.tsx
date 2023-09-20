@@ -14,11 +14,14 @@ interface SignupStepProps {
 }
 
 const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
-  const [inputValue, setInputValue] = useState<string>('');
+  // Step2에서 가져온 props
+  // const [buildingName, setBuildingName] = useState('');
+  // const [officeName, setOfficeName] = useState('');
+  // 검색 입력값
+  const [inputValue, setInputValue] = useState('');
+  // 버튼 상태값
   const [disabled, setDisabled] = useState(false); //임시로 false
-  const [buttonText, setButtonText] = useState('다음');
 
-  // const [buildinName, setBuildinName] = useState<string>('');
   // const [searchResults, setSearchResults] = useState<string[]>([]);
   // 검색 결과 상태
   // const [selectedhBuilding, setSelectedBuilding] = useState<string>('건물 이름으로 검색');
@@ -29,37 +32,58 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     console.log('이전 페이지로');
     return;
   };
-  //  입력 submit
+  // 검색 폼
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // 폼 제출 기본 동작 막기
-    handleBuildingSearch(); // 원하는 작업 수행 (예: 검색)
+    // handleSearchChange(); // 원하는 작업 수행 (예: 검색)
   };
-  //  검색 입력 중
-  const handleInputChange = (newBuildinName: number | string) => {
-    // setBuildinName(newBuildinName.toString());
-    setInputValue(newBuildinName.toString());
-    console.log('검색 중:', newBuildinName);
+  // 검색창
+  const handleInputChange = (newBuildingName: string) => {
+    setInputValue(newBuildingName);
+    console.log('검색 중:', newBuildingName);
   };
 
-  // 버튼 submit
+  // 검색 버튼
   const handleButtonClick = () => {
     // handleBuildingSearch();
+    setDisabled(false); // 에러방지 임시 작성 지울것!!!
     console.log('검색 버튼 클릭');
   };
-  const handleNextStep = () => {
-    setButtonText('선택완료'); //이 페이지에선 버튼명 변경 없음 //삭제할것
-    onNextStep(2);
-  };
-  //  검색 수행 함수
-  const handleBuildingSearch = () => {
-    //  API 호출 함수로직
-    // 호출 후
-    // const results = buildingData.data.buildings.filter(building =>
-    //   building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
-    // );
-    // setSearchResults(results);
-    // setSearchResults(null);
+  // 선택된 건물을 처리하는 함수
+  // const handleBuildingSelect = (newBuildingName: string) => {
+  //   setBuildingName(newBuildingName);
+  //   console.log('선택:', newBuildingName);
+  // };
+  // 선택된 오피스를 처리하는 함수
+  // const handleOfficeSelect = (selectedOffice: string) => {
+  //   setBuildingName(selectedOffice);
+  //   console.log('선택:', selectedOffice);
+  // };
 
+  //  검색 수행 함수
+  // const handleSearchChange = (e: string) => {
+  //   const name = e.target.value;
+  //   setInputValue(name);
+  //  API 호출 함수로직
+  // 호출 후
+  // const results = buildingData.data.buildings.filter(building =>
+  //   building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+  // );
+  // setSearchResults(results);
+  // setSearchResults(null);
+  // };
+
+  // 검색 결과 항목을 클릭할 때 호출되는 함수
+  // 빌딩과 오피스 두가지 필요
+  // const handleResultClick = item => {
+  //   setSelectedItem(item);
+  //   onNextStep(2, building.buildingName, item.officeName);
+  //   setDisabled(false); // 선택하면 다음 버튼 활성화
+  // };
+
+  const handleNextStep = () => {
+    // onNextStep(2, building.buildingName, item.officeName);
+    onNextStep(2);
   };
 
   return (
@@ -72,14 +96,14 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
       <StyledLayout>
         <StyledFormContainer onSubmit={handleFormSubmit}>
           <FormField
-            isType={'text'}
-            label={'건물'}
-            name={'text'}
+            isType="text"
+            label="건물"
+            name="building"
             value={inputValue}
             placeholder="건물 이름으로 검색"
             onChange={handleInputChange}
             errorMessage=""
-            redErrorIcon={'none'}
+            redErrorIcon="none"
           />
           <StyledFormButton
             type="button"
@@ -94,15 +118,15 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
           {/* {searchResults.map(building => (
               <li key={building.id}>
                 {building.buildingName}
-                <button onClick={() => setSelectedBuilding(building)}>하위 오피스 보기</button>
+                <button onClick={() => handleResultClick(building)}>하위 오피스 보기</button>
               </li>
             ))} */}
         </StyledListBox>
         <Button
-          size={'normal'}
-          type={'cta'}
-          title={buttonText}
-          width={'100%'}
+          size="normal"
+          type="cta"
+          title="검색"
+          width="100%"
           disabled={disabled}
           onClick={handleNextStep}
         />
@@ -115,18 +139,15 @@ const StyledLayout = styled.div`
   height: calc(100% - 56px);
   padding: 0 17px;
   padding-top: 40px;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  /* background-color: red; */
+  justify-content: space-between;
 `;
 
 const StyledFormContainer = styled.form`
   height: 75px;
   display: flex;
   align-items: end;
-  /* background-color: green; */
 `;
 
 const StyledFormButton = styled.button`
@@ -153,14 +174,14 @@ const StyledFormButton = styled.button`
 const StyledLine = styled.hr`
   position: relative;
   left: -17px;
-  top: 30px;
+  top: 0.5rem;
   width: 130%;
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
 `;
 
 const StyledListBox = styled.div`
-  margin-top: 40px;
-  height: calc(100% - 315px);
+  height: calc(100% - 300px);
+  margin-top: 12px;
 `;
 
 export default SignupStep3;

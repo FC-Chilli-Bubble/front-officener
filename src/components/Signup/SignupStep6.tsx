@@ -98,8 +98,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  // 인증번호 요청 함수 앗
-  //여기였습니다 머쓱x2 굳굳
+  // 인증번호 요청 함수
   const sendApiRequest = async () => {
     try {
       setIsValid(true);
@@ -108,8 +107,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       // 응답 데이터에서 인증 코드 추출
       // const responseData = response.data;
       // const receivedVerifyCode = responseData.data.verifyCode;
-      const responseCode = '123456'; 
-      // 인증 코드를 상태에 저장 
+      const responseCode = '123456';
+      // 인증 코드를 상태에 저장
       setReceivedVerifyCode(responseCode);
       console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
       setVerifyNumErrorIcon('error');
@@ -118,28 +117,31 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       setIsValid(false);
       setVerifyNumErrorIcon('wrong');
       setVerifyNumMsg('이미 등록된 휴대폰 번호입니다.');
-      // 다음으로 넘어가는 버튼 비활성화
     }
   };
 
   // 인증 번호 확인 함수
-  const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // 서버로부터 받은 인증코드가 빈 문자열인지도 체크 추가 (receivedVerifyCode &&)
-    if (receivedVerifyCode && name && phoneNumber && verifyCode === receivedVerifyCode) {
-      try {
-        // 1. 서버로 이름과 전화번호를 전송(API Axios호출)
-        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
-        setVerifyNumErrorIcon('correct');
-        setVerifyNumMsg('인증이 완료되었습니다.');
-        setVerificationComplete(true);
-        setDisabled(false); // 다음 버튼 활성화
-      } catch (error) {
-        // console.error('로그인 실패:', error);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      // 서버로부터 받은 인증코드가 빈 문자열인지도 체크 추가 (receivedVerifyCode &&)
+      if (receivedVerifyCode && name && phoneNumber && verifyCode === receivedVerifyCode) {
+        try {
+          // 1. 서버로 전화번호 & 인증번호 전송(API호출)
+          // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
+          setVerifyNumErrorIcon('correct');
+          setVerifyNumMsg('인증이 완료되었습니다.');
+          setVerificationComplete(true);
+          setDisabled(false); // 다음 버튼 활성화
+        } catch (error) {
+          // console.error('인증 실패:', error);
+        }
+
+        return;
       }
-      return;
-    }
-  }, [receivedVerifyCode, name, phoneNumber, verifyCode]);
+    },
+    [receivedVerifyCode, name, phoneNumber, verifyCode]
+  );
 
   return (
     <>
@@ -155,19 +157,20 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               isType="text"
               label="이름"
               value={name}
-              name="userName" // 그리고 여기 name props 다 고유하게 그 input에 대한 name으로 변경했어여
+              name="userName"
+              //name props 다 고유하게 그 input에 대한 name으로 변경했어여
               placeholder="실명을 입력해 주세요."
               onChange={handleNameChange}
-              errorMessage={''}
-              redErrorIcon={'none'}
+              errorMessage=""
+              redErrorIcon="none"
             />
           </StyledInput>
           <StyledInput>
             <StyledBox>
               <FormField
-                isType={'text'}
+                isType="text"
                 label="휴대폰 번호"
-                name='phoneNum'
+                name="phoneNum"
                 value={phoneNumber}
                 placeholder="‘_’없이 숫자만 입력해 주세요."
                 maxLength={11}
@@ -185,7 +188,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             <FormField
               isType={'text'}
               label=""
-              name='verifyCode'
+              name="verifyCode"
               value={verifyCode}
               placeholder="6자리 인증번호를 입력해 주세요."
               onChange={handleVerifyCodeChange}

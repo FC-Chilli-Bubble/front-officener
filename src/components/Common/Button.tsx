@@ -37,7 +37,7 @@ const StyledButton = styled.button<TButtonProps>`
   outline: none;
   border: none;
   border-radius: 8px;
-  margin: 34px 0;
+  margin: 30px 0;
   width: ${({ width }) => width};
   height: ${({ size }) => (size === 'normal' ? '60px' : '48px')};
   padding: 0 24px;

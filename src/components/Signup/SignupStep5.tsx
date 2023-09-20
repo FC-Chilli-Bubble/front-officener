@@ -26,7 +26,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
   // 버튼 상태
-  const [disabled, setDisabled] = useState(false); //임시로 false
+  const [disabled, setDisabled] = useState(true);
 
   const handleServiceClick = () => {
     onNextStep(4);
@@ -40,13 +40,13 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: number | string) => {
-    setEmail(newEmail.toString());
+  const handleEmailChange = (newEmail: string) => {
+    setEmail(newEmail);
     if (!newEmail) {
       setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
       return;
-    } else if (!EMAIL_REGEX.test(newEmail.toString())) {
+    } else if (!EMAIL_REGEX.test(newEmail)) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
       return;
@@ -57,13 +57,13 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: number | string) => {
-    setPassword(newPassword.toString());
+  const handlePasswordChange = (newPassword: string) => {
+    setPassword(newPassword);
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 입력해 주세요');
       return;
-    } else if (!PASSWORD_REGEX.test(newPassword.toString())) {
+    } else if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
       return;
@@ -73,7 +73,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
   // 비밀번호 재확인
-  const handlePasswordVerify = (newPassword: number | string) => {
+  const handlePasswordVerify = (newPassword: string) => {
     setPasswordVerify(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
@@ -86,6 +86,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
+      setDisabled(false); // 임시 활성화
     }
   };
 
@@ -157,13 +158,13 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
               value={password}
               placeholder="영문,숫자,특수기호 포함 8~16자입니다."
               onChange={handlePasswordChange}
-              errorMessage={''}
+              errorMessage=""
               redErrorIcon="none"
             />
             <FormField
               isType="password"
               label=""
-              name="password"
+              name="passwordVerify"
               value={passwordVerify}
               placeholder="비밀번호를 다시 입력해 주세요."
               onChange={handlePasswordVerify}
@@ -173,10 +174,10 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
           </StyledInput>
         </StyleContainer>
         <Button
-          size={'normal'}
-          type={'cta'}
-          title={'다음'}
-          width={'100%'}
+          size="normal"
+          type="cta"
+          title="다음"
+          width="100%"
           disabled={disabled}
           onClick={handleNextStep}
         />
@@ -184,22 +185,20 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     </>
   );
 };
-const StyledLayout = styled.div`
-  position: relative;
-  top: 18px;
+const StyledLayout = styled.form`
   height: calc(100% - 56px);
-  /* height: 276px; */
   padding: 0 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: red; */
 `;
 
 const StyleContainer = styled.div`
-  margin-bottom: 23px;
+  margin-top: 18px;
 `;
 const StyledInput = styled.div`
+  position: relative;
+  top: 0;
   height: 98px;
   margin-bottom: 23px;
 `;

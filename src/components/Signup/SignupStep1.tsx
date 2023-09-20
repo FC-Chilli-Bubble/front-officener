@@ -39,10 +39,9 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
     setDisabled(disabled);
   };
 
-  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
-  // 버튼 클릭 처리 함수 (다음 단계로 이동 또는 다른 작업 수행)
+  // 페이지 이동 버튼 함수
   const handleNextStep = () => {
-    onNextStep(2); 
+    onNextStep(2);
   };
 
   return (
@@ -50,7 +49,6 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
       <Header
         title="가입약관"
         leftIcon="back"
-        // leftIconClick={handleServiceClick}
       />
       <StyledLayout>
         <StyledContainer>
@@ -97,10 +95,10 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
           </StyledTermContainer>
         </StyledContainer>
         <Button
-          size={'normal'}
-          type={'cta'}
-          title={'다음'}
-          width={'100%'}
+          size="normal"
+          type="cta"
+          title="다음"
+          width="100%"
           disabled={disabled}
           onClick={handleNextStep}
         />
@@ -116,11 +114,10 @@ const StyledLayout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: #00ff04; */
 `;
 
 const StyledContainer = styled.div`
-  height: 100%;
+  height: calc(100% - 120px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -140,14 +137,12 @@ const StyledBox = styled.div`
     font-size: 16px;
     line-height: 28px;
   }
-  /* background: green; */
 `;
 
 const StyledTermContainer = styled.div`
   display: flex;
   height: 158px;
   flex-direction: column;
-  /* background-color: #0000ffac; */
 `;
 
 const StyledTermBox = styled.div`
@@ -202,21 +197,5 @@ const StyledCheckAll = styled.label`
     }
   }
 `;
-
-// const StyledButton = styled.button`
-//   height: 60px;
-//   margin: 34px 0;
-//   outline: none;
-//   border: none;
-//   border-radius: 8px;
-//   background-color: ${({ disabled, theme }) =>
-//     disabled ? theme.colors.ctaDisabledColor : theme.colors.ctaColor};
-//   font-size: 20px;
-//   font-style: normal;
-//   font-weight: 500;
-//   line-height: 27px;
-//   color: ${({ theme }) => theme.colors.white};
-//   cursor: pointer;
-// `;
 
 export default SignupStep1;
