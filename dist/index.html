@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/front-officener/vite.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>오피스너</title>
+    <!-- PWA -->
+    <link
+      rel="manifest"
+      href="data:application/json;base64,ewogICJuYW1lIjogIuyYpO2UvOyKpOuEiCIsCiAgInNob3J0X25hbWUiOiAib2ZmaWNlbmVyIiwKICAic3RhcnRfdXJsIjogIiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI0ZGRiIsCiAgInRoZW1lX2NvbG9yIjogIiMyNTYzRUIiLAogICJkZXNjcmlwdGlvbiI6ICLsuaDrpqzrsoTruJQt7Jik7ZS87Iqk64SIIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbnMvZmF2aWNvbi5pY28iLAogICAgICAic2l6ZXMiOiAiNjR4NjQgMzJ4MzIgMjR4MjQgMTZ4MTYiLAogICAgICAidHlwZSI6ICJpbWFnZS94LWljb24iCiAgICB9LAogICAgewogICAgICAic3JjIjogImljb25zL2Zhdmljb24tMTk2eDE5Ni5wbmciLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAic2l6ZXMiOiAiMTk2eDE5NiIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbnMvbG9nby01MTJ4NTEyLnBuZyIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJpY29ucy9sb2dvLTUxMng1MTIucG5nIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9Cg==" />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/png;base64,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" />
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black" />
+    <meta
+      name="apple-mobile-web-app-title"
+      content="오피스너" />
+    <meta
+      name="theme-color"
+      content="#2563EB" />
+    <!-- Font -->
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+    <script type="module" crossorigin src="/front-officener/assets/index-e017fbf3.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <script>
+      if ('serviceWorker' in navigator) {
+        // Register a service worker hosted at the root of the
+        // site using the default scope.
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(registration => {
+            console.log('Service worker registration succeeded:', registration);
+          })
+          .catch(err => {
+            console.log('Service worker registration failed:', error);
+          });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    </script>
+  </body>
+</html>
