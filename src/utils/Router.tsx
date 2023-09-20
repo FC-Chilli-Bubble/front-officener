@@ -2,9 +2,11 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from '@/App';
 import Home from '@/pages/Home/Home';
+import Deliverypage from '@/pages/Deliverypage/DeliveryPage';
+import DetailsPage from '@/pages/Deliverypage/DetailsPage';
 import Login from '@/pages/Login/Login';
 import Intro from '@/pages/Signup/Intro';
-import Signup from '@/pages/Signup/Singup'
+import Signup from '@/pages/Signup/Singup';
 import DeliveryPost from '@/pages/Delivery/DeliveryPost';
 import NotFound from '@/components/Common/NotFound';
 import ErrorComponent from '@/components/Common/ErrorComponent';
@@ -36,6 +38,11 @@ export const router = createBrowserRouter([
           {
             path: '/delivery',
             element: <Home />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/Deliverypage',
+            element: <Deliverypage />,
             errorElement: <ErrorComponent />
           },
           {
@@ -82,8 +89,18 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
+            path: '/DetailsPage',
+            element: <DetailsPage />,
+            errorElement: <ErrorComponent />
+          },
+          {
             path: '/chatroom',
             element: <ChatRoom />,
+            errorElement: <ErrorComponent />
+          },
+          {
+            path: '/delivery/post',
+            element: <DeliveryPost />,
             errorElement: <ErrorComponent />
           }
         ]
