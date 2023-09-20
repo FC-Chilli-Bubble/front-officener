@@ -128,6 +128,7 @@ const StyledOfficeInfo = styled.div`
 
       h6 {
         width: 45px;
+        font-weight: 500;
         color: ${({ theme }) => theme.colors.grayColor9};
       }
 
