@@ -33,6 +33,7 @@ const PostStep1 = ({ openBottomSheet }: TPostStep1Props) => {
   return (
     <>
       <FormField
+        name='storeName'
         isType="text"
         label='가게이름'
         isRequired
@@ -43,6 +44,7 @@ const PostStep1 = ({ openBottomSheet }: TPostStep1Props) => {
       />
 
       <FormField
+        name='storeLink'
         isType="text"
         label='메뉴판 링크'
         isRequired
@@ -53,6 +55,7 @@ const PostStep1 = ({ openBottomSheet }: TPostStep1Props) => {
       />
 
       <FormField
+        name='deliveryTip'
         isType="number"
         label='배달비'
         isRequired

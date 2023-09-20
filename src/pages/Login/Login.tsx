@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 
+import { useNavigate } from 'react-router-dom';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
+
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
-import { useNavigate } from 'react-router-dom';
 
-type ErrorRedIconType = 'wrong' | 'error' | 'none';
+type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,28 +19,28 @@ const Login = () => {
   // 오류 메시지 상태
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
-  const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
-  const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
+  const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorRedIconType>('none');
+  const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorRedIconType>('none');
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
-      navigate('/');
-      console.log('이동함');
-      return;
+    navigate('/');
+    console.log('이동함');
+    return;
   };
   // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {
-    navigate('/intro/register');
+    navigate('/intro/signup');
     return;
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: string) => {
-    setEmail(newEmail);
+  const handleEmailChange = (newEmail: string | number) => {
+    setEmail(newEmail.toString());
     if (!newEmail) {
       setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
       return;
-    } else if (!EMAIL_REGEX.test(newEmail)) {
+    } else if (!EMAIL_REGEX.test(newEmail.toString())) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
       return;
@@ -50,13 +51,13 @@ const Login = () => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string) => {
-    setPassword(newPassword);
+  const handlePasswordChange = (newPassword: string | number) => {
+    setPassword(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 입력해 주세요');
       return;
-    } else if (!PASSWORD_REGEX.test(newPassword)) {
+    } else if (!PASSWORD_REGEX.test(newPassword.toString())) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
       return;
@@ -65,11 +66,6 @@ const Login = () => {
       setPwsErrorIcon('none');
     }
   };
-
-  // 이메일과 비밀번호 업데이트 감지
-  useEffect(() => {
-    updateLoginButtonState(email, password);
-  }, [email, password]);
 
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
@@ -85,23 +81,50 @@ const Login = () => {
   // 로그인 로직
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    // let res = '';
     if (isValid) {
       // 유효성 검사가 통과되면 로그인 로직 수행
       try {
         // 로그인 로직을 구현
         // 1. 서버로 이메일과 비밀번호를 전송하고 인증을 수행(API Axios호출)
-        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
+        // const response = await axios.post(
+        //   LOGIN_URL,
+        //   JSON.stringify{(email, password)},
+        //   {
+        //     headers: { 'Content-Type': 'application/json' }
+        //   }
+        // );
+        // // Login Successful
+        // res = 'Login Successful!';
+        navigate('/');
       } catch (error) {
-        console.error('로그인 실패:', error);
-        setEmailErrorIcon('wrong');
-        setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
-        setPwsErrorIcon('error');
-        setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // if (!error?.response) {
+        //   console.error('로그인 실패:', error);
+        // } else if (error.response?.status === 401) {
+        //   setEmailErrorIcon('wrong');
+        //   setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // } else {
+        //   setPwsErrorIcon('error');
+        //   setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+        // }
+        return;
       }
-      return;
     }
   };
+
+  // 이메일과 비밀번호 업데이트 감지
+  useEffect(() => {
+    updateLoginButtonState(email, password);
+  }, [email, password]);
+
+  // 로그인 상태면 메인으로~
+  // useEffect(() => {
+  //   if (accessToken) {
+  //     navigate('/')
+  //   } else {
+  // navigate('/login')
+  // }
+  // },[])
 
   return (
     <>
@@ -117,10 +140,12 @@ const Login = () => {
               isType="email"
               label="아이디"
               value={email}
+              name="email"
               placeholder="이메일을 입력해 주세요."
               onChange={handleEmailChange}
               errorMessage={emailMsg}
               redErrorIcon={emailErrorIcon}
+              isRequired
             />
           </StyledInput>
           <StyledInput>
@@ -128,10 +153,12 @@ const Login = () => {
               isType="password"
               label="비밀번호"
               value={password}
+              name="password"
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
               redErrorIcon={pwsErrorIcon}
+              isRequired
             />
           </StyledInput>
           <StyledButton>
@@ -173,9 +200,12 @@ const StyledContainer = styled.form`
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
+  /* background-color: green; */
 `;
 const StyledInput = styled.div`
   height: 98px;
+  margin-bottom: 10px;
+  /* background-color: blue; */
 `;
 
 const StyledButton = styled.div`
