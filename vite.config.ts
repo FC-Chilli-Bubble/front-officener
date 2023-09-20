@@ -4,6 +4,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/fc-chilli-bubble.github.io/front-officener/',
+  base: '/front-officener/',
   plugins: [react(), tsconfigPaths()]
 });

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { foodData } from '@/pages/Deliverypage/dummyData';
 import FoodItem from './FoodItem';
 
+import IconTime from '@/assets/food/Time.svg';
+
 interface ITogetherDeliveryProps {
   selectedCategory: string;
 }
@@ -15,7 +17,7 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
         <SubHeadingContainer>
           <SubHeading>곧 마감이에요!</SubHeading>
           <Icon
-            src="src/assets/food/Time.svg"
+            src={IconTime}
             alt="Icon Description"
           />
         </SubHeadingContainer>
