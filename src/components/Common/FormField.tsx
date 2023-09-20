@@ -15,12 +15,14 @@ type TInputProps = {
   isValid?: boolean;
   value: string | number;
   name: string;
+  maxLength?: number;
   // eslint-disable-next-line no-unused-vars
-  onChange: (value: string | number) => void;
+  onChange: (value: string) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
 const FormField = ({
+  name,
   isType,
   label,
   isRequired = false,
@@ -29,7 +31,7 @@ const FormField = ({
   errorMessage,
   isValid = false,
   value,
-
+  maxLength,
   onChange
 }: TInputProps) => {
   return (
@@ -47,9 +49,10 @@ const FormField = ({
           redErrorIcon={redErrorIcon}
           type={isType}
           placeholder={placeholder}
-          id={isType}
-          name={isType}
+          id={name}
+          name={name}
           value={value}
+          maxLength={maxLength}
           onChange={e => {
             onChange(e.target.value);
           }}

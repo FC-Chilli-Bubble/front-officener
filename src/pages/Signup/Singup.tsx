@@ -17,7 +17,7 @@ interface IStepHandler {
 }
 
 const Signup = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [stepNum, setStepNum] = useState(1);
   // const [nextStepNum, setNextStepNum] = useState<number | null>(null); // 선택한 다음 스텝 번호
 
