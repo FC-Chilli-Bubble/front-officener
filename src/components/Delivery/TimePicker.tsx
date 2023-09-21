@@ -85,6 +85,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   color: #1A1A1A;
+  font-family: "Pretendard Variable", sans-serif !important;
 `;
 
 const StyledConfirm = styled.button`
