@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 
-import IconSend from '@/assets/chatRooms/ico_send.svg';
+import IconSend from '@/assets/chatrooms/ico_send.svg';
 
 const ChatInput = () => {
   const [inputValue, setInputValue] = useState('');
