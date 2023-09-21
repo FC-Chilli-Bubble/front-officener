@@ -1,6 +1,6 @@
-import ChatBubble from '@/components/ChatRoom/ChatBubble';
-import ChatDeclarationBotomSheet from '@/components/ChatRoom/ChatDeclarationBotomSheet';
-import ChatHeader from '@/components/ChatRoom/ChatHeader';
+import ChatBubble from '@/components/ChatRoom/ChatBubble/ChatBubble';
+import ChatDeclarationBotomSheet from '@/components/ChatRoom/ChatDeclaration/ChatDeclarationBotomSheet';
+import ChatHeader from '@/components/ChatRoom/ChatHeader/ChatHeader';
 import ChatInput from '@/components/ChatRoom/ChatInput';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import Header from '@/components/Common/Header';
@@ -47,7 +47,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 2000px;
-  height: 100%;
+  height: 100vh;
 `;
 const SheetContainer = styled.div`
   position: relative;

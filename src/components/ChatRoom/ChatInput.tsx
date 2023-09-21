@@ -5,6 +5,7 @@ import IconSend from '@/assets/chatrooms/ico_send.svg';
 
 const ChatInput = () => {
   const [inputValue, setInputValue] = useState('');
+  const [inputFocus, setInputFocus] = useState(false);
   const SEND_ICON = IconSend;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,25 +15,35 @@ const ChatInput = () => {
   const handleSubmit = (e: React.MouseEvent) => {
     console.log(inputValue);
     e.preventDefault();
-    //웹소켓 통신 연결
+    // 웹소켓 통신 연결
     setInputValue('');
   };
 
-  //엔터 누를 때 보내기
+  // 엔터 누를 때 보내기
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      //웹소켓 통신 연결
+      // 웹소켓 통신 연결
       setInputValue('');
     }
   };
 
+  const handleInputFocus = () => {
+    setInputFocus(true);
+  };
+
+  const handleInputBlur = () => {
+    setInputFocus(false);
+  };
+
   return (
-    <StyledContainer>
+    <StyledContainer inputfocus={inputFocus}>
       <StyledInputBox
         placeholder="메시지 보내기"
         onChange={handleChange}
         onKeyDown={handleKeyPress}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         value={inputValue}
       />
       <StyledSendIco onClick={handleSubmit}>
@@ -45,7 +56,7 @@ const ChatInput = () => {
   );
 };
 
-const StyledContainer = styled.form`
+const StyledContainer = styled.form<{ inputfocus: boolean }>`
   bottom: 0;
   display: flex;
   width: 100%;
@@ -55,7 +66,9 @@ const StyledContainer = styled.form`
   gap: 11px;
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.05);
+  padding-bottom: ${({ inputfocus }) => (inputfocus ? '10px' : '24px')};
 `;
+
 const StyledInputBox = styled.input`
   width: 100%;
   border: none;
@@ -68,12 +81,20 @@ const StyledInputBox = styled.input`
     outline: none;
   }
 `;
+
 const StyledSendIco = styled.button`
   border: none;
   background-color: transparent;
   width: 24px;
   height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  img {
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 `;
 
 export default ChatInput;

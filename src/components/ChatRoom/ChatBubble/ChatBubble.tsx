@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 
 import { messageData } from '@/apis/dummy_ChatAPI';
-import ChatAlert from '@/components/ChatRoom/ChatAlert';
-import ChatBubbleRender from '@/components/ChatRoom/ChatBubbleRender';
+import ChatAlert from '@/components/ChatRoom/ChatBubble/ChatAlert';
+import ChatBubbleRender from '@/components/ChatRoom/ChatBubble/ChatBubbleRender';
 
 const ChatBubble = () => {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -36,7 +36,7 @@ const ChatBubble = () => {
 
 const StyledContainer = styled.div`
   display: flex;
-  height: 100%;
+  height: 100vh;
   flex-direction: column;
   padding: 0 12px 16px 12px;
   overflow-y: scroll;
