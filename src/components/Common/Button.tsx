@@ -6,7 +6,7 @@ type ButtonSize = 'small' | 'normal';
 type TButtonProps = {
   size?: ButtonSize;
   type?: ButtonType;
-  title: string;
+  title: string | JSX.Element;
   width?: string;
   disabled?: boolean;
   onClick: () => void;

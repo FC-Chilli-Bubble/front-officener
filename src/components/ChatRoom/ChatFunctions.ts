@@ -36,6 +36,15 @@ export const isRemitted = (senderId: number) => {
   }
 };
 
+export const isReceived = (senderId: number) => {
+  const getMemberData = messageData.members.find(member => member.id === senderId);
+  if (getMemberData) {
+    return getMemberData.hasReceived;
+  } else {
+    return false;
+  }
+};
+
 export const isHost = (senderId: number) => {
   const getMemberData = messageData.members.find(member => member.id === senderId);
   if (getMemberData) {
