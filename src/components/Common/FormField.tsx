@@ -145,9 +145,11 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
   border: 1px solid
     ${({ redErrorIcon, theme }) => {
       if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
-        return theme.colors.errorColor; // 빨간색 (wrong 또는 error)
+        return theme.colors.errorColor;
+      }if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
+        return theme.colors.grayColor4;
       } else {
-        return theme.colors.grayColor4; // 회색 (나머지)
+        return theme.colors.successColor; 
       }
     }};
   ::placeholder {

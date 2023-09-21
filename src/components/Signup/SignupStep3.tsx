@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
@@ -24,7 +24,9 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false); //임시로 false
   const [searchResults, setSearchResults] = useState<IBuilding[]>([]);
   // 검색 결과 상태
-  // const [selectedhBuilding, setSelectedBuilding] = useState<IBuilding | null>(null);
+  // const [selectedhBuilding, setSelectedBuilding] = useState<IBuilding | null>
+  const [selectedBuilding, setSelectedBuilding] = useState<IBuilding | null>(null);
+  null;
   // const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleServiceClick = () => {
@@ -33,17 +35,20 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 검색 폼
-  // const handleFormSubmit = useCallback((e: React.FormEvent) => {
-  //   // e.preventDefault(); // 폼 제출 기본 동작 막기
-  //   // handleSearchChange(); // 원하는 작업 수행 (예: 검색)
-  //   const value = e.target.value;
-  //   setInputValue(value);
-  //   // 검색어를 기반으로 검색 수행
-  //   const results = buildingData.data.buildings.filter(building =>
-  //     building.buildingName.toLowerCase().includes(value.toLowerCase())
-  //   );
-  //   setSearchResults(results);
-  // },[inputValue])
+  const handleFormSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      //   // handleSearchChange(); // 원하는 작업 수행 (예: 검색)
+      //   const value = e.target.value;
+      //   setInputValue(value);
+      //   // 검색어를 기반으로 검색 수행
+      //   const results = buildingData.data.buildings.filter(building =>
+      //     building.buildingName.toLowerCase().includes(value.toLowerCase())
+      //   );
+      //   setSearchResults(results);
+    },
+    [inputValue]
+  );
 
   // 검색창
   const handleInputChange = (newName: string) => {
@@ -56,7 +61,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const handleButtonClick = () => {
     // 입력된 검색어로 검색 결과를 필터링합니다.
     const results = buildingData.data.buildings.filter(building =>
-      building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+      building.buildingName.replace(/\s/g, '').toLowerCase().includes(inputValue.toLowerCase())
     );
     setSearchResults(results);
   };
@@ -72,6 +77,11 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   //   setBuildingName(selectedOffice);
   //   console.log('선택:', selectedOffice);
   // };
+
+  const handleRadioChange = (building: IBuilding) => {
+    setSelectedBuilding(building);
+    setDisabled(false); // 임시 작성_에러메세지 방지
+  };
 
   //  검색 수행 함수
   // const handleSearchChange = (e: string) => {
@@ -91,7 +101,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   // const handleResultClick = item => {
   //   setSelectedItem(item);
   //   onNextStep(2, building.buildingName, item.officeName);
-  //   setDisabled(false); // 선택하면 다음 버튼 활성화
+    // setDisabled(false); 
   // };
 
   const handleNextStep = () => {
@@ -128,16 +138,25 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
           </StyledFormButton>
         </StyledFormContainer>
         <StyledLine />
-        {searchResults.length > 0 && (
-          <StyledListBox>
-            {searchResults.map(building => (
-              <li key={building.id}>
-                {building.buildingName}
-                <button onClick={() => handleNextStep(buildingName)}>{'선택'}</button>
-              </li>
-            ))}
-          </StyledListBox>
-        )}
+        <SytledListContainer>
+          {searchResults.length > 0 && (
+            <StyledListBox>
+              {searchResults.map(building => (
+                <StyledList key={building.id}>
+                  <RadioInput
+                    type="radio"
+                    name="building"
+                    id={building.id.toString()}
+                    value={building.id.toString()}
+                    checked={selectedBuilding?.id === building.id}
+                    onChange={() => handleRadioChange(building)}
+                  />
+                  <label htmlFor={building.id.toString()}>{building.buildingName}</label>
+                </StyledList>
+              ))}
+            </StyledListBox>
+          )}
+        </SytledListContainer>
         <StyledButtonContainer>
           <Button
             size="normal"
@@ -197,10 +216,56 @@ const StyledLine = styled.hr`
   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
 `;
 
-const StyledListBox = styled.ul`
+const SytledListContainer = styled.div`
   height: calc(100% - 300px);
   margin-top: 12px;
-  background-color: #ff000012;
+  /* background-color: #ff000012; */
+`;
+
+const StyledListBox = styled.ul`
+  list-style-type: none;
+`;
+
+const StyledList = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+`;
+
+const RadioInput = styled.input`
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid ${({ theme }) => theme.colors.ctaColor};
+  background-color: 1.5px solid ${({ theme }) => theme.colors.white};
+  /* transition: border 0.2s ease-in-out; */
+  cursor: pointer;
+  + label {
+    font-size: 14px;
+    padding: 0 10px;
+    ${({ theme }) => theme.colors.grayColor5};
+    cursor: pointer;
+  }
+  &:checked {
+    border: 4px solid ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.ctaColor};
+  }
+  &:checked::before {
+    content: '';
+    display: block;
+    position: absolute;
+    transform: translate(-24%, -24%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid ${({ theme }) => theme.colors.ctaColor};
+    background-color: transparent;
+  }
+  &:hover {
+    box-shadow: 0 0 0 max(4px, 0.2em) ${({ theme }) => theme.colors.primaryHoverColor};
+    cursor: pointer;
+  }
 `;
 
 const StyledButtonContainer = styled.div`

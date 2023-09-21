@@ -12,7 +12,7 @@ interface SignupStepProps {
   onNextStep: (stepNum: number) => void;
 }
 
-type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
+type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
@@ -23,8 +23,8 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   // 오류 메시지 상태
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
-  const [emailErrorIcon, setEmailErrorIcon] = useState<ErrorRedIconType>('none');
-  const [pwsErrorIcon, setPwsErrorIcon] = useState<ErrorRedIconType>('none');
+  const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorIconType>('none');
+  const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorIconType>('none');
   // 버튼 상태
   const [disabled, setDisabled] = useState(true);
 

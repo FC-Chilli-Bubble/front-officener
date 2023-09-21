@@ -24,34 +24,51 @@ export const buildingData: IData = {
     buildings: [
       {
         id: 1,
-        buildingName: '미왕 X',
+        buildingName: '미왕빌딩',
         buildingAddress: '123 Main Street',
         offices: [
           {
             id: 1,
-            officeName: '오피스 A',
+            officeName: '오피스A',
             officeNum: 'Room 101'
           },
           {
             id: 2,
-            officeName: '회사 B',
+            officeName: '오피스B',
             officeNum: 'Room 102'
           }
         ]
       },
       {
         id: 2,
-        buildingName: '마왕 Y',
+        buildingName: '미왕왕',
         buildingAddress: '123 Main Street',
         offices: [
           {
             id: 1,
-            officeName: '칠리버블',
+            officeName: '버블',
             officeNum: 'Room 101'
           },
           {
             id: 2,
-            officeName: '칠리버블버블',
+            officeName: '버블버블',
+            officeNum: 'Room 102'
+          }
+        ]
+      },
+      {
+        id: 3,
+        buildingName: '미왕',
+        buildingAddress: '123 Main Street',
+        offices: [
+          {
+            id: 1,
+            officeName: '칠리',
+            officeNum: 'Room 101'
+          },
+          {
+            id: 2,
+            officeName: '칠리칠리',
             officeNum: 'Room 102'
           }
         ]
@@ -59,4 +76,3 @@ export const buildingData: IData = {
     ]
   }
 };
-

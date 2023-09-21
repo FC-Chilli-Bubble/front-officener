@@ -11,7 +11,7 @@ interface SignupStepProps {
   onNextStep: (stepNum: number) => void;
 }
 
-type TErrorRedIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
+type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
@@ -20,7 +20,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [verifyCode, setVerifyCode] = useState('');
   // 오류 메시지 상태
   const [verifyNumMsg, setVerifyNumMsg] = useState('');
-  const [verifyNumErrorIcon, setVerifyNumErrorIcon] = useState<TErrorRedIconType>('none');
+  const [verifyNumErrorIcon, setVerifyNumErrorIcon] = useState<TErrorIconType>('none');
   // 인증요청 버튼 상태
   const [isValid, setIsValid] = useState(false);
   // 인증요청 버튼 텍스트 상태
