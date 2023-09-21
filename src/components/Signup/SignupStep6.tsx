@@ -228,7 +228,7 @@ const StyledBox = styled.div`
   align-items: end;
 `;
 const StyledButton = styled.button`
-  width: 88px;
+  width: 94px;
   height: 48px;
   margin-left: 8px;
   display: flex;

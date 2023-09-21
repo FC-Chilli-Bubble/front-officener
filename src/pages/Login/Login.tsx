@@ -229,12 +229,10 @@ const StyledContainer = styled.form`
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
-  /* background-color: green; */
 `;
 const StyledInput = styled.div`
   height: 98px;
   margin-bottom: 10px;
-  /* background-color: blue; */
 `;
 
 const StyledButton = styled.div`
