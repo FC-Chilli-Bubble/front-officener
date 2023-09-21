@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { foodData, IFoodData } from './dummyData';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
@@ -53,7 +52,10 @@ const DeliveryPage = () => {
         />
       </StyledContainer>
       <StyledButtonBox>
-        <PostButton img={AddButton} onClick={handleButtonClick} />
+        <PostButton
+          img={AddButton}
+          onClick={handleButtonClick}
+        />
       </StyledButtonBox>
     </>
   );
@@ -66,14 +68,14 @@ const StyledContainer = styled.div`
 const StyledButtonBox = styled.div`
   position: fixed;
   top: 0;
-  max-width: 560px; 
+  max-width: 560px;
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  pointer-events: none; 
+  pointer-events: none;
 `;
 
-const PostButton = styled.button < { img: string; }>`
+const PostButton = styled.button<{ img: string }>`
   position: absolute;
   bottom: 126px;
   right: 26px;

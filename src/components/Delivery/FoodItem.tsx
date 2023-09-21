@@ -26,7 +26,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
 
   // TEST용
   const handleMovePost = () => {
-    navigate('/delivery/post');
+    navigate('/delivery/details');
   };
 
   if (listStyle) {
