@@ -18,6 +18,8 @@ type TInputProps = {
   maxLength?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onBlur: (value: string) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
@@ -32,7 +34,8 @@ const FormField = ({
   isValid = false,
   value,
   maxLength,
-  onChange
+  onChange,
+  onBlur
 }: TInputProps) => {
   return (
     <StyledLayout>
@@ -55,6 +58,9 @@ const FormField = ({
           maxLength={maxLength}
           onChange={e => {
             onChange(e.target.value);
+          }}
+          onBlur={e => {
+            onBlur(e.target.value);
           }}
           required></StyledErrorIBox>
         {isValid && (

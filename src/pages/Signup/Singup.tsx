@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
 import { styled } from 'styled-components';
-// import { useNavigate } from 'react-router-dom';
 
 import SignupStep1 from '@/components/Signup/SignupStep1';
 import SignupStep2 from '@/components/Signup/SignupStep2';
@@ -19,15 +18,11 @@ interface IStepHandler {
 const Signup = () => {
   // const navigate = useNavigate();
   const [stepNum, setStepNum] = useState(1);
-  // const [nextStepNum, setNextStepNum] = useState<number | null>(null); // 선택한 다음 스텝 번호
+
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleNextStep: IStepHandler = nextStepNum => {
     setStepNum(nextStepNum);
-    // if (nextStepNum === 7) {
-    //   navigate('/login');
-    //   console.log('이동함');
-    // }
   };
 
   const currentStepComponent = useMemo(() => {
