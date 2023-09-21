@@ -61,7 +61,7 @@ const StyledContainer = styled.div`
 
 const PostButton = styled.button`
   position: fixed;
-  bottom: 80px;
+  bottom: 120px;
   right: 20px;
   width: 50px;
   height: 50px;
