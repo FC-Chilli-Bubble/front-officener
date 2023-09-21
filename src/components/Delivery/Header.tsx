@@ -1,15 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import HeaderBg from '@/assets/food/img_delivery_bg.svg';
+import HeaderPoint from '@/assets/food/img_delivery_header.svg';
+
 interface HeaderProps {
   selectedMenu: string;
 }
 
 const Header: React.FC<HeaderProps> = ({ selectedMenu }) => {
   return (
-    <StyledHeader>
-      <StyledP isVisible={selectedMenu === '함께배달'}>같은 건물 사람들과 배달비 걱정 없이</StyledP>
-      <StyledP isVisible={selectedMenu === '함께배달'}>맛있는 한 끼를 주문해보세요!</StyledP>
+    <StyledHeader bgImage={HeaderBg}>
+      {selectedMenu === '함께배달' && (
+        <>
+          <img src={HeaderPoint} />
+          <div>
+            <p>같은 건물 사람들과 배달비 걱정 없이</p>
+            <p>맛있는 한 끼를 주문해보세요!</p>
+          </div>
+        </>
+      )}
       <h3>{getHeaderText(selectedMenu)}</h3>
     </StyledHeader>
   );
@@ -28,31 +38,42 @@ const getHeaderText = (menu: string) => {
   }
 };
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.div<{ bgImage: string }>`
   background-image: none;
   width: 100%;
-  padding: 204px 0 15px 25px;
-  background-image: url('src/assets/food/IMG2345.svg');
+  height: 254px;
+  padding: 0 23px 21px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 10px;
+  background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-repeat: no-repeat;
   background-position: right bottom;
   background-color: ${props => props.theme.colors.marinblueColor};
+  position: relative;
+
+  img {
+    position: absolute;
+    left: 6px;
+    bottom: 12px;
+  }
+
   h3 {
     color: ${props => props.theme.colors.white};
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
   }
 
   p {
-    color: ${props => props.theme.colors.primaryPressedColor};
-    font-size: 13px;
-    padding: 0 0 5px 0;
+    color: #bcd1ff;
+    font-size: 14px;
+    margin-bottom: 5px;
   }
-`;
 
-const StyledP = styled.p<{ isVisible: boolean }>`
-  color: ${props => props.theme.colors.primaryPressedColor};
-  font-size: 12px;
-  margin-bottom: 5px;
-  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
+  :last-child {
+    margin-bottom: 0px;
+  }
 `;
 export default Header;

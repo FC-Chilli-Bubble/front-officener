@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { foodData, IFoodData } from './dummyData';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
+import AddButton from '@/assets/food/postbutton.svg';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
@@ -28,6 +30,12 @@ const DeliveryPage = () => {
     setSelectedCategory(category);
   };
 
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/delivery/post');
+  };
+
   return (
     <>
       <Header selectedMenu={selectedMenu} />
@@ -35,7 +43,6 @@ const DeliveryPage = () => {
         selectedMenu={selectedMenu}
         handleMenuClick={handleMenuClick}
       />
-      <StyledDivider />
       <StyledContainer>
         <MenuContent
           selectedMenu={selectedMenu}
@@ -44,6 +51,12 @@ const DeliveryPage = () => {
           data={data}
         />
       </StyledContainer>
+      <StyledButtonBox>
+        <PostButton
+          img={AddButton}
+          onClick={handleButtonClick}
+        />
+      </StyledButtonBox>
     </>
   );
 };
@@ -52,10 +65,30 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-const StyledDivider = styled.div`
+const StyledButtonBox = styled.div`
+  position: fixed;
+  top: 0;
+  max-width: 560px;
+  margin: 0 auto;
   width: 100%;
-  height: 2px;
-  background-color: ${props => props.theme.colors.grayColor1};
+  height: 100%;
+  pointer-events: none;
+`;
+
+const PostButton = styled.button<{ img: string }>`
+  position: absolute;
+  bottom: 126px;
+  right: 26px;
+  width: 48px;
+  height: 48px;
+  background-image: ${({ img }) => `url(${img})`};
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
 `;
 
 export default DeliveryPage;
