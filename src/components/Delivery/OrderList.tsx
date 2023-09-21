@@ -112,7 +112,7 @@ const CategoryButton = styled.button`
   height: 48px;
   flex-shrink: 0;
   background-color: ${props => props.theme.colors.white};
-  border: 2px solid ${props => props.theme.colors.marinblueColor};
+  border: 1px solid ${props => props.theme.colors.marinblueColor};
   cursor: pointer;
   color: ${props => props.theme.colors.marinblueColor};
   border-radius: 8px;
