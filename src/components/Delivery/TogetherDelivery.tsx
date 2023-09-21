@@ -91,6 +91,10 @@ const FoodCardContainer = styled(ScrollHidden)`
   flex-wrap: nowrap;
   overflow-x: scroll;
   white-space: nowrap;
+
+  &::-webkit-scrollbar{
+    display:none;
+  }
 `;
 
 export default TogetherDelivery;
