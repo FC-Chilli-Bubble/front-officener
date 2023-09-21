@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 
-import IconSend from '@/assets/chatRooms/ico_send.svg';
+import IconSend from '@/assets/chatrooms/ico_send.svg';
 
 const ChatInput = () => {
   const [inputValue, setInputValue] = useState('');
   const SEND_ICON = IconSend;
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.MouseEvent) => {
     console.log(inputValue);
     e.preventDefault();
     //웹소켓 통신 연결
@@ -19,8 +19,12 @@ const ChatInput = () => {
   };
 
   //엔터 누를 때 보내기
-  const handleKeyPress = e => {
-    e.key === 'Enter' && handleSubmit(e);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      //웹소켓 통신 연결
+      setInputValue('');
+    }
   };
 
   return (
@@ -28,7 +32,7 @@ const ChatInput = () => {
       <StyledInputBox
         placeholder="메시지 보내기"
         onChange={handleChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         value={inputValue}
       />
       <StyledSendIco onClick={handleSubmit}>

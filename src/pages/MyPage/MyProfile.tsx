@@ -23,6 +23,7 @@ const MyProfile = () => {
         ...MODAL_DATAS.LOGOUT_CONFIRM,
         negativeCallback: () => {
           // TODO : 로그아웃 API 함수 호출
+          navigate('/intro', { replace: true });
         }
       }
     );

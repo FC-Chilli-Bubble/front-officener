@@ -6,12 +6,12 @@ import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import TagList from '@/components/Delivery/TagList';
-import PostStep1 from '@/components/Delivery/PostStep1';
+import PostStepStoreInfo from '@/components/Delivery/PostStepStoreInfo';
+import PostStepDeliveryInfo from '@/components/Delivery/PostStepDeliveryInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { useModal } from '@/hooks/useModal';
 import { postAtom } from '@/states/postAtom';
 import TimePicker from '@/components/Delivery/TimePicker';
-import PostStep2 from '@/components/Delivery/PostStep2';
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
@@ -48,17 +48,17 @@ const DeliveryPost = () => {
     if (stepNum === 1) {
       setIsValid(
         postData.storeName !== '' &&
-          postData.storeLink !== '' &&
-          postData.tag !== '' &&
-          (postData.deliveryTip ? postData.deliveryTip : '').toString() !== ''
+        postData.storeLink !== '' &&
+        postData.tag !== '' &&
+        (postData.deliveryTip ? postData.deliveryTip : '').toString() !== ''
       );
       return;
     }
     setIsValid(
       postData.bank !== '' &&
-        postData.account !== '' &&
-        postData.closedTime !== '' &&
-        (postData.maximumNum ? postData.maximumNum : '').toString() !== ''
+      postData.account !== '' &&
+      postData.closedTime !== '' &&
+      (postData.maximumNum ? postData.maximumNum : '').toString() !== ''
     );
   }, [postData, stepNum]);
 
@@ -86,9 +86,9 @@ const DeliveryPost = () => {
 
       <StyledContainer onClick={handleCloseBottomSheet}>
         {stepNum === 1 ? (
-          <PostStep1 openBottomSheet={handleOpenBottomSheet} />
+          <PostStepStoreInfo openBottomSheet={handleOpenBottomSheet} />
         ) : (
-          <PostStep2 openBottomSheet={handleOpenBottomSheet} />
+          <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} />
         )}
       </StyledContainer>
 

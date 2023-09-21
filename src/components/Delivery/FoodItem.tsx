@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import IconAlarm from '@/assets/food/icon_alarm.svg';
 interface IFoodData {
   사진?: string;
   가게이름: string;
@@ -17,9 +19,20 @@ interface IFoodItemProps {
 }
 
 const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listStyle = false }) => {
+  const navigate = useNavigate();
+
+  const handleMoveDetail = () => {
+    navigate('/delivery/details');
+  };
+
+  // TEST용 
+  const handleMovePost = () => {
+    navigate('/delivery/post');
+  };
+
   if (listStyle) {
     return (
-      <StyledFoodCardListStyle>
+      <StyledFoodCardListStyle onClick={handleMoveDetail}>
         <img
           src={food?.사진}
           alt="음식 사진"
@@ -47,7 +60,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
   }
 
   return (
-    <StyledFoodCard>
+    <StyledFoodCard onClick={handleMovePost}>
       <img
         src={food?.사진}
         alt="음식 사진"
@@ -56,7 +69,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
         <>
           <TimeLimit>
             <TimeIcon
-              src="src/assets/food/icon_alarm.svg"
+              src={IconAlarm}
               alt="Time Icon"
             />
             {food?.이체해야하는시간}까지

@@ -10,7 +10,7 @@ const ChatDeclarationStep1 = () => {
   const [textAreaValue, setTextAreaValue] = useState('');
   const [textAreaCount, setTextAreaCount] = useState(0);
 
-  const handleOnChange = e => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextAreaValue(e.target.value);
     setTextAreaCount(e.target.value.length);
   };

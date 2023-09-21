@@ -9,7 +9,7 @@ type TBottomSheetModalProps = {
 
 const BottomSheetModal = ({ isOpen, onClose, children }: TBottomSheetModalProps,) => {
   return (
-    <Sheet isOpen={isOpen} onClose={onClose} detent="content-height">
+    <Sheet isOpen={isOpen} onClose={onClose} detent="content-height" disableDrag={true}>
       <StyledBottomSheet>
         <Sheet.Header />
         <Sheet.Content>
@@ -27,6 +27,7 @@ const StyledBottomSheet = styled(Sheet.Container)`
     right: 0;
     margin: 0 auto;
     border-radius: 20px 20px 0 0 !important;
+     font-family: "Pretendard Variable", sans-serif !important;
 `;
 
 

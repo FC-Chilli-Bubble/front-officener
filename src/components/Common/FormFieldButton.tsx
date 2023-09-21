@@ -24,7 +24,7 @@ const FormFieldButton = ({
   placeholder,
   value,
   onChange,
-  size,
+  size = 'normal',
   title,
   isValid = false,
   onClick
@@ -98,7 +98,7 @@ const StyledInputBox = styled.input`
   
 `;
 
-const StyledButtonBox = styled.button<TSearchProps>`
+const StyledButtonBox = styled.button<{ size: ButtonSize, isValid: boolean; }>`
   width: 78px;
   height: ${({ size }) => (size === 'normal' ? '60px' : '48px')};
   padding: 0 10px;
@@ -115,7 +115,7 @@ const StyledButtonBox = styled.button<TSearchProps>`
   cursor: pointer;
   &:active {
     background-color: ${({ isValid, theme }) =>
-      isValid ? theme.colors.ctaPressedColor : theme.colors.ctaPressedColor};
+    isValid ? theme.colors.ctaPressedColor : theme.colors.ctaPressedColor};
   }
 
   /* &:disabled {

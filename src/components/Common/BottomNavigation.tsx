@@ -29,7 +29,7 @@ const BottomNavigation = () => {
 
 const StyledNav = styled.nav`
   width: 100%; 
-  height: 56px; 
+  height: 90px; 
   padding: 9px 0 7px;
   background-color: ${({ theme }) => theme.colors.white};
   border-top: 0.3px solid ${({ theme }) => theme.colors.barBorderColor};
@@ -60,7 +60,7 @@ const StyledNavItem = styled(Link) <{ $isActive: boolean; }>`
 
   div {
     font-size: 10px;
-    color: ${({ $isActive, theme }) => $isActive ? theme.colors.black : theme.colors.grayColor3};
+    color: ${({ $isActive, theme }) => $isActive ? theme.colors.marinblueColor : theme.colors.grayColor9};
   }
 `;
 

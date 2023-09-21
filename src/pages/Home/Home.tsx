@@ -110,6 +110,10 @@ const StyledOfficeInfo = styled.div`
     padding-right: 16px;
     color: #696F79;
     font-size: 12px;  
+    
+    h6 {
+      font-weight: 500;
+    }
   
     .title__more {
       display: flex;
@@ -128,7 +132,6 @@ const StyledOfficeInfo = styled.div`
 
       h6 {
         width: 45px;
-        font-weight: 500;
         color: ${({ theme }) => theme.colors.grayColor9};
       }
 
