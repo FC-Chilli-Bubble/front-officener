@@ -7,13 +7,13 @@ import IconDown from '@/assets/ico_chevron_down.svg';
 import { postAtom } from "@/states/postAtom";
 import { timePickerAtom } from '@/states/timePickerAtom';
 
-type TPostStep2Props = {
+type TPostStepDeliveryInfoProps = {
   // eslint-disable-next-line no-unused-vars
   openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 
-const PostStep2 = ({ openBottomSheet }: TPostStep2Props) => {
+const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTime] = useRecoilState(timePickerAtom);
 
@@ -102,6 +102,7 @@ const StyledDropdown = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.grayColor3};
     outline: none;
     color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.white};
 
     &:focus {
       color: ${({ theme }) => theme.colors.black};
@@ -164,4 +165,4 @@ const StyledPickerButton = styled.button<{ isEmpty: boolean; }>`
   }
 `;
 
-export default PostStep2;
+export default PostStepDeliveryInfo;

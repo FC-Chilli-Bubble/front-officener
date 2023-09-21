@@ -9,12 +9,12 @@ import OutlineButton from "@/components/Common/OutlineButton";
 import { postTagAtom } from "@/states/postTagAtom";
 import { postAtom } from "@/states/postAtom";
 
-type TPostStep1Props = {
+type TPostStepStoreInfoProps = {
   openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 
-const PostStep1 = ({ openBottomSheet }: TPostStep1Props) => {
+const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
 
@@ -62,7 +62,7 @@ const PostStep1 = ({ openBottomSheet }: TPostStep1Props) => {
         placeholder='배달비를 작성해주세요'
         isValid={postDeliveryTip !== ''}
         value={postDeliveryTip}
-        onChange={(tip) => setPostData({ ...postData, deliveryTip: Number(tip) })}
+        onChange={(tip) => setPostData({ ...postData, deliveryTip: Number(tip.replace(/[^0-9]/g, '')) })}
       />
 
       <StyledTagBox>
@@ -111,4 +111,4 @@ const StyledTag = styled.button`
   cursor: pointer;
 `;
 
-export default PostStep1;
+export default PostStepStoreInfo;
