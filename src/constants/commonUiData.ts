@@ -21,18 +21,19 @@ export const HEADER_LEFT_ICONS = {
 };
 
 export const INPUT_ERROR_MESSAGE = {
-  error: IconError,
+  error: IconError, //회색
   none: null
 };
 
-export const INPUT_REDERROR_MESSAGE = {
-  wrong: IconWrong,
-  error: IconRedError,
-  correct: IconGreenCheck,
+export const INPUT_ERROR_ICONS = {
+  errorG: IconError, //grey !
+  error: IconRedError, // red !
+  wrong: IconWrong, // red x
+  correct: IconGreenCheck, // green v
   none: null
 };
 export const INPUT_GRAYERROR_MESSAGE = {
-  error: IconRedError,
+  error: IconError,
   none: null
 };
 

@@ -30,12 +30,10 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
 
   const handleServiceClick = () => {
     onNextStep(4);
-    console.log('이전 페이지로');
     return;
   };
   const handleNextStep = () => {
     onNextStep(6);
-    console.log('이전 페이지로');
     return;
   };
 
@@ -43,7 +41,59 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const handleEmailChange = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('error');
+      setEmailErrorIcon('none');
+      setEmailMsg('');
+      return;
+    } else if (!EMAIL_REGEX.test(newEmail)) {
+      setEmailErrorIcon('none');
+      setEmailMsg('');
+      return;
+    } else {
+      setEmailMsg('');
+      setEmailErrorIcon('none');
+    }
+  };
+
+  // 비밀번호 입력 유효성 검사
+  const handlePasswordChange = (newPassword: string) => {
+    setPassword(newPassword);
+    if (!newPassword) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      return;
+    } else if (!PASSWORD_REGEX.test(newPassword)) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      return;
+    } else {
+      setPwdMsg('');
+      setPwsErrorIcon('none');
+    }
+  };
+
+  // 비밀번호 재확인
+  const handlePasswordVerify = (newPassword: string) => {
+    setPasswordVerify(newPassword.toString());
+    if (!newPassword) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      return;
+    } else if (password !== newPassword) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      return;
+    } else {
+      setPwsErrorIcon('correct');
+      setPwdMsg('비밀번호가 일치합니다.');
+      setDisabled(false); // 임시 활성화
+    }
+  };
+
+  // 이메일 입력 유효성 검사
+  const handleEmailBlur = (newEmail: string) => {
+    setEmail(newEmail);
+    if (!newEmail) {
+      setEmailErrorIcon('none');
       setEmailMsg('이메일을 입력해 주세요');
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
@@ -57,7 +107,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string) => {
+  const handlePasswordBlur = (newPassword: string) => {
     setPassword(newPassword);
     if (!newPassword) {
       setPwsErrorIcon('error');
@@ -72,8 +122,9 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       setPwsErrorIcon('none');
     }
   };
+
   // 비밀번호 재확인
-  const handlePasswordVerify = (newPassword: string) => {
+  const handlePasswordVerifyBlur = (newPassword: string) => {
     setPasswordVerify(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
@@ -86,19 +137,16 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
-      setDisabled(false); // 임시 활성화
     }
   };
-
+  // 여기 조건을 
   const updateLoginButtonState = useCallback(
     (newEmail: string, newPassword: string) => {
       if (newEmail && newPassword && !emailMsg && pwdMsg == 'correct') {
         setIsValid(true);
-        console.log('유효성 검사 통과');
         return;
       } else {
         setIsValid(false);
-        console.log('유효성 검사 실패');
       }
     },
     [emailMsg, pwdMsg]
@@ -146,6 +194,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
               value={email}
               placeholder="이메일을 입력해 주세요."
               onChange={handleEmailChange}
+              onBlur={handleEmailBlur}
               errorMessage={emailMsg}
               redErrorIcon={emailErrorIcon}
             />
@@ -158,6 +207,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
               value={password}
               placeholder="영문,숫자,특수기호 포함 8~16자입니다."
               onChange={handlePasswordChange}
+              onBlur={handlePasswordBlur}
               errorMessage=""
               redErrorIcon="none"
             />
@@ -168,6 +218,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
               value={passwordVerify}
               placeholder="비밀번호를 다시 입력해 주세요."
               onChange={handlePasswordVerify}
+              onBlur={handlePasswordVerifyBlur}
               errorMessage={pwdMsg}
               redErrorIcon={pwsErrorIcon}
             />

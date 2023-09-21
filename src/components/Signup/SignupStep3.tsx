@@ -29,7 +29,6 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
 
   const handleServiceClick = () => {
     onNextStep(2);
-    console.log('이전 페이지로');
     return;
   };
   // 검색 폼
@@ -40,14 +39,12 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   // 검색창
   const handleInputChange = (newBuildingName: string) => {
     setInputValue(newBuildingName);
-    console.log('검색 중:', newBuildingName);
   };
 
   // 검색 버튼
   const handleButtonClick = () => {
     // handleBuildingSearch();
     setDisabled(false); // 에러방지 임시 작성 지울것!!!
-    console.log('검색 버튼 클릭');
   };
   // 선택된 건물을 처리하는 함수
   // const handleBuildingSelect = (newBuildingName: string) => {

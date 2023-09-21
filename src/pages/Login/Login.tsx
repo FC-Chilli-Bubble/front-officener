@@ -24,7 +24,6 @@ const Login = () => {
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
     navigate('/');
-    console.log('이동함');
     return;
   };
   // 회원가입 페이지 이동 버튼
@@ -100,11 +99,9 @@ const Login = () => {
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
-      console.log('유효성 검사 통과');
       return;
     } else {
       setIsValid(false);
-      console.log('유효성 검사 실패');
     }
   };
 

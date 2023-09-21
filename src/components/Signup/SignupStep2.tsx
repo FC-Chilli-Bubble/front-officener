@@ -18,7 +18,6 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
 
   const handleServiceClick = () => {
     onNextStep(1);
-    console.log('이전 페이지로');
     return;
   };
 

@@ -13,7 +13,6 @@ interface SignupStepProps {
 const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
   const handleServiceClick = () => {
     onNextStep(2);
-    console.log('이전 페이지로');
     return;
   };
 

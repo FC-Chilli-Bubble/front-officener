@@ -11,7 +11,7 @@ interface SignupStepProps {
   onNextStep: (stepNum: number) => void;
 }
 
-type TErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
+type TErrorRedIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
@@ -32,12 +32,10 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
 
   const handleServiceClick = () => {
     onNextStep(5);
-    console.log('이전 페이지로');
     return;
   };
   const handleNextStep = () => {
     onNextStep(7);
-    console.log('이전 페이지로');
     return;
   };
 
@@ -45,18 +43,14 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const handleNameChange = (newName: string) => {
     setName(newName);
     if (!USER_NAME_REGEX.test(newName)) {
-      console.log('이름 양식 확인');
       return;
-    } else {
-      console.log('이름 양식 확인');
-    }
+    } else return
   };
 
   // 전화번호 입력 유효성 검사
   const handlePhoneNumberChange = (newPhoneNum: string) => {
     setPhoneNumber(newPhoneNum);
     if (!PHONE_NUMBER_REGEX.test(newPhoneNum)) {
-      console.log('전화번호 양식 확인');
       return;
     } else {
       setVerifyNumMsg('');
@@ -90,11 +84,9 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     if (newName && newPhoneNum) {
       setIsValid(true);
       //인증 요청 활성화
-      console.log('유효성 검사 통과');
       return;
     } else {
       setIsValid(false);
-      console.log('유효성 검사 실패');
     }
   };
 
@@ -110,8 +102,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       const responseCode = '123456';
       // 인증 코드를 상태에 저장
       setReceivedVerifyCode(responseCode);
-      console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
-      setVerifyNumErrorIcon('error');
+      // console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
+      setVerifyNumErrorIcon('errorG');
       setVerifyNumMsg('해당 번호로 인증 번호를 발송했습니다.');
     } catch {
       setIsValid(false);
@@ -134,7 +126,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
           setVerificationComplete(true);
           setDisabled(false); // 다음 버튼 활성화
         } catch (error) {
-          // console.error('인증 실패:', error);
+          //c.error('인증 실패:', error);
         }
 
         return;
