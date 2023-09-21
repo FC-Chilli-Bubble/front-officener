@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 
   #root {
-    font-family: "Pretendard Variable", sans-serif;
+    font-family: "Pretendard Variable", sans-serif !important;
     background-color: #eee;
     height: 100%;
   }
@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
   } 
 
   body {
-    height: 100%;
+    height: 100vh;
     color: #000;
   }
 
