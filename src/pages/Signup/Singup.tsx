@@ -61,21 +61,21 @@ const Signup = () => {
 
   return (
     <>
-      <SytledLayout>
-        <SytledContainer>{currentStepComponent}</SytledContainer>
-      </SytledLayout>
+      <StyledLayout>
+        <StyledContainer>{currentStepComponent}</StyledContainer>
+      </StyledLayout>
     </>
   );
 };
 
-const SytledLayout = styled.div`
+const StyledLayout = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 
-const SytledContainer = styled.div`
+const StyledContainer = styled.div`
   height: 100%;
 `;
 
