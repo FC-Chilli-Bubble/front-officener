@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-import { INPUT_ERROR_MESSAGE } from '@/constants/commonUiData';
+import { INPUT_ERROR_ICONS } from '@/constants/commonUiData';
 
 type ErrorIconType = 'error' | 'none';
 
@@ -26,7 +26,7 @@ const SelectedInput = ({ label, placeholder, errorIcon = 'none', onClick }: TInp
       {errorIcon !== 'none' && (
         <ErrorMessage>
           <StyledImage
-            src={INPUT_ERROR_MESSAGE[errorIcon]}
+            src={INPUT_ERROR_ICONS[errorIcon]}
             alt=""
           />
           입주사 목록에 내 회사가 없다면 관리센터로 문의 주세요!

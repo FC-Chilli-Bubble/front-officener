@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-import blue_arrow from '@/assets/ico_blue_arrow.svg';
+import gray_arrow from '@/assets/ico_gray_arrow.svg';
 
 interface ICheckListProps {
   label: string;
@@ -28,7 +28,7 @@ const CheckList = ({ label, checked, onChange }: ICheckListProps) => {
         <span></span>
         {label}
         <img
-          src={blue_arrow}
+          src={gray_arrow}
           alt="자세히보기 화살표"
         />
       </StyledLabel>

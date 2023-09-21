@@ -1,8 +1,8 @@
 import IconBack from '@/assets/ico_back.svg';
 import IconClose from '@/assets/ico_close.svg';
 
-import IconError from '@/assets/ico_error.svg';
 import IconWrong from '@/assets/ico_wrong.svg';
+import IconGrayError from '@/assets/ico_gray_error.svg';
 import IconRedError from '@/assets/ico_red_error.svg';
 import IconGreenCheck from '@/assets/ico_green_check.svg';
 import IconCheck from '@/assets/ico_check.svg';
@@ -20,20 +20,21 @@ export const HEADER_LEFT_ICONS = {
   none: null
 };
 
-export const INPUT_ERROR_MESSAGE = {
-  error: IconError, //회색
-  none: null
-};
+// export const INPUT_ERROR_MESSAGE = {
+//   error: IconGrayError,
+//   none: null
+// };
+
+// export const INPUT_GRAYERROR_MESSAGE = {
+//   error: IconGrayError,
+//   none: null
+// };
 
 export const INPUT_ERROR_ICONS = {
-  errorG: IconError, //grey !
+  errorG: IconGrayError, //grey !
   error: IconRedError, // red !
   wrong: IconWrong, // red x
   correct: IconGreenCheck, // green v
-  none: null
-};
-export const INPUT_GRAYERROR_MESSAGE = {
-  error: IconError,
   none: null
 };
 
