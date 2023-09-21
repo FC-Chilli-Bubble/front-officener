@@ -11,17 +11,15 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ selectedMenu }) => {
   return (
     <StyledHeader bgImage={HeaderBg}>
-      {
-        selectedMenu === '함께배달' && (
-          <>
-            <img src={HeaderPoint} />
-            <div>
-              <p>같은 건물 사람들과 배달비 걱정 없이</p>
-              <p>맛있는 한 끼를 주문해보세요!</p>
-            </div>
-          </>
-        )
-      }
+      {selectedMenu === '함께배달' && (
+        <>
+          <img src={HeaderPoint} />
+          <div>
+            <p>같은 건물 사람들과 배달비 걱정 없이</p>
+            <p>맛있는 한 끼를 주문해보세요!</p>
+          </div>
+        </>
+      )}
       <h3>{getHeaderText(selectedMenu)}</h3>
     </StyledHeader>
   );
@@ -40,7 +38,7 @@ const getHeaderText = (menu: string) => {
   }
 };
 
-const StyledHeader = styled.div < { bgImage: string; }>`
+const StyledHeader = styled.div<{ bgImage: string }>`
   background-image: none;
   width: 100%;
   height: 254px;
@@ -69,9 +67,9 @@ const StyledHeader = styled.div < { bgImage: string; }>`
   }
 
   p {
-    color: #BCD1FF;
+    color: #bcd1ff;
     font-size: 14px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
   }
 
   :last-child {

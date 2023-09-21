@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 type LeftIconType = 'back' | 'close' | 'none';
 
 type THeaderProps = {
-  leftIcon?: LeftIconType; // 왼쪽 버튼 타입
+  leftIcon?: LeftIconType;
 };
 
 const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
-  const navigate = useNavigate(); // useNavigate 훅 가져오기
+  const navigate = useNavigate();
 
   const handleIconClick = () => {
     if (leftIcon !== 'none') {
@@ -37,10 +37,11 @@ const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
 };
 
 const StyledHeader = styled.div`
+  height: 254px;
   background-image: none;
   width: 100%;
   padding: 90px 0 112px 25px;
-  background-image: url('src/assets/food/IMG1234.svg');
+  background-image: url('src/assets/food/img_details_bg.svg');
   background-repeat: no-repeat;
   background-position: right bottom;
 
