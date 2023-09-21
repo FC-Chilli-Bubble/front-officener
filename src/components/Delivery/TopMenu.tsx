@@ -29,7 +29,11 @@ const TopMenu: React.FC<ITopMenuProps> = ({ selectedMenu, handleMenuClick }) => 
 };
 
 const StyledMenu = styled.div`
+  position: sticky;
+  top: 0;
   text-align: center;
+  z-index: 1000;
+  background-color: ${props => props.theme.colors.white};
 `;
 
 // 상단 탭 스타일
@@ -40,10 +44,13 @@ const TopMenuButton = styled.button`
   border: none;
   background-color: ${props => props.theme.colors.white};
   cursor: pointer;
-  color: ${props => props.theme.colors.grayColor5};
+  opacity: 0.4;
+  font-weight: normal;
 
   &.active {
     color: ${props => props.theme.colors.marinblueColor};
+    opacity: 1;
+    font-weight: bold;
 
     &:after {
       content: '';
