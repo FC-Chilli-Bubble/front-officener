@@ -24,7 +24,7 @@ const Intro = () => {
         </StyledItroText>
         <StyledButton onClick={handleNavigateSignup}>오피스너 시작하기</StyledButton>
         <StyledLogin>
-          오피스너 계정이 있으신가요?
+          오피스너 계정이 있으시면?
           <StyledSignupBox onClick={handleNavigateLogin}>로그인</StyledSignupBox>
         </StyledLogin>
       </StyledLayout>

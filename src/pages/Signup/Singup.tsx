@@ -19,7 +19,6 @@ const Signup = () => {
   // const navigate = useNavigate();
   const [stepNum, setStepNum] = useState(1);
 
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleNextStep: IStepHandler = nextStepNum => {
     setStepNum(nextStepNum);
@@ -51,7 +50,7 @@ const Signup = () => {
   }, [stepNum]);
 
   useEffect(() => {
-    console.log(`Step changed to ${stepNum}`);
+    // console.log(`Step changed to ${stepNum}`);
   }, [stepNum]);
 
   return (

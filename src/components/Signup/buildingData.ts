@@ -2,15 +2,15 @@
 
 interface IOffice {
   id: number;
-  office: string;
+  officeName: string;
   officeNum: string;
 }
 
-interface IBuilding {
+export interface IBuilding {
   id: number;
   buildingName: string;
   buildingAddress: string;
-  office: IOffice[];
+  offices: IOffice[];
 }
 
 interface IData {
@@ -24,34 +24,34 @@ export const buildingData: IData = {
     buildings: [
       {
         id: 1,
-        buildingName: 'Building X',
+        buildingName: '미왕 X',
         buildingAddress: '123 Main Street',
-        office: [
+        offices: [
           {
             id: 1,
-            office: 'Office A',
+            officeName: '오피스 A',
             officeNum: 'Room 101'
           },
           {
             id: 2,
-            office: 'Office B',
+            officeName: '회사 B',
             officeNum: 'Room 102'
           }
         ]
       },
       {
         id: 2,
-        buildingName: 'Building Y',
+        buildingName: '마왕 Y',
         buildingAddress: '123 Main Street',
-        office: [
+        offices: [
           {
             id: 1,
-            office: '칠리버블',
+            officeName: '칠리버블',
             officeNum: 'Room 101'
           },
           {
             id: 2,
-            office: '칠리버블버블',
+            officeName: '칠리버블버블',
             officeNum: 'Room 102'
           }
         ]

@@ -128,7 +128,6 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         } catch (error) {
           //c.error('인증 실패:', error);
         }
-
         return;
       }
     },
