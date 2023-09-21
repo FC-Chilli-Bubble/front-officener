@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 import IconAlarm from '@/assets/food/icon_alarm.svg';
 interface IFoodData {
   사진?: string;
@@ -25,7 +24,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
     navigate('/delivery/details');
   };
 
-  // TEST용 
+  // TEST용
   const handleMovePost = () => {
     navigate('/delivery/post');
   };
@@ -42,7 +41,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
             <ListGrayText>가게이름</ListGrayText> <ListBlackText>{food?.가게이름}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>참여 인원</ListGrayText> <ListBlackText>{food?.참여인원}</ListBlackText>
+            <ListGrayText>참여인원</ListGrayText> <ListBlackText>{food?.참여인원}</ListBlackText>
           </StyledRow>
           <StyledRow>
             <ListGrayText>배달비</ListGrayText> <ListBlackText>{food?.배달비}</ListBlackText>
@@ -51,7 +50,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
             <ListGrayText>태그</ListGrayText> <ListBlackText>{food?.태그.join(', ')}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>이체 마감 시간</ListGrayText>{' '}
+            <ListGrayText>이체마감</ListGrayText>{' '}
             <ListBlackText>{food?.이체해야하는시간}</ListBlackText>
           </StyledRow>
         </StyledFoodInfoListStyle>
@@ -81,7 +80,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
           <GrayText>가게이름</GrayText> <BlackText>{food?.가게이름}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>참여 인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
+          <GrayText>참여인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>배달비</GrayText> <BlackText>{food?.배달비}</BlackText>
@@ -90,7 +89,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
           <GrayText>태그</GrayText> <BlackText>{food?.태그.join(', ')}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체 마감 시간</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
+          <GrayText>이체마감</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
         </StyledRow>
       </StyledFoodCardText>
     </StyledFoodCard>
@@ -99,10 +98,10 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
 
 const StyledFoodCardListStyle = styled.div`
   padding: 10px;
-  margin: 10px 5px;
+  margin: 5px 5px;
   display: flex;
   align-items: start;
-  gap: 10px;
+  gap: 20px;
   cursor: pointer;
   > img {
     flex-shrink: 0;
@@ -122,20 +121,23 @@ const StyledFoodCardListStyle = styled.div`
 `;
 
 const StyledFoodInfoListStyle = styled.div`
-  /* margin: 5px 0 0 0; */
+  margin: 10px 0 0 0;
 `;
 
 const ListGrayText = styled.h1`
   width: 100px;
   text-align: left;
   padding-left: 5px;
+  font-size: 14px;
+  font-weight: 400;
   color: ${props => props.theme.colors.grayColor10};
   display: inline-block;
 `;
 
 const ListBlackText = styled.p`
   display: inline-block;
-  padding-left: 15px;
+  font-size: 16px;
+  font-weight: 400;
 `;
 
 const TimeLimit = styled.div`
@@ -147,7 +149,7 @@ const TimeLimit = styled.div`
   width: 140px;
   font-size: 15px;
   font-weight: 700;
-  margin: 5px;
+  margin: 13px 5px;
   padding: 5px 10px;
   text-align: center;
   border-radius: 50px;
@@ -162,7 +164,7 @@ const TimeIcon = styled.img`
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
-  padding: 8px 0 0 0;
+  padding: 0 0 8px 0;
 `;
 
 const GrayText = styled.h1`
@@ -198,7 +200,7 @@ const StyledFoodCard = styled.div`
 `;
 
 const StyledFoodCardText = styled.div`
-  margin: 10px 0 0 0;
+  padding: 0;
 `;
 
 export default FoodItem;

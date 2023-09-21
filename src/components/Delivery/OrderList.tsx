@@ -86,8 +86,8 @@ const ScrollHidden = styled.div`
 // "함께 배달" 문구의 스타일 컴포넌트
 const Heading = styled.h2`
   font-size: 24px;
-  font-weight: bold;
-  padding: 30px 0 10px 25px;
+  font-weight: 600;
+  padding: 20px 0 16px 24px;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -98,16 +98,21 @@ const Heading = styled.h2`
 const MenuContainer = styled(ScrollHidden)`
   overflow-x: scroll;
   white-space: nowrap;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
 `;
 
 const CategoryButton = styled.button`
-  padding: 10px 20px;
-  margin: 0 5px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 10px 0 0;
   border: none;
   display: inline-block;
+  width: 97px;
+  height: 48px;
+  flex-shrink: 0;
   background-color: ${props => props.theme.colors.white};
-  border: 1px solid ${props => props.theme.colors.marinblueColor};
+  border: 2px solid ${props => props.theme.colors.marinblueColor};
   cursor: pointer;
   color: ${props => props.theme.colors.marinblueColor};
   border-radius: 8px;
