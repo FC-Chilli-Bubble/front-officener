@@ -30,7 +30,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledBox = styled.div`
-  height: calc(100% - 56px);
+  height: calc(100% - 90px);
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
