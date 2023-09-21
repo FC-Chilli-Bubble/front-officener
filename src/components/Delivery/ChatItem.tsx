@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IChatData {
@@ -8,9 +9,15 @@ interface IChatData {
 }
 
 const ChatItem: React.FC<IChatData> = ({ profileImage, name, message }) => {
+  const navigate = useNavigate();
+
+  const handleMoveChat = () => {
+    navigate('/chatroom');
+  };
+
   return (
     <>
-      <StyledChatItem>
+      <StyledChatItem onClick={handleMoveChat} >
         <img
           src={profileImage}
           alt="Profile"
