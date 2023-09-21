@@ -6,7 +6,7 @@ import {
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
 
-const ChatDeclarationStep1 = () => {
+const ChatDeclarationStepFinal = () => {
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
 
@@ -48,4 +48,4 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-export default ChatDeclarationStep1;
+export default ChatDeclarationStepFinal;

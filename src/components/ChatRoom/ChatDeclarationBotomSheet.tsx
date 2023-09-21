@@ -4,9 +4,9 @@ import {
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
-import ChatDeclarationStep1 from '@/components/ChatRoom/ChatDeclarationStep1';
-import ChatDeclarationStep2 from '@/components/ChatRoom/ChatDeclarationStep2';
-import ChatDeclarationStep3 from '@/components/ChatRoom/ChatDeclarationStep3';
+import ChatDeclarationStepCategory from '@/components/ChatRoom/ChatDeclarationStepCategory';
+import ChatDeclarationStepDetail from '@/components/ChatRoom/ChatDeclarationStepDetail';
+import ChatDeclarationStepFinal from '@/components/ChatRoom/ChatDeclarationStepFinal';
 
 const ChatDeclarationBotomSheet = () => {
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useRecoilState(
@@ -22,13 +22,13 @@ const ChatDeclarationBotomSheet = () => {
   const renderBottomSheet = () => {
     switch (declarationStep) {
       case 1:
-        return <ChatDeclarationStep1 />;
+        return <ChatDeclarationStepCategory />;
       case 2:
-        return <ChatDeclarationStep2 />;
+        return <ChatDeclarationStepDetail />;
       case 3:
-        return <ChatDeclarationStep3 />;
+        return <ChatDeclarationStepFinal />;
       default:
-        return <ChatDeclarationStep1 />;
+        return <ChatDeclarationStepCategory />;
     }
   };
 

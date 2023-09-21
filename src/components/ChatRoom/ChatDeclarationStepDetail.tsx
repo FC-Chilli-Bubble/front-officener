@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
 
-const ChatDeclarationStep1 = () => {
+const ChatDeclarationStepDetail = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
   const [textAreaValue, setTextAreaValue] = useState('');
@@ -92,4 +92,4 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-export default ChatDeclarationStep1;
+export default ChatDeclarationStepDetail;
