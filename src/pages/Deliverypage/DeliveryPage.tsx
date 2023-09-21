@@ -4,6 +4,7 @@ import { foodData, IFoodData } from './dummyData';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
+import { useNavigate } from 'react-router-dom';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
@@ -28,6 +29,12 @@ const DeliveryPage = () => {
     setSelectedCategory(category);
   };
 
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/delivery/post');
+  };
+
   return (
     <>
       <Header selectedMenu={selectedMenu} />
@@ -35,7 +42,6 @@ const DeliveryPage = () => {
         selectedMenu={selectedMenu}
         handleMenuClick={handleMenuClick}
       />
-      <StyledDivider />
       <StyledContainer>
         <MenuContent
           selectedMenu={selectedMenu}
@@ -43,6 +49,7 @@ const DeliveryPage = () => {
           handleCategoryClick={handleCategoryClick}
           data={data}
         />
+        <PostButton onClick={handleButtonClick} />
       </StyledContainer>
     </>
   );
@@ -52,10 +59,19 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-const StyledDivider = styled.div`
-  width: 100%;
-  height: 2px;
-  background-color: ${props => props.theme.colors.grayColor1};
+const PostButton = styled.button`
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-image: url('src/assets/food/postbutton.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
 `;
 
 export default DeliveryPage;
