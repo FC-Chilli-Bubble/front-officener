@@ -56,7 +56,7 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
 
       <FormField
         name='deliveryTip'
-        isType="number"
+        isType="text"
         label='배달비'
         isRequired
         placeholder='배달비를 작성해주세요'
