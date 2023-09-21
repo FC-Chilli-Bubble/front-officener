@@ -65,7 +65,7 @@ const DetailsPage = () => {
 
   return (
     <>
-      <Header />
+      <Header leftIcon="back" />
       <StyledContainer>
         {data && <FoodItem food={data} />}
         {data && <PhotoCard food={data} />}

@@ -12,7 +12,7 @@ interface IFoodData {
   이체해야하는시간: string;
 }
 
-const PhotoCard: React.FC<{ food: IFoodData; }> = ({ food }) => {
+const PhotoCard: React.FC<{ food: IFoodData }> = ({ food }) => {
   return (
     <StyledPhotoCard>
       <MenuText>메뉴판</MenuText>
@@ -40,20 +40,24 @@ const StyledPhotoCard = styled.div`
 `;
 
 const MenuText = styled.h2`
-  color: ${props => props.theme.colors.grayColor10};
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: ${props => props.theme.colors.grayColor5};
   text-align: left;
-  padding: 10px;
+  padding: 10px 0 14px 10px;
 `;
 
 const StoreName = styled.h3`
+  font-size: 16px;
   background-color: ${props => props.theme.colors.grayColor1};
-  color: black;
+  color: ${props => props.theme.colors.black};
   padding-top: 0;
   width: 100%;
   border-radius: 0 0 20px 20px;
   display: flex;
   align-items: center;
-  padding: 20px 25px;
+  padding: 20px 30px;
 `;
 
 export default PhotoCard;
