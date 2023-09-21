@@ -146,10 +146,11 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
     ${({ redErrorIcon, theme }) => {
       if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
         return theme.colors.errorColor;
-      }if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
+      }
+      if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
         return theme.colors.grayColor4;
       } else {
-        return theme.colors.successColor; 
+        return theme.colors.successColor;
       }
     }};
   ::placeholder {

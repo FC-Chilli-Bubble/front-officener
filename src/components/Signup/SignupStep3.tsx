@@ -219,7 +219,6 @@ const StyledLine = styled.hr`
 const SytledListContainer = styled.div`
   height: calc(100% - 300px);
   margin-top: 12px;
-  /* background-color: #ff000012; */
 `;
 
 const StyledListBox = styled.ul`
@@ -237,14 +236,14 @@ const RadioInput = styled.input`
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1.5px solid ${({ theme }) => theme.colors.ctaColor};
+  border: 1.5px solid ${({ theme }) => theme.colors.grayColor4};
   background-color: 1.5px solid ${({ theme }) => theme.colors.white};
   /* transition: border 0.2s ease-in-out; */
   cursor: pointer;
   + label {
     font-size: 14px;
     padding: 0 10px;
-    ${({ theme }) => theme.colors.grayColor5};
+    color: ${({ theme }) => theme.colors.grayColor5};
     cursor: pointer;
   }
   &:checked {
