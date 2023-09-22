@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
-import ico_arrow from '@/assets/ico_arrow.svg';
+import ico_blue_arrow from '@/assets/ico_blue_arrow.svg';
 import Button from '@/components/Common/Button';
 
 interface SignupStepProps {
@@ -13,7 +13,6 @@ interface SignupStepProps {
 const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
   const handleServiceClick = () => {
     onNextStep(2);
-    console.log('이전 페이지로');
     return;
   };
 
@@ -57,7 +56,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
           <StyledLink>
             나의 입주 정보와 다르다면
             <img
-              src={ico_arrow}
+              src={ico_blue_arrow}
               alt="화살표"
             />
           </StyledLink>

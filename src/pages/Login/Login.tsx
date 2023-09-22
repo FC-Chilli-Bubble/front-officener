@@ -24,7 +24,6 @@ const Login = () => {
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
     navigate('/');
-    console.log('이동함');
     return;
   };
   // 회원가입 페이지 이동 버튼
@@ -34,15 +33,15 @@ const Login = () => {
   };
 
   // 이메일 입력 유효성 검사
-  const handleEmailChange = (newEmail: string | number) => {
-    setEmail(newEmail.toString());
+  const handleEmailChange = (newEmail: string) => {
+    setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('error');
-      setEmailMsg('이메일을 입력해 주세요');
+      setEmailErrorIcon('none');
+      setEmailMsg('');
       return;
-    } else if (!EMAIL_REGEX.test(newEmail.toString())) {
-      setEmailErrorIcon('error');
-      setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
+    } else if (!EMAIL_REGEX.test(newEmail)) {
+      setEmailErrorIcon('none');
+      setEmailMsg('');
       return;
     } else {
       setEmailMsg('');
@@ -51,15 +50,16 @@ const Login = () => {
   };
 
   // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string | number) => {
-    setPassword(newPassword.toString());
+  const handlePasswordChange = (newPassword: string) => {
+    setPassword(newPassword);
     if (!newPassword) {
-      setPwsErrorIcon('error');
-      setPwdMsg('비밀번호를 입력해 주세요');
+      setPwsErrorIcon('none');
+      setPwdMsg('');
       return;
-    } else if (!PASSWORD_REGEX.test(newPassword.toString())) {
-      setPwsErrorIcon('error');
-      setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
+    }
+    if (!PASSWORD_REGEX.test(newPassword)) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
       return;
     } else {
       setPwdMsg('');
@@ -67,14 +67,41 @@ const Login = () => {
     }
   };
 
+  const handleEmailBlur = (newEmail: string) => {
+    setEmail(newEmail);
+    if (!email) {
+      setEmailErrorIcon('error');
+      setEmailMsg('이메일을 입력해 주세요');
+    } if (!EMAIL_REGEX.test(email)) {
+      setEmailErrorIcon('error');
+      setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
+    } else {
+      setEmailMsg('');
+      setEmailErrorIcon('none');
+    }
+  };
+
+  // 비밀번호 입력 필드에서 포커스를 잃었을 때 유효성 검사 수행
+  const handlePasswordBlur = (newPassword: string) => {
+    setPassword(newPassword);
+    if (!password) {
+      setPwsErrorIcon('error');
+      setPwdMsg('비밀번호를 입력해 주세요');
+    } else if (!PASSWORD_REGEX.test(password)) {
+      setPwsErrorIcon('error');
+      setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
+    } else {
+      setPwsErrorIcon('none'); // 입력이 유효한 경우 'none'으로 설정
+      setPwdMsg('');
+    }
+  };
+
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
-      console.log('유효성 검사 통과');
       return;
     } else {
       setIsValid(false);
-      console.log('유효성 검사 실패');
     }
   };
 
@@ -143,6 +170,7 @@ const Login = () => {
               name="email"
               placeholder="이메일을 입력해 주세요."
               onChange={handleEmailChange}
+              onBlur={handleEmailBlur}
               errorMessage={emailMsg}
               redErrorIcon={emailErrorIcon}
               isRequired
@@ -157,6 +185,7 @@ const Login = () => {
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
+              onBlur={handlePasswordBlur}
               redErrorIcon={pwsErrorIcon}
               isRequired
             />
@@ -200,12 +229,10 @@ const StyledContainer = styled.form`
   flex-direction: column;
   justify-content: space-between;
   height: 350px;
-  /* background-color: green; */
 `;
 const StyledInput = styled.div`
   height: 98px;
   margin-bottom: 10px;
-  /* background-color: blue; */
 `;
 
 const StyledButton = styled.div`

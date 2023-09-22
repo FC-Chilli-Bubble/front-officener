@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
@@ -13,6 +15,18 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
   const [allChecked, setAllChecked] = useState(false);
   const [childChecked, setChildChecked] = useState([false, false, false]);
   const [disabled, setDisabled] = useState(true);
+  const navigate = useNavigate();
+
+  // 로그인 페이지 이동 버튼
+  const handleServiceClick = () => {
+    navigate('/intro');
+    return;
+  };
+
+  // 페이지 이동 버튼 함수
+  const handleNextStep = () => {
+    onNextStep(2);
+  };
 
   // 전체 동의 체크박스 변경 호출
   const handleAllCheckChange = () => {
@@ -39,16 +53,12 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
     setDisabled(disabled);
   };
 
-  // 페이지 이동 버튼 함수
-  const handleNextStep = () => {
-    onNextStep(2);
-  };
-
   return (
     <>
       <Header
         title="가입약관"
         leftIcon="back"
+        leftIconClick={handleServiceClick}
       />
       <StyledLayout>
         <StyledContainer>
