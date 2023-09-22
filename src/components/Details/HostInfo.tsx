@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import IconProfile from '@/assets/food/Vector.svg';
+import IconProfile from '@/assets/img_profile.svg';
 
 const HostInfo: React.FC = () => {
   return (
@@ -67,5 +67,11 @@ const HostDetailContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 0 10px 0;
+
+  img {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.10));
+  }
 `;
 export default HostInfo;

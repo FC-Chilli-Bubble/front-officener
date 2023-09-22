@@ -100,6 +100,10 @@ const MenuContainer = styled(ScrollHidden)`
   white-space: nowrap;
   padding-bottom: 10px;
   padding-left: 20px;
+
+  &::-webkit-scrollbar{
+    display:none;
+  }
 `;
 
 const CategoryButton = styled.button`

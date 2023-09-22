@@ -50,13 +50,13 @@ const DeliveryPage = () => {
           handleCategoryClick={handleCategoryClick}
           data={data}
         />
+        <StyledButtonBox>
+          <PostButton
+            img={AddButton}
+            onClick={handleButtonClick}
+          />
+        </StyledButtonBox>
       </StyledContainer>
-      <StyledButtonBox>
-        <PostButton
-          img={AddButton}
-          onClick={handleButtonClick}
-        />
-      </StyledButtonBox>
     </>
   );
 };
@@ -67,18 +67,18 @@ const StyledContainer = styled.div`
 
 const StyledButtonBox = styled.div`
   position: fixed;
-  top: 0;
-  max-width: 560px;
   margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  left: 0;
+  right: 0;
+  max-width: 560px;
+  bottom: 126px;
+  display: flex;
+  justify-content: end;
+  padding-right: 26px;
 `;
 
-const PostButton = styled.button<{ img: string }>`
-  position: absolute;
-  bottom: 126px;
-  right: 26px;
+const PostButton = styled.button<{ img: string; }>`
+  position: sticky;
   width: 48px;
   height: 48px;
   background-image: ${({ img }) => `url(${img})`};
