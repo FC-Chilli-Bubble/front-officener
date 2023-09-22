@@ -9,11 +9,11 @@ import Button from '@/components/Common/Button';
 import IconCopy from '@/assets/chatrooms/ico_copy.svg';
 import IconWon from '@/assets/chatrooms/ico_won.svg';
 import IconAlarm from '@/assets/chatrooms/ico_alarm.svg';
-import ButtonTitleGuest from './ButtonTitleGuest';
+import ButtonTitleGuest from '@/components/ChatRoom/ChatHeader/ButtonTitleGuest';
 
 const ChatHeader = () => {
   const { openModal, closeModal } = useModal();
-  const myid = 2;
+  const myid = 1;
   //로그인시 데이터 내려받아 사용
   const changeModalGuest = isRemitted(myid)
     ? MODAL_DATA_GUEST.receiveModal
@@ -27,7 +27,6 @@ const ChatHeader = () => {
       ? openModal({
           ...MODAL_DATA_HOST.receiveModal,
           positiveCallback: () => {
-            console.log('버튼클릭완료');
             //api 통신 연결
             setIsReceiveButtonDisabled(true);
           },
@@ -38,7 +37,6 @@ const ChatHeader = () => {
       : openModal({
           ...MODAL_DATA_HOST.participationEndsdModal,
           positiveCallback: () => {
-            console.log('버튼클릭완료');
             //api 통신 연결
             setIsEndButtonDisabled(true);
           },
@@ -52,7 +50,6 @@ const ChatHeader = () => {
     openModal({
       ...changeModalGuest,
       positiveCallback: () => {
-        console.log('버튼클릭완료');
         //api 통신 연결
       },
       negativeCallback: () => {
@@ -137,6 +134,7 @@ const ChatHeader = () => {
 
 const StyledContainer = styled.div`
   position: sticky;
+  top: 20;
   box-sizing: border-box;
   width: 100%;
   height: 150px;

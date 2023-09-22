@@ -1,14 +1,39 @@
+import { useEffect, useState } from 'react';
+import { styled } from 'styled-components';
+import { useSetRecoilState } from 'recoil';
+
 import ChatBubble from '@/components/ChatRoom/ChatBubble/ChatBubble';
 import ChatDeclarationBotomSheet from '@/components/ChatRoom/ChatDeclaration/ChatDeclarationBotomSheet';
 import ChatHeader from '@/components/ChatRoom/ChatHeader/ChatHeader';
 import ChatInput from '@/components/ChatRoom/ChatInput';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import Header from '@/components/Common/Header';
-import { useState } from 'react';
-import { styled } from 'styled-components';
+import { keyboardHeightAtom } from '@/states/chatInputFocusAtom';
 
 const ChatRoom = () => {
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useState(false);
+  const setKeyboardHeight = useSetRecoilState(keyboardHeightAtom);
+
+  useEffect(() => {
+    if (window) {
+      let prevVisualViewport = window.visualViewport?.height;
+      const handleVisualViewportResize = () => {
+        const currentVisualViewport = Number(window.visualViewport?.height);
+
+        if (prevVisualViewport && prevVisualViewport > currentVisualViewport) {
+          const scrollHeight = Number(window.document.scrollingElement?.scrollHeight);
+          const scrollTop = scrollHeight - Number(window.visualViewport?.height);
+          setKeyboardHeight(prevVisualViewport - currentVisualViewport);
+          window.scrollTo(scrollTop, 0);
+        }
+        prevVisualViewport = Number(window.visualViewport?.height);
+      };
+
+      if (window.visualViewport) {
+        window.visualViewport.onresize = handleVisualViewportResize;
+      }
+    }
+  }, []);
 
   const handleRightIconClick = () => {
     setIsBottomsheetOpen(true);
@@ -19,11 +44,12 @@ const ChatRoom = () => {
   return (
     <StyledContainer>
       <Header
-        title={'태리로제떡볶이 (2/6)'}
+        title={'태리로제떡볶이 3/6'}
         leftIcon={'back'}
         rightIcon={'more'}
         rightIconClick={handleRightIconClick}
       />
+
       <ChatHeader />
       <ChatBubble />
       <ChatInput />
@@ -31,11 +57,11 @@ const ChatRoom = () => {
         isOpen={isBottomsheetOpen}
         onClose={closeBottomSheet}>
         {
-          <SheetContainer>
-            <CancelButton onClick={closeBottomSheet}>취소</CancelButton>
-            <SheetBox>알림끄기</SheetBox>
-            <SheetBox>채팅방 나가기</SheetBox>
-          </SheetContainer>
+          <StyledSheetContainer>
+            <StyledCancelButton onClick={closeBottomSheet}>취소</StyledCancelButton>
+            <StyledSheetBox>알림끄기</StyledSheetBox>
+            <StyledSheetBox>채팅방 나가기</StyledSheetBox>
+          </StyledSheetContainer>
         }
       </BottomSheetModal>
       <ChatDeclarationBotomSheet />
@@ -44,23 +70,23 @@ const ChatRoom = () => {
 };
 
 const StyledContainer = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 2000px;
-  height: 100vh;
+  overflow: hidden;
 `;
-const SheetContainer = styled.div`
+const StyledSheetContainer = styled.div`
   position: relative;
   padding: 34px 16px 9px 16px;
 `;
-const CancelButton = styled.div`
+const StyledCancelButton = styled.div`
   position: absolute;
   right: 27px;
   top: 7px;
   color: ${({ theme }) => theme.colors.grayColor11};
   cursor: pointer;
 `;
-const SheetBox = styled.div`
+const StyledSheetBox = styled.div`
   text-align: center;
   padding: 16px 15px;
   cursor: pointer;

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { useRecoilState } from 'recoil';
 
 import IconSend from '@/assets/chatrooms/ico_send.svg';
+import { chatInputFocusAtom } from '@/states/chatInputFocusAtom';
 
 const ChatInput = () => {
   const [inputValue, setInputValue] = useState('');
-  const [inputFocus, setInputFocus] = useState(false);
+  const [inputFocus, setInputFocus] = useRecoilState(chatInputFocusAtom);
   const SEND_ICON = IconSend;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +68,9 @@ const StyledContainer = styled.form<{ inputfocus: boolean }>`
   gap: 11px;
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.05);
-  padding-bottom: ${({ inputfocus }) => (inputfocus ? '10px' : '24px')};
+  @media (max-width: 500px) {
+    padding-bottom: ${({ inputfocus }) => (inputfocus ? '10px' : '24px')};
+  }
 `;
 
 const StyledInputBox = styled.input`
