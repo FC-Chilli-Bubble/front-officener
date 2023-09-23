@@ -12,6 +12,8 @@ import MODAL_DATAS from '@/constants/modalDatas';
 import { useModal } from '@/hooks/useModal';
 import { postAtom } from '@/states/postAtom';
 import TimePicker from '@/components/Delivery/TimePicker';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
@@ -24,6 +26,22 @@ const DeliveryPost = () => {
   const [postData] = useRecoilState(postAtom);
 
   const navigate = useNavigate();
+
+  // 은행 목록 조회 api
+  const getBankList = () => {
+    fetchBankList().then(
+      res => {
+        console.log(res);
+      },
+      (error: IErrorResponse) => {
+        console.log(error.errorMessage);
+      }
+    );
+  };
+
+  useEffect(() => {
+    getBankList();
+  }, []);
 
   const handleClickButton = () => {
     if (stepNum === 1) {
