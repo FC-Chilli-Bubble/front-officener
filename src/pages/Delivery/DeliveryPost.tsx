@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
@@ -10,7 +10,7 @@ import PostStepStoreInfo from '@/components/Delivery/PostStepStoreInfo';
 import PostStepDeliveryInfo from '@/components/Delivery/PostStepDeliveryInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { useModal } from '@/hooks/useModal';
-import { postAtom } from '@/states/postAtom';
+import { postAtom, postBankAtom } from '@/states/postAtom';
 import TimePicker from '@/components/Delivery/TimePicker';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
@@ -24,6 +24,7 @@ const DeliveryPost = () => {
   const [isValid, setIsValid] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const [postData] = useRecoilState(postAtom);
+  const setBankList = useSetRecoilState(postBankAtom);
 
   const navigate = useNavigate();
 
@@ -31,9 +32,10 @@ const DeliveryPost = () => {
   const getBankList = () => {
     fetchBankList().then(
       res => {
-        console.log(res);
+        setBankList(res.data);
       },
       (error: IErrorResponse) => {
+        // TODO : 예외처리
         console.log(error.errorMessage);
       }
     );

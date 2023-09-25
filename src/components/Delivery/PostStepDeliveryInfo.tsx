@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 
 import IconDown from '@/assets/ico_chevron_down.svg';
-import { postAtom } from "@/states/postAtom";
+import { postAtom, postBankAtom } from "@/states/postAtom";
 import { timePickerAtom } from '@/states/timePickerAtom';
 
 type TPostStepDeliveryInfoProps = {
@@ -16,6 +16,7 @@ type TPostStepDeliveryInfoProps = {
 const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTime] = useRecoilState(timePickerAtom);
+  const bankList = useRecoilValue(postBankAtom);
 
   const timeStr = useMemo(() => {
     if (savedTime.houres === '' || savedTime.time === '' || savedTime.minutes === '') {
@@ -32,10 +33,9 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
         <StyledDropdown>
           <select required id='bank' value={postData.bank} onChange={(e) => { setPostData({ ...postData, bank: e.target.value }); }}>
             <option value="" disabled selected>은행/증권사</option>
-            <option value="우리">우리은행</option>
-            <option value="신한">신한은행</option>
-            <option value="농협">농협은행</option>
-            <option value="기업">기업은행</option>
+            {
+              bankList.map(bank => <option value="우리">{bank.bankName}</option>)
+            }
           </select>
           <img src={IconDown} />
         </StyledDropdown>
