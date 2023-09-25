@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { isSenderMe } from '@/components/ChatRoom/ChatFunctions';
 import { messageData } from '@/apis/dummy_ChatAPI';
-import ChatProfile from '@/components/ChatRoom/ChatProfile';
+import ChatProfile from '@/components/ChatRoom/ChatProfile/ChatProfile';
 
 type TMessageContent = {
   messageId: number;

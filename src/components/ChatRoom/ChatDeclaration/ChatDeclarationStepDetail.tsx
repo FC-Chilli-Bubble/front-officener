@@ -3,9 +3,11 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
+import { modalInputFocusAtom } from '@/states/chatInputFocusAtom';
 
-const ChatDeclarationStep1 = () => {
+const ChatDeclarationStepDetail = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
+  const setModalInputFocus = useSetRecoilState(modalInputFocusAtom);
   const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
   const [textAreaValue, setTextAreaValue] = useState('');
   const [textAreaCount, setTextAreaCount] = useState(0);
@@ -24,12 +26,22 @@ const ChatDeclarationStep1 = () => {
     setDeclarationStep(3);
   };
 
+  const handleInputFocus = () => {
+    setModalInputFocus(true);
+  };
+
+  const handleInputBlur = () => {
+    setModalInputFocus(false);
+  };
+
   return (
     <StyledSheetContainer>
       <StyledSheetBoxTitle>채팅메시지 신고</StyledSheetBoxTitle>
       <StyledInputWrep>
         <StyledText>더 자세히 알려주세요</StyledText>
         <StyledTextarea
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           onChange={handleOnChange}
           maxLength={2000}
         />
@@ -92,4 +104,4 @@ const StyledButton = styled.div`
   cursor: pointer;
 `;
 
-export default ChatDeclarationStep1;
+export default ChatDeclarationStepDetail;

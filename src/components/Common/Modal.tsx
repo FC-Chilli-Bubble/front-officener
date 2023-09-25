@@ -1,11 +1,19 @@
 import { styled } from 'styled-components';
-
 import Button from '@/components/Common/Button';
 import OutlineButton from '@/components/Common/OutlineButton';
 import { useModal } from '@/hooks/useModal';
 
 const Modal = () => {
   const { modalState, closeModal } = useModal();
+
+  const formatTitle = (title: string) => {
+    return title.split('\n').map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
 
   const handleNegativeClick = (event?: React.MouseEvent<HTMLElement>) => {
     event?.stopPropagation();
@@ -36,7 +44,7 @@ const Modal = () => {
               onClick={e => {
                 e.stopPropagation();
               }}>
-              {modalState.title && <h2>{modalState.title}</h2>}
+              {modalState.title && <h2>{formatTitle(modalState.title)}</h2>}
               {modalState.content &&
                 (typeof modalState.content === 'string' ? (
                   <StyledMessage>{modalState.content}</StyledMessage>
@@ -93,6 +101,7 @@ const StyledModal = styled.div`
     font-size: 14px;
     font-weight: 700;
     color: ${({ theme }) => theme.colors.grayColor6};
+    line-height: 1.4rem;
   }
 `;
 
@@ -101,6 +110,7 @@ const StyledMessage = styled.p`
   font-size: 12px;
   line-height: 18px;
   color: ${({ theme }) => theme.colors.grayColor5};
+  white-space: pre-line;
 `;
 
 const StyledButtonBox = styled.div`
