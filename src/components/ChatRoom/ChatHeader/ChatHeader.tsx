@@ -9,12 +9,12 @@ import Button from '@/components/Common/Button';
 import IconCopy from '@/assets/chatrooms/ico_copy.svg';
 import IconWon from '@/assets/chatrooms/ico_won.svg';
 import IconAlarm from '@/assets/chatrooms/ico_alarm.svg';
+import ButtonTitleGuest from '@/components/ChatRoom/ChatHeader/ButtonTitleGuest';
 
 const ChatHeader = () => {
   const { openModal, closeModal } = useModal();
   const myid = 1;
   //로그인시 데이터 내려받아 사용
-  const changeButtonnGuest = isRemitted(myid) ? '수령완료' : '송금완료';
   const changeModalGuest = isRemitted(myid)
     ? MODAL_DATA_GUEST.receiveModal
     : MODAL_DATA_GUEST.sendModal;
@@ -27,7 +27,6 @@ const ChatHeader = () => {
       ? openModal({
           ...MODAL_DATA_HOST.receiveModal,
           positiveCallback: () => {
-            console.log('버튼클릭완료');
             //api 통신 연결
             setIsReceiveButtonDisabled(true);
           },
@@ -38,7 +37,6 @@ const ChatHeader = () => {
       : openModal({
           ...MODAL_DATA_HOST.participationEndsdModal,
           positiveCallback: () => {
-            console.log('버튼클릭완료');
             //api 통신 연결
             setIsEndButtonDisabled(true);
           },
@@ -52,7 +50,6 @@ const ChatHeader = () => {
     openModal({
       ...changeModalGuest,
       positiveCallback: () => {
-        console.log('버튼클릭완료');
         //api 통신 연결
       },
       negativeCallback: () => {
@@ -127,7 +124,7 @@ const ChatHeader = () => {
       ) : (
         <Button
           size="small"
-          title={changeButtonnGuest}
+          title={<ButtonTitleGuest isRemitted={isRemitted(myid)} />}
           onClick={handleClickGuestButton}
         />
       )}
@@ -136,6 +133,8 @@ const ChatHeader = () => {
 };
 
 const StyledContainer = styled.div`
+  position: sticky;
+  top: 20;
   box-sizing: border-box;
   width: 100%;
   height: 150px;
@@ -166,6 +165,9 @@ const StyledDetailTitle = styled.div`
 const StyledIcon = styled.div`
   width: 16px;
   height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 `;
 const StyledAcountNumber = styled.div`
@@ -178,6 +180,9 @@ const StyledIconButton = styled.button`
   border: none;
   width: 16px;
   height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 `;
 const StyledButtonWrap = styled.div`

@@ -102,4 +102,4 @@ export const router = createBrowserRouter([
       }
     ]
   }
-], { basename: '/front-officener/' });
+]);

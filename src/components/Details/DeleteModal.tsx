@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const DeleteModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  // console.log(onClose);
   return (
     <StyledModalOverlay>
       <StyledModalContainer>
