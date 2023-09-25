@@ -29,7 +29,7 @@ export const MODAL_DATA_GUEST = {
 };
 export const MODAL_DATA_HOST = {
   participationEndsdModal: {
-    title: '추가적인 참여자가 들어올 수 없도록 참여를 마감합니다.',
+    title: '추가적인 참여자가 들어올 수 없도록\n참여를 마감합니다.',
     positive: '예',
     negative: '아니오'
   },

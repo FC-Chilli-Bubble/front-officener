@@ -127,7 +127,7 @@ export const messageData = {
     {
       messageId: 19,
       messageType: 'TALK',
-      content: 'ㅇ러먀ㅓ랴덜',
+      content: '오되네',
       senderId: 2,
       sendTime: '2023-09-06T17:26:59+09:00'
     }
@@ -138,18 +138,20 @@ export const messageData = {
       name: '김종팔',
       companyName: '아모레시픽 컴퍼니',
       profileImage: '김종팔.png',
-      amI: true,
+      amI: false,
       isHost: true,
-      hasRemitted: false
+      hasRemitted: false,
+      hasReceived: false
     },
     {
       id: 2,
       name: '김종국',
       companyName: '아모레시픽 컴퍼니',
       profileImage: '서울대김종국.png',
-      amI: false,
+      amI: true,
       isHost: false,
-      hasRemitted: true
+      hasRemitted: true,
+      hasReceived: false
     },
     {
       id: 3,
@@ -158,7 +160,8 @@ export const messageData = {
       profileImage: '떡에미친사람.png',
       amI: false,
       isHost: false,
-      hasRemitted: false
+      hasRemitted: true,
+      hasReceived: true
     }
   ]
 };
