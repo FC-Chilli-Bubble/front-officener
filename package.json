@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://fc-chilli-bubble.github.io/front-officener/",
+  // "homepage": "https://fc-chilli-bubble.github.io/front-officener/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
