@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import IconProfile from '@/assets/food/Vector.svg';
+import IconProfile from '@/assets/img_profile.svg';
 
 const HostInfo: React.FC = () => {
   return (
@@ -18,24 +18,24 @@ const HostInfo: React.FC = () => {
       <br />
       <h2>추가설명</h2>
       <br />
-      <p>
+      <span>
         엽기떡볶이 마라맛 새로 나왔대요!! 배달 같이 시켜요! <br />
         엽기떡볶이 닭볶음탕도 진짜 맛있습니다!
-      </p>
+      </span>
     </StyledHostInfo>
   );
 };
 
 const StyledHostInfo = styled.div`
-  padding: 24px 16px;
+  padding: 24px 20px;
   align-self: flex-start;
   position: relative;
   margin-bottom: 100px;
 
   h4 {
     color: ${props => props.theme.colors.grayColor10};
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
   }
 
   h3 {
@@ -46,8 +46,8 @@ const StyledHostInfo = styled.div`
 
   h2 {
     color: ${props => props.theme.colors.grayColor10};
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
   }
 
   h1 {
@@ -56,9 +56,9 @@ const StyledHostInfo = styled.div`
     padding-left: 40px;
   }
 
-  p {
+  span {
     color: black;
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 
@@ -66,5 +66,12 @@ const HostDetailContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 0 10px 0;
+
+  img {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.10));
+  }
 `;
 export default HostInfo;

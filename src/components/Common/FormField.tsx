@@ -1,16 +1,16 @@
 import { styled } from 'styled-components';
 
-import { INPUT_REDERROR_MESSAGE } from '@/constants/commonUiData';
+import { INPUT_ERROR_ICONS } from '@/constants/commonUiData';
 import IconCheck from '@/assets/ico_check.svg';
 
-type ErrorRedIconType = 'wrong' | 'error' | 'correct' | 'none';
+type ErrorIconType = 'wrong' | 'error' | 'errorG' | 'correct' | 'none';
 
 type TInputProps = {
   isType: string;
   label: string;
   placeholder: string;
   isRequired?: boolean;
-  redErrorIcon?: ErrorRedIconType;
+  redErrorIcon?: ErrorIconType;
   errorMessage?: string;
   isValid?: boolean;
   value: string | number;
@@ -18,6 +18,8 @@ type TInputProps = {
   maxLength?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onBlur?: (value: string) => void;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
@@ -32,7 +34,8 @@ const FormField = ({
   isValid = false,
   value,
   maxLength,
-  onChange
+  onChange,
+  onBlur
 }: TInputProps) => {
   return (
     <StyledLayout>
@@ -56,6 +59,7 @@ const FormField = ({
           onChange={e => {
             onChange(e.target.value);
           }}
+          onBlur={onBlur ? e => onBlur(e.target.value) : undefined}
           required></StyledErrorIBox>
         {isValid && (
           <StyledIcon
@@ -67,7 +71,7 @@ const FormField = ({
       {redErrorIcon !== 'none' && (
         <StyledIErrorMessage redErrorIcon={redErrorIcon}>
           <StyledImage
-            src={INPUT_REDERROR_MESSAGE[redErrorIcon]}
+            src={INPUT_ERROR_ICONS[redErrorIcon]}
             alt=""
           />
           <span>{errorMessage}</span>
@@ -130,7 +134,7 @@ const StyledContainer = styled.div`
 //   }
 // `;
 
-const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorRedIconType }>`
+const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
   display: flex;
   width: 100%;
   height: 48px;
@@ -141,9 +145,12 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorRedIconType }>`
   border: 1px solid
     ${({ redErrorIcon, theme }) => {
       if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
-        return theme.colors.errorColor; // 빨간색 (wrong 또는 error)
+        return theme.colors.errorColor;
+      }
+      if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
+        return theme.colors.grayColor4;
       } else {
-        return theme.colors.grayColor4; // 회색 (나머지)
+        return theme.colors.successColor;
       }
     }};
   ::placeholder {
@@ -165,13 +172,15 @@ const StyledIcon = styled.img`
   cursor: pointer;
 `;
 
-const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorRedIconType }>`
+const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorIconType }>`
   display: flex;
   color: ${({ redErrorIcon, theme }) => {
     if (redErrorIcon === 'none') {
       return theme.colors.grayColor4;
     } else if (redErrorIcon === 'correct') {
       return theme.colors.successColor;
+    } else if (redErrorIcon === 'errorG') {
+      return theme.colors.grayColor4;
     } else {
       return theme.colors.errorColor;
     }

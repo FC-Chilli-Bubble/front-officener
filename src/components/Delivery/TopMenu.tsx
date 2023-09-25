@@ -24,6 +24,7 @@ const TopMenu: React.FC<ITopMenuProps> = ({ selectedMenu, handleMenuClick }) => 
         onClick={() => handleMenuClick('나의 채팅')}>
         나의 채팅
       </TopMenuButton>
+      <StyledDivider />
     </StyledMenu>
   );
 };
@@ -38,24 +39,28 @@ const StyledMenu = styled.div`
 
 // 상단 탭 스타일
 const TopMenuButton = styled.button`
+  font-size: 14px;
+  font-weight: 400;
   position: relative;
-  padding: 10px 20px;
+  padding: 5px 20px;
   margin: 0 5px;
+  height: 40px;
+  line-height: 40px;
   border: none;
   background-color: ${props => props.theme.colors.white};
   cursor: pointer;
   opacity: 0.4;
-  font-weight: normal;
 
   &.active {
     color: ${props => props.theme.colors.marinblueColor};
     opacity: 1;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 700;
 
     &:after {
       content: '';
       position: absolute;
-      bottom: 0;
+      bottom: -3px;
       left: 50%;
       transform: translateX(-50%);
       width: 48px;
@@ -64,6 +69,12 @@ const TopMenuButton = styled.button`
       border-radius: 5px;
     }
   }
+`;
+
+const StyledDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${props => props.theme.colors.grayColor1};
 `;
 
 export default TopMenu;

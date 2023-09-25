@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import Header from '@/components/Common/Header';
 import SearchButton from '@/components/Common/SearchButton';
 import Button from '@/components/Common/Button';
+import Icon_gray_error from '@/assets/ico_gray_error.svg';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -13,12 +14,11 @@ interface SignupStepProps {
 }
 const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false); //임시로 false
-  const [selectedBuilding, setSelectedBuilding] = useState('');
+  const [selectedBuilding, setSelectedBuilding] = useState('미왕');
   const [selectedOffice, setSelectedOffice] = useState('');
 
   const handleServiceClick = () => {
     onNextStep(1);
-    console.log('이전 페이지로');
     return;
   };
 
@@ -63,11 +63,20 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
             onClick={handleBuildingSelect}
           />
           {selectedBuilding && (
-            <SearchButton
-              label="오피스"
-              placeholder={selectedOffice || '오피스 찾기'}
-              onClick={handleOfficeSelect}
-            />
+            <>
+              <SearchButton
+                label="오피스"
+                placeholder={selectedOffice || '오피스 찾기'}
+                onClick={handleOfficeSelect}
+              />
+              <StyledIErrorMessage>
+                <StyledImage
+                  src={Icon_gray_error}
+                  alt=""
+                />
+                <span>입주사 목록에 내 회사가 없다면 관리센터로 문의 주세요!</span>
+              </StyledIErrorMessage>
+            </>
           )}
         </StyledSearchContainer>
         <StyledButtonContainer>
@@ -111,6 +120,16 @@ const StyledSearchContainer = styled.div`
   height: 187px;
   display: flex;
   flex-direction: column;
+`;
+const StyledIErrorMessage = styled.div`
+  display: flex;
+  color: ${({ theme }) => theme.colors.grayColor4};
+  font-size: 10px;
+  margin-top: 8px;
+`;
+
+const StyledImage = styled.img`
+  margin: 0 5px;
 `;
 
 const StyledButtonContainer = styled.div`

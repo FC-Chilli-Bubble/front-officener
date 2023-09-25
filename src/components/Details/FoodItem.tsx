@@ -10,7 +10,7 @@ interface IFoodData {
   이체해야하는시간: string;
 }
 
-const FoodItem: React.FC<{ food: IFoodData; }> = ({ food }) => {
+const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
   return (
     <StyledFoodCardListStyle>
       <img
@@ -22,7 +22,7 @@ const FoodItem: React.FC<{ food: IFoodData; }> = ({ food }) => {
           <GrayText>가게이름</GrayText> <BlackText>{food?.가게이름}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>참여 인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
+          <GrayText>참여인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>배달비</GrayText> <BlackText>{food?.배달비}</BlackText>
@@ -31,7 +31,7 @@ const FoodItem: React.FC<{ food: IFoodData; }> = ({ food }) => {
           <GrayText>태그</GrayText> <BlackText>{food?.태그.join(', ')}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체 마감 시간</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
+          <GrayText>이체마감</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
         </StyledRow>
       </div>
     </StyledFoodCardListStyle>

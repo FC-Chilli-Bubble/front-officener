@@ -13,7 +13,6 @@ const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
 
   const handleServiceClick = () => {
     onNextStep(6);
-    console.log('이전 페이지로');
     return;
   };
   // 로그인 페이지 이동 버튼
@@ -58,7 +57,6 @@ const StyledLayout = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: red; */
 `;
 
 const StyledContainer = styled.div`
@@ -70,7 +68,6 @@ const StyledContainer = styled.div`
   font-weight: 600;
   font-size: 24px;
   line-height: 31px;
-  /* background: greenyellow; */
   color: ${({ theme }) => theme.colors.ctaColor};
   & > div {
     color: ${({ theme }) => theme.colors.grayColor6};
