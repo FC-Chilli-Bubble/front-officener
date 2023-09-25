@@ -102,6 +102,25 @@ export const FOOD_TAG = [
   '도시락'
 ];
 
+interface IFoodTagType {
+  [name: string]: string;
+}
+
+export const FOODTAGS: IFoodTagType = {
+  '족발,보쌈': 'PORKFEET',
+  '회,일식': 'SUSHI',
+  '찜,탕,찌개': 'ZZIM',
+  피자: 'PIZZA',
+  치킨: 'CHICKEN',
+  아시안: 'ASIAN',
+  백반: 'BAEKBAN',
+  분식: 'BUNSIK',
+  '카페,디저트': 'CAFE',
+  중식: 'CHINESE',
+  '고기,구이': 'MEET',
+  도시락: 'DOSIRAK'
+};
+
 export const MY_PAGE_MENU = [
   {
     title: '내 정보 보기',

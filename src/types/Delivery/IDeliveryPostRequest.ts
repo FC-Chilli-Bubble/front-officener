@@ -1,11 +1,11 @@
 export interface IDeliveryPostRequest {
   storeName: string;
-  storeLink: string;
-  deliveryTip: number | null;
-  tag: string;
-  bank: string;
-  account: string;
-  closedTime: string;
-  maximumNum: number | null;
-  decription: string;
+  menuLink: string;
+  deliveryFee: number | null;
+  foodTag: string;
+  bankName: string;
+  accountNumber: string;
+  deadline: string;
+  maxAttendees: number | null;
+  desc: string;
 }

@@ -15,6 +15,24 @@ const MODAL_DATAS = {
     title: '정말 로그아웃 하시겠습니까?',
     positive: '취소',
     negative: '확인'
+  },
+  DEADLINE_ERROR: {
+    title: '현재 시간보다 이전 시간은 선택할 수 없습니다',
+    positive: '확인'
+  },
+  DELIVERY_POST_SUCCESS: {
+    title: '함께배달',
+    content: '게시글을 성공적으로 올렸습니다',
+    positive: '확인'
+  },
+  DELIVERY_POST_FAILURE: {
+    title: '함께배달',
+    content: '게시글 올리기를 실패했습니다.\n다시 시도해주세요',
+    positive: '확인'
+  },
+  DELIVERY_POST_BANK_FAILURE: {
+    title: '함께배달',
+    positive: '확인'
   }
 };
 
