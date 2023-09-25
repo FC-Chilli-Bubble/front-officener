@@ -5,16 +5,19 @@ import styled from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
-import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import TagList from '@/components/Delivery/TagList';
+import TimePicker from '@/components/Delivery/TimePicker';
+import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import PostStepStoreInfo from '@/components/Delivery/PostStepStoreInfo';
 import PostStepDeliveryInfo from '@/components/Delivery/PostStepDeliveryInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { useModal } from '@/hooks/useModal';
 import { postAtom, postBankAtom } from '@/states/postAtom';
-import TimePicker from '@/components/Delivery/TimePicker';
+import { postTagAtom } from '@/states/postTagAtom';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
+import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
+import { createDeliveryPost, fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
+import { timePickerAtom } from '@/states/timePickerAtom';
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
@@ -24,8 +27,10 @@ const DeliveryPost = () => {
   const [stepNum, setStepNum] = useState<1 | 2>(1);
   const [isValid, setIsValid] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const [postData] = useRecoilState(postAtom);
+  const [postData, setPostData] = useRecoilState(postAtom);
   const setBankList = useSetRecoilState(postBankAtom);
+  const setSavedTag = useSetRecoilState(postTagAtom);
+  const setSavedTime = useSetRecoilState(timePickerAtom);
 
   const navigate = useNavigate();
 
@@ -36,8 +41,13 @@ const DeliveryPost = () => {
         setBankList(res.data.banks);
       },
       (error: IErrorResponse) => {
-        // TODO : 예외처리
-        console.log(error.errorMessage);
+        openModal({
+          ...MODAL_DATAS.DELIVERY_POST_BANK_FAILURE,
+          content: error.errorMessage[0] || '오류가 발생했습니다.',
+          positiveCallback: () => {
+            navigate(-1);
+          }
+        });
       }
     );
   };
@@ -46,11 +56,28 @@ const DeliveryPost = () => {
     getBankList();
   }, []);
 
+  // 함께배달 등록
+  const createNewPost = () => {
+    createDeliveryPost(postData).then(
+      () => {
+        openModal({
+          ...MODAL_DATAS.DELIVERY_POST_SUCCESS, positiveCallback: () => {
+            navigate(-1);
+          }
+        });
+      },
+      () => {
+        openModal(MODAL_DATAS.DELIVERY_POST_FAILURE);
+      }
+    );
+  };
+
   const handleClickButton = () => {
     if (stepNum === 1) {
       setStepNum(2);
       return;
     }
+    createNewPost();
   };
 
   // x 버튼 뒤로가기
@@ -58,6 +85,9 @@ const DeliveryPost = () => {
     openModal({
       ...MODAL_DATAS.WARN_NOT_SAVED,
       positiveCallback: () => {
+        setPostData({} as IDeliveryPostRequest);
+        setSavedTag('');
+        setSavedTime({ time: '', houres: '', minutes: '' });
         navigate(-1);
       }
     });
@@ -69,17 +99,17 @@ const DeliveryPost = () => {
     if (stepNum === 1) {
       setIsValid(
         postData.storeName !== '' &&
-        postData.storeLink !== '' &&
-        postData.tag !== '' &&
-        (postData.deliveryTip ? postData.deliveryTip : '').toString() !== ''
+        postData.menuLink !== '' &&
+        (postData.foodTag ?? '') !== '' &&
+        (postData.deliveryFee ? postData.deliveryFee : '').toString() !== ''
       );
       return;
     }
     setIsValid(
-      postData.bank !== '' &&
-      postData.account !== '' &&
-      postData.closedTime !== '' &&
-      (postData.maximumNum ? postData.maximumNum : '').toString() !== ''
+      postData.bankName !== '' &&
+      postData.accountNumber !== '' &&
+      postData.deadline !== '' &&
+      (postData.maxAttendees ? postData.maxAttendees : '').toString() !== ''
     );
   }, [postData, stepNum]);
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilState } from "recoil";
 
 import Tag from '@/components/Common/Tag';
-import { FOOD_TAG } from '@/constants/commonUiData';
+import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
 import { postTagAtom } from "@/states/postTagAtom";
 import { postAtom } from "@/states/postAtom";
 
@@ -21,7 +21,7 @@ const TagList = React.memo(({ closeSheet }: TTagListProps) => {
   };
 
   const handleSaveTag = () => {
-    setPostData({ ...postData, tag: selectedTag ?? '' });
+    setPostData({ ...postData, foodTag: FOODTAGS[selectedTag] ?? '' });
     setSavedTag(selectedTag);
     closeSheet();
   };
