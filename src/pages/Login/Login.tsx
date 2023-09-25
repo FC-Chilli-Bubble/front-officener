@@ -3,10 +3,12 @@ import { styled } from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
+import { createLogin } from '@/apis/Login/LoginPostRequests';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
 
 type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
@@ -38,10 +40,12 @@ const Login = () => {
     if (!newEmail) {
       setEmailErrorIcon('none');
       setEmailMsg('');
+      setIsValid(false);
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
       setEmailErrorIcon('none');
       setEmailMsg('');
+      setIsValid(false);
       return;
     } else {
       setEmailMsg('');
@@ -55,24 +59,27 @@ const Login = () => {
     if (!newPassword) {
       setPwsErrorIcon('none');
       setPwdMsg('');
+      setIsValid(false);
       return;
     }
     if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('none');
       setPwdMsg('');
+      setIsValid(false);
       return;
     } else {
       setPwdMsg('');
       setPwsErrorIcon('none');
     }
   };
-
+  // 이메일 입력 필드에서 포커스 아웃 시 에러메세지 출력
   const handleEmailBlur = (newEmail: string) => {
     setEmail(newEmail);
     if (!email) {
       setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
-    } if (!EMAIL_REGEX.test(email)) {
+    }
+    if (!EMAIL_REGEX.test(email)) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
     } else {
@@ -81,7 +88,7 @@ const Login = () => {
     }
   };
 
-  // 비밀번호 입력 필드에서 포커스를 잃었을 때 유효성 검사 수행
+  // 비밀번호 입력 필드에서 포커스 아웃 시 에러메세지 출력
   const handlePasswordBlur = (newPassword: string) => {
     setPassword(newPassword);
     if (!password) {
@@ -91,7 +98,7 @@ const Login = () => {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
     } else {
-      setPwsErrorIcon('none'); // 입력이 유효한 경우 'none'으로 설정
+      setPwsErrorIcon('none');
       setPwdMsg('');
     }
   };
@@ -108,34 +115,27 @@ const Login = () => {
   // 로그인 로직
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // let res = '';
     if (isValid) {
-      // 유효성 검사가 통과되면 로그인 로직 수행
-      try {
-        // 로그인 로직을 구현
-        // 1. 서버로 이메일과 비밀번호를 전송하고 인증을 수행(API Axios호출)
-        // const response = await axios.post(
-        //   LOGIN_URL,
-        //   JSON.stringify{(email, password)},
-        //   {
-        //     headers: { 'Content-Type': 'application/json' }
-        //   }
-        // );
-        // // Login Successful
-        // res = 'Login Successful!';
-        navigate('/');
-      } catch (error) {
-        // if (!error?.response) {
-        //   console.error('로그인 실패:', error);
-        // } else if (error.response?.status === 401) {
-        //   setEmailErrorIcon('wrong');
-        //   setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
-        // } else {
-        //   setPwsErrorIcon('error');
-        //   setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
-        // }
-        return;
-      }
+      createLogin().then(
+        res => {
+          console.log(res);
+          navigate('/');
+          // res = 'Login Successful!';
+          // Handle the API response
+          // Example: if (response.success) { /* Login successful */ }
+        },
+        (error: IErrorResponse) => {
+          if (error.res?.status === 401) {
+            setEmailErrorIcon('wrong');
+            setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+          } else {
+            setPwsErrorIcon('error');
+            setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+          }
+          console.log(error.errorMessage);
+          return;
+        }
+      );
     }
   };
 
@@ -144,14 +144,16 @@ const Login = () => {
     updateLoginButtonState(email, password);
   }, [email, password]);
 
-  // 로그인 상태면 메인으로~
+  // // 로그인 상태면 메인으로~
   // useEffect(() => {
   //   if (accessToken) {
   //     navigate('/')
   //   } else {
   // navigate('/login')
   // }
-  // },[])
+  // }, [])
+  
+  // 은행 목록 조회 api
 
   return (
     <>
