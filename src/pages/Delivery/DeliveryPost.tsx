@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 
 import Header from '@/components/Common/Header';
@@ -31,6 +31,7 @@ const DeliveryPost = () => {
   const setBankList = useSetRecoilState(postBankAtom);
   const setSavedTag = useSetRecoilState(postTagAtom);
   const setSavedTime = useSetRecoilState(timePickerAtom);
+  const resetPostData = useResetRecoilState(postAtom);
 
   const navigate = useNavigate();
 
@@ -45,7 +46,7 @@ const DeliveryPost = () => {
           ...MODAL_DATAS.DELIVERY_POST_BANK_FAILURE,
           content: error.errorMessage[0] || '오류가 발생했습니다.',
           positiveCallback: () => {
-            navigate(-1);
+            clearState();
           }
         });
       }
@@ -56,13 +57,21 @@ const DeliveryPost = () => {
     getBankList();
   }, []);
 
+  // recoilState reset
+  const clearState = () => {
+    setSavedTag('');
+    setSavedTime({ time: '', houres: '', minutes: '' });
+    resetPostData();
+    navigate(-1);
+  };
+
   // 함께배달 등록
   const createNewPost = () => {
     createDeliveryPost(postData).then(
       () => {
         openModal({
           ...MODAL_DATAS.DELIVERY_POST_SUCCESS, positiveCallback: () => {
-            navigate(-1);
+            clearState();
           }
         });
       },
@@ -85,10 +94,7 @@ const DeliveryPost = () => {
     openModal({
       ...MODAL_DATAS.WARN_NOT_SAVED,
       positiveCallback: () => {
-        setPostData({} as IDeliveryPostRequest);
-        setSavedTag('');
-        setSavedTime({ time: '', houres: '', minutes: '' });
-        navigate(-1);
+        clearState();
       }
     });
   };

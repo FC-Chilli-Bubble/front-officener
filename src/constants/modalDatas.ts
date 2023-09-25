@@ -18,7 +18,7 @@ const MODAL_DATAS = {
   },
   DEADLINE_ERROR: {
     title: '현재 시간보다 이전 시간은 선택할 수 없습니다',
-    positive: '취소'
+    positive: '확인'
   },
   DELIVERY_POST_SUCCESS: {
     title: '함께배달',
