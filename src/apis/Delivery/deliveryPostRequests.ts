@@ -3,6 +3,10 @@ import { ICommonResponse, IMessageResponse } from '@/types/Common/ICommonRespons
 import { IBank } from '@/types/Delivery/IBank';
 import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
 
+// api 연동 테스트용 토큰
+const token =
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJldW5nYkBnbWFpbC5jb20iLCJpYXQiOjE2OTU2NDc2NjcsImV4cCI6MTY5NTY1MTI2N30.V7sFGeOmP471t8iXxSr9vVjGAhqxqHqyFpLh4xA0XJo';
+
 // 은행 목록 조회
 export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
   const response = await apiClient.get('/api/room/bankList');
@@ -14,10 +18,20 @@ export const createDeliveryPost = async (
   post: IDeliveryPostRequest
 ): Promise<ICommonResponse<IMessageResponse>> => {
   const response = await apiClient.post('/api/room/create', post, {
-    // TODO : 테스트용
     headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXIwMDFAbmF2ZXIuY29tIiwiaWF0IjoxNjk1NjMyNDQ3LCJleHAiOjE2OTU2MzYwNDd9.5rWtWiEJbcc_zZHnJhe1hXm-qDoTC8NdDYw5nY7KqOA'
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data;
+};
+
+// 함께배달 글 삭제
+export const deleteDeliveryPost = async (
+  roomId: number
+): Promise<ICommonResponse<IMessageResponse>> => {
+  const response = await apiClient.post(`/api/room/${roomId}/terminate`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
   });
   return response.data;

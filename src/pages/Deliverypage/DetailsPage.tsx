@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
 import { foodData, IFoodData } from './dummyData';
 import Header from '@/components/Details/Header';
 import FoodItem from '@/components/Details/FoodItem';
 import PhotoCard from '@/components/Details/PhotoCard';
 import HostInfo from '@/components/Details/HostInfo';
 import FooterButtons from '@/components/Details/FooterButtons';
-import DeleteModal from '@/components/Details/DeleteModal';
+import MODAL_DATAS from '@/constants/modalDatas';
+import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
+import { useModal } from '@/hooks/useModal';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+
 
 // eslint-disable-next-line no-unused-vars
 enum ButtonStates {
@@ -20,6 +26,8 @@ enum ButtonStates {
 
 const DetailsPage = () => {
   const [data, setData] = useState<IFoodData | null>(null);
+  const { openModal } = useModal();
+  const navigate = useNavigate();
 
   // const [selectedCategory, setSelectedCategory] = useState('분식');
   const selectedCategoryState = useState('분식');
@@ -27,7 +35,6 @@ const DetailsPage = () => {
   // const setSelectedCategory = selectedCategoryState[1];
 
   const [buttonState, setButtonState] = useState(ButtonStates.JOIN_DELIVERY);
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
   useEffect(() => {
     const dummyResponse = foodData[selectedCategory];
@@ -53,14 +60,26 @@ const DetailsPage = () => {
     }
   };
 
-  // 삭제 버튼 클릭 핸들러
-  const handleDeleteClick = () => {
-    setDeleteModalVisible(true);
+  // 삭제 API
+  const handleDeletePost = () => {
+    deleteDeliveryPost(10).then(() => {
+      navigate(-1);
+    }, (error: IErrorResponse) => {
+      openModal({
+        ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
+        content: error.errorMessage[0] || '오류가 발생했습니다.',
+      });
+    });
   };
 
-  // 모달 닫기 핸들러
-  const handleCloseModal = () => {
-    setDeleteModalVisible(false);
+  // 삭제 버튼 클릭 핸들러
+  const handleDeleteClick = () => {
+    openModal({
+      ...MODAL_DATAS.DELIVERY_POST_DELETE,
+      positiveCallback: () => {
+        handleDeletePost();
+      }
+    });
   };
 
   return (
@@ -77,7 +96,6 @@ const DetailsPage = () => {
         handleButtonClick={handleButtonClick}
         handleDeleteClick={handleDeleteClick}
       />
-      {isDeleteModalVisible && <DeleteModal onClose={handleCloseModal} />}
     </>
   );
 };
