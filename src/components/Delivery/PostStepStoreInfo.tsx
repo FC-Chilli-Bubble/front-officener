@@ -18,14 +18,14 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
 
-  const postDeliveryTip = useMemo(() => (postData.deliveryTip ? postData.deliveryTip : '').toString(), [postData]);
+  const postDeliveryTip = useMemo(() => (postData.deliveryFee ? postData.deliveryFee : '').toString(), [postData]);
 
   const handleClickTagSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     openBottomSheet(e);
   };
 
   const handleClickSavedTag = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setPostData({ ...postData, tag: '' });
+    setPostData({ ...postData, foodTag: '' });
     setSavedTag('');
     openBottomSheet(e);
   };
@@ -49,9 +49,9 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
         label='메뉴판 링크'
         isRequired
         placeholder='가게링크를 복사해주세요'
-        isValid={postData.storeLink !== ''}
-        value={postData.storeLink}
-        onChange={(storeLink) => setPostData({ ...postData, storeLink })}
+        isValid={postData.menuLink !== ''}
+        value={postData.menuLink}
+        onChange={(menuLink) => setPostData({ ...postData, menuLink })}
       />
 
       <FormField
@@ -62,7 +62,7 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
         placeholder='배달비를 작성해주세요'
         isValid={postDeliveryTip !== ''}
         value={postDeliveryTip}
-        onChange={(tip) => setPostData({ ...postData, deliveryTip: Number(tip.replace(/[^0-9]/g, '')) })}
+        onChange={(tip) => setPostData({ ...postData, deliveryFee: Number(tip.replace(/[^0-9]/g, '')) })}
       />
 
       <StyledTagBox>

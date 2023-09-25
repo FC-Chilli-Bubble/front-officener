@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
@@ -32,7 +33,7 @@ const DeliveryPost = () => {
   const getBankList = () => {
     fetchBankList().then(
       res => {
-        setBankList(res.data);
+        setBankList(res.data.banks);
       },
       (error: IErrorResponse) => {
         // TODO : 예외처리

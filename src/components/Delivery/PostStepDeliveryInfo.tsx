@@ -6,6 +6,7 @@ import styled from "styled-components";
 import IconDown from '@/assets/ico_chevron_down.svg';
 import { postAtom, postBankAtom } from "@/states/postAtom";
 import { timePickerAtom } from '@/states/timePickerAtom';
+import { BANKS, BANKS_MAX_NUM } from '@/constants/banks';
 
 type TPostStepDeliveryInfoProps = {
   // eslint-disable-next-line no-unused-vars
@@ -25,21 +26,28 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
     return `${savedTime.time} ${savedTime.houres} : ${savedTime.minutes}`;
   }, [savedTime]);
 
+  // 은행 선택
+  const handleChangeBank = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // 계좌번호 초기화 추가
+    setPostData({ ...postData, bankName: e.target.value, accountNumber: '' });
+  };
+
   return (
     <>
       {/* 은행 */}
       <div>
         <StyledLabel htmlFor="bank"> 이체 정보입력<span>*</span></StyledLabel>
         <StyledDropdown>
-          <select required id='bank' value={postData.bank} onChange={(e) => { setPostData({ ...postData, bank: e.target.value }); }}>
+          <select required id='bank' value={postData.bankName} onChange={handleChangeBank}>
             <option value="" disabled selected>은행/증권사</option>
             {
-              bankList.map(bank => <option value="우리">{bank.bankName}</option>)
+              bankList.map(bank => <option value={BANKS[bank.bankName]}>{bank.bankName}</option>)
             }
           </select>
           <img src={IconDown} />
         </StyledDropdown>
-        <StyledInput placeholder='계좌번호' type='number' value={postData.account} onChange={(e) => { setPostData({ ...postData, account: e.target.value }); }} />
+        <StyledInput placeholder='계좌번호' type='text' value={postData.accountNumber}
+          maxLength={BANKS_MAX_NUM[postData.bankName]} onChange={(e) => { setPostData({ ...postData, accountNumber: e.target.value.replace(/[^0-9]/g, '') }); }} />
       </div>
 
       {/* 이체 마감시간 */}
@@ -54,7 +62,7 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
       <StyledBox>
         <StyledLabel htmlFor='maxNum'>최대 참여인원<span>*</span></StyledLabel>
         <StyledDropdown>
-          <select required id='maxNum' value={(postData.maximumNum ?? '').toString()} onChange={(e) => { setPostData({ ...postData, maximumNum: Number(e.target.value) }); }}>
+          <select required id='maxNum' value={(postData.maxAttendees ?? '').toString()} onChange={(e) => { setPostData({ ...postData, maxAttendees: Number(e.target.value) }); }}>
             <option value="" disabled selected>인원선택</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -69,7 +77,7 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
       {/* 추가 설명 */}
       <div>
         <StyledLabel htmlFor='desc'>추가 설명</StyledLabel>
-        <StyledTextArea id='desc' placeholder='배달비 걱정 없이 함께 배달 시켜요!' value={postData.decription} onChange={(e) => { setPostData({ ...postData, decription: e.target.value }); }} />
+        <StyledTextArea id='desc' placeholder='배달비 걱정 없이 함께 배달 시켜요!' value={postData.desc} onChange={(e) => { setPostData({ ...postData, desc: e.target.value }); }} />
       </div>
     </>
   );
