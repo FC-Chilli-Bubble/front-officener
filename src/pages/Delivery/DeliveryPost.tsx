@@ -15,7 +15,6 @@ import { useModal } from '@/hooks/useModal';
 import { postAtom, postBankAtom } from '@/states/postAtom';
 import { postTagAtom } from '@/states/postTagAtom';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
 import { createDeliveryPost, fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
 import { timePickerAtom } from '@/states/timePickerAtom';
 
@@ -27,7 +26,7 @@ const DeliveryPost = () => {
   const [stepNum, setStepNum] = useState<1 | 2>(1);
   const [isValid, setIsValid] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const [postData, setPostData] = useRecoilState(postAtom);
+  const [postData] = useRecoilState(postAtom);
   const setBankList = useSetRecoilState(postBankAtom);
   const setSavedTag = useSetRecoilState(postTagAtom);
   const setSavedTime = useSetRecoilState(timePickerAtom);
