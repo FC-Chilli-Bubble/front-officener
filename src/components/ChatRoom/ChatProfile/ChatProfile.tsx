@@ -35,7 +35,6 @@ const ChatProfile = ({ senderId }: TsenderId) => {
         ...MODAL_DATA_HOST.exileExitModal,
         positiveCallback: () => {
           //api 호출
-          console.log(getName(senderId), '강퇴');
         },
         negativeCallback: () => {
           closeModal();

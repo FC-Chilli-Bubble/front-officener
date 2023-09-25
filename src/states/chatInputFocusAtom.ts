@@ -9,6 +9,10 @@ export const modalInputFocusAtom = atom<boolean>({
   default: false
 });
 export const keyboardHeightAtom = atom<number>({
-  key: 'modalInputFocusAtom',
+  key: 'keyboardHeightAtom',
   default: 0
+});
+export const isMobileAtom = atom<boolean>({
+  key: 'isMobileAtom',
+  default: false
 });

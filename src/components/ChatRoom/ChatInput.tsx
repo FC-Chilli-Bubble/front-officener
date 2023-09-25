@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import IconSend from '@/assets/chatrooms/ico_send.svg';
-import { chatInputFocusAtom } from '@/states/chatInputFocusAtom';
+import { chatInputFocusAtom, isMobileAtom } from '@/states/chatInputFocusAtom';
 
 const ChatInput = () => {
   const [inputValue, setInputValue] = useState('');
+  const isMobile = useRecoilValue(isMobileAtom);
   const [inputFocus, setInputFocus] = useRecoilState(chatInputFocusAtom);
   const SEND_ICON = IconSend;
 
@@ -15,7 +16,6 @@ const ChatInput = () => {
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
-    console.log(inputValue);
     e.preventDefault();
     // 웹소켓 통신 연결
     setInputValue('');
@@ -39,9 +39,11 @@ const ChatInput = () => {
   };
 
   return (
-    <StyledContainer inputfocus={inputFocus}>
+    <StyledContainer
+      inputfocus={inputFocus}
+      ismobile={isMobile}>
       <StyledInputBox
-        placeholder="메시지 보내기"
+        placeholder={String(isMobile)}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onFocus={handleInputFocus}
@@ -58,8 +60,9 @@ const ChatInput = () => {
   );
 };
 
-const StyledContainer = styled.form<{ inputfocus: boolean }>`
+const StyledContainer = styled.form<{ inputfocus: boolean; ismobile: boolean }>`
   bottom: 0;
+  position: sticky;
   display: flex;
   width: 100%;
   padding: 10px 14px;
@@ -68,9 +71,7 @@ const StyledContainer = styled.form<{ inputfocus: boolean }>`
   gap: 11px;
   background: ${({ theme }) => theme.colors.white};
   box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.05);
-  @media (max-width: 500px) {
-    padding-bottom: ${({ inputfocus }) => (inputfocus ? '10px' : '24px')};
-  }
+  ${({ inputfocus, ismobile }) => ismobile && `padding-bottom: ${inputfocus ? '10px' : '34px'}`};
 `;
 
 const StyledInputBox = styled.input`
