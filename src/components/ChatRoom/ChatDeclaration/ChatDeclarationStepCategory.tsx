@@ -8,7 +8,7 @@ import {
 } from '@/states/chatDeclarationAtom';
 import { DECLARATION_DATA } from '@/constants/declarationCategory';
 
-const ChatDeclarationStep1 = () => {
+const ChatDeclarationStepCategory = () => {
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
@@ -59,4 +59,4 @@ const StyledCategory = styled.div`
   cursor: pointer;
 `;
 
-export default ChatDeclarationStep1;
+export default ChatDeclarationStepCategory;
