@@ -1,17 +1,17 @@
 import { atom } from 'recoil';
 
 type TChatDeclarationDataAtom = {
-  userid: number;
-  category: string;
-  detail: string;
+  reportType: string;
+  reportMessage: string;
+  reportedUserId: number;
 };
 
 export const chatDeclarationDataAtom = atom<TChatDeclarationDataAtom>({
   key: 'chatDeclarationDataAtom',
   default: {
-    userid: 0,
-    category: '',
-    detail: ''
+    reportType: '',
+    reportMessage: '',
+    reportedUserId: 0
   }
 });
 

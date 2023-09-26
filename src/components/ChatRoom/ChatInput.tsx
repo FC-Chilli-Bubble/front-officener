@@ -43,7 +43,7 @@ const ChatInput = () => {
       inputfocus={inputFocus}
       ismobile={isMobile}>
       <StyledInputBox
-        placeholder={String(isMobile)}
+        placeholder={'메세지를 입력해주세요.'}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onFocus={handleInputFocus}

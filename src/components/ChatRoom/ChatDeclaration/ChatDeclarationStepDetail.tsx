@@ -4,11 +4,12 @@ import styled from 'styled-components';
 
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
 import { modalInputFocusAtom } from '@/states/chatInputFocusAtom';
+import { createDeclarationPost } from '@/apis/ChatRoom/ChatDeclarationPost';
 
 const ChatDeclarationStepDetail = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
   const setModalInputFocus = useSetRecoilState(modalInputFocusAtom);
-  const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
+  const [chatDeclarationData, setChatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
   const [textAreaValue, setTextAreaValue] = useState('');
   const [textAreaCount, setTextAreaCount] = useState(0);
 
@@ -21,9 +22,23 @@ const ChatDeclarationStepDetail = () => {
     setDeclarationStep(1);
   };
 
+  const roomId = 1;
+
+  //api post
+  const createDeclaration = async () => {
+    try {
+      await createDeclarationPost(roomId);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setDeclarationStep(3);
+    }
+  };
+
   const handleDeclarationClick = () => {
-    setchatDeclarationData({ ...ChatDeclarationData, detail: `${textAreaValue}` });
-    setDeclarationStep(3);
+    const newChatDeclarationData = { ...chatDeclarationData, reportMessage: textAreaValue };
+    setChatDeclarationData(newChatDeclarationData);
+    createDeclaration();
   };
 
   const handleInputFocus = () => {
