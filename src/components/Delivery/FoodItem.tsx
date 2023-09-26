@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import IconAlarm from '@/assets/food/icon_alarm.svg';
@@ -12,6 +12,10 @@ interface IFoodItemProps {
 
 const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listStyle = false }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('room', room);
+  }, []);
 
   const handleMoveDetail = () => {
     navigate('/delivery/details');
@@ -67,20 +71,20 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
               src={IconAlarm}
               alt="Time Icon"
             />
-            {`${room.deadLine}`}까지
+            {room.deadLine}까지
           </TimeLimit>
         </>
       )}
       <StyledFoodCardText>
         <StyledRow>
-          <GrayText>가게이름</GrayText> <BlackText>{`${room.storeName}`}</BlackText>
+          <GrayText>가게이름</GrayText> <BlackText>{room.storeName}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>참여인원</GrayText>{' '}
           <BlackText>{`${room.attendees}/${room.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>배달비</GrayText> <BlackText>{`${room.deliveryFee}`}</BlackText>
+          <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>태그</GrayText> <BlackText>{`${room.tag}`}</BlackText>

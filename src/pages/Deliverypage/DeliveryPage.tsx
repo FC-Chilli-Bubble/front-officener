@@ -64,7 +64,6 @@ const DeliveryPage = () => {
       />
       <StyledContainer>
         <MenuContent
-          rooms={rooms || []}
           selectedMenu={selectedMenu}
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
@@ -97,7 +96,7 @@ const StyledButtonBox = styled.div`
   padding-right: 26px;
 `;
 
-const PostButton = styled.button<{ img: string }>`
+const PostButton = styled.button<{ img: string; }>`
   position: sticky;
   width: 48px;
   height: 48px;

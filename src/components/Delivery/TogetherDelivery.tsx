@@ -1,7 +1,10 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+
 import { foodData } from '@/pages/Deliverypage/dummyData';
 import FoodItem from './FoodItem';
+import { roomsAtom } from '@/states/rommsAtom';
 
 import IconTime from '@/assets/food/Time.svg';
 
@@ -10,6 +13,8 @@ interface ITogetherDeliveryProps {
 }
 
 const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }) => {
+  const [rooms] = useRecoilState(roomsAtom);
+
   return (
     <>
       <Heading>
@@ -23,12 +28,12 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
         </SubHeadingContainer>
       </Heading>
       <FoodCardContainer>
-        {foodData[selectedCategory].map(food => (
+        {/* {foodData[selectedCategory].map(food => (
           <FoodItem
             key={food.가게이름}
             food={food}
           />
-        ))}
+        ))} */}
       </FoodCardContainer>
     </>
   );

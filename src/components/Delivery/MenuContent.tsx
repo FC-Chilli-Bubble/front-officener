@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import { dummyChatData } from '@/pages/Deliverypage/dummyData';
 import TogetherDelivery from './TogetherDelivery';
 import OrderList from './OrderList';
@@ -6,9 +7,9 @@ import FoodItem from './FoodItem';
 import ChatItem from './ChatItem';
 import { IFoodData } from '@/pages/Deliverypage/dummyData';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
+import { roomsAtom } from '@/states/rommsAtom';
 
 interface IMenuContentProps {
-  rooms: IRoom[] | null;
   selectedMenu: string;
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
@@ -16,12 +17,13 @@ interface IMenuContentProps {
 }
 
 const MenuContent: React.FC<IMenuContentProps> = ({
-  rooms,
   selectedMenu,
   selectedCategory,
   handleCategoryClick,
   data
 }) => {
+  const [rooms] = useRecoilState(roomsAtom);
+
   if (!rooms) {
     return null;
   }
