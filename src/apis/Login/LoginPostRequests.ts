@@ -1,16 +1,16 @@
 import { apiClient } from '@/apis/apiClient';
+import { IUser } from '@/states/userDataAtom';
 import { ICommonResponse } from '@/types/Common/ICommonResponse';
-import { ILogin } from '@/types/Login/ILogin';
 
 export const createLogin = async (
-  email: string,
+  email: IUser['userInfo']['email'],
   password: string
-): Promise<ICommonResponse<ILogin>> => {
+): Promise<ICommonResponse<IUser>> => {
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await apiClient.post('/api/login', {
       email,
-      password,
+      password
     });
     return response.data;
   } catch (error) {

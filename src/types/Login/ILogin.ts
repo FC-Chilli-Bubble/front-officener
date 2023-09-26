@@ -1,5 +1,5 @@
 export interface ILogin {
-  token: { token: string; };
   email: string;
   password: string;
+  token: { token: string; };
 }

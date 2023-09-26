@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useCookies } from 'react-cookie';
-
+import { userInfoAtom } from '@/states/userDataAtom';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { createLogin } from '@/apis/Login/LoginPostRequests';
@@ -25,7 +26,8 @@ const Login = () => {
   const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorRedIconType>('none');
 
-const [cookies, setCookie] = useCookies(['token']);
+  const [, setCookie] = useCookies(['token']);
+  const setUser = useSetRecoilState(userInfoAtom);
 
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
@@ -127,11 +129,13 @@ const [cookies, setCookie] = useCookies(['token']);
       createLogin(email, password).then(
         response => {
           console.log(response);
-          const { token } = response.data;
+          const token = response.data.userInfo.token;
+          const userInfo = response.data;
           if (token) {
             // setCookie(쿠키 이름, 쿠키에 넣을 값, 옵션)
             setCookie('token', token, { path: '/' });
           }
+          setUser(userInfo);
           navigate('/');
         },
         (error: IErrorResponse) => {
