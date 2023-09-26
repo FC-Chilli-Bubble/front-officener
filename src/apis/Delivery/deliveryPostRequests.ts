@@ -3,10 +3,6 @@ import { ICommonResponse, IMessageResponse } from '@/types/Common/ICommonRespons
 import { IBank } from '@/types/Delivery/IBank';
 import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
 
-// api 연동 테스트용 토큰
-const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJldW5nYkBnbWFpbC5jb20iLCJpYXQiOjE2OTU3MTI1MTcsImV4cCI6MTY5NTcxNjExN30.ZbMzx3KRGN8jkKdD85INRJ60EqRUWoyk9jeFHJr2pzc';
-
 // 은행 목록 조회
 export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
   const response = await apiClient.get('/api/room/bankList');
