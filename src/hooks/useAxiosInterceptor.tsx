@@ -19,7 +19,7 @@ const useAxiosInterceptor = () => {
   const authConfig = (config: InternalAxiosRequestConfig<unknown>) => {
     if (config.headers && accessToken) {
       // AccessToken이 정상적으로 저장되어 있으면 headers에 Authorization에 값을 추가해준다.
-      config.headers.Authorization = accessToken;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   };
