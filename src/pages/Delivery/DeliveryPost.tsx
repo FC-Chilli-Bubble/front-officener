@@ -19,6 +19,7 @@ import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { createDeliveryPost, fetchBankList, updateDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
 import { timePickerAtom } from '@/states/timePickerAtom';
 import { FOODTAGS } from '@/constants/commonUiData';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
 
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
@@ -44,25 +45,26 @@ const DeliveryPost = () => {
     if (!postDetail) {
       return;
     }
+    const detail: IDeliveryPost = postDetail.detail;
     // 상세페이지로 부터 넘어온 데이터를 postData recoil state로 가공
     setIsEdit(true);
     // Test 수정 데이터
     setPostData({
-      storeName: '비비큐치킨',
-      menuLink: "bbq.com",
-      deliveryFee: 3000,
-      bankName: 'KB',
-      foodTag: 'CHICKEN',
-      accountNumber: '12341234123411',
-      deadline: "2023-09-26T18:00:00",
-      maxAttendees: 4,
-      desc: '치킨 같이 시켜먹을 분 없나요?'
+      storeName: detail.storeName,
+      menuLink: detail.menuLink,
+      deliveryFee: detail.deliveryFee,
+      bankName: detail.bankName,
+      foodTag: detail.tag,
+      accountNumber: detail.account,
+      deadline: detail.deadline,
+      maxAttendees: detail.maxAttendees,
+      desc: detail.description
     });
-    setSavedTag(Object.keys(FOODTAGS).find(key => FOODTAGS[key] === 'CHICKEN') ?? '');
+    setSavedTag(Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag) ?? '');
     setSavedTime({
-      time: dayjs('2023-09-26T18:00:00').format('A'),
-      houres: dayjs('2023-09-26T18:00:00').format('hh'),
-      minutes: dayjs('2023-09-26T18:00:00').format('mm')
+      time: dayjs(detail.deadline).format('A'),
+      houres: dayjs(detail.deadline).format('hh'),
+      minutes: dayjs(detail.deadline).format('mm')
     });
   }, [postDetail, setPostData, setSavedTag, setSavedTime]);
 
