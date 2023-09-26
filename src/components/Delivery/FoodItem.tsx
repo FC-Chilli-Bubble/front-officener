@@ -21,12 +21,8 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
   const navigate = useNavigate();
 
   const handleMoveDetail = () => {
-    navigate('/delivery/details');
-  };
-
-  // TEST용
-  const handleMovePost = () => {
-    navigate('/delivery/details');
+    // TODO: roomId로 변경 필요
+    navigate(`/delivery/11`);
   };
 
   if (listStyle) {
@@ -59,7 +55,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
   }
 
   return (
-    <StyledFoodCard onClick={handleMovePost}>
+    <StyledFoodCard onClick={handleMoveDetail}>
       <img
         src={food?.사진}
         alt="음식 사진"

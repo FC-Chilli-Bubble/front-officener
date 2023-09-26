@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { foodData, IFoodData } from './dummyData';
 import Header from '@/components/Details/Header';
-import FoodItem from '@/components/Details/FoodItem';
-import PhotoCard from '@/components/Details/PhotoCard';
+import MenuLinkCard from '@/components/Details/MenuLinkCard';
 import HostInfo from '@/components/Details/HostInfo';
 import FooterButtons from '@/components/Details/FooterButtons';
+import StoreInfo from '@/components/Details/StoreInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
+import { fetchDeliveryPostDetail } from '@/apis/Delivery/deliveryDetailRequests';
 import { useModal } from '@/hooks/useModal';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+import Button from '@/components/Common/Button';
+import OutlineButton from '@/components/Common/OutlineButton';
 
 
 // eslint-disable-next-line no-unused-vars
@@ -25,9 +29,11 @@ enum ButtonStates {
 }
 
 const DetailsPage = () => {
-  const [data, setData] = useState<IFoodData | null>(null);
   const { openModal } = useModal();
+  const [detail, setDetail] = useState<IDeliveryPost | null>(null);
   const navigate = useNavigate();
+  const params = useParams();
+
 
   // const [selectedCategory, setSelectedCategory] = useState('분식');
   const selectedCategoryState = useState('분식');
@@ -36,15 +42,21 @@ const DetailsPage = () => {
 
   const [buttonState, setButtonState] = useState(ButtonStates.JOIN_DELIVERY);
 
-  useEffect(() => {
-    const dummyResponse = foodData[selectedCategory];
-
-    if (dummyResponse && dummyResponse.length > 0) {
-      setData(dummyResponse[0]);
-    } else {
-      console.error(`No data found for category: ${selectedCategory}`);
+  // 게시글 상세 조회 API
+  const getDeliveryPostDetail = async (roomId: string) => {
+    try {
+      const res = await fetchDeliveryPostDetail(roomId);
+      setDetail(res.data);
+    } catch (error) {
+      console.log((error as IErrorResponse).errorMessage);
     }
-  }, [selectedCategory]);
+  };
+
+  useEffect(() => {
+    if (params.id) {
+      getDeliveryPostDetail(params.id);
+    }
+  }, [params]);
 
   const handleButtonClick = () => {
     switch (buttonState) {
@@ -86,16 +98,34 @@ const DetailsPage = () => {
     <>
       <Header leftIcon="back" />
       <StyledContainer>
-        {data && <FoodItem food={data} />}
-        {data && <PhotoCard food={data} />}
+        {
+          detail && (
+            <>
+              <StoreInfo detail={detail} />
+              <MenuLinkCard menuLink={detail.menuLink} storeName={detail.storeName} />
+            </>
+          )
+        }
         <StyledDivider />
         <HostInfo />
       </StyledContainer>
-      <FooterButtons
+      <StyledButtonBox>
+        {
+
+          (
+            <StyledHostButtons>
+              <OutlineButton size='small' title='수정' onClick={handleButtonClick} width='fit-content' />
+              <OutlineButton size='small' title='삭제' onClick={handleButtonClick} width='fit-content' />
+              <Button size='small' type='cta' title='채팅방 참여' onClick={handleButtonClick} width='fit-content' />
+            </StyledHostButtons>
+          )
+        }
+      </StyledButtonBox>
+      {/* <FooterButtons
         buttonState={buttonState}
         handleButtonClick={handleButtonClick}
         handleDeleteClick={handleDeleteClick}
-      />
+      /> */}
     </>
   );
 };
@@ -111,6 +141,27 @@ const StyledDivider = styled.div`
   width: 100%;
   height: 11px;
   background-color: ${props => props.theme.colors.grayColor1};
+`;
+
+const StyledButtonBox = styled.div`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.1);
+  height: 100px;
+  bottom: 0;
+  padding: 21px;
+  z-index: 100;
+  position: absolute;
+`;
+
+const StyledHostButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  :last-child {
+    flex-grow: 1;
+  }
 `;
 
 export default DetailsPage;
