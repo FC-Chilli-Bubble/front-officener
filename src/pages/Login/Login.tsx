@@ -50,6 +50,7 @@ const Login = () => {
     } else {
       setEmailMsg('');
       setEmailErrorIcon('none');
+      updateLoginButtonState(newEmail, password);
     }
   };
 
@@ -70,6 +71,7 @@ const Login = () => {
     } else {
       setPwdMsg('');
       setPwsErrorIcon('none');
+      updateLoginButtonState(email, newPassword);
     }
   };
   // 이메일 입력 필드에서 포커스 아웃 시 에러메세지 출력
@@ -103,6 +105,7 @@ const Login = () => {
     }
   };
 
+  // 버튼 활성화 상태 변경
   const updateLoginButtonState = (newEmail: string, newPassword: string) => {
     if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
@@ -128,9 +131,10 @@ const Login = () => {
           if (error.res?.status === 401) {
             setEmailErrorIcon('wrong');
             setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+            return;
           } else {
             setPwsErrorIcon('error');
-            setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
+            setPwdMsg('서버오류 403에러');
           }
           console.log(error.errorMessage);
           return;
@@ -152,7 +156,7 @@ const Login = () => {
   // navigate('/login')
   // }
   // }, [])
-  
+
   // 은행 목록 조회 api
 
   return (
