@@ -45,14 +45,15 @@ const DetailsPage = () => {
 
   // 삭제 API
   const handleDeletePost = () => {
-    deleteDeliveryPost(10).then(() => {
-      navigate(-1);
-    }, (error: IErrorResponse) => {
-      openModal({
-        ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
-        content: error.errorMessage[0] || '오류가 발생했습니다.',
+    params.id &&
+      deleteDeliveryPost(params.id).then(() => {
+        navigate(-1);
+      }, (error: IErrorResponse) => {
+        openModal({
+          ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
+          content: error.errorMessage[0] || '오류가 발생했습니다.',
+        });
       });
-    });
   };
 
   // 삭제 버튼 클릭 핸들러

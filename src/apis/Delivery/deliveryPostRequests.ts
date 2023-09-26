@@ -17,32 +17,20 @@ export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
 export const createDeliveryPost = async (
   post: IDeliveryPostRequest
 ): Promise<ICommonResponse<IMessageResponse>> => {
-  const response = await apiClient.post('/api/room/create', post, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const response = await apiClient.post('/api/room/create', post);
   return response.data;
 };
 
 // 함께배달 글 삭제
 export const deleteDeliveryPost = async (
-  roomId: number
+  roomId: string
 ): Promise<ICommonResponse<IMessageResponse>> => {
-  const response = await apiClient.post(`/api/room/${roomId}/terminate`, null, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const response = await apiClient.post(`/api/room/${roomId}/terminate`);
   return response.data;
 };
 
 // 함께배달 글 수정
 export const updateDeliveryPost = async (roomId: number, post: IDeliveryPostRequest) => {
-  const response = await apiClient.put(`/api/room/${roomId}`, post, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const response = await apiClient.put(`/api/room/${roomId}`, post);
   return response.data;
 };

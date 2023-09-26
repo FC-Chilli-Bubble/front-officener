@@ -117,7 +117,7 @@ const DeliveryPost = () => {
 
   // 수정 API 호출
   const handleEditPost = () => {
-    updateDeliveryPost(11, postData).then(
+    updateDeliveryPost(postDetail.id, postData).then(
       () => {
         openModal({
           ...MODAL_DATAS.DELIVERY_POST_EDIT_SUCCESS, positiveCallback: () => {
