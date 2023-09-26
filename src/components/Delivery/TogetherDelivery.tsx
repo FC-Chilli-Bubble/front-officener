@@ -92,8 +92,8 @@ const FoodCardContainer = styled(ScrollHidden)`
   overflow-x: scroll;
   white-space: nowrap;
 
-  &::-webkit-scrollbar{
-    display:none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 

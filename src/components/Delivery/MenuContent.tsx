@@ -5,8 +5,10 @@ import OrderList from './OrderList';
 import FoodItem from './FoodItem';
 import ChatItem from './ChatItem';
 import { IFoodData } from '@/pages/Deliverypage/dummyData';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
 
 interface IMenuContentProps {
+  rooms: IRoom[] | null;
   selectedMenu: string;
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
@@ -14,11 +16,15 @@ interface IMenuContentProps {
 }
 
 const MenuContent: React.FC<IMenuContentProps> = ({
+  rooms,
   selectedMenu,
   selectedCategory,
   handleCategoryClick,
   data
 }) => {
+  if (!rooms) {
+    return null;
+  }
   if (selectedMenu === '함께배달') {
     return (
       <div>
@@ -31,7 +37,15 @@ const MenuContent: React.FC<IMenuContentProps> = ({
           />
         )}
 
-        {data && (
+        {rooms &&
+          rooms.map(room => (
+            <FoodItem
+              key={room.roomId}
+              room={room} // 변경됨
+            />
+          ))}
+
+        {/* {data && (
           <FoodItem
             food={data}
             showTimeLimit={false}
@@ -53,27 +67,19 @@ const MenuContent: React.FC<IMenuContentProps> = ({
             showTimeLimit={false}
             listStyle
           />
-        )}
-
-        {data && (
-          <FoodItem
-            food={data}
-            showTimeLimit={false}
-            listStyle
-          />
-        )}
+        )} */}
       </div>
     );
   } else if (selectedMenu === '내가 참여한 배달') {
     return (
       <div>
-        {data && (
+        {/* {data && (
           <FoodItem
             food={data}
             showTimeLimit={false}
             listStyle
           />
-        )}
+        )} */}
       </div>
     );
   } else if (selectedMenu === '나의 채팅') {

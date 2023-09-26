@@ -17,7 +17,7 @@ const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
         src={food?.사진}
         alt="음식 사진"
       />
-      <div>
+      <StyledFoodCardText>
         <StyledRow>
           <GrayText>가게이름</GrayText> <BlackText>{food?.가게이름}</BlackText>
         </StyledRow>
@@ -33,7 +33,7 @@ const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
         <StyledRow>
           <GrayText>이체마감</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
         </StyledRow>
-      </div>
+      </StyledFoodCardText>
     </StyledFoodCardListStyle>
   );
 };
@@ -60,23 +60,33 @@ const StyledFoodCardListStyle = styled.div`
   }
 `;
 
-const StyledRow = styled.div`
-  display: flex;
-  align-items: center;
+const StyledFoodCardText = styled.div`
   padding: 5px 0 0 0;
 `;
 
+const StyledRow = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 0 8px 0;
+  justify-content: flex-start;
+  width: 180px;
+`;
+
 const GrayText = styled.h1`
-  width: 100px;
+  flex-shrink: 0;
+  width: 80px;
   text-align: left;
+  padding-left: 5px;
   color: ${props => props.theme.colors.grayColor10};
   display: inline-block;
 `;
 
 const BlackText = styled.p`
-  color: black;
-  display: inline-block;
+  flex-grow: 1;
   padding-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default FoodItem;

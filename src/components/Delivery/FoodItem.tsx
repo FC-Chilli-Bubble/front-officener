@@ -2,22 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import IconAlarm from '@/assets/food/icon_alarm.svg';
-interface IFoodData {
-  사진?: string;
-  가게이름: string;
-  참여인원: number;
-  배달비: string;
-  태그: string[];
-  이체해야하는시간: string;
-}
+import { IRoom } from '@/types/Delivery/IDeliveryList';
 
 interface IFoodItemProps {
-  food: IFoodData;
+  room: IRoom;
   showTimeLimit?: boolean;
   listStyle?: boolean;
 }
 
-const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listStyle = false }) => {
+const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listStyle = false }) => {
   const navigate = useNavigate();
 
   const handleMoveDetail = () => {
@@ -32,26 +25,29 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
   if (listStyle) {
     return (
       <StyledFoodCardListStyle onClick={handleMoveDetail}>
-        <img
-          src={food?.사진}
+        {/* <img
+          src={room?.사진}
           alt="음식 사진"
-        />
+        /> */}
         <StyledFoodInfoListStyle>
           <StyledRow>
-            <ListGrayText>가게이름</ListGrayText> <ListBlackText>{food?.가게이름}</ListBlackText>
+            <ListGrayText>가게이름</ListGrayText>{' '}
+            <ListBlackText>{`${room.storeName}`}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>참여인원</ListGrayText> <ListBlackText>{food?.참여인원}</ListBlackText>
+            <ListGrayText>참여인원</ListGrayText>{' '}
+            <ListBlackText>{`${room.attendees}/${room.maxAttendees}`}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>배달비</ListGrayText> <ListBlackText>{food?.배달비}</ListBlackText>
+            <ListGrayText>배달비</ListGrayText>{' '}
+            <ListBlackText>{`${room.deliveryFee}`}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>태그</ListGrayText> <ListBlackText>{food?.태그.join(', ')}</ListBlackText>
+            <ListGrayText>태그</ListGrayText> <ListBlackText>{`${room.tag}`}</ListBlackText>
           </StyledRow>
           <StyledRow>
             <ListGrayText>이체마감</ListGrayText>{' '}
-            <ListBlackText>{food?.이체해야하는시간}</ListBlackText>
+            <ListBlackText>{`${room.deadLine}`}</ListBlackText>
           </StyledRow>
         </StyledFoodInfoListStyle>
       </StyledFoodCardListStyle>
@@ -60,10 +56,10 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
 
   return (
     <StyledFoodCard onClick={handleMovePost}>
-      <img
-        src={food?.사진}
+      {/* <img
+        src={room?.사진}
         alt="음식 사진"
-      />
+      /> */}
       {showTimeLimit && (
         <>
           <TimeLimit>
@@ -71,25 +67,26 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
               src={IconAlarm}
               alt="Time Icon"
             />
-            {food?.이체해야하는시간}까지
+            {`${room.deadLine}`}까지
           </TimeLimit>
         </>
       )}
       <StyledFoodCardText>
         <StyledRow>
-          <GrayText>가게이름</GrayText> <BlackText>{food?.가게이름}</BlackText>
+          <GrayText>가게이름</GrayText> <BlackText>{`${room.storeName}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>참여인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
+          <GrayText>참여인원</GrayText>{' '}
+          <BlackText>{`${room.attendees}/${room.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>배달비</GrayText> <BlackText>{food?.배달비}</BlackText>
+          <GrayText>배달비</GrayText> <BlackText>{`${room.deliveryFee}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>태그</GrayText> <BlackText>{food?.태그.join(', ')}</BlackText>
+          <GrayText>태그</GrayText> <BlackText>{`${room.tag}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체마감</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
+          <GrayText>이체마감</GrayText> <BlackText>{`${room.deadLine}`}</BlackText>
         </StyledRow>
       </StyledFoodCardText>
     </StyledFoodCard>
@@ -125,7 +122,8 @@ const StyledFoodInfoListStyle = styled.div`
 `;
 
 const ListGrayText = styled.h1`
-  width: 100px;
+  flex-shrink: 0;
+  width: 70px;
   text-align: left;
   padding-left: 5px;
   font-size: 14px;
@@ -138,6 +136,12 @@ const ListBlackText = styled.p`
   display: inline-block;
   font-size: 16px;
   font-weight: 400;
+  flex-grow: 1;
+  padding-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
 `;
 
 const TimeLimit = styled.div`
@@ -158,6 +162,7 @@ const TimeLimit = styled.div`
 const TimeIcon = styled.img`
   width: 16px;
   margin: 0 5px 0 0;
+  padding: 2px 0 2px 0;
   vertical-align: middle;
 `;
 
@@ -165,9 +170,11 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   padding: 0 0 8px 0;
+  justify-content: flex-start;
 `;
 
 const GrayText = styled.h1`
+  flex-shrink: 0;
   width: 100px;
   text-align: left;
   padding-left: 5px;
@@ -176,8 +183,12 @@ const GrayText = styled.h1`
 `;
 
 const BlackText = styled.p`
-  display: inline-block;
+  flex-grow: 1;
   padding-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
 `;
 
 const StyledFoodCard = styled.div`
@@ -188,12 +199,17 @@ const StyledFoodCard = styled.div`
   width: 220px;
   max-width: 100%;
   cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   h1 {
     color: ${props => props.theme.colors.grayColor10};
   }
   > img {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 170px;
     border-radius: 15px;
     object-fit: cover;
   }
@@ -201,6 +217,7 @@ const StyledFoodCard = styled.div`
 
 const StyledFoodCardText = styled.div`
   padding: 0;
+  width: 180px;
 `;
 
 export default FoodItem;

@@ -7,6 +7,7 @@ import PhotoCard from '@/components/Details/PhotoCard';
 import HostInfo from '@/components/Details/HostInfo';
 import FooterButtons from '@/components/Details/FooterButtons';
 import DeleteModal from '@/components/Details/DeleteModal';
+import { hostDetails } from '@/pages/Deliverypage/dummyData';
 
 // eslint-disable-next-line no-unused-vars
 enum ButtonStates {
@@ -70,7 +71,7 @@ const DetailsPage = () => {
         {data && <FoodItem food={data} />}
         {data && <PhotoCard food={data} />}
         <StyledDivider />
-        <HostInfo />
+        <HostInfo details={hostDetails} />
       </StyledContainer>
       <FooterButtons
         buttonState={buttonState}

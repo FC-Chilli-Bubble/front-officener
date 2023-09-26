@@ -1,27 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import IconProfile from '@/assets/img_profile.svg';
 
-const HostInfo: React.FC = () => {
+interface IHostDetails {
+  호스트: string;
+  닉네임: string;
+  은행계좌: string;
+  추가설명: string;
+}
+
+interface IHostInfoProps {
+  details: IHostDetails;
+}
+
+const HostInfo: React.FC<IHostInfoProps> = ({ details }) => {
   return (
     <StyledHostInfo>
-      <h4>호스트 (주문자)</h4> <br />
+      <h4>{details?.호스트}</h4> <br />
       <HostDetailContainer>
         <img
           src={IconProfile}
-          alt="Food Photo"
+          alt="Profile Photo"
         />
-        <h3>빵먹다살찐떡</h3>
-        <h1>우리은행 0000-0000-000</h1>
+
+        <h3>{details?.닉네임}</h3>
+        <h1>{details?.은행계좌}</h1>
       </HostDetailContainer>
       <br />
       <h2>추가설명</h2>
       <br />
-      <span>
-        엽기떡볶이 마라맛 새로 나왔대요!! 배달 같이 시켜요! <br />
-        엽기떡볶이 닭볶음탕도 진짜 맛있습니다!
-      </span>
+      <span>{details?.추가설명}</span>
     </StyledHostInfo>
   );
 };
@@ -59,6 +67,7 @@ const StyledHostInfo = styled.div`
   span {
     color: black;
     font-size: 14px;
+    padding: 3px 0 0 0;
   }
 `;
 
@@ -71,7 +80,7 @@ const HostDetailContainer = styled.div`
   img {
     width: 30px;
     height: 30px;
-    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.10));
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
   }
 `;
 export default HostInfo;
