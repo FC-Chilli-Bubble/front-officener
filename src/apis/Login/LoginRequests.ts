@@ -1,9 +1,9 @@
 import { apiClient } from '@/apis/apiClient';
-import { IUser } from '@/states/userDataAtom';
+import { IUser } from '@/types/Login/IUser';
 import { ICommonResponse } from '@/types/Common/ICommonResponse';
 
 export const createLogin = async (
-  email: IUser['userInfo']['email'],
+  email: string,
   password: string
 ): Promise<ICommonResponse<IUser>> => {
   // eslint-disable-next-line no-useless-catch

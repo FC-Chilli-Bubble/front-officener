@@ -1,27 +1,6 @@
 import { atom, selector } from 'recoil';
+import { IUser } from '@/types/Login/IUser';
 
-interface IBuilding {
-  id: 0;
-  buildingName: '';
-  buildingAddress: '';
-}
-
-interface Company {
-  officeId: number;
-  officeName: string;
-  officeNum: string;
-}
-export interface IUser {
-  userInfo: {
-    id: number;
-    email: string;
-    name: string;
-    phoneNumber: string;
-    building: IBuilding;
-    company: Company;
-    token: string;
-  };
-}
 export const userInfoAtom = atom<IUser>({
   key: 'userInfoAtom',
   default: {
@@ -46,10 +25,10 @@ export const userInfoAtom = atom<IUser>({
   }
 });
 
-export const userInfoSelector = selector({
+export const userInfoSelector = selector<IUser>({
   key: 'userInfoSelector',
   get: ({ get }) => {
     const user = get(userInfoAtom);
-    return user?.userInfo || null;
+    return user || null;
   }
 });

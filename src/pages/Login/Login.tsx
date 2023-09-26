@@ -54,8 +54,8 @@ const Login = () => {
       setIsValid(false);
       return;
     } else {
-      setEmailMsg('');
       setEmailErrorIcon('none');
+      setEmailMsg('');
       updateLoginButtonState(newEmail, password);
     }
   };
@@ -75,8 +75,8 @@ const Login = () => {
       setIsValid(false);
       return;
     } else {
-      setPwdMsg('');
       setPwsErrorIcon('none');
+      setPwdMsg('');
       updateLoginButtonState(email, newPassword);
     }
   };
