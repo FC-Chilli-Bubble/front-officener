@@ -110,6 +110,7 @@ const StyledMessage = styled.p`
   font-size: 12px;
   line-height: 18px;
   color: ${({ theme }) => theme.colors.grayColor5};
+  white-space: pre-line;
 `;
 
 const StyledButtonBox = styled.div`

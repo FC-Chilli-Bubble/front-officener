@@ -2,10 +2,13 @@ import { useState } from 'react';
 import Picker from 'react-mobile-picker';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 
 import { HOURES, MINUTES, TIME } from '@/constants/pickerData';
 import { timePickerAtom } from '@/states/timePickerAtom';
 import { postAtom } from "@/states/postAtom";
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
 type TTimePickerProps = {
   closeSheet: () => void;
@@ -19,11 +22,22 @@ const TimePicker = ({ closeSheet }: TTimePickerProps) => {
     houres: savedTime.houres || '12',
     minutes: savedTime.minutes || '00'
   });
+  const { openModal } = useModal();
 
   const handleClickSave = () => {
     closeSheet();
+    const today = dayjs();
+    const selectedDeadline =
+      dayjs(`${today.year()} ${today.month() + 1} ${today.date()} ${pickerValue.houres}:${pickerValue.minutes} ${pickerValue.time}`).format("YYYY-MM-DDTHH:mm:ss");
+
+    // 이미 지난 시간 선택 시 예외처리
+    if (dayjs(selectedDeadline).diff(today) < 0) {
+      openModal(MODAL_DATAS.DEADLINE_ERROR);
+      return;
+    }
+
     setSavedTime(pickerValue);
-    setPostData({ ...postData, closedTime: `${pickerValue.time} ${pickerValue.houres}:${pickerValue.minutes}` });
+    setPostData({ ...postData, deadline: selectedDeadline });
   };
 
   return (
