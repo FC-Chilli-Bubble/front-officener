@@ -8,7 +8,7 @@ type TMenuLinkCardProps = {
   storeName: string;
 };
 
-const MenuLinkCard = ({ menuLink, storeName }: TMenuLinkCardProps) => {
+const MenuLinkCard = React.memo(({ menuLink, storeName }: TMenuLinkCardProps) => {
   return (
     <StyledPhotoCard>
       <MenuText>메뉴판</MenuText>
@@ -21,7 +21,7 @@ const MenuLinkCard = ({ menuLink, storeName }: TMenuLinkCardProps) => {
       <StoreName>{storeName}</StoreName>
     </StyledPhotoCard>
   );
-};
+});
 
 const StyledPhotoCard = styled.div`
   display: flex;
