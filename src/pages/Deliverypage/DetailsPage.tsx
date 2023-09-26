@@ -89,11 +89,11 @@ const DetailsPage = () => {
             <>
               <StoreInfo detail={detail} />
               <MenuLinkCard menuLink={detail.menuLink} storeName={detail.storeName} />
+              <StyledDivider />
+              <HostInfo userName={detail.hostName} bank={detail.bankName} account={detail.account} desc={detail.description} />
             </>
           )
         }
-        <StyledDivider />
-        <HostInfo />
       </StyledContainer>
       <StyledButtonBox>
         {

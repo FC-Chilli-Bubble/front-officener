@@ -17,8 +17,8 @@ const MenuLinkCard = React.memo(({ menuLink, storeName }: TMenuLinkCardProps) =>
           src={TestImage}
           alt="Food Photo"
         />
+        <StoreName>{storeName}</StoreName>
       </a>
-      <StoreName>{storeName}</StoreName>
     </StyledPhotoCard>
   );
 });
@@ -56,6 +56,7 @@ const StoreName = styled.h3`
   display: flex;
   align-items: center;
   padding: 20px 30px;
+  text-decoration: underline;
 `;
 
 export default MenuLinkCard;
