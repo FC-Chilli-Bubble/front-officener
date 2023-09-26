@@ -136,7 +136,7 @@ const Login = () => {
             setCookie('token', token, { path: '/' });
           }
           setUser(userInfo);
-          navigate('/');
+          // navigate('/');
         },
         (error: IErrorResponse) => {
           setEmailErrorIcon('wrong');
@@ -153,16 +153,18 @@ const Login = () => {
     updateLoginButtonState(email, password);
   }, [email, password]);
 
-  // // 로그인 상태면 메인으로~
+
+  // 로그인 상태면 메인으로~
   // useEffect(() => {
-  //   if (accessToken) {
-  //     navigate('/')
+  //   const token = getCookie('token');
+  //   if (token) {
+  //     navigate('/');
   //   } else {
-  // navigate('/login')
-  // }
+  //     navigate('/login');
+  //   }
   // }, [])
 
-  // 은행 목록 조회 api
+
 
   return (
     <>
