@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
+import { useCookies } from 'react-cookie';
 
 import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
@@ -23,6 +24,9 @@ const Login = () => {
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorRedIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorRedIconType>('none');
+
+const [cookies, setCookie] = useCookies(['token']);
+
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
     navigate('/');
@@ -74,6 +78,7 @@ const Login = () => {
       updateLoginButtonState(email, newPassword);
     }
   };
+
   // 이메일 입력 필드에서 포커스 아웃 시 에러메세지 출력
   const handleEmailBlur = (newEmail: string) => {
     setEmail(newEmail);
@@ -119,23 +124,19 @@ const Login = () => {
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
-      createLogin().then(
-        res => {
-          console.log(res);
+      createLogin(email, password).then(
+        response => {
+          console.log(response);
+          const { token } = response.data;
+          if (token) {
+            // setCookie(쿠키 이름, 쿠키에 넣을 값, 옵션)
+            setCookie('token', token, { path: '/' });
+          }
           navigate('/');
-          // res = 'Login Successful!';
-          // Handle the API response
-          // Example: if (response.success) { /* Login successful */ }
         },
         (error: IErrorResponse) => {
-          if (error.res?.status === 401) {
-            setEmailErrorIcon('wrong');
-            setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
-            return;
-          } else {
-            setPwsErrorIcon('error');
-            setPwdMsg('서버오류 403에러');
-          }
+          setEmailErrorIcon('wrong');
+          setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
           console.log(error.errorMessage);
           return;
         }

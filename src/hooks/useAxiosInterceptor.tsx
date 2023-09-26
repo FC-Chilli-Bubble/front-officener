@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useCookies } from 'react-cookie';
 
 import { apiClient } from "@/apis/apiClient";
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 
 const useAxiosInterceptor = () => {
-  const accessToken = ''; // TODO : 쿠키에 저장된 토큰 값
+  const [cookies] = useCookies(['token']);
+  const accessToken = cookies.token || ''; // TODO : 쿠키에 저장된 토큰 값
 
   // 응답 공통 에러 처리
   const handleError = (error: AxiosError) => {
