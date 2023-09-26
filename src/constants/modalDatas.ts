@@ -44,6 +44,21 @@ const MODAL_DATAS = {
     title: '삭제',
     content: '게시글 삭제 중 오류가 발생했습니다',
     positive: '확인'
+  },
+  DELIVERY_POST_EDIT_CONFIRM: {
+    title: '게시글을 정말 수정하시겠습니까?',
+    positive: '수정',
+    negative: '취소'
+  },
+  DELIVERY_POST_EDIT_SUCCESS: {
+    title: '함께배달 수정',
+    content: '게시글을 성공적으로 수정했습니다',
+    positive: '확인'
+  },
+  DELIVERY_POST_EDIT_FAILURE: {
+    title: '함께배달 수정',
+    content: '게시글 수정을 실패했습니다\n다시 시도해주세요',
+    positive: '확인'
   }
 };
 

@@ -11,10 +11,11 @@ import { postAtom } from "@/states/postAtom";
 
 type TPostStepStoreInfoProps = {
   openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  isEdit: boolean;
 };
 
 
-const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
+const PostStepStoreInfo = ({ openBottomSheet, isEdit }: TPostStepStoreInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
 
@@ -33,6 +34,7 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
   return (
     <>
       <FormField
+        disabled={isEdit}
         name='storeName'
         isType="text"
         label='가게이름'
@@ -44,6 +46,7 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
       />
 
       <FormField
+        disabled={isEdit}
         name='storeLink'
         isType="text"
         label='메뉴판 링크'
@@ -71,7 +74,7 @@ const PostStepStoreInfo = ({ openBottomSheet }: TPostStepStoreInfoProps) => {
           <span>*</span>
         </StyledLabel>
         {
-          savedTag ? <StyledTag onClick={handleClickSavedTag}>{savedTag}</StyledTag> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
+          savedTag ? <StyledTag disabled={isEdit} onClick={handleClickSavedTag}>{savedTag}</StyledTag> : (<OutlineButton title="태그선택" size="small" width="fit-content" onClick={handleClickTagSelect} />)
         }
 
       </StyledTagBox>
@@ -109,6 +112,12 @@ const StyledTag = styled.button`
   color: ${({ theme }) => theme.colors.ctaColor};
   background-color: ${({ theme }) => theme.colors.primaryHoverColor};
   cursor: pointer;
+
+  &:disabled {
+    color:${({ theme }) => theme.colors.grayColor5};
+    border-color:${({ theme }) => theme.colors.grayColor3};
+    background-color:${({ theme }) => theme.colors.grayColor1};
+  }
 `;
 
 export default PostStepStoreInfo;

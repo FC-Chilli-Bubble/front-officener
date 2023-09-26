@@ -20,6 +20,7 @@ type TInputProps = {
   onChange: (value: string) => void;
   // eslint-disable-next-line no-unused-vars
   onBlur?: (value: string) => void;
+  disabled?: boolean;
 };
 
 // isRequired prop이 true인 경우 라벨에 '*' 표시가 추가되고, 그렇지 않은 경우 라벨만 표시
@@ -35,7 +36,8 @@ const FormField = ({
   value,
   maxLength,
   onChange,
-  onBlur
+  onBlur,
+  disabled = false
 }: TInputProps) => {
   return (
     <StyledLayout>
@@ -49,6 +51,7 @@ const FormField = ({
       )}
       <StyledContainer>
         <StyledErrorIBox
+          disabled={disabled}
           redErrorIcon={redErrorIcon}
           type={isType}
           placeholder={placeholder}
@@ -61,7 +64,7 @@ const FormField = ({
           }}
           onBlur={onBlur ? e => onBlur(e.target.value) : undefined}
           required></StyledErrorIBox>
-        {isValid && (
+        {!disabled && isValid && (
           <StyledIcon
             src={IconCheck}
             alt="Valid"
@@ -113,28 +116,7 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-// const StyledBox = styled.input`
-//   display: flex;
-//   width: 100%;
-//   height: 48px;
-//   padding: 13px 24px;
-//   align-items: center;
-//   gap: 10px;
-//   border-radius: 8px;
-//   border: 1px solid ${({ theme }) => theme.colors.grayColor3};
-//   &::placeholder {
-//     color: ${({ theme }) => theme.colors.grayColor3};
-//   }
-//   &:focus {
-//     color: ${({ theme }) => theme.colors.grayColor9};
-//     border: 1px solid ${({ theme }) => theme.colors.marinblueColor};
-//     &::placeholder {
-//       color: transparent;
-//     }
-//   }
-// `;
-
-const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
+const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType; }>`
   display: flex;
   width: 100%;
   height: 48px;
@@ -144,15 +126,15 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
   border-radius: 8px;
   border: 1px solid
     ${({ redErrorIcon, theme }) => {
-      if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
-        return theme.colors.errorColor;
-      }
-      if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
-        return theme.colors.grayColor4;
-      } else {
-        return theme.colors.successColor;
-      }
-    }};
+    if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
+      return theme.colors.errorColor;
+    }
+    if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
+      return theme.colors.grayColor4;
+    } else {
+      return theme.colors.successColor;
+    }
+  }};
   ::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
@@ -160,6 +142,11 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
     &::placeholder {
       color: transparent;
     }
+  }
+
+  &:disabled {
+    color: ${({ theme }) => theme.colors.grayColor4};
+    border-color: ${({ theme }) => theme.colors.grayColor3};
   }
 `;
 
@@ -172,7 +159,7 @@ const StyledIcon = styled.img`
   cursor: pointer;
 `;
 
-const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorIconType }>`
+const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorIconType; }>`
   display: flex;
   color: ${({ redErrorIcon, theme }) => {
     if (redErrorIcon === 'none') {

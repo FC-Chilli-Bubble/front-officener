@@ -5,7 +5,7 @@ import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
 
 // api 연동 테스트용 토큰
 const token =
-  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJldW5nYkBnbWFpbC5jb20iLCJpYXQiOjE2OTU2NDc2NjcsImV4cCI6MTY5NTY1MTI2N30.V7sFGeOmP471t8iXxSr9vVjGAhqxqHqyFpLh4xA0XJo';
+  'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJldW5nYkBnbWFpbC5jb20iLCJpYXQiOjE2OTU3MTI1MTcsImV4cCI6MTY5NTcxNjExN30.ZbMzx3KRGN8jkKdD85INRJ60EqRUWoyk9jeFHJr2pzc';
 
 // 은행 목록 조회
 export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
@@ -30,6 +30,16 @@ export const deleteDeliveryPost = async (
   roomId: number
 ): Promise<ICommonResponse<IMessageResponse>> => {
   const response = await apiClient.post(`/api/room/${roomId}/terminate`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+  return response.data;
+};
+
+// 함께배달 글 수정
+export const updateDeliveryPost = async (roomId: number, post: IDeliveryPostRequest) => {
+  const response = await apiClient.put(`/api/room/${roomId}`, post, {
     headers: {
       Authorization: `Bearer ${token}`
     }
