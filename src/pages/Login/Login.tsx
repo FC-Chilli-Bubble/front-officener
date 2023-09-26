@@ -5,7 +5,7 @@ import { userInfoAtom } from '@/states/userDataAtom';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
-import { createLogin } from '@/apis/Login/LoginPostRequests';
+import { createLogin } from '@/apis/Login/LoginRequests';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
@@ -136,7 +136,7 @@ const Login = () => {
             setCookie('token', token, { path: '/' });
           }
           setUser(userInfo);
-          // navigate('/');
+          navigate('/');
         },
         (error: IErrorResponse) => {
           setEmailErrorIcon('wrong');
