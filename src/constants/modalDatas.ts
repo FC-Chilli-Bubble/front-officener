@@ -59,6 +59,11 @@ const MODAL_DATAS = {
     title: '함께배달 수정',
     content: '게시글 수정을 실패했습니다\n다시 시도해주세요',
     positive: '확인'
+  },
+  DELIVERY_POST_DETAIL_FAILURE: {
+    title: '함께배달',
+    content: '게시글 조회를 실패했습니다\n다시 시도해주세요',
+    positive: '확인'
   }
 };
 

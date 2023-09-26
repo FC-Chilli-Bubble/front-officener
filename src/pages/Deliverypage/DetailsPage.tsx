@@ -32,7 +32,14 @@ const DetailsPage = () => {
       const res = await fetchDeliveryPostDetail(roomId);
       setDetail(res.data);
     } catch (error) {
-      console.log((error as IErrorResponse).errorMessage);
+      openModal(
+        {
+          ...MODAL_DATAS.DELIVERY_POST_DETAIL_FAILURE,
+          positiveCallback: () => {
+            navigate(-1);
+          }
+        }
+      );
     }
   };
 
