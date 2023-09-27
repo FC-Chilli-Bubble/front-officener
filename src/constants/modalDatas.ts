@@ -64,6 +64,11 @@ const MODAL_DATAS = {
     title: '함께배달',
     content: '게시글 조회를 실패했습니다\n다시 시도해주세요',
     positive: '확인'
+  },
+  SESSION_EXPIRATION_ALERT: {
+    title: '로그인 세션 만료',
+    content: '로그인 세션이 만료되었습니다.\n다시 로그인해주세요.',
+    positive: '확인'
   }
 };
 

@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+// import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import { CookiesProvider } from 'react-cookie';
 
@@ -14,7 +14,7 @@ const App = () => {
 
   return (
     <>
-      <RecoilRoot>
+      
         <CookiesProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyles />
@@ -22,7 +22,7 @@ const App = () => {
             <Modal />
           </ThemeProvider>
         </CookiesProvider>
-      </RecoilRoot>
+      
     </>
   );
 };

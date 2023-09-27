@@ -136,7 +136,7 @@ const Login = () => {
             setCookie('token', token, { path: '/' });
           }
           setUser(userInfo);
-          navigate('/');
+          navigate('/', { replace: true });
         },
         (error: IErrorResponse) => {
           setEmailErrorIcon('wrong');
