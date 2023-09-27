@@ -47,9 +47,7 @@
         // site using the default scope.
         navigator.serviceWorker
           .register('/sw.js')
-          .then(registration => {
-            console.log('Service worker registration succeeded:', registration);
-          })
+          .then(registration => {})
           .catch(err => {
             console.log('Service worker registration failed:', error);
           });

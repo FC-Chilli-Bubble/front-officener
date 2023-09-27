@@ -13,12 +13,20 @@ export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
 export const createDeliveryPost = async (
   post: IDeliveryPostRequest
 ): Promise<ICommonResponse<IMessageResponse>> => {
-  const response = await apiClient.post('/api/room/create', post, {
-    // TODO : 테스트용
-    headers: {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZXIwMDFAbmF2ZXIuY29tIiwiaWF0IjoxNjk1NjMyNDQ3LCJleHAiOjE2OTU2MzYwNDd9.5rWtWiEJbcc_zZHnJhe1hXm-qDoTC8NdDYw5nY7KqOA'
-    }
-  });
+  const response = await apiClient.post('/api/room/create', post);
+  return response.data;
+};
+
+// 함께배달 글 삭제
+export const deleteDeliveryPost = async (
+  roomId: string
+): Promise<ICommonResponse<IMessageResponse>> => {
+  const response = await apiClient.post(`/api/room/${roomId}/terminate`);
+  return response.data;
+};
+
+// 함께배달 글 수정
+export const updateDeliveryPost = async (roomId: number, post: IDeliveryPostRequest) => {
+  const response = await apiClient.put(`/api/room/${roomId}`, post);
   return response.data;
 };

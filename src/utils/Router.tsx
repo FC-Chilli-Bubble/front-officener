@@ -84,7 +84,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/delivery/details',
+            path: '/delivery/:id',
             element: <DetailsPage />,
             errorElement: <ErrorComponent />
           },

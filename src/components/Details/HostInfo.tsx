@@ -2,8 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 import IconProfile from '@/assets/img_profile.svg';
+import { BANKS, TBankKey } from '@/constants/banks';
 
-const HostInfo: React.FC = () => {
+type THostInfoProps = {
+  userName: string,
+  bank: TBankKey,
+  account: string,
+  desc: string;
+};
+
+const HostInfo = React.memo(({ userName, bank, account, desc }: THostInfoProps) => {
   return (
     <StyledHostInfo>
       <h4>호스트 (주문자)</h4> <br />
@@ -12,19 +20,18 @@ const HostInfo: React.FC = () => {
           src={IconProfile}
           alt="Food Photo"
         />
-        <h3>빵먹다살찐떡</h3>
-        <h1>우리은행 0000-0000-000</h1>
+        <h3>{userName}</h3>
+        <h1>{BANKS[bank]} {account}</h1>
       </HostDetailContainer>
       <br />
       <h2>추가설명</h2>
       <br />
       <span>
-        엽기떡볶이 마라맛 새로 나왔대요!! 배달 같이 시켜요! <br />
-        엽기떡볶이 닭볶음탕도 진짜 맛있습니다!
+        {desc}
       </span>
     </StyledHostInfo>
   );
-};
+});
 
 const StyledHostInfo = styled.div`
   padding: 24px 20px;
