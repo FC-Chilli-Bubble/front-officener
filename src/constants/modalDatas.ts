@@ -78,6 +78,11 @@ const MODAL_DATAS = {
   DELIVERY_DETAIL_INVALID: {
     title: '유효하지 않은 게시글입니다.',
     positive: '뒤로가기'
+  },
+  SESSION_EXPIRATION_ALERT: {
+    title: '로그인 세션 만료',
+    content: '로그인 세션이 만료되었습니다.\n다시 로그인해주세요.',
+    positive: '확인'
   }
 };
 
