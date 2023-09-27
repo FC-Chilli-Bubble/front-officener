@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { foodData, IFoodData } from './dummyData';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
@@ -9,37 +8,29 @@ import AddButton from '@/assets/food/postbutton.svg';
 import { deliverylist } from '@/apis/Delivery/deliverylist';
 import { useRecoilState } from 'recoil';
 import { roomsAtom } from '@/states/rommsAtom';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
+import { FOODTAGS } from '@/constants/commonUiData';
 
 const DeliveryPage = () => {
-  console.log('DeliveryPage component mounted');
-
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
-  const [selectedCategory, setSelectedCategory] = useState('분식');
-  const [data, setData] = useState<IFoodData | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState(FOODTAGS['분식']);
+  const [data, setData] = useState<IRoom[] | null>(null);
   const [rooms, setRooms] = useRecoilState(roomsAtom);
 
   useEffect(() => {
-    console.log('useEffect called');
     deliverylist()
       .then(data => {
-        console.log('API call successful, data:', data);
         setRooms(data.data.rooms);
       })
       .catch(error => {
-        console.log('API call failed, error:', error);
         console.error('Error fetching data from API:', error);
       });
   }, []);
 
   useEffect(() => {
-    const dummyResponse = foodData[selectedCategory];
-
-    if (dummyResponse && dummyResponse.length > 0) {
-      setData(dummyResponse[0]);
-    } else {
-      console.error(`No data found for category: ${selectedCategory}`);
-    }
-  }, [selectedCategory]);
+    const filteredRooms = rooms ? rooms.filter(room => room.tag === selectedCategory) : [];
+    setData(filteredRooms);
+  }, [selectedCategory, rooms]);
 
   const handleMenuClick = (menu: string) => {
     setSelectedMenu(menu);
@@ -64,6 +55,7 @@ const DeliveryPage = () => {
       />
       <StyledContainer>
         <MenuContent
+          rooms={rooms}
           selectedMenu={selectedMenu}
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
@@ -96,7 +88,7 @@ const StyledButtonBox = styled.div`
   padding-right: 26px;
 `;
 
-const PostButton = styled.button<{ img: string; }>`
+const PostButton = styled.button<{ img: string }>`
   position: sticky;
   width: 48px;
   height: 48px;

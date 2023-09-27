@@ -5,15 +5,15 @@ import TogetherDelivery from './TogetherDelivery';
 import OrderList from './OrderList';
 import FoodItem from './FoodItem';
 import ChatItem from './ChatItem';
-import { IFoodData } from '@/pages/Deliverypage/dummyData';
-import { IRoom } from '@/types/Delivery/IDeliveryList';
 import { roomsAtom } from '@/states/rommsAtom';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
+import styled from 'styled-components';
 
 interface IMenuContentProps {
   selectedMenu: string;
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
-  data: IFoodData | null;
+  data: IRoom[] | null;
 }
 
 const MenuContent: React.FC<IMenuContentProps> = ({
@@ -27,6 +27,10 @@ const MenuContent: React.FC<IMenuContentProps> = ({
   if (!rooms) {
     return null;
   }
+  const filteredRooms = rooms.filter(room => room.tag === selectedCategory);
+  console.log(filteredRooms);
+  console.log(selectedCategory, ', filteredRooms length:', filteredRooms.length);
+
   if (selectedMenu === '함께배달') {
     return (
       <div>
@@ -39,49 +43,34 @@ const MenuContent: React.FC<IMenuContentProps> = ({
           />
         )}
 
-        {rooms &&
-          rooms.map(room => (
+        {filteredRooms.length > 0 ? (
+          filteredRooms.map(room => (
             <FoodItem
               key={room.roomId}
               room={room} // 변경됨
+              showTimeLimit={false}
+              listStyle
             />
-          ))}
-
-        {/* {data && (
-          <FoodItem
-            food={data}
-            showTimeLimit={false}
-            listStyle
-          />
+          ))
+        ) : (
+          <StyledNoData>
+            <p>현재 선택된 카테고리에 대한 데이터가 없습니다.</p>
+          </StyledNoData>
         )}
-
-        {data && (
-          <FoodItem
-            food={data}
-            showTimeLimit={false}
-            listStyle
-          />
-        )}
-
-        {data && (
-          <FoodItem
-            food={data}
-            showTimeLimit={false}
-            listStyle
-          />
-        )} */}
       </div>
     );
   } else if (selectedMenu === '내가 참여한 배달') {
     return (
       <div>
-        {/* {data && (
-          <FoodItem
-            food={data}
-            showTimeLimit={false}
-            listStyle
-          />
-        )} */}
+        {rooms &&
+          rooms.map(room => (
+            <FoodItem
+              key={room.roomId}
+              room={room}
+              showTimeLimit={false}
+              listStyle
+            />
+          ))}
       </div>
     );
   } else if (selectedMenu === '나의 채팅') {
@@ -100,5 +89,14 @@ const MenuContent: React.FC<IMenuContentProps> = ({
   }
   return null;
 };
+
+const StyledNoData = styled.div`
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 16px;
+`;
 
 export default MenuContent;

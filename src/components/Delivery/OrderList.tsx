@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IFoodData } from '@/pages/Deliverypage/dummyData';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
+import { FOODTAGS } from '@/constants/commonUiData';
 
 interface IOrderListProps {
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
-  data: IFoodData;
+  data: IRoom;
 }
 
 const OrderList: React.FC<IOrderListProps> = ({ selectedCategory, handleCategoryClick }) => {
@@ -15,47 +16,47 @@ const OrderList: React.FC<IOrderListProps> = ({ selectedCategory, handleCategory
       <MenuContainer>
         <CategoryButton
           className={selectedCategory === '분식' ? 'active' : ''}
-          onClick={() => handleCategoryClick('분식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['분식'])}>
           분식
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '족발,보쌈' ? 'active' : ''}
-          onClick={() => handleCategoryClick('족발,보쌈')}>
+          onClick={() => handleCategoryClick(FOODTAGS['족발,보쌈'])}>
           족발, 보쌈
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '회, 일식' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['회,일식'])}>
           회, 일식
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '찜, 탕, 찌개' ? 'active' : ''}
-          onClick={() => handleCategoryClick('찜, 탕, 찌개')}>
+          onClick={() => handleCategoryClick(FOODTAGS['찜,탕,찌개'])}>
           찜, 탕, 찌개
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '피자' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['피자'])}>
           피자
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '치킨' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['치킨'])}>
           치킨
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '아시안' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['아시안'])}>
           아시안
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '백반' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['백반'])}>
           백반
         </CategoryButton>
         <CategoryButton
           className={selectedCategory === '카페, 디저트' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
+          onClick={() => handleCategoryClick(FOODTAGS['카페,디저트'])}>
           카페, 디저트
         </CategoryButton>
       </MenuContainer>
@@ -101,8 +102,8 @@ const MenuContainer = styled(ScrollHidden)`
   padding-bottom: 10px;
   padding-left: 20px;
 
-  &::-webkit-scrollbar{
-    display:none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
