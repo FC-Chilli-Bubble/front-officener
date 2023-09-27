@@ -1,19 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-
-import { foodData } from '@/pages/Deliverypage/dummyData';
 import FoodItem from './FoodItem';
 import { roomsAtom } from '@/states/rommsAtom';
-
 import IconTime from '@/assets/food/Time.svg';
+import dayjs from 'dayjs';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
 
 interface ITogetherDeliveryProps {
   selectedCategory: string;
 }
 
 const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }) => {
+  const [filteredData, setFilteredData] = useState<IRoom[]>([]);
   const [rooms] = useRecoilState(roomsAtom);
+
+  // deadline 필터링
+  useEffect(() => {
+    const now = dayjs();
+    console.log('Now:', now.toString());
+    const filtered = rooms.filter(item => {
+      const deadline = dayjs(item.deadLine);
+      console.log('Deadline:', deadline.toString());
+      const diff = now.diff(deadline, 'hour');
+      return diff < 50 && diff >= 0;
+    });
+    console.log('Filtered:', filtered);
+    setFilteredData(filtered);
+  }, [rooms]);
+
+  // deadline, category 필터링
+  // useEffect(() => {
+  //   const now = dayjs();
+  //   const filtered = rooms.filter(item => {
+  //     const deadline = dayjs(item.deadLine);
+  //     const diff = now.diff(deadline, 'hour');
+  //     return item.tag === selectedCategory && diff < 60 && diff >= 0;
+  //   });
+  //   setFilteredData(filtered);
+  // }, [rooms, selectedCategory]);
+
+  if (filteredData.length === 0) {
+    return <StyledNoData>현재 데이터가 없습니다.</StyledNoData>;
+  }
 
   return (
     <>
@@ -28,12 +57,13 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
         </SubHeadingContainer>
       </Heading>
       <FoodCardContainer>
-        {/* {foodData[selectedCategory].map(food => (
-          <FoodItem
-            key={food.가게이름}
-            food={food}
-          />
-        ))} */}
+        {filteredData &&
+          filteredData.map(room => (
+            <FoodItem
+              key={room.roomId}
+              room={room}
+            />
+          ))}
       </FoodCardContainer>
     </>
   );
@@ -100,6 +130,15 @@ const FoodCardContainer = styled(ScrollHidden)`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const StyledNoData = styled.div`
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 16px;
 `;
 
 export default TogetherDelivery;
