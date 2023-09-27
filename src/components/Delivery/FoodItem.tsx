@@ -18,12 +18,8 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
   }, []);
 
   const handleMoveDetail = () => {
-    navigate('/delivery/details');
-  };
-
-  // TEST용
-  const handleMovePost = () => {
-    navigate('/delivery/details');
+    // TODO: roomId로 변경 필요
+    navigate(`/delivery/4`);
   };
 
   if (listStyle) {
@@ -59,11 +55,11 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
   }
 
   return (
-    <StyledFoodCard onClick={handleMovePost}>
+    <StyledFoodCard onClick={handleMoveDetail}>
       {/* <img
         src={room?.사진}
         alt="음식 사진"
-      /> */}
+      />  */}
       {showTimeLimit && (
         <>
           <TimeLimit>

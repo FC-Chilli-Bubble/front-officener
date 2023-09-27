@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
@@ -15,8 +16,11 @@ import { useModal } from '@/hooks/useModal';
 import { postAtom, postBankAtom } from '@/states/postAtom';
 import { postTagAtom } from '@/states/postTagAtom';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { createDeliveryPost, fetchBankList } from '@/apis/Delivery/deliveryPostRequests';
+import { createDeliveryPost, fetchBankList, updateDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
 import { timePickerAtom } from '@/states/timePickerAtom';
+import { FOODTAGS } from '@/constants/commonUiData';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+
 
 const PostTitles = { 1: '가게정보 입력', 2: '기본정보 입력' };
 const PostButtonTitle = { 1: '다음', 2: '함께배달 올리기' };
@@ -26,13 +30,39 @@ const DeliveryPost = () => {
   const [stepNum, setStepNum] = useState<1 | 2>(1);
   const [isValid, setIsValid] = useState(false);
   const [isOpen, setOpen] = useState(false);
-  const [postData] = useRecoilState(postAtom);
+  const [isEdit, setIsEdit] = useState(false);
+  const [postData, setPostData] = useRecoilState(postAtom);
   const setBankList = useSetRecoilState(postBankAtom);
   const setSavedTag = useSetRecoilState(postTagAtom);
   const setSavedTime = useSetRecoilState(timePickerAtom);
   const resetPostData = useResetRecoilState(postAtom);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const postDetail = location.state;
+
+  useEffect(() => {
+    if (!postDetail) {
+      return;
+    }
+    const detail: IDeliveryPost = postDetail.detail;
+    // 상세페이지로 부터 넘어온 데이터를 postData recoil state로 가공
+    setIsEdit(true);
+    // Test 수정 데이터
+    setPostData({
+      ...detail,
+      foodTag: detail.tag,
+      accountNumber: detail.account,
+      desc: detail.description
+    });
+    setSavedTag(Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag) ?? '');
+    const postDeadline = dayjs(detail.deadline);
+    setSavedTime({
+      time: postDeadline.format('A'),
+      houres: postDeadline.format('hh'),
+      minutes: postDeadline.format('mm')
+    });
+  }, [postDetail, setPostData, setSavedTag, setSavedTime]);
 
   // 은행 목록 조회 api
   const getBankList = () => {
@@ -80,12 +110,40 @@ const DeliveryPost = () => {
     );
   };
 
+
+  // 수정 API 호출
+  const handleEditPost = () => {
+    updateDeliveryPost(postDetail.id, postData).then(
+      () => {
+        openModal({
+          ...MODAL_DATAS.DELIVERY_POST_EDIT_SUCCESS, positiveCallback: () => {
+            clearState();
+          }
+        });
+      }, () => {
+        openModal(MODAL_DATAS.DELIVERY_POST_EDIT_FAILURE);
+      }
+    );
+  };
+
   const handleClickButton = () => {
     if (stepNum === 1) {
       setStepNum(2);
       return;
     }
-    createNewPost();
+    // 새로 등록
+    if (!isEdit) {
+      createNewPost();
+      return;
+    }
+
+    // 수정
+    openModal({
+      ...MODAL_DATAS.DELIVERY_POST_EDIT_CONFIRM,
+      positiveCallback: () => {
+        handleEditPost();
+      }
+    });
   };
 
   // x 버튼 뒤로가기
@@ -100,7 +158,6 @@ const DeliveryPost = () => {
 
   // 입력사항 유효성 검사
   useEffect(() => {
-    // setIsValid(true)
     if (stepNum === 1) {
       setIsValid(
         postData.storeName !== '' &&
@@ -142,7 +199,7 @@ const DeliveryPost = () => {
 
       <StyledContainer onClick={handleCloseBottomSheet}>
         {stepNum === 1 ? (
-          <PostStepStoreInfo openBottomSheet={handleOpenBottomSheet} />
+          <PostStepStoreInfo openBottomSheet={handleOpenBottomSheet} isEdit={isEdit} />
         ) : (
           <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} />
         )}

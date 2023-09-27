@@ -1,48 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
-interface IFoodData {
-  사진?: string;
-  가게이름: string;
-  참여인원: number;
-  배달비: string;
-  태그: string[];
-  이체해야하는시간: string;
-}
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+import { FOODTAGS } from '@/constants/commonUiData';
+import Sample from '@/assets/food/Rectangle 477-1.svg'; // 추후 삭제 필요
 
-const FoodItem: React.FC<{ food: IFoodData }> = ({ food }) => {
+type TStoreInfoProps = {
+  detail: IDeliveryPost;
+};
+
+const StoreInfo = React.memo(({ detail }: TStoreInfoProps) => {
   return (
     <StyledFoodCardListStyle>
       <img
-        src={food?.사진}
+        src={Sample}
         alt="음식 사진"
       />
       <StyledFoodCardText>
         <StyledRow>
-          <GrayText>가게이름</GrayText> <BlackText>{food?.가게이름}</BlackText>
+          <GrayText>가게이름</GrayText> <BlackText>{detail.storeName}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>참여인원</GrayText> <BlackText>{food?.참여인원}</BlackText>
+          <GrayText>참여인원</GrayText> <BlackText>{`${detail.attendees}/${detail.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>배달비</GrayText> <BlackText>{food?.배달비}</BlackText>
+          <GrayText>배달비</GrayText> <BlackText>{detail.deliveryFee.toLocaleString()}원</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>태그</GrayText> <BlackText>{food?.태그.join(', ')}</BlackText>
+          <GrayText>태그</GrayText> <BlackText>#{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag)}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체마감</GrayText> <BlackText>{food?.이체해야하는시간}</BlackText>
+          <GrayText>이체마감</GrayText> <BlackText>{dayjs(detail.deadline).format('A hh:mm')}</BlackText>
         </StyledRow>
       </StyledFoodCardText>
     </StyledFoodCardListStyle>
   );
-};
+});
 
 const StyledFoodCardListStyle = styled.div`
   padding: 16px;
   display: flex;
   align-items: start;
-  gap: 16px;
+  gap: 26px;
 
   > img {
     flex-shrink: 0;
@@ -89,4 +89,4 @@ const BlackText = styled.p`
   white-space: nowrap;
 `;
 
-export default FoodItem;
+export default StoreInfo;

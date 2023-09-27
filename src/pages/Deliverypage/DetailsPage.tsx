@@ -1,84 +1,173 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { foodData, IFoodData } from './dummyData';
-import Header from '@/components/Details/Header';
-import FoodItem from '@/components/Details/FoodItem';
-import PhotoCard from '@/components/Details/PhotoCard';
-import HostInfo from '@/components/Details/HostInfo';
-import FooterButtons from '@/components/Details/FooterButtons';
-import DeleteModal from '@/components/Details/DeleteModal';
-import { hostDetails } from '@/pages/Deliverypage/dummyData';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-// eslint-disable-next-line no-unused-vars
-enum ButtonStates {
-  // eslint-disable-next-line no-unused-vars
-  JOIN_DELIVERY = '함께 배달',
-  // eslint-disable-next-line no-unused-vars
-  JOIN_CHAT = '채팅창 참여',
-  // eslint-disable-next-line no-unused-vars
-  ACTIONS = 'ACTIONS'
-}
+import Header from '@/components/Details/Header';
+import MenuLinkCard from '@/components/Details/MenuLinkCard';
+import HostInfo from '@/components/Details/HostInfo';
+import StoreInfo from '@/components/Details/StoreInfo';
+import MODAL_DATAS from '@/constants/modalDatas';
+import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
+import { fetchDeliveryPostDetail, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
+import { useModal } from '@/hooks/useModal';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+import Button from '@/components/Common/Button';
+import OutlineButton from '@/components/Common/OutlineButton';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { TBankKey } from '@/constants/banks';
 
 const DetailsPage = () => {
-  const [data, setData] = useState<IFoodData | null>(null);
+  const userInfo = useRecoilValue(userInfoAtom);
+  const { openModal } = useModal();
+  const [detail, setDetail] = useState<IDeliveryPost | null>(null);
+  const navigate = useNavigate();
+  const params = useParams();
 
-  // const [selectedCategory, setSelectedCategory] = useState('분식');
-  const selectedCategoryState = useState('분식');
-  const selectedCategory = selectedCategoryState[0];
-  // const setSelectedCategory = selectedCategoryState[1];
-
-  const [buttonState, setButtonState] = useState(ButtonStates.JOIN_DELIVERY);
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  // 게시글 상세 조회 API
+  const getDeliveryPostDetail = async (roomId: string) => {
+    try {
+      const res = await fetchDeliveryPostDetail(roomId);
+      setDetail(res.data);
+    } catch (error) {
+      openModal({
+        ...MODAL_DATAS.DELIVERY_POST_DETAIL_FAILURE,
+        positiveCallback: () => {
+          navigate(-1);
+        }
+      });
+    }
+  };
 
   useEffect(() => {
-    const dummyResponse = foodData[selectedCategory];
-
-    if (dummyResponse && dummyResponse.length > 0) {
-      setData(dummyResponse[0]);
-    } else {
-      console.error(`No data found for category: ${selectedCategory}`);
+    if (params.id) {
+      getDeliveryPostDetail(params.id);
+      return;
     }
-  }, [selectedCategory]);
+    openModal({
+      ...MODAL_DATAS.DELIVERY_DETAIL_INVALID,
+      positiveCallback: () => {
+        navigate(-1);
+      }
+    });
+  }, [params]);
 
-  const handleButtonClick = () => {
-    switch (buttonState) {
-      case ButtonStates.JOIN_DELIVERY:
-        setButtonState(ButtonStates.JOIN_CHAT);
-        break;
-      case ButtonStates.JOIN_CHAT:
-        setButtonState(ButtonStates.ACTIONS);
-        break;
-      case ButtonStates.ACTIONS:
-        setButtonState(ButtonStates.JOIN_DELIVERY); // 초기 상태로 돌아가게 설정
-        break;
-    }
+  // 삭제 API
+  const handleDeletePost = () => {
+    params.id &&
+      deleteDeliveryPost(params.id).then(
+        () => {
+          navigate(-1);
+        },
+        (error: IErrorResponse) => {
+          openModal({
+            ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
+            content: error.errorMessage[0] || '오류가 발생했습니다.'
+          });
+        }
+      );
   };
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
-    setDeleteModalVisible(true);
+    openModal({
+      ...MODAL_DATAS.DELIVERY_POST_DELETE,
+      positiveCallback: () => {
+        handleDeletePost();
+      }
+    });
   };
 
-  // 모달 닫기 핸들러
-  const handleCloseModal = () => {
-    setDeleteModalVisible(false);
+  // 수정 버튼 클릭 핸들러
+  const handleClickEdit = () => {
+    navigate(`/delivery/post`, { state: { id: params.id, detail: detail } });
+  };
+
+  const handleJoinChat = async () => {
+    try {
+      const isSuccessJoin = await requestJoinChat(params.id!);
+      if (isSuccessJoin) {
+        // TODO : 해당 채팅방 화면으로 이동
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.DELIVERY_CHAT_JOIN_FAILURE);
+    }
+  };
+
+  // 채팅방 참여 클릭 핸들러
+  const handleClickEnterChat = () => {
+    openModal({
+      ...MODAL_DATAS.DELIVERY_CHAT_JOIN_CONFIRM,
+      positiveCallback: () => {
+        handleJoinChat();
+      }
+    });
+  };
+
+  // 함께배달 클릭 핸들러
+  const handleClickJoinRoom = () => {
+    // TODO : 배달 참여 API 연동
   };
 
   return (
     <>
       <Header leftIcon="back" />
       <StyledContainer>
-        {data && <FoodItem food={data} />}
-        {data && <PhotoCard food={data} />}
-        <StyledDivider />
-        <HostInfo details={hostDetails} />
+        {detail && (
+          <>
+            <StoreInfo detail={detail} />
+            <MenuLinkCard
+              menuLink={detail.menuLink}
+              storeName={detail.storeName}
+            />
+            <StyledDivider />
+            <HostInfo
+              userName={detail.hostName}
+              bank={detail.bankName as TBankKey}
+              account={detail.account}
+              desc={detail.description}
+            />
+          </>
+        )}
       </StyledContainer>
-      <FooterButtons
-        buttonState={buttonState}
-        handleButtonClick={handleButtonClick}
-        handleDeleteClick={handleDeleteClick}
-      />
-      {isDeleteModalVisible && <DeleteModal onClose={handleCloseModal} />}
+      <StyledButtonBox>
+        {detail?.hostId === userInfo.userInfo.id ? (
+          <StyledHostButtons>
+            <OutlineButton
+              size="small"
+              title="수정"
+              onClick={handleClickEdit}
+              width="fit-content"
+            />
+            <OutlineButton
+              size="small"
+              title="삭제"
+              onClick={handleDeleteClick}
+              width="fit-content"
+            />
+            <Button
+              size="small"
+              type="cta"
+              title="채팅방 참여"
+              onClick={handleClickEnterChat}
+              width="fit-content"
+            />
+          </StyledHostButtons>
+        ) : detail?.isJoin ? (
+          <Button
+            type="cta"
+            title="채팅방 참여"
+            onClick={handleClickEnterChat}
+          />
+        ) : (
+          <Button
+            type="cta"
+            title="함께배달"
+            onClick={handleClickJoinRoom}
+          />
+        )}
+      </StyledButtonBox>
     </>
   );
 };
@@ -94,6 +183,27 @@ const StyledDivider = styled.div`
   width: 100%;
   height: 11px;
   background-color: ${props => props.theme.colors.grayColor1};
+`;
+
+const StyledButtonBox = styled.div`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: 0px -4px 20px 0px rgba(0, 0, 0, 0.1);
+  height: 100px;
+  bottom: 0;
+  padding: 21px;
+  z-index: 100;
+  position: absolute;
+`;
+
+const StyledHostButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  :last-child {
+    flex-grow: 1;
+  }
 `;
 
 export default DetailsPage;

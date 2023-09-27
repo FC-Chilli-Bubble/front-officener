@@ -3,27 +3,25 @@ import styled from 'styled-components';
 
 import TestImage from '@/assets/food/Rectangle 496.svg';
 
-interface IFoodData {
-  사진?: string;
-  가게이름: string;
-  참여인원: number;
-  배달비: string;
-  태그: string[];
-  이체해야하는시간: string;
-}
+type TMenuLinkCardProps = {
+  menuLink: string,
+  storeName: string;
+};
 
-const PhotoCard: React.FC<{ food: IFoodData }> = ({ food }) => {
+const MenuLinkCard = React.memo(({ menuLink, storeName }: TMenuLinkCardProps) => {
   return (
     <StyledPhotoCard>
       <MenuText>메뉴판</MenuText>
-      <img
-        src={TestImage}
-        alt="Food Photo"
-      />
-      <StoreName>{food?.가게이름}</StoreName>
+      <a href={menuLink}>
+        <img
+          src={TestImage}
+          alt="Food Photo"
+        />
+        <StoreName>{storeName}</StoreName>
+      </a>
     </StyledPhotoCard>
   );
-};
+});
 
 const StyledPhotoCard = styled.div`
   display: flex;
@@ -58,6 +56,7 @@ const StoreName = styled.h3`
   display: flex;
   align-items: center;
   padding: 20px 30px;
+  text-decoration: underline;
 `;
 
-export default PhotoCard;
+export default MenuLinkCard;

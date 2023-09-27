@@ -1,19 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import IconProfile from '@/assets/img_profile.svg';
+import { BANKS, TBankKey } from '@/constants/banks';
 
-interface IHostDetails {
-  호스트: string;
-  닉네임: string;
-  은행계좌: string;
-  추가설명: string;
-}
+type THostInfoProps = {
+  userName: string;
+  bank: TBankKey;
+  account: string;
+  desc: string;
+};
 
-interface IHostInfoProps {
-  details: IHostDetails;
-}
-
-const HostInfo: React.FC<IHostInfoProps> = ({ details }) => {
+const HostInfo = React.memo(({ userName, bank, account, desc }: THostInfoProps) => {
   return (
     <StyledHostInfo>
       <h4>{details?.호스트}</h4> <br />
@@ -22,17 +19,18 @@ const HostInfo: React.FC<IHostInfoProps> = ({ details }) => {
           src={IconProfile}
           alt="Profile Photo"
         />
-
-        <h3>{details?.닉네임}</h3>
-        <h1>{details?.은행계좌}</h1>
+        <h3>{userName}</h3>
+        <h1>
+          {BANKS[bank]} {account}
+        </h1>
       </HostDetailContainer>
       <br />
       <h2>추가설명</h2>
       <br />
-      <span>{details?.추가설명}</span>
+      <span>{desc}</span>
     </StyledHostInfo>
   );
-};
+});
 
 const StyledHostInfo = styled.div`
   padding: 24px 20px;

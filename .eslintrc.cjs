@@ -12,7 +12,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-console': 'warn',
-    'no-unused-vars': 'error', // 사용하지않는 변수 error처리 하겠다.
-    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }] //
+    'no-unused-vars': 'warn',
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }] //
   }
 };

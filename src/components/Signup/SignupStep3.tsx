@@ -6,7 +6,7 @@ import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 
 // 임시 데이터
-import { buildingData, IBuilding } from '@/components/Signup/buildingData';
+import { buildingData, IBuilding } from '@/apis/Signup/building_dummy_Data';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars

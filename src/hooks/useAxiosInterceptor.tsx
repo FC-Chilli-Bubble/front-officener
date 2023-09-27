@@ -1,23 +1,47 @@
 import { useEffect } from 'react';
 import { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useCookies } from 'react-cookie';
+import { useResetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
-import { apiClient } from "@/apis/apiClient";
+import { apiClient } from '@/apis/apiClient';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { useModal } from '@/hooks/useModal';
 
+import MODAL_DATAS from '@/constants/modalDatas';
 const useAxiosInterceptor = () => {
-  const accessToken = ''; // TODO : 쿠키에 저장된 토큰 값
+  const { openModal } = useModal();
+  const [cookies, removeCookie] = useCookies(['token']);
+  const accessToken = cookies.token || ''; // 쿠키에 저장된 토큰 값
+  const clearUser = useResetRecoilState(userInfoAtom);
+  const navigate = useNavigate();
 
   // 응답 공통 에러 처리
-  const handleError = (error: AxiosError) => {
+  const handleError = async (error: AxiosError) => {
     // TODO : 401 인증 에러 처리 추가 필요
+    if (error.response?.status === 401 && error.config?.url !== '/login') {
+      // 로그인 세션 만료 팝업
+      openModal({
+        ...MODAL_DATAS.SESSION_EXPIRATION_ALERT,
+        positiveCallback: () => {
+          clearUser(); // 리코일 유저 정보 삭제
+          removeCookie('token', { path: '/' });
+          navigate('/login', { replace: true });
+          // 스택 초기화 추가 작성 필요
+        }
+      });
+    }
     // TODO : 인증 에러 시 로그아웃 처리
-    return Promise.reject<IErrorResponse>(error.response?.data as IErrorResponse || { errorMessage: error.message });
+    return Promise.reject<IErrorResponse>(
+      (error.response?.data as IErrorResponse) || { errorMessage: error.message }
+    );
   };
 
   const authConfig = (config: InternalAxiosRequestConfig<unknown>) => {
     if (config.headers && accessToken) {
       // AccessToken이 정상적으로 저장되어 있으면 headers에 Authorization에 값을 추가해준다.
-      config.headers.Authorization = accessToken;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   };
@@ -36,7 +60,6 @@ const useAxiosInterceptor = () => {
       apiClient.interceptors.response.eject(responseInterceptor);
     };
   }, [responseInterceptor, requestInterceptor]);
-
 };
 
 export default useAxiosInterceptor;
