@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from "recoil";
 
 import Header from '@/components/Common/Header';
 import ProfileImage from '@/assets/img_profile.svg';
@@ -7,9 +8,10 @@ import ProfileItem from '@/components/MyPage/ProfileItem';
 import Button from '@/components/Common/Button';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { useModal } from '@/hooks/useModal';
-
+import { userInfoAtom } from "@/states/userDataAtom";
 
 const MyProfile = () => {
+  const user = useRecoilValue(userInfoAtom);
   const { openModal } = useModal();
   const navigate = useNavigate();
 
@@ -36,9 +38,9 @@ const MyProfile = () => {
         <div>
           <img src={ProfileImage} alt='profile' />
           <ul>
-            <ProfileItem title='이름' content='홍길동' />
-            <ProfileItem title='이메일' content='test@admin.com' />
-            <ProfileItem title='휴대폰 번호' content='010-1234-1234' />
+            <ProfileItem title='이름' content={user.userInfo.name} />
+            <ProfileItem title='이메일' content={user.userInfo.email} />
+            <ProfileItem title='휴대폰 번호' content={user.userInfo.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')} />
             <ProfileItem title='성별' content='' />
             <ProfileItem title='생년월일' content='' />
           </ul>

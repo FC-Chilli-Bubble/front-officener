@@ -1,24 +1,28 @@
 import HomeHeader from '@/components/Home/HomeHeader';
 import styled from 'styled-components';
+import { useRecoilValue } from "recoil";
 
 import ProfileImage from '@/assets/img_profile.svg';
 import { MY_PAGE_MENU } from '@/constants/commonUiData';
 import MyPageMenu from '@/components/MyPage/MyPageMenu';
+import { userInfoAtom } from "@/states/userDataAtom";
 
 const MyPage = () => {
+  const user = useRecoilValue(userInfoAtom);
+
   return (
     <>
       <HomeHeader />
       <StyledInfoBox>
         <StyledUserInfo>
           <div>
-            <p>홍길동님</p>
+            <p>{user.userInfo.name}님</p>
             <div></div>
             <span>일반멤버</span>
           </div>
           <div>
-            <p>미왕빌딩(여기 나중에 유저정보로)</p>
-            <p>칠리버블</p>
+            <p>{user.userInfo.building.buildingName} {user.userInfo.company.officeNum}</p>
+            <p>{user.userInfo.company.officeName}</p>
           </div>
         </StyledUserInfo>
         <img src={ProfileImage} alt='Profile' />
