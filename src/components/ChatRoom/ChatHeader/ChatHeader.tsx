@@ -10,25 +10,50 @@ import IconCopy from '@/assets/chatrooms/ico_copy.svg';
 import IconWon from '@/assets/chatrooms/ico_won.svg';
 import IconAlarm from '@/assets/chatrooms/ico_alarm.svg';
 import ButtonTitleGuest from '@/components/ChatRoom/ChatHeader/ButtonTitleGuest';
+import {
+  createGuestReceivedPost,
+  createGuestRemittedPost,
+  createHostClosedPost,
+  createHostDeliveredPost
+} from '@/apis/ChatRoom/ChatHeaderButtonapis';
 
 const ChatHeader = () => {
   const { openModal, closeModal } = useModal();
-  const myid = 1;
-  //로그인시 데이터 내려받아 사용
-  const changeModalGuest = isRemitted(myid)
-    ? MODAL_DATA_GUEST.receiveModal
-    : MODAL_DATA_GUEST.sendModal;
+
+  const myid = 1; //로그인시 데이터 내려받아 사용
+  const roomId = 14;
 
   const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(false);
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
+  const [isGuestButtonDisabled, setIsGuestButtonDisabled] = useState(false);
 
+  //host api post
+  const createHostClosed = async () => {
+    try {
+      await createHostClosedPost(roomId);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsReceiveButtonDisabled(true);
+    }
+  };
+  const createHostDelivered = async () => {
+    try {
+      await createHostDeliveredPost(roomId);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsEndButtonDisabled(true);
+    }
+  };
+
+  //host 버튼 클릭
   const handleClickHostButton = (title: string) => {
     title === '배달'
       ? openModal({
           ...MODAL_DATA_HOST.receiveModal,
           positiveCallback: () => {
-            //api 통신 연결
-            setIsReceiveButtonDisabled(true);
+            createHostDelivered();
           },
           negativeCallback: () => {
             closeModal();
@@ -37,8 +62,7 @@ const ChatHeader = () => {
       : openModal({
           ...MODAL_DATA_HOST.participationEndsdModal,
           positiveCallback: () => {
-            //api 통신 연결
-            setIsEndButtonDisabled(true);
+            createHostClosed();
           },
           negativeCallback: () => {
             closeModal();
@@ -46,11 +70,34 @@ const ChatHeader = () => {
         });
   };
 
+  //guest modal data
+  const changeModalGuest = isRemitted(myid)
+    ? MODAL_DATA_GUEST.receiveModal
+    : MODAL_DATA_GUEST.sendModal;
+
+  //guest api post
+  const createGuestPost = async () => {
+    try {
+      if (isRemitted(myid)) {
+        await createGuestReceivedPost(roomId);
+      } else {
+        await createGuestRemittedPost(roomId);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      if (isRemitted(myid)) {
+        setIsGuestButtonDisabled(true);
+      }
+    }
+  };
+
+  //guest 버튼 클릭
   const handleClickGuestButton = () => {
     openModal({
       ...changeModalGuest,
       positiveCallback: () => {
-        //api 통신 연결
+        createGuestPost();
       },
       negativeCallback: () => {
         closeModal();
@@ -126,6 +173,7 @@ const ChatHeader = () => {
           size="small"
           title={<ButtonTitleGuest isRemitted={isRemitted(myid)} />}
           onClick={handleClickGuestButton}
+          disabled={isGuestButtonDisabled}
         />
       )}
     </StyledContainer>

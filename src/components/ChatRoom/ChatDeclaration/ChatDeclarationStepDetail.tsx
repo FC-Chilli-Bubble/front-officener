@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
 import { modalInputFocusAtom } from '@/states/chatInputFocusAtom';
-import { createDeclarationPost } from '@/apis/ChatRoom/ChatDeclarationPost';
+import { createDeclarationPost } from '@/apis/ChatRoom/ChatDeclarationApis';
 
 const ChatDeclarationStepDetail = () => {
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
