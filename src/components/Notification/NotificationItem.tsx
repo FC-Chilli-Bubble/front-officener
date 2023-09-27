@@ -3,24 +3,24 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 
 import IconDelivery from '@/assets/ico_delivery_off.svg';
-import { TDummyNotification } from '@/pages/Notification/DummyNotifications';
+import { INotification } from '@/types/Notify/INotification';
 
 type TNotificationItemProps = {
   // TODO : 추후 알림 인터페이스 수정 필요
-  notification: TDummyNotification;
+  notification: INotification;
   onClick: () => void;
 };
 
 const NotificationItem = React.memo((
   { notification, onClick }: TNotificationItemProps
 ) => {
-  const { type, message, date } = notification;
+  const { type, content, createdAt } = notification;
 
   const parseDate = useMemo(() => {
     const now = dayjs();
-    const diffMinues = now.diff(dayjs(date), 'minute');
-    const diffHoures = now.diff(dayjs(date), 'hour');
-    const diffDays = now.diff(dayjs(date), 'day');
+    const diffMinues = now.diff(dayjs(createdAt), 'minute');
+    const diffHoures = now.diff(dayjs(createdAt), 'hour');
+    const diffDays = now.diff(dayjs(createdAt), 'day');
     if (diffMinues < 60) {
       return `${diffMinues}분 전`;
     } else if (diffHoures < 24) {
@@ -28,16 +28,16 @@ const NotificationItem = React.memo((
     } else if (diffDays < 7) {
       return `${diffDays}일 전`;
     } else {
-      return dayjs(date).format('YYYY년 MM월 DD일');
+      return dayjs(createdAt).format('YYYY년 MM월 DD일');
     }
-  }, [date]);
+  }, [createdAt]);
 
   return (
     <StyledContainer onClick={onClick}>
       <img src={IconDelivery} alt='음식태그' />
       <StyledBox>
         <p>{type}</p>
-        <h5>{message}</h5>
+        <h5>{content}</h5>
         <span>{parseDate}</span>
       </StyledBox>
     </StyledContainer>

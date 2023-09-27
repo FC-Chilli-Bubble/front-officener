@@ -1,16 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
 
 import Header from '@/components/Common/Header';
-import DummyNotifications from './DummyNotifications';
 import NotificationItem from '@/components/Notification/NotificationItem';
+import { fetchAllNotifications } from '@/apis/Notify/notifyRequests';
+import { useEffect } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { filterdNotificationsState, notificationsAtom } from '@/states/notificationsAtom';
 
 
 const Notification = () => {
   const navigate = useNavigate();
-  const newNotifications = DummyNotifications.filter(noti => !noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
-  const lastNotifications = DummyNotifications.filter(noti => noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
+  const setNotifications = useSetRecoilState(notificationsAtom);
+  const { newNotifications, lastNotifications } = useRecoilValue(filterdNotificationsState);
+
+  const getAllNotifications = async () => {
+    try {
+      const res = await fetchAllNotifications();
+      setNotifications(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllNotifications();
+  }, []);
 
   const handleClickBack = () => {
     navigate(-1);
@@ -39,7 +54,7 @@ const Notification = () => {
                 <ul>
                   {
                     newNotifications.map(notification =>
-                      <NotificationItem key={notification.date} notification={notification} onClick={handleClickNotification} />)
+                      <NotificationItem key={notification.createdAt} notification={notification} onClick={handleClickNotification} />)
                   }
                 </ul>
               )
