@@ -2,24 +2,18 @@ import styled from 'styled-components';
 import Stop from '@/assets/icon_elevatorStop.svg';
 import Up from '@/assets/icon_elevatorUp.svg';
 import Down from '@/assets/icon_elevatorDown.svg';
-
-interface IObjectElevators {
-  elevatorId: number;
-  floor: number | null;
-  direction: 'stop' | 'up' | 'down' | null;
-  status: 'normal' | 'repair' | 'full';
-}
+import { IObjectElevator } from '@/types/Common/Elevator/Ielevator';
 
 type TChoiceCardProps = {
-  elevator: IObjectElevators;
+  elevator: IObjectElevator;
 };
 
 const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
   const ElevatorSetting = (direction: string | null) => {
-    if (direction === 'down') {
+    if (direction === 'DOWN') {
       return <img src={Down} />;
     }
-    if (direction === 'up') {
+    if (direction === 'UP') {
       return <img src={Up} />;
     }
     {
@@ -29,10 +23,10 @@ const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
 
   return (
     <StyledElevator
-      key={elevator.elevatorId}
+      key={elevator.id}
       status={elevator.status}>
       <div className="title">
-        <h2>{elevator.elevatorId}호기</h2>
+        <h2>{elevator.id}호기</h2>
       </div>
       <SyledInfo>
         {elevator.floor && <h2>{elevator.floor}</h2>}
@@ -53,7 +47,7 @@ const StyledElevator = styled.li<{ status: string }>`
     ${({ status, theme }) =>
       status === 'full'
         ? theme.colors.redColor0
-        : status === 'repair'
+        : status === 'REPAIR'
         ? theme.colors.white
         : theme.colors.marinblueColor};
   border-radius: 20px;
@@ -98,7 +92,7 @@ const StyledStatus = styled.div<{ status: string }>`
 
     &.repair {
       color: ${({ status, theme }) =>
-        status === 'repair' ? theme.colors.marinblueColor : theme.colors.grayColor3};
+        status === 'REPAIR' ? theme.colors.marinblueColor : theme.colors.grayColor3};
     }
   }
 `;
