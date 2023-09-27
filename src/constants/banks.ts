@@ -1,12 +1,33 @@
-interface IBankType {
-  [bank: string]: string;
-}
+export type TBankKey =
+  | 'KB국민은행'
+  | '신한은행'
+  | '우리은행'
+  | '하나은행'
+  | 'SC제일은행'
+  | '씨티은행'
+  | '경남은행'
+  | '광주은행'
+  | '대구은행'
+  | '부산은행'
+  | '전북은행'
+  | '제주은행'
+  | '기업은행'
+  | '농협'
+  | '수협'
+  | '산업은행'
+  | '케이비뱅크'
+  | '카카오뱅크'
+  | '토스뱅크';
+
+type TBankType = {
+  [key in TBankKey]: string;
+};
 
 interface IBankNumberType {
   [bank: string]: number;
 }
 
-export const BANKS: IBankType = {
+export const BANKS: TBankType = {
   KB국민은행: 'KB',
   신한은행: 'SHINHAN',
   우리은행: 'WOORI',

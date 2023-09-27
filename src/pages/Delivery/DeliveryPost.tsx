@@ -50,21 +50,17 @@ const DeliveryPost = () => {
     setIsEdit(true);
     // Test 수정 데이터
     setPostData({
-      storeName: detail.storeName,
-      menuLink: detail.menuLink,
-      deliveryFee: detail.deliveryFee,
-      bankName: detail.bankName,
+      ...detail,
       foodTag: detail.tag,
       accountNumber: detail.account,
-      deadline: detail.deadline,
-      maxAttendees: detail.maxAttendees,
       desc: detail.description
     });
     setSavedTag(Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag) ?? '');
+    const postDeadline = dayjs(detail.deadline);
     setSavedTime({
-      time: dayjs(detail.deadline).format('A'),
-      houres: dayjs(detail.deadline).format('hh'),
-      minutes: dayjs(detail.deadline).format('mm')
+      time: postDeadline.format('A'),
+      houres: postDeadline.format('hh'),
+      minutes: postDeadline.format('mm')
     });
   }, [postDetail, setPostData, setSavedTag, setSavedTime]);
 
@@ -205,7 +201,7 @@ const DeliveryPost = () => {
         {stepNum === 1 ? (
           <PostStepStoreInfo openBottomSheet={handleOpenBottomSheet} isEdit={isEdit} />
         ) : (
-          <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} isEdit={isEdit} />
+          <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} />
         )}
       </StyledContainer>
 

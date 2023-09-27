@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import IconProfile from '@/assets/img_profile.svg';
-import { BANKS } from '@/constants/banks';
+import { BANKS, TBankKey } from '@/constants/banks';
 
 type THostInfoProps = {
   userName: string,
-  bank: string,
+  bank: TBankKey,
   account: string,
   desc: string;
 };
@@ -21,7 +21,7 @@ const HostInfo = React.memo(({ userName, bank, account, desc }: THostInfoProps) 
           alt="Food Photo"
         />
         <h3>{userName}</h3>
-        <h1>{Object.keys(BANKS).find(key => BANKS[key] === bank)} {account}</h1>
+        <h1>{BANKS[bank]} {account}</h1>
       </HostDetailContainer>
       <br />
       <h2>추가설명</h2>

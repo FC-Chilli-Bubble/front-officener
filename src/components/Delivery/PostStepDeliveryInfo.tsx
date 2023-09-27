@@ -10,11 +10,10 @@ import { BANKS, BANKS_MAX_NUM } from '@/constants/banks';
 type TPostStepDeliveryInfoProps = {
   // eslint-disable-next-line no-unused-vars
   openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  isEdit: boolean;
 };
 
 
-const PostStepDeliveryInfo = ({ openBottomSheet, isEdit }: TPostStepDeliveryInfoProps) => {
+const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTime] = useRecoilState(timePickerAtom);
   const bankList = useRecoilValue(postBankAtom);

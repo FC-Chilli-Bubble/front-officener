@@ -17,6 +17,7 @@ import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
 import Button from '@/components/Common/Button';
 import OutlineButton from '@/components/Common/OutlineButton';
 import { userInfoAtom } from '@/states/userDataAtom';
+import { TBankKey } from '@/constants/banks';
 
 
 const DetailsPage = () => {
@@ -98,7 +99,7 @@ const DetailsPage = () => {
               <StoreInfo detail={detail} />
               <MenuLinkCard menuLink={detail.menuLink} storeName={detail.storeName} />
               <StyledDivider />
-              <HostInfo userName={detail.hostName} bank={detail.bankName} account={detail.account} desc={detail.description} />
+              <HostInfo userName={detail.hostName} bank={detail.bankName as TBankKey} account={detail.account} desc={detail.description} />
             </>
           )
         }
