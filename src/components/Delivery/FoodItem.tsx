@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import IconAlarm from '@/assets/food/icon_alarm.svg';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
+import { FOOD_IMAGE } from '@/constants/commonUiData';
+import dayjs from 'dayjs';
 
 interface IFoodItemProps {
   room: IRoom;
@@ -25,29 +27,27 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
   if (listStyle) {
     return (
       <StyledFoodCardListStyle onClick={handleMoveDetail}>
-        {/* <img
-          src={room?.사진}
-          alt="음식 사진"
-        /> */}
+        <img
+          src={FOOD_IMAGE[room.tag]}
+          alt="음식사진"
+        />
         <StyledFoodInfoListStyle>
           <StyledRow>
-            <ListGrayText>가게이름</ListGrayText>{' '}
-            <ListBlackText>{`${room.storeName}`}</ListBlackText>
+            <ListGrayText>가게이름</ListGrayText> <ListBlackText>{room.storeName}</ListBlackText>
           </StyledRow>
           <StyledRow>
             <ListGrayText>참여인원</ListGrayText>{' '}
             <ListBlackText>{`${room.attendees}/${room.maxAttendees}`}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>배달비</ListGrayText>{' '}
-            <ListBlackText>{`${room.deliveryFee}`}</ListBlackText>
+            <ListGrayText>배달비</ListGrayText> <ListBlackText>{room.deliveryFee}</ListBlackText>
           </StyledRow>
           <StyledRow>
-            <ListGrayText>태그</ListGrayText> <ListBlackText>{`${room.tag}`}</ListBlackText>
+            <ListGrayText>태그</ListGrayText> <ListBlackText>{room.tag}</ListBlackText>
           </StyledRow>
           <StyledRow>
             <ListGrayText>이체마감</ListGrayText>{' '}
-            <ListBlackText>{`${room.deadLine}`}</ListBlackText>
+            <ListBlackText>{dayjs(room.deadLine).format('A hh:mm')}</ListBlackText>
           </StyledRow>
         </StyledFoodInfoListStyle>
       </StyledFoodCardListStyle>
@@ -55,11 +55,12 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
   }
 
   return (
+    // <StyledFoodCard onClick={handleMovePost}>
     <StyledFoodCard onClick={handleMoveDetail}>
-      {/* <img
-        src={room?.사진}
-        alt="음식 사진"
-      />  */}
+      <img
+        src={FOOD_IMAGE[room.tag]}
+        alt="음식사진"
+      />
       {showTimeLimit && (
         <>
           <TimeLimit>
@@ -67,7 +68,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
               src={IconAlarm}
               alt="Time Icon"
             />
-            {room.deadLine}까지
+            {dayjs(room.deadLine).format('A hh:mm')}까지
           </TimeLimit>
         </>
       )}
@@ -83,10 +84,11 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
           <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>태그</GrayText> <BlackText>{`${room.tag}`}</BlackText>
+          <GrayText>태그</GrayText> <BlackText>{room.tag}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체마감</GrayText> <BlackText>{`${room.deadLine}`}</BlackText>
+          <GrayText>이체마감</GrayText>{' '}
+          <BlackText>{dayjs(room.deadLine).format('A hh:mm')}</BlackText>
         </StyledRow>
       </StyledFoodCardText>
     </StyledFoodCard>
@@ -106,7 +108,7 @@ const StyledFoodCardListStyle = styled.div`
     height: 150px;
     border-radius: 15px;
     object-fit: cover;
-    object-position: center; // Ensure the image is centered
+    object-position: center;
   }
 
   > div {
@@ -150,7 +152,7 @@ const TimeLimit = styled.div`
   color: ${props => props.theme.colors.white};
   align-items: center;
   justify-content: center;
-  width: 140px;
+  width: 160px;
   font-size: 15px;
   font-weight: 700;
   margin: 13px 5px;
