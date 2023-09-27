@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
+// import { useRecoilValue } from 'recoil';
+// import {
+//   signUpCheckboxAtom,
+//   userBuildingsAtom,
+//   SignupAccountAtom,
+//   verificationResultState
+// } from '@/states/signupRequestData';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
@@ -29,6 +36,11 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false); //임시로 false
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
+  // 리코일에서 받아온 상태값 
+  // const signUpCheckboxAtom = useRecoilValue(signUpCheckboxAtom);
+  // const userBuildingsAtom = useRecoilValue(userBuildingsAtom);
+  // const SignupAccountAtom = useRecoilValue(SignupAccountAtom);
+  // const verificationResultState = useRecoilValue(verificationResultState);
 
   const handleServiceClick = () => {
     onNextStep(5);

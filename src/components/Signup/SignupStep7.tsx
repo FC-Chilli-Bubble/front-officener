@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+
 import Header from '@/components/Common/Header';
 
 interface SignupStepProps {
@@ -11,13 +12,14 @@ interface SignupStepProps {
 const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
   const navigate = useNavigate();
 
+
   const handleServiceClick = () => {
     onNextStep(6);
     return;
   };
   // 로그인 페이지 이동 버튼
   const handleNavigate = () => {
-    navigate('/login');
+    navigate('/login', { replace: true });
     return;
   };
 

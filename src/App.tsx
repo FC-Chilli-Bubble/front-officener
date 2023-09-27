@@ -13,14 +13,13 @@ const App = () => {
 
   return (
     <>
-        <CookiesProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles />
-            <Outlet />
-            <Modal />
-          </ThemeProvider>
-        </CookiesProvider>
-      
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <Outlet />
+          <Modal />
+        </ThemeProvider>
+      </CookiesProvider>
     </>
   );
 };
