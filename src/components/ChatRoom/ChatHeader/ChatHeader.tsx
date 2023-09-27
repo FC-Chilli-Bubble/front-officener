@@ -15,7 +15,7 @@ import {
   createGuestRemittedPost,
   createHostClosedPost,
   createHostDeliveredPost
-} from '@/apis/ChatRoom/ChatHeaderButtonapis';
+} from '@/apis/ChatRoom/ChatHeaderButtonApis';
 
 const ChatHeader = () => {
   const { openModal, closeModal } = useModal();
