@@ -12,6 +12,38 @@ import Header from '@/components/Common/Header';
 import { isMobileAtom, keyboardHeightAtom } from '@/states/chatInputFocusAtom';
 
 const ChatRoom = () => {
+  const roomNum = 14;
+  const socket = new WebSocket(
+    `ws://ec2-3-38-247-92.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${roomNum}`
+  );
+
+  useEffect(() => {
+    // 마운트시 WebSocket 연결
+    socket.onopen = () => {
+      console.log('[open] 커넥션이 만들어졌습니다.');
+    };
+
+    socket.send(
+      JSON.stringify({
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTIzMTIzQG5hdmVyLmNvbSIsImlhdCI6MTY5NTczMjAzOCwiZXhwIjoxNjk1NzM1NjM4fQ.nZHUmMtDZ__lzbENFNYjKQoEktEe1mf0YFKELlvpTlc'
+      })
+    );
+
+    socket.onclose = () => {
+      console.log('[close] 커넥션이 닫혔습니다.');
+    };
+
+    console.log('챗룸', socket.readyState);
+
+    return () => {
+      // 언마운트시 WebSocket 연결 닫기
+      if (socket) {
+        socket.close();
+      }
+    };
+  }, []);
+
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useState(false);
   const setIsMoble = useSetRecoilState(isMobileAtom);
   const setKeyboardHeight = useSetRecoilState(keyboardHeightAtom);
@@ -78,7 +110,7 @@ const ChatRoom = () => {
 
       <ChatHeader />
       <ChatBubble />
-      <ChatInput />
+      <ChatInput socket={socket} />
       <BottomSheetModal
         isOpen={isBottomsheetOpen}
         onClose={closeBottomSheet}>

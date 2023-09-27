@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import IconSend from '@/assets/chatrooms/ico_send.svg';
 import { chatInputFocusAtom, isMobileAtom } from '@/states/chatInputFocusAtom';
 
-const ChatInput = () => {
+const ChatInput = ({ socket }: { socket: any }) => {
   const [inputValue, setInputValue] = useState('');
   const isMobile = useRecoilValue(isMobileAtom);
   const [inputFocus, setInputFocus] = useRecoilState(chatInputFocusAtom);
@@ -15,17 +15,35 @@ const ChatInput = () => {
     setInputValue(e.target.value);
   };
 
+  const socketSend = () => {
+    console.log('인풋', socket.readyState);
+
+    if (socket.readyState === WebSocket.OPEN) {
+      const nowDate = new Date().toISOString().slice(0, -1);
+      const MESSAGE_DATA = {
+        messageType: 'TALK',
+        content: inputValue,
+        sendTime: nowDate
+      };
+      socket.send(JSON.stringify(MESSAGE_DATA));
+    } else {
+      console.log('실패');
+    }
+  };
+
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    // 웹소켓 통신 연결
-    setInputValue('');
+    if (inputValue.length > 0) {
+      socketSend();
+      setInputValue('');
+    }
   };
 
   // 엔터 누를 때 보내기
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      // 웹소켓 통신 연결
+    e.preventDefault();
+    if (e.key === 'Enter' && inputValue.length > 0) {
+      socketSend();
       setInputValue('');
     }
   };
