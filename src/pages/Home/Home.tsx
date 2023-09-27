@@ -1,11 +1,15 @@
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
 import HomeHeader from "@/components/Home/HomeHeader";
 import IconRight from '@/assets/ico_right_arrow_g.svg';
 import { HOME_OFFICE } from "@/constants/commonUiData";
 import { HOME_SERVICES } from "@/constants/serviceMenus";
-import { useNavigate } from "react-router-dom";
+import { userInfoAtom } from "@/states/userDataAtom";
+
 const Home = () => {
+  const user = useRecoilValue(userInfoAtom);
   const navigate = useNavigate();
 
   const handleServiceClick = (title: string) => {
@@ -21,8 +25,8 @@ const Home = () => {
       <StyledContainer>
         {/* 빌딩 정보 */}
         <StyledBuildingInfo>
-          <h3>미왕빌딩</h3>
-          <p>A동 102(COIPSG)호 칠리버블 </p>
+          <h3>{user.userInfo.building.buildingName}</h3>
+          <p>{user.userInfo.company.officeNum} {user.userInfo.company.officeName}</p>
         </StyledBuildingInfo>
         <StyledBox>
           {/* 우리 오피스 소식 */}
