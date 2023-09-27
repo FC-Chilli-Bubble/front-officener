@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-// import { RecoilRoot } from 'recoil';
 import { ThemeProvider } from 'styled-components';
 import { CookiesProvider } from 'react-cookie';
 
@@ -14,7 +13,6 @@ const App = () => {
 
   return (
     <>
-      
         <CookiesProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyles />
