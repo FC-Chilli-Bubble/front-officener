@@ -8,3 +8,11 @@ export const fetchDeliveryPostDetail = async (
   const response = await apiClient.get(`/api/room/${roomId}`);
   return response.data;
 };
+
+export const requestJoinChat = async (roomId: string): Promise<boolean> => {
+  const response = await apiClient.post(`/api/room/${roomId}/join`);
+  if (response.status === 200) {
+    return true;
+  }
+  return false;
+};

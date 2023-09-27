@@ -10,7 +10,7 @@ import HostInfo from '@/components/Details/HostInfo';
 import StoreInfo from '@/components/Details/StoreInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
-import { fetchDeliveryPostDetail } from '@/apis/Delivery/deliveryDetailRequests';
+import { fetchDeliveryPostDetail, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
 import { useModal } from '@/hooks/useModal';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
@@ -47,7 +47,16 @@ const DetailsPage = () => {
   useEffect(() => {
     if (params.id) {
       getDeliveryPostDetail(params.id);
+      return;
     }
+    openModal(
+      {
+        ...MODAL_DATAS.DELIVERY_DETAIL_INVALID,
+        positiveCallback: () => {
+          navigate(-1);
+        }
+      }
+    );
   }, [params]);
 
 
@@ -79,9 +88,25 @@ const DetailsPage = () => {
     navigate(`/delivery/post`, { state: { id: params.id, detail: detail } });
   };
 
+  const handleJoinChat = async () => {
+    try {
+      const isSuccessJoin = await requestJoinChat(params.id!);
+      if (isSuccessJoin) {
+        // TODO : 해당 채팅방 화면으로 이동
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.DELIVERY_CHAT_JOIN_FAILURE);
+    }
+  };
+
   // 채팅방 참여 클릭 핸들러
   const handleClickEnterChat = () => {
-    // TODO : 채팅방으로 이동
+    openModal({
+      ...MODAL_DATAS.DELIVERY_CHAT_JOIN_CONFIRM,
+      positiveCallback: () => {
+        handleJoinChat();
+      }
+    });
   };
 
   // 함께배달 클릭 핸들러

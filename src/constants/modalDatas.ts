@@ -65,6 +65,20 @@ const MODAL_DATAS = {
     content: '게시글 조회를 실패했습니다\n다시 시도해주세요',
     positive: '확인'
   },
+  DELIVERY_CHAT_JOIN_FAILURE: {
+    title: '함께배달',
+    content: '함께배달 참여에 실패했습니다\n다시 시도해주세요',
+    positive: '확인'
+  },
+  DELIVERY_CHAT_JOIN_CONFIRM: {
+    title: '함께배달에 참여하시겠습니까?',
+    content: '참여 이후에는 호스트의 승인을 받아야 나가실 수 있습니다',
+    positive: '확인'
+  },
+  DELIVERY_DETAIL_INVALID: {
+    title: '유효하지 않은 게시글입니다.',
+    positive: '뒤로가기'
+  },
   SESSION_EXPIRATION_ALERT: {
     title: '로그인 세션 만료',
     content: '로그인 세션이 만료되었습니다.\n다시 로그인해주세요.',

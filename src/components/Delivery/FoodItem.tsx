@@ -22,7 +22,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ food, showTimeLimit = true, listSt
 
   const handleMoveDetail = () => {
     // TODO: roomId로 변경 필요
-    navigate(`/delivery/11`);
+    navigate(`/delivery/4`);
   };
 
   if (listStyle) {
