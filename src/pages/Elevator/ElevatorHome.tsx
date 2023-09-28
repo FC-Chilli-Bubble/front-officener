@@ -8,7 +8,7 @@ import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
 import FloorList from '@/components/Elevator/FloorList';
 import { fetchElevatorObj } from '@/apis/Elevator/elevatorGetRequests';
-import { IObjectElevator } from '@/types/Common/Elevator/Ielevator';
+import { IObjectElevator } from '@/types/Common/Elevator/IElevator';
 import MissingCard from '@/components/Elevator/MissingCard';
 
 const ElevatorHome = () => {

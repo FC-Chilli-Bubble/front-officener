@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Stop from '@/assets/icon_elevatorStop.svg';
 import Up from '@/assets/icon_elevatorUp.svg';
 import Down from '@/assets/icon_elevatorDown.svg';
-import { IObjectElevator } from '@/types/Common/Elevator/Ielevator';
+import { IObjectElevator } from '@/types/Common/Elevator/IElevator';
 
 type TChoiceCardProps = {
   elevator: IObjectElevator;
