@@ -1,14 +1,14 @@
 import { atom } from 'recoil';
-// import { ISignup } from '@/types/Signup/ISignup';
+import { ICheckbox, IBuildings, IAccount } from '@/types/Signup/ISignup';
 
 // 회원가입 요청 정보 데이터 취합
 
-export const signUpCheckboxAtom = atom({
-  key: 'signUpCheckboxAtom',
-  default: false
+export const agreementCheckboxAtom = atom<ICheckbox>({
+  key: 'agreementCheckboxAtom',
+  default: { agree: false }
 });
 
-export const userBuildingsAtom = atom({
+export const userBuildingsAtom = atom<IBuildings>({
   key: 'userBuildingsAtom',
   default: {
     buildings: [
@@ -28,7 +28,7 @@ export const userBuildingsAtom = atom({
   }
 });
 
-export const SignupAccountAtom = atom({
+export const SignupAccountAtom = atom<IAccount>({
   key: 'SignupAccountAtom',
   default: {
     email: '',
@@ -36,11 +36,10 @@ export const SignupAccountAtom = atom({
   }
 });
 
-
-export const verificationResultState = atom({
-  key: 'verificationResultState',
-  default: null // 초기에는 아무 값도 없음
-});
+// export const verificationResultState = atom({
+//   key: 'verificationResultState',
+//   default: null // 초기에는 아무 값도 없음
+// });
 
 // export const userSignupAtom = atom<ISignup>({
 //   key: 'userSignupAtom',

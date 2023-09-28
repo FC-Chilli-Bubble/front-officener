@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+import { useRecoilState } from 'recoil';
+import { agreementCheckboxAtom } from '@/states/signupRequestData';
 
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
@@ -11,11 +12,13 @@ interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
 }
+
 const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
   const [allChecked, setAllChecked] = useState(false);
   const [childChecked, setChildChecked] = useState([false, false, false]);
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
+  const [, setAgreementPassed] = useRecoilState(agreementCheckboxAtom);
 
   // 로그인 페이지 이동 버튼
   const handleServiceClick = () => {
@@ -25,6 +28,7 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
 
   // 페이지 이동 버튼 함수
   const handleNextStep = () => {
+    setAgreementPassed({ agree: true });
     onNextStep(2);
   };
 
@@ -34,7 +38,7 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
     setAllChecked(newAllChecked);
     setChildChecked([newAllChecked, newAllChecked, newAllChecked]);
     const disabled = newAllChecked || !childChecked.slice(0, -1).every(isChecked => isChecked);
-    setDisabled(!disabled);
+    setDisabled(disabled);
   };
 
   // 세부 체크박스가 변경 호출
@@ -50,7 +54,7 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
     }
 
     const disabled = !newChildChecked.slice(0, -1).every(isChecked => isChecked);
-    setDisabled(disabled);
+    setDisabled(!disabled);
   };
 
   return (
@@ -110,7 +114,7 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
             type="cta"
             title="다음"
             width="100%"
-            disabled={disabled}
+            disabled={!disabled}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>
