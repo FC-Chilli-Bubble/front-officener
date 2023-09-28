@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useCookies } from 'react-cookie';
-import { userInfoAtom } from '@/states/userDataAtom';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
-import { createLogin } from '@/apis/Login/LoginRequests';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import FormField from '@/components/Common/FormField';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { createLogin } from '@/apis/Login/LoginRequests';
 
 type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
@@ -128,7 +128,7 @@ const Login = () => {
     if (isValid) {
       createLogin(email, password).then(
         response => {
-          console.log(response);
+          // console.log(response);
           const token = response.data.userInfo.token;
           const userInfo = response.data;
           if (token) {
@@ -153,7 +153,6 @@ const Login = () => {
     updateLoginButtonState(email, password);
   }, [email, password]);
 
-
   // 로그인 상태면 메인으로~
   // useEffect(() => {
   //   const token = getCookie('token');
@@ -163,8 +162,6 @@ const Login = () => {
   //     navigate('/login');
   //   }
   // }, [])
-
-
 
   return (
     <>

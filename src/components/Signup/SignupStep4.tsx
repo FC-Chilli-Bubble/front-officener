@@ -1,9 +1,10 @@
 import { styled } from 'styled-components';
-
+import { useRecoilValue } from 'recoil';
 import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
 import ico_blue_arrow from '@/assets/ico_blue_arrow.svg';
 import Button from '@/components/Common/Button';
+import { userBuildingsAtom } from '@/states/signupRequestData';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -11,6 +12,8 @@ interface SignupStepProps {
 }
 
 const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
+  const building = useRecoilValue(userBuildingsAtom);
+
   const handleServiceClick = () => {
     onNextStep(2);
     return;
@@ -29,7 +32,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
       />
       <StyledLayout>
         <StyledContainer>
-          미왕빌딩
+          {building.buildings[0].buildingName}
           <br />
           입주자시군요!
           <div>입주 정보를 확인해 주세요.</div>
@@ -45,12 +48,12 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
               src={ico_building}
               alt="빌딩Img"
             />
-            <StyledBuilding>미왕빌딩</StyledBuilding>
-            <StyledAddress>서울 강남구 강남대로</StyledAddress>
+            <StyledBuilding>{building.buildings[0].buildingName}</StyledBuilding>
+            <StyledAddress>{building.buildings[0].buildingAddress}</StyledAddress>
             <SytledOffice>
-              A동 103(COIPSG)호
+              {building.buildings[0].offices[0].officeNum}
               <br />
-              칠리버블
+              {building.buildings[0].offices[0].officeName}
             </SytledOffice>
           </SytledCard>
           <StyledLink>
@@ -77,7 +80,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
 
 const StyledLayout = styled.div`
   width: 100%;
-  height: calc(100% - 56px); //이 페이지만
+  height: calc(100% - 56px); 
   padding: 0 17px;
   padding-top: 23px;
   display: flex;

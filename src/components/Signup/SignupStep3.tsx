@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react';
 import { styled } from 'styled-components';
+import { useRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
-
 // 임시 데이터
-import { buildingData, IBuilding } from '@/apis/Signup/building_dummy_Data';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { userBuildingsAtom } from '@/states/signupRequestData';
+import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -25,7 +27,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const [searchResults, setSearchResults] = useState<IBuilding[]>([]);
   // 검색 결과 상태
   // const [selectedhBuilding, setSelectedBuilding] = useState<IBuilding | null>
-  const [selectedBuilding, setSelectedBuilding] = useState<IBuilding | null>(null);
+  const [selectedBuilding, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
   null;
   // const [isValid, setIsValid] = useState<boolean>(false);
 
@@ -35,7 +37,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 검색 폼
-  const handleFormSubmit = useCallback(
+  const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       //   // handleSearchChange(); // 원하는 작업 수행 (예: 검색)
@@ -46,6 +48,18 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
       //     building.buildingName.toLowerCase().includes(value.toLowerCase())
       //   );
       //   setSearchResults(results);
+      fetchBuilding(inputValue).then(
+        response => {
+          console.log(response);
+          setSearchResults(response.data);
+        },
+        (error: IErrorResponse) => {
+          // 에러 발생 시 처리
+          console.log(error.errorMessage);
+          // alert('빌딩 검색 중 오류가 발생했습니다.');
+          return;
+        }
+      );
     },
     [inputValue]
   );
@@ -53,47 +67,35 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   // 검색창
   const handleInputChange = (newName: string) => {
     const value = newName;
-    setInputValue(value); // 입력값 업데이트
-    handleButtonClick();
+    setInputValue(value);
+    // handleButtonClick();
   };
 
-  // 검색 버튼
-  const handleButtonClick = () => {
-    // 입력된 검색어로 검색 결과를 필터링합니다.
-    const results = buildingData.data.buildings.filter(building =>
-      building.buildingName.replace(/\s/g, '').toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setSearchResults(results);
-  };
-
-  // 선택된 건물을 처리하는 함수
-  // const handleBuildingSelect = (newBuildingName: string) => {
-  //   setBuildingName(newBuildingName);
-  //   console.log('선택:', newBuildingName);
-  // };
-
-  // 선택된 오피스를 처리하는 함수
-  // const handleOfficeSelect = (selectedOffice: string) => {
-  //   setBuildingName(selectedOffice);
-  //   console.log('선택:', selectedOffice);
-  // };
-
-  const handleRadioChange = (building: IBuilding) => {
-    setSelectedBuilding(building);
+  const handleRadioChange = (buildingName: IBuilding) => {
+    setSelectedBuilding(buildingName);
     setDisabled(false); // 임시 작성_에러메세지 방지
   };
 
   //  검색 수행 함수
-  // const handleSearchChange = (e: string) => {
-  //   const name = e.target.value;
-  //   setInputValue(name);
-  //   //  API 호출 함수로직
-  //   // 호출 후
-  //   const results = buildingData.data.buildings.filter(building =>
-  //     building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
-  //   );
-  //   setSearchResults(results);
+  // const handleSearchChange = async (e: string) => {
+  // try {
+  // const response = await fetchBuilding(inputValue);
+  // const name = e.target.value;
+  // setInputValue(name);
+  //  API 호출 함수로직
+  // 호출 후
+  // const results = buildingData.data.buildings.filter(building =>
+  //   building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+  // );
+  // setSearchResults(results);
   //   setSearchResults(null);
+  // } catch (error) {
+  // 에러 발생 시 처리
+  // console.error('빌딩 검색 오류:', error);
+  // 또는 사용자에게 메시지를 표시할 수 있습니다.
+  // alert('빌딩 검색 중 오류가 발생했습니다.');
+  // }
+  // };
   // };
 
   // 검색 결과 항목을 클릭할 때 호출되는 함수
@@ -101,7 +103,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   // const handleResultClick = item => {
   //   setSelectedItem(item);
   //   onNextStep(2, building.buildingName, item.officeName);
-    // setDisabled(false); 
+  // setDisabled(false);
   // };
 
   const handleNextStep = () => {
@@ -119,7 +121,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledFormContainer onSubmit={handleFormSubmit}>
+        <StyledFormContainer onSubmit={handleSearchSubmit}>
           <FormField
             isType="text"
             label="건물"
@@ -132,7 +134,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
           />
           <StyledFormButton
             type="button"
-            onClick={handleButtonClick}
+            onClick={handleSearchSubmit}
             disabled={inputValue === ''}>
             검색
           </StyledFormButton>

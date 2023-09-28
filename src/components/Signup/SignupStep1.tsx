@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { agreementCheckboxAtom } from '@/states/signupRequestData';
 
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
 import Button from '@/components/Common/Button';
+import { agreementCheckboxAtom } from '@/states/signupRequestData';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
