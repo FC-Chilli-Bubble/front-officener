@@ -1,16 +1,19 @@
 import { styled } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DummyElevators } from './Dummydata';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
 import FloorList from '@/components/Elevator/FloorList';
+import { fetchElevatorObj } from '@/apis/Elevator/elevatorGetRequests';
+import { IObjectElevator } from '@/types/Elevator/IElevator';
+import MissingCard from '@/components/Elevator/MissingCard';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
+  const [elevatorList, setElevatorList] = useState<IObjectElevator[]>([]);
 
   const navigate = useNavigate();
 
@@ -27,6 +30,21 @@ const ElevatorHome = () => {
     setOpen(false);
   };
 
+  // 엘리베이터 목록 조회 API
+  const getElevator = async () => {
+    try {
+      const response = await fetchElevatorObj();
+      setElevatorList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getElevator();
+  }, []);
+
   return (
     <StyledLayout>
       <Header
@@ -37,7 +55,6 @@ const ElevatorHome = () => {
       <StyledContainer>
         <StyledStyledElevatorSetting>
           <StyledElevatorTitle>오산 테라타워</StyledElevatorTitle>
-          {/* <ElevatorNumber>1호기,2호기,3호기,4호기</ElevatorNumber> */}
           <StyledSettingButton>
             <Button
               size="small"
@@ -57,10 +74,16 @@ const ElevatorHome = () => {
           </StyledSettingButton>
         </StyledStyledElevatorSetting>
         <StyledElevators>
-          {DummyElevators.map(elevator => (
-            <ChoiceCard elevator={elevator} />
-            // <MissingCard />
-          ))}
+          {elevatorList.length > 0 ? (
+            elevatorList.map(elevator => <ChoiceCard elevator={elevator} />)
+          ) : (
+            <>
+              <MissingCard />
+              <MissingCard />
+              <MissingCard />
+              <MissingCard />
+            </>
+          )}
         </StyledElevators>
       </StyledContainer>
     </StyledLayout>
