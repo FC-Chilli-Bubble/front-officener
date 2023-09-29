@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import SignupStep1 from '@/components/Signup/SignupStep1';
 import SignupStep2 from '@/components/Signup/SignupStep2';
 import SignupStep3 from '@/components/Signup/SignupStep3';
+import SignupStep3Office from '@/components/Signup/SignupStep3Office';
 import SignupStep4 from '@/components/Signup/SignupStep4';
 import SignupStep5 from '@/components/Signup/SignupStep5';
 import SignupStep6 from '@/components/Signup/SignupStep6';
@@ -29,20 +30,16 @@ const Signup = () => {
       case 1:
         return <SignupStep1 onNextStep={handleNextStep} />;
       case 2:
-        return (
-          <SignupStep2
-            onNextStep={handleNextStep}
-            buildingName=""
-            officeName=""
-          />
-        );
+        return <SignupStep2 onNextStep={handleNextStep} />;
       case 3:
         return <SignupStep3 onNextStep={handleNextStep} />;
       case 4:
-        return <SignupStep4 onNextStep={handleNextStep} />;
+        return <SignupStep3Office onNextStep={handleNextStep} />;
       case 5:
-        return <SignupStep5 onNextStep={handleNextStep} />;
+        return <SignupStep4 onNextStep={handleNextStep} />;
       case 6:
+        return <SignupStep5 onNextStep={handleNextStep} />;
+      case 7:
         return <SignupStep6 onNextStep={handleNextStep} />;
       default:
         return <SignupStep7 onNextStep={handleNextStep} />;

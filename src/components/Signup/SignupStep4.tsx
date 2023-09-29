@@ -20,7 +20,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
   };
 
   const handleNextStep = () => {
-    onNextStep(5);
+    onNextStep(6);
   };
 
   return (
@@ -32,7 +32,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
       />
       <StyledLayout>
         <StyledContainer>
-          {building.buildings[0].buildingName}
+          {building.buildings.buildingName}
           <br />
           입주자시군요!
           <div>입주 정보를 확인해 주세요.</div>

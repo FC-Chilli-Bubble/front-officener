@@ -1,21 +1,28 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
+import { useRecoilValue } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import SearchButton from '@/components/Common/SearchButton';
+import SelectedButton from '@/components/Common/SelectedButton';
 import Button from '@/components/Common/Button';
 import Icon_gray_error from '@/assets/ico_gray_error.svg';
+import { userBuildingsAtom } from '@/states/buildingAtom';
+import { userOfficeAtom } from '@/states/officeAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
-  buildingName: string;
-  officeName: string;
 }
-const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) => {
+const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false);
-  const [selectedBuilding, setSelectedBuilding] = useState('');
-  const [selectedOffice, setSelectedOffice] = useState('');
+  //저장된 빌딩 불러오기
+  const userBuildings = useRecoilValue(userBuildingsAtom);
+  //저장된 오피스 불러오기
+  const userOfficeg = useRecoilValue(userOfficeAtom);
+
+  const userBuildingName = userBuildings.buildingName;
+  const userOfficegName = userOfficeg.officeName;
 
   const handleServiceClick = () => {
     onNextStep(1);
@@ -24,24 +31,21 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
 
   // 페이지 이동 버튼함수
   const handleNextStep = () => {
-    onNextStep(4);
+    if (userBuildingName && userOfficegName) {
+      setDisabled(true);
+      onNextStep(5);
+      return;
+    }
   };
+
   // 빌딩 선택 버튼
   const handleBuildingSelect = () => {
-    onNextStep(3);
-    // onNextStep(3, selectedBuilding);
-    // 여기서 선택된 건물을 사용하도록 설정
-    setSelectedBuilding(buildingName); // 선택된 건물에 대한 로직 추가
-    setDisabled(false); // 에러때문에 임시 작성
-    // setDisabled(selectedOffice === '');
+    onNextStep(3); //SignupStep3
   };
+
   // 오피스 선택 버튼
   const handleOfficeSelect = () => {
-    onNextStep(3);
-    // onNextStep(3, selectedOffice);
-    // 여기서 선택된 오피스를 사용하도록 설정
-    setSelectedOffice(officeName); // 선택된 오피스에 대한 로직 추가
-    // setDisabled(selectedBuilding === '');
+    onNextStep(4); //SignupStep3Office
   };
 
   return (
@@ -57,18 +61,34 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
           <br /> 선택해주세요.
         </StyledContainer>
         <StyledSearchContainer>
-          <SearchButton
-            label="건물"
-            placeholder={selectedBuilding || '나의 오피스 찾기'}
-            onClick={handleBuildingSelect}
-          />
-          {selectedBuilding && (
+          {!userBuildingName ? (
+            <SearchButton
+              label="건물"
+              placeholder={'나의 오피스 찾기'}
+              onClick={handleBuildingSelect}
+            />
+          ) : (
+            <SelectedButton
+              label="건물"
+              placeholder={userBuildingName}
+              onClick={handleBuildingSelect}
+            />
+          )}
+          {userBuildingName && (
             <>
-              <SearchButton
-                label="오피스"
-                placeholder={selectedOffice || '오피스 찾기'}
-                onClick={handleOfficeSelect}
-              />
+              {!userOfficegName ? (
+                <SearchButton
+                  label="오피스"
+                  placeholder="오피스 찾기"
+                  onClick={handleOfficeSelect}
+                />
+              ) : (
+                <SelectedButton
+                  label="오피스"
+                  placeholder={userOfficegName}
+                  onClick={handleOfficeSelect}
+                />
+              )}
               <StyledIErrorMessage>
                 <StyledImage
                   src={Icon_gray_error}
@@ -85,7 +105,7 @@ const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) 
             type="cta"
             title="다음"
             width="100%"
-            disabled={disabled}
+            disabled={!disabled}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>

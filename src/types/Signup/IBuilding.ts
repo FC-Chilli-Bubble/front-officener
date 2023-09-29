@@ -1,4 +1,4 @@
-interface IOffice {
+export interface IOffice {
   id: number;
   officeName: string;
   officeNum: string;

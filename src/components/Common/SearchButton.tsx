@@ -63,6 +63,7 @@ const StyledBox = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
+  font-size: 16px;
   background-color: ${({ theme }) => theme.colors.grayColor1};
   color: ${({ theme }) => theme.colors.grayColor4};
   text-indent: 20px;

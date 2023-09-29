@@ -1,28 +1,30 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
 import { userBuildingsAtom } from '@/states/buildingAtom';
-import { IBuildings } from '@/types/Signup/IBuilding';
+import { userOfficeAtom } from '@/states/officeAtom';
+import { IOffice } from '@/types/Signup/IBuilding';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
 }
 
-const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
+const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false);
   // 검색 입력값
   const [inputValue, setInputValue] = useState('');
   // 검색 결과 상태
-  const [searchResults, setSearchResults] = useState<IBuildings[]>([]);
-  // 선택된 값  상태관리
-  const [selectedBuilding, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
+  const [searchResults, setSearchResults] = useState<IOffice[]>([]);
+  // 선택된 값 상태관리
+  const [selectedOffice, setSelectedOffice] = useRecoilState(userOfficeAtom);
+  // 선택했던 빌딩 값 받아오기
+  const userBuildings = useRecoilValue(userBuildingsAtom);
 
   const handleServiceClick = () => {
     onNextStep(2);
@@ -38,25 +40,18 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      fetchBuilding(inputValue).then(
-        response => {
-          // console.log(response.data.buildings);
-          const results = response.data.buildings
-            .filter(building =>
-              building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
-            )
-            // 영문 → 한글 / abc → 가나다 순으로 정렬
-            .sort((a, b) => {
-              return a.buildingName.localeCompare(b.buildingName);
-            });
-          console.log(results);
-          setSearchResults(results);
-        },
-        (error: IErrorResponse) => {
-          console.log(error.errorMessage);
-          return;
-        }
+      // 오피스 배열
+      const officeNames = userBuildings.offices.map(office => office);
+      console.log(officeNames);
+      const results = officeNames.filter(office =>
+        office.officeName.toLowerCase().includes(inputValue.toLowerCase())
       );
+      console.log(results);
+      setSearchResults(results);
+      (error: IErrorResponse) => {
+        console.log(error.errorMessage);
+        return;
+      };
     },
     [inputValue]
   );
@@ -67,8 +62,8 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     setInputValue(value);
   };
 
-  const handleRadioChange = (selectValue: IBuildings) => {
-    setSelectedBuilding(selectValue);
+  const handleRadioChange = (selectValue: IOffice) => {
+    setSelectedOffice(selectValue);
     setDisabled(true);
   };
 
@@ -79,7 +74,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   return (
     <>
       <Header
-        title="건물 검색"
+        title="회사 검색"
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
@@ -87,10 +82,10 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         <StyledFormContainer onSubmit={handleSearchSubmit}>
           <FormField
             isType="text"
-            label="건물"
-            name="building"
+            label="회사"
+            name="office"
             value={inputValue}
-            placeholder="건물 이름으로 검색"
+            placeholder="회사명으로 검색"
             onChange={handleInputChange}
             errorMessage=""
           />
@@ -105,17 +100,17 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         <SytledListContainer>
           {searchResults.length > 0 && (
             <StyledListBox>
-              {searchResults.map((building: IBuildings) => (
-                <StyledList key={building.id}>
+              {searchResults.map((office: IOffice) => (
+                <StyledList key={office.id}>
                   <RadioInput
                     type="radio"
                     name="building"
-                    id={building.id.toString()}
-                    value={building.id}
-                    checked={selectedBuilding?.id === building.id}
-                    onChange={() => handleRadioChange(building)}
+                    id={office.id.toString()}
+                    value={office.id}
+                    checked={selectedOffice?.id === office.id}
+                    onChange={() => handleRadioChange(office)}
                   />
-                  <label htmlFor={building.id.toString()}>{building.buildingName}</label>
+                  <label htmlFor={office.id.toString()}>{office.officeName}</label>
                 </StyledList>
               ))}
             </StyledListBox>
@@ -235,4 +230,4 @@ const StyledButtonContainer = styled.div`
   margin: 30px 0;
 `;
 
-export default SignupStep3;
+export default SignupStep3Office;

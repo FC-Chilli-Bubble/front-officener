@@ -14,7 +14,7 @@ const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
 
 
   const handleServiceClick = () => {
-    onNextStep(6);
+    onNextStep(7);
     return;
   };
   // 로그인 페이지 이동 버튼

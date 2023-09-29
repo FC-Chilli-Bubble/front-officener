@@ -29,11 +29,11 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(true);
 
   const handleServiceClick = () => {
-    onNextStep(4);
+    onNextStep(5);
     return;
   };
   const handleNextStep = () => {
-    onNextStep(6);
+    onNextStep(7);
     return;
   };
 

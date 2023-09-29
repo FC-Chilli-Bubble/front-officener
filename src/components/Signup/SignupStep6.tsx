@@ -43,11 +43,11 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // const verificationResultState = useRecoilValue(verificationResultState);
 
   const handleServiceClick = () => {
-    onNextStep(5);
+    onNextStep(6);
     return;
   };
   const handleNextStep = () => {
-    onNextStep(7);
+    onNextStep(8);
     return;
   };
 
