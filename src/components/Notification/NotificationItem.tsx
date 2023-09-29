@@ -8,7 +8,7 @@ import { INotification } from '@/types/Notify/INotification';
 type TNotificationItemProps = {
   // TODO : 추후 알림 인터페이스 수정 필요
   notification: INotification;
-  onClick: () => void;
+  onClick: (notifyId: number, roomId: number) => void;
 };
 
 const NotificationItem = React.memo((
@@ -32,8 +32,13 @@ const NotificationItem = React.memo((
     }
   }, [createdAt]);
 
+  const handleUpdateRead = () => {
+    onClick(notification.id, notification.roomId);
+  };
+
+
   return (
-    <StyledContainer onClick={onClick}>
+    <StyledContainer onClick={handleUpdateRead}>
       <img src={IconDelivery} alt='음식태그' />
       <StyledBox>
         <p>{type}</p>

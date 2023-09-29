@@ -1,4 +1,5 @@
 export interface INotification {
+  id: number;
   receiverId: number;
   roomId: number;
   content: string;

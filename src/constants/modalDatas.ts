@@ -83,6 +83,14 @@ const MODAL_DATAS = {
     title: '로그인 세션 만료',
     content: '로그인 세션이 만료되었습니다.\n다시 로그인해주세요.',
     positive: '확인'
+  },
+  NOTIFICATIONS_FETCH_FAILURE: {
+    title: '알림 목록을 가져오는데 실패했습니다',
+    positive: '확인'
+  },
+  NOTIFICATIONS_UPDATE_FAILURE: {
+    title: '유효하지 않은 알림입니다',
+    positive: '확인'
   }
 };
 

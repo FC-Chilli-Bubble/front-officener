@@ -6,3 +6,13 @@ export const fetchAllNotifications = async (): Promise<ICommonResponse<INotifica
   const response = await apiClient.get('/api/notify/list');
   return response.data;
 };
+
+export const updateNotificationReadStatus = async (notifyId: number): Promise<boolean> => {
+  const response = await apiClient.post(`/api/notify/${notifyId}`);
+  return response.status === 200;
+};
+
+export const updateNotificationReadAll = async (): Promise<boolean> => {
+  const response = await apiClient.post('/api/notify/readAll');
+  return response.status === 200;
+};

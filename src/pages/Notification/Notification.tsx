@@ -3,23 +3,26 @@ import styled from 'styled-components';
 
 import Header from '@/components/Common/Header';
 import NotificationItem from '@/components/Notification/NotificationItem';
-import { fetchAllNotifications } from '@/apis/Notify/notifyRequests';
+import { fetchAllNotifications, updateNotificationReadAll, updateNotificationReadStatus } from '@/apis/Notify/notifyRequests';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterdNotificationsState, notificationsAtom } from '@/states/notificationsAtom';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
 
 const Notification = () => {
   const navigate = useNavigate();
-  const setNotifications = useSetRecoilState(notificationsAtom);
+  const [notifications, setNotifications] = useRecoilState(notificationsAtom);
   const { newNotifications, lastNotifications } = useRecoilValue(filterdNotificationsState);
+  const { openModal } = useModal();
 
   const getAllNotifications = async () => {
     try {
       const res = await fetchAllNotifications();
       setNotifications(res.data);
     } catch (error) {
-      console.log(error);
+      openModal(MODAL_DATAS.NOTIFICATIONS_FETCH_FAILURE);
     }
   };
 
@@ -31,12 +34,31 @@ const Notification = () => {
     navigate(-1);
   };
 
-  const handleClickNotification = () => {
-    // TODO : 개별 읽음 처리
+  const handleClickNotification = async (notifyId: number, roomId: number) => {
+
+    try {
+      const res = await updateNotificationReadStatus(notifyId);
+      if (res) {
+        navigate(`/chat/${roomId}`);
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.NOTIFICATIONS_UPDATE_FAILURE);
+    }
   };
 
-  const handleClickReadAll = () => {
-    // TODO : 모두 읽음 처리
+  const handleClickLastNotification = (_: number, roomId: number) => {
+    navigate(`/chat/${roomId}`);
+  };
+
+  const handleClickReadAll = async () => {
+    try {
+      const res = await updateNotificationReadAll();
+      if (res) {
+        setNotifications(notifications.map(notification => { return { ...notification, read: true }; }));
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.NOTIFICATIONS_UPDATE_FAILURE);
+    }
   };
 
   return (
@@ -68,7 +90,7 @@ const Notification = () => {
               ? (
                 <ul>
                   {
-                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickBack} />)
+                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickLastNotification} />)
                   }
                 </ul>
               )
