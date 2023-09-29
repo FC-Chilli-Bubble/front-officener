@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Stop from '@/assets/icon_elevatorStop.svg';
 import Up from '@/assets/icon_elevatorUp.svg';
 import Down from '@/assets/icon_elevatorDown.svg';
-import { IObjectElevator } from '@/types/Common/Elevator/IElevator';
+import { IObjectElevator } from '@/types/Elevator/IElevator';
 
 type TChoiceCardProps = {
   elevator: IObjectElevator;
@@ -40,14 +40,14 @@ const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
   );
 };
 
-const StyledElevator = styled.li<{ status: string }>`
+const StyledElevator = styled.li<{ status: string; }>`
   width: 100%;
   max-width: 200px;
   border: 1px solid
     ${({ status, theme }) =>
-      status === 'full'
-        ? theme.colors.redColor0
-        : status === 'REPAIR'
+    status === 'full'
+      ? theme.colors.redColor0
+      : status === 'REPAIR'
         ? theme.colors.white
         : theme.colors.marinblueColor};
   border-radius: 20px;
@@ -77,7 +77,7 @@ const SyledInfo = styled.div`
   }
 `;
 
-const StyledStatus = styled.div<{ status: string }>`
+const StyledStatus = styled.div<{ status: string; }>`
   display: flex;
   justify-content: space-evenly;
   margin: 20px 0 0;
@@ -87,12 +87,12 @@ const StyledStatus = styled.div<{ status: string }>`
     font-weight: 600;
     &.full {
       color: ${({ status, theme }) =>
-        status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};
+    status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};
     }
 
     &.repair {
       color: ${({ status, theme }) =>
-        status === 'REPAIR' ? theme.colors.marinblueColor : theme.colors.grayColor3};
+    status === 'REPAIR' ? theme.colors.marinblueColor : theme.colors.grayColor3};
     }
   }
 `;
