@@ -4,9 +4,14 @@ interface IOffice {
   officeNum: string;
 }
 
-export interface IBuilding {
+export interface IBuildings {
   id: number;
   buildingName: string;
   buildingAddress: string;
   offices: IOffice[];
+}
+
+
+export interface IBuilding {
+  buildings: IBuildings[];
 }

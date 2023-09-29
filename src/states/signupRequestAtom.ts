@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
-import { ICheckbox, IBuildings, IAccount } from '@/types/Signup/ISignup';
+import { ICheckbox } from '@/types/Signup/IAgreement';
+import { IResident, IAccount } from '@/types/Signup/ISignup';
 
 // 회원가입 요청 정보 데이터 취합
 
@@ -8,23 +9,11 @@ export const agreementCheckboxAtom = atom<ICheckbox>({
   default: { agree: false }
 });
 
-export const userBuildingsAtom = atom<IBuildings>({
-  key: 'userBuildingsAtom',
+export const userResidentAtom = atom<IResident>({
+  key: 'userResidentAtom',
   default: {
-    buildings: [
-      {
-        id: 0,
-        buildingName: '',
-        buildingAddress: '',
-        offices: [
-          {
-            id: 0,
-            officeName: '',
-            officeNum: ''
-          }
-        ]
-      }
-    ]
+    buildingName: '',
+    officeName: ''
   }
 });
 

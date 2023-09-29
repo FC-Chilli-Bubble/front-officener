@@ -4,10 +4,10 @@ import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/
 // import { useRecoilValue } from 'recoil';
 // import {
 //   agreementCheckboxAtom,
-//   userBuildingsAtom,
+//   userResidentAtom,
 //   SignupAccountAtom,
 //   verificationResultState
-// } from '@/states/signupRequestData';
+// } from '@/states/signupRequestAtom';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';

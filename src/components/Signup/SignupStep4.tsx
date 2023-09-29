@@ -4,7 +4,7 @@ import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
 import ico_blue_arrow from '@/assets/ico_blue_arrow.svg';
 import Button from '@/components/Common/Button';
-import { userBuildingsAtom } from '@/states/signupRequestData';
+import { userBuildingsAtom } from '@/states/buildingAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -80,7 +80,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
 
 const StyledLayout = styled.div`
   width: 100%;
-  height: calc(100% - 56px); 
+  height: calc(100% - 56px);
   padding: 0 17px;
   padding-top: 23px;
   display: flex;

@@ -8,25 +8,9 @@ export interface ISignup {
   phoneNumber: string;
 }
 
-export interface ICheckbox {
-  agree: boolean;
-}
-
-export interface IBuildings {
-  buildings: [
-    {
-      id: number;
-      buildingName: string;
-      buildingAddress: string;
-      offices: [
-        {
-          id: number;
-          officeName: string;
-          officeNum: string;
-        }
-      ];
-    }
-  ];
+export interface IResident {
+  buildingName: string;
+  officeName: string;
 }
 
 export interface IAccount {
@@ -37,4 +21,3 @@ export interface IAccount {
 // export interface IVerifyCode {
 //   code: string
 // }
-

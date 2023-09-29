@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import Header from '@/components/Common/Header';
 import CheckList from '@/components/Signup/CheckList';
 import Button from '@/components/Common/Button';
-import { agreementCheckboxAtom } from '@/states/signupRequestData';
+import { agreementCheckboxAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars

@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
-// 임시 데이터
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { userBuildingsAtom } from '@/states/signupRequestData';
 import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
+import { userBuildingsAtom } from '@/states/buildingAtom';
+import { IBuildings } from '@/types/Signup/IBuilding';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -16,19 +16,13 @@ interface SignupStepProps {
 }
 
 const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
-  // Step2에서 가져온 props
-  // const [buildingName, setBuildingName] = useState('');
-  // const [officeName, setOfficeName] = useState('');
-
   // 검색 입력값
   const [inputValue, setInputValue] = useState('');
-  // 버튼 상태값
-  const [disabled, setDisabled] = useState(false); //임시로 false
-  const [searchResults, setSearchResults] = useState<IBuilding[]>([]);
   // 검색 결과 상태
-  // const [selectedhBuilding, setSelectedBuilding] = useState<IBuilding | null>
+  const [searchResults, setSearchResults] = useState<IBuildings[]>([]);
+  // 선택된 값
   const [selectedBuilding, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
-  null;
+  const [disabled, setDisabled] = useState(false);
   // const [isValid, setIsValid] = useState<boolean>(false);
 
   const handleServiceClick = () => {
@@ -36,27 +30,31 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     return;
   };
 
+  // 선택된 빌딩이 변경될 때마다 버튼을 활성화 여부를 업데이트
+  useEffect(() => {
+    handleSearchSubmit;
+  }, [inputValue]);
+
   // 검색 폼
   const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      //   // handleSearchChange(); // 원하는 작업 수행 (예: 검색)
-      //   const value = e.target.value;
-      //   setInputValue(value);
-      //   // 검색어를 기반으로 검색 수행
-      //   const results = buildingData.data.buildings.filter(building =>
-      //     building.buildingName.toLowerCase().includes(value.toLowerCase())
-      //   );
-      //   setSearchResults(results);
       fetchBuilding(inputValue).then(
         response => {
-          console.log(response);
-          setSearchResults(response.data);
+          // console.log(response.data.buildings);
+          const results = response.data.buildings
+            .filter(building =>
+              building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
+            )
+            // 영문 → 한글 / abc → 가나다 순으로 정렬
+            .sort((a, b) => {
+              return a.buildingName.localeCompare(b.buildingName);
+            });
+          console.log(results);
+          setSearchResults(results);
         },
         (error: IErrorResponse) => {
-          // 에러 발생 시 처리
           console.log(error.errorMessage);
-          // alert('빌딩 검색 중 오류가 발생했습니다.');
           return;
         }
       );
@@ -71,9 +69,9 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     // handleButtonClick();
   };
 
-  const handleRadioChange = (buildingName: IBuilding) => {
-    setSelectedBuilding(buildingName);
-    setDisabled(false); // 임시 작성_에러메세지 방지
+  const handleRadioChange = (selectValue: IBuildings) => {
+    setSelectedBuilding(selectValue);
+    setDisabled(true);
   };
 
   //  검색 수행 함수
@@ -130,7 +128,6 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
             placeholder="건물 이름으로 검색"
             onChange={handleInputChange}
             errorMessage=""
-            redErrorIcon="none"
           />
           <StyledFormButton
             type="button"
@@ -143,13 +140,13 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         <SytledListContainer>
           {searchResults.length > 0 && (
             <StyledListBox>
-              {searchResults.map(building => (
+              {searchResults.map((building: IBuildings) => (
                 <StyledList key={building.id}>
                   <RadioInput
                     type="radio"
                     name="building"
                     id={building.id.toString()}
-                    value={building.id.toString()}
+                    value={building.id}
                     checked={selectedBuilding?.id === building.id}
                     onChange={() => handleRadioChange(building)}
                   />
@@ -163,9 +160,9 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
           <Button
             size="normal"
             type="cta"
-            title="다음"
+            title={disabled ? '선택완료' : '다음'}
             width="100%"
-            disabled={disabled}
+            disabled={!disabled}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>

@@ -13,8 +13,8 @@ interface SignupStepProps {
   officeName: string;
 }
 const SignupStep2 = ({ onNextStep, buildingName, officeName }: SignupStepProps) => {
-  const [disabled, setDisabled] = useState(false); //임시로 false
-  const [selectedBuilding, setSelectedBuilding] = useState('미왕');
+  const [disabled, setDisabled] = useState(false);
+  const [selectedBuilding, setSelectedBuilding] = useState('');
   const [selectedOffice, setSelectedOffice] = useState('');
 
   const handleServiceClick = () => {
