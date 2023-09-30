@@ -20,7 +20,7 @@ const useAxiosInterceptor = () => {
   // 응답 공통 에러 처리
   const handleError = async (error: AxiosError) => {
     // TODO : 401 인증 에러 처리 추가 필요
-    if (error.response?.status === 401 && error.config?.url !== '/login') {
+    if (error.response?.status === 401 && error.config?.url !== '/api/login') {
       // 로그인 세션 만료 팝업
       openModal({
         ...MODAL_DATAS.SESSION_EXPIRATION_ALERT,

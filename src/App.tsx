@@ -1,26 +1,36 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { CookiesProvider } from 'react-cookie';
+import { useRecoilValue } from 'recoil';
 
 import GlobalStyles from '@/styles/GlobalStyles';
 import theme from '@/styles/theme';
 import Modal from '@/components/Common/Modal';
 import useAxiosInterceptor from '@/hooks/useAxiosInterceptor';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { useEffect } from 'react';
 
 const App = () => {
+  const userInfo = useRecoilValue(userInfoAtom);
+  const navigate = useNavigate();
   // Axios Interceptor Hooks
   useAxiosInterceptor();
 
+  useEffect(() => {
+    if (!userInfo.userInfo.token) {
+      navigate('/intro', { replace: true });
+    }
+  }, [userInfo, navigate]);
+
   return (
     <>
-        <CookiesProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles />
-            <Outlet />
-            <Modal />
-          </ThemeProvider>
-        </CookiesProvider>
-      
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <Outlet />
+          <Modal />
+        </ThemeProvider>
+      </CookiesProvider>
     </>
   );
 };
