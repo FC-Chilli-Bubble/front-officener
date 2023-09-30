@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 
@@ -15,14 +14,14 @@ interface SignupStepProps {
   onNextStep: (stepNum: number) => void;
 }
 const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
   //저장된 빌딩 불러오기
   const userBuildings = useRecoilValue(userBuildingsAtom);
   //저장된 오피스 불러오기
-  const userOfficeg = useRecoilValue(userOfficeAtom);
+  const userOffice = useRecoilValue(userOfficeAtom);
 
   const userBuildingName = userBuildings.buildingName;
-  const userOfficegName = userOfficeg.officeName;
+  const userOfficegName = userOffice.officeName;
 
   const handleServiceClick = () => {
     onNextStep(1);
@@ -32,7 +31,6 @@ const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
   // 페이지 이동 버튼함수
   const handleNextStep = () => {
     if (userBuildingName && userOfficegName) {
-      setDisabled(true);
       onNextStep(5);
       return;
     }
@@ -105,7 +103,7 @@ const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
             type="cta"
             title="다음"
             width="100%"
-            disabled={!disabled}
+            disabled={!(userBuildingName && userOfficegName)}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>

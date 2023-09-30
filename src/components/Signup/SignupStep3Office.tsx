@@ -21,8 +21,10 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   const [inputValue, setInputValue] = useState('');
   // 검색 결과 상태
   const [searchResults, setSearchResults] = useState<IOffice[]>([]);
+  // 선택된 값 로컬 저장
+  const [selectedOfficeLocal, setSelectedOfficeLocal] = useState<IOffice | null>(null);
   // 선택된 값 상태관리
-  const [selectedOffice, setSelectedOffice] = useRecoilState(userOfficeAtom);
+  const [, setSelectedOffice] = useRecoilState(userOfficeAtom);
   // 선택했던 빌딩 값 받아오기
   const userBuildings = useRecoilValue(userBuildingsAtom);
 
@@ -40,6 +42,7 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+      setSelectedOfficeLocal(null); //라디오버튼 초기화
       // 오피스 배열
       const officeNames = userBuildings.offices.map(office => office);
       console.log(officeNames);
@@ -63,12 +66,15 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   };
 
   const handleRadioChange = (selectValue: IOffice) => {
-    setSelectedOffice(selectValue);
+    setSelectedOfficeLocal(selectValue);
     setDisabled(true);
   };
 
   const handleNextStep = () => {
-    onNextStep(2);
+    if (selectedOfficeLocal) {
+      setSelectedOffice(selectedOfficeLocal);
+      onNextStep(2);
+    }
   };
 
   return (
@@ -98,7 +104,7 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
         </StyledFormContainer>
         <StyledLine />
         <SytledListContainer>
-          {searchResults.length > 0 && (
+          {searchResults.length > 0 ? (
             <StyledListBox>
               {searchResults.map((office: IOffice) => (
                 <StyledList key={office.id}>
@@ -107,13 +113,15 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
                     name="building"
                     id={office.id.toString()}
                     value={office.id}
-                    checked={selectedOffice?.id === office.id}
+                    checked={selectedOfficeLocal?.id === office.id}
                     onChange={() => handleRadioChange(office)}
                   />
                   <label htmlFor={office.id.toString()}>{office.officeName}</label>
                 </StyledList>
               ))}
             </StyledListBox>
+          ) : (
+            <StyledTextBox>검색하실 회사를 먼저 입력해주세요.</StyledTextBox>
           )}
         </SytledListContainer>
         <StyledButtonContainer>
@@ -178,6 +186,12 @@ const StyledLine = styled.hr`
 const SytledListContainer = styled.div`
   height: calc(100% - 300px);
   margin-top: 12px;
+`;
+const StyledTextBox = styled.p`
+  text-align: center;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.grayColor4};
+  margin-top: 40px;
 `;
 
 const StyledListBox = styled.ul`

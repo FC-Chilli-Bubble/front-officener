@@ -21,8 +21,10 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const [inputValue, setInputValue] = useState('');
   // 검색 결과 상태
   const [searchResults, setSearchResults] = useState<IBuildings[]>([]);
+  // 선택된 값 로컬 저장
+  const [selectedBuildingLocal, setSelectedBuildingLocal] = useState<IBuildings | null>(null);
   // 선택된 값  상태관리
-  const [selectedBuilding, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
+  const [, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
 
   const handleServiceClick = () => {
     onNextStep(2);
@@ -38,18 +40,17 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+      setSelectedBuildingLocal(null); //라디오버튼 초기화
       fetchBuilding(inputValue).then(
         response => {
-          // console.log(response.data.buildings);
           const results = response.data.buildings
             .filter(building =>
               building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
             )
-            // 영문 → 한글 / abc → 가나다 순으로 정렬
             .sort((a, b) => {
+              // 영문 → 한글 / abc → 가나다 순으로 정렬
               return a.buildingName.localeCompare(b.buildingName);
             });
-          console.log(results);
           setSearchResults(results);
         },
         (error: IErrorResponse) => {
@@ -68,12 +69,15 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   };
 
   const handleRadioChange = (selectValue: IBuildings) => {
-    setSelectedBuilding(selectValue);
+    setSelectedBuildingLocal(selectValue);
     setDisabled(true);
   };
 
   const handleNextStep = () => {
-    onNextStep(2);
+    if (selectedBuildingLocal) {
+      setSelectedBuilding(selectedBuildingLocal);
+      onNextStep(2);
+    } else return;
   };
 
   return (
@@ -103,7 +107,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         </StyledFormContainer>
         <StyledLine />
         <SytledListContainer>
-          {searchResults.length > 0 && (
+          {searchResults.length > 0 ? (
             <StyledListBox>
               {searchResults.map((building: IBuildings) => (
                 <StyledList key={building.id}>
@@ -112,13 +116,15 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
                     name="building"
                     id={building.id.toString()}
                     value={building.id}
-                    checked={selectedBuilding?.id === building.id}
+                    checked={selectedBuildingLocal?.id === building.id}
                     onChange={() => handleRadioChange(building)}
                   />
                   <label htmlFor={building.id.toString()}>{building.buildingName}</label>
                 </StyledList>
               ))}
             </StyledListBox>
+          ) : (
+            <StyledTextBox>검색하실 건물을 먼저 입력해주세요.</StyledTextBox>
           )}
         </SytledListContainer>
         <StyledButtonContainer>
@@ -183,6 +189,12 @@ const StyledLine = styled.hr`
 const SytledListContainer = styled.div`
   height: calc(100% - 300px);
   margin-top: 12px;
+`;
+const StyledTextBox = styled.p`
+  text-align: center;
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.grayColor4};
+  margin-top: 40px;
 `;
 
 const StyledListBox = styled.ul`

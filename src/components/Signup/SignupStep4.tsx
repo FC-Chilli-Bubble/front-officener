@@ -1,10 +1,12 @@
 import { styled } from 'styled-components';
 import { useRecoilValue } from 'recoil';
+
 import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
 import ico_blue_arrow from '@/assets/ico_blue_arrow.svg';
 import Button from '@/components/Common/Button';
 import { userBuildingsAtom } from '@/states/buildingAtom';
+import { userOfficeAtom } from '@/states/officeAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -12,7 +14,10 @@ interface SignupStepProps {
 }
 
 const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
-  const building = useRecoilValue(userBuildingsAtom);
+  //저장된 빌딩 불러오기
+  const userBuildings = useRecoilValue(userBuildingsAtom);
+  //저장된 오피스 불러오기
+  const userOffice = useRecoilValue(userOfficeAtom);
 
   const handleServiceClick = () => {
     onNextStep(2);
@@ -32,7 +37,7 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
       />
       <StyledLayout>
         <StyledContainer>
-          {building.buildings.buildingName}
+          {userBuildings.buildingName}
           <br />
           입주자시군요!
           <div>입주 정보를 확인해 주세요.</div>
@@ -48,12 +53,12 @@ const SignupStep4 = ({ onNextStep }: SignupStepProps) => {
               src={ico_building}
               alt="빌딩Img"
             />
-            <StyledBuilding>{building.buildings[0].buildingName}</StyledBuilding>
-            <StyledAddress>{building.buildings[0].buildingAddress}</StyledAddress>
+            <StyledBuilding>{userBuildings.buildingName}</StyledBuilding>
+            <StyledAddress>{userBuildings.buildingAddress}</StyledAddress>
             <SytledOffice>
-              {building.buildings[0].offices[0].officeNum}
+              {userOffice.officeNum}
               <br />
-              {building.buildings[0].offices[0].officeName}
+              {userOffice.officeName}
             </SytledOffice>
           </SytledCard>
           <StyledLink>
