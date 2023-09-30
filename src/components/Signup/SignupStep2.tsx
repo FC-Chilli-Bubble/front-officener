@@ -14,7 +14,6 @@ interface SignupStepProps {
   onNextStep: (stepNum: number) => void;
 }
 const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
-  // const [disabled, setDisabled] = useState(false);
   //저장된 빌딩 불러오기
   const userBuildings = useRecoilValue(userBuildingsAtom);
   //저장된 오피스 불러오기

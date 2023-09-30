@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
@@ -9,6 +9,7 @@ import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
 import { userBuildingsAtom } from '@/states/buildingAtom';
 import { IBuildings } from '@/types/Signup/IBuilding';
+import { userOfficeAtom } from '@/states/officeAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -23,15 +24,17 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const [searchResults, setSearchResults] = useState<IBuildings[]>([]);
   // 선택된 값 로컬 저장
   const [selectedBuildingLocal, setSelectedBuildingLocal] = useState<IBuildings | null>(null);
-  // 선택된 값  상태관리
-  const [, setSelectedBuilding] = useRecoilState(userBuildingsAtom);
+  // 선택된 값 업데이트
+  const setSelectedBuilding = useSetRecoilState(userBuildingsAtom);
+  // 오피스값 업데이트(초기화)
+  const setUserOffice = useSetRecoilState(userOfficeAtom);
 
   const handleServiceClick = () => {
     onNextStep(2);
     return;
   };
 
-  // 선택된 빌딩이 변경될 때마다 버튼을 활성화 여부를 업데이트
+  // 선택된변경될 때마다 버튼을 활성화 여부를 업데이트
   useEffect(() => {
     handleSearchSubmit;
   }, [inputValue]);
@@ -76,6 +79,12 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const handleNextStep = () => {
     if (selectedBuildingLocal) {
       setSelectedBuilding(selectedBuildingLocal);
+      //빌딩 상태값 업데이트 될때, 오피스 값 초기화
+      setUserOffice({
+        id: 0,
+        officeName: '',
+        officeNum: ''
+      });
       onNextStep(2);
     } else return;
   };

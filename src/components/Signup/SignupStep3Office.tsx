@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
@@ -24,7 +24,7 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   // 선택된 값 로컬 저장
   const [selectedOfficeLocal, setSelectedOfficeLocal] = useState<IOffice | null>(null);
   // 선택된 값 상태관리
-  const [, setSelectedOffice] = useRecoilState(userOfficeAtom);
+  const setSelectedOffice = useSetRecoilState(userOfficeAtom);
   // 선택했던 빌딩 값 받아오기
   const userBuildings = useRecoilValue(userBuildingsAtom);
 
@@ -33,7 +33,7 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
     return;
   };
 
-  // 선택된 빌딩이 변경될 때마다 버튼을 활성화 여부를 업데이트
+  // 선택변경될 때마다 버튼을 활성화 여부를 업데이트
   useEffect(() => {
     handleSearchSubmit;
   }, [inputValue]);
@@ -45,11 +45,9 @@ const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
       setSelectedOfficeLocal(null); //라디오버튼 초기화
       // 오피스 배열
       const officeNames = userBuildings.offices.map(office => office);
-      console.log(officeNames);
       const results = officeNames.filter(office =>
         office.officeName.toLowerCase().includes(inputValue.toLowerCase())
       );
-      console.log(results);
       setSearchResults(results);
       (error: IErrorResponse) => {
         console.log(error.errorMessage);

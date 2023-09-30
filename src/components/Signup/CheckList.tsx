@@ -1,6 +1,4 @@
 import { styled } from 'styled-components';
-// import { useRecoilState } from 'recoil';
-// import { agreementCheckboxAtom } from '@/states/signupRequestData';
 
 import gray_arrow from '@/assets/ico_gray_arrow.svg';
 
@@ -13,10 +11,8 @@ interface ICheckListProps {
 }
 
 const CheckList = ({ label, checked, onChange }: ICheckListProps) => {
-  // const [checked, setChecked] = useRecoilState(agreementCheckboxAtom);
 
   const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setChecked(e.target.checked);
     onChange(e.target.checked);
   };
 
