@@ -93,7 +93,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   }, [name, phoneNumber, verifyCode]);
 
   const requsetButtonState = (newName: string, newPhoneNum: string) => {
-    if (newName && newPhoneNum) {
+    if (USER_NAME_REGEX.test(newName) && PHONE_NUMBER_REGEX.test(newPhoneNum)) {
       setIsValid(true);
       //인증 요청 활성화
       return;

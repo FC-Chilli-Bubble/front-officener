@@ -1,18 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
+import { useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
-
 import Button from '@/components/Common/Button';
+import { SignupAccountAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
 }
 
-type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
+type TErrorIconType = 'wrong' | 'error' | 'errorG' | 'correct' | 'none';
 
 const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   // 유효성 검사
@@ -25,6 +26,9 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorIconType>('none');
+  //계정 정보 저장하기
+  const setUserAccount = useSetRecoilState(SignupAccountAtom);
+
   // 버튼 상태
   const [disabled, setDisabled] = useState(true);
 
@@ -89,7 +93,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  // 이메일 입력 유효성 검사
+  // 이메일 입력 유효성 검사 (포커스아웃 시에 에러메시지 반응)
   const handleEmailBlur = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
@@ -106,7 +110,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  // 비밀번호 입력 유효성 검사
+  // 비밀번호 입력 유효성 검사 (포커스아웃 시에 에러메시지 반응)
   const handlePasswordBlur = (newPassword: string) => {
     setPassword(newPassword);
     if (!newPassword) {
@@ -123,7 +127,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  // 비밀번호 재확인
+  // 비밀번호 재확인 (포커스아웃 시에 에러메시지 반응)
   const handlePasswordVerifyBlur = (newPassword: string) => {
     setPasswordVerify(newPassword.toString());
     if (!newPassword) {
@@ -139,7 +143,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       setPwdMsg('비밀번호가 일치합니다.');
     }
   };
-  // 여기 조건을
+
   const updateLoginButtonState = useCallback(
     (newEmail: string, newPassword: string) => {
       if (newEmail && newPassword && !emailMsg && pwdMsg == 'correct') {
@@ -160,19 +164,11 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   // 회원가입 로직
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (isValid) {
-      // 유효성 검사가 통과되면 회원가입 로직 수행
-      try {
-        // 1. 서버로 이메일과 비밀번호를 전송(API Axios호출)
-        // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
-      } catch (error) {
-        console.error('로그인 실패:', error);
-        setEmailErrorIcon('wrong');
-        setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
-        setPwsErrorIcon('error');
-        setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
-      }
+      setUserAccount({
+        email: '',
+        password: ''
+      });
       return;
     }
   };
