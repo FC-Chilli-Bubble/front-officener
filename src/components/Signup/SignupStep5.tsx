@@ -166,8 +166,8 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     e.preventDefault();
     if (isValid) {
       setUserAccount({
-        email: '',
-        password: ''
+        email,
+        password
       });
       return;
     }

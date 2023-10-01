@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
+import 'react-toastify/dist/ReactToastify.css';
 // import { useRecoilValue } from 'recoil';
 // import {
 //   agreementCheckboxAtom,
@@ -8,10 +9,14 @@ import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/
 //   SignupAccountAtom,
 //   verificationResultState
 // } from '@/states/signupRequestAtom';
+import { toast, ToastContainer } from 'react-toastify';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { createhAuthCode } from '@/apis/Signup/AuthCodeRequests';
+import { createCodeConfirm } from '@/apis/Signup/CodeConfirmRequests';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -26,14 +31,14 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
   // 오류 메시지 상태
-  const [verifyNumMsg, setVerifyNumMsg] = useState('');
-  const [verifyNumErrorIcon, setVerifyNumErrorIcon] = useState<TErrorIconType>('none');
+  const [verifyCodeMsg, setVerifyCodeMsg] = useState('');
+  const [verifyCodeErrorIcon, setVerifyCodeErrorIcon] = useState<TErrorIconType>('none');
   // 인증요청 버튼 상태
   const [isValid, setIsValid] = useState(false);
   // 인증요청 버튼 텍스트 상태
   const [isVerificationComplete, setVerificationComplete] = useState(false);
   // 페이지 이동 버튼 상태
-  const [disabled, setDisabled] = useState(false); //임시로 false
+  const [disabled, setDisabled] = useState(false);
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
   // 리코일에서 받아온 상태값
@@ -65,8 +70,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     if (!PHONE_NUMBER_REGEX.test(newPhoneNum)) {
       return;
     } else {
-      setVerifyNumMsg('');
-      setVerifyNumErrorIcon('none');
+      setVerifyCodeMsg('');
+      setVerifyCodeErrorIcon('none');
     }
   };
 
@@ -74,16 +79,17 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const handleVerifyCodeChange = (newCode: string) => {
     setVerifyCode(newCode);
     if (!newCode) {
-      setVerifyNumErrorIcon('error');
-      setVerifyNumMsg('인증번호를 입력해 주세요');
+      setVerifyCodeErrorIcon('error');
+      setVerifyCodeMsg('인증번호를 입력해 주세요');
       return;
     } else if (!VERIFICATION_CODE_REGEX.test(newCode)) {
-      setVerifyNumErrorIcon('wrong');
-      setVerifyNumMsg('인증번호가 일치하지 않습니다.');
+      setVerifyCodeErrorIcon('wrong');
+      setVerifyCodeMsg('인증번호가 일치하지 않습니다.');
       return;
     } else {
-      setVerifyNumMsg('');
-      setVerifyNumErrorIcon('none');
+      setVerifyCodeMsg('');
+      setVerifyCodeErrorIcon('none');
+      handleVerifyCodeReq(newCode);
     }
   };
 
@@ -94,54 +100,71 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
 
   const requsetButtonState = (newName: string, newPhoneNum: string) => {
     if (USER_NAME_REGEX.test(newName) && PHONE_NUMBER_REGEX.test(newPhoneNum)) {
-      setIsValid(true);
-      //인증 요청 활성화
+      setIsValid(true); //인증 요청 활성화
       return;
     } else {
       setIsValid(false);
     }
   };
 
-  // 인증번호 요청 함수
-  const sendApiRequest = async () => {
-    try {
-      setIsValid(true);
-      // API 요청 보내기
-      // const response = await axios.post(apiUrl, requestData);
-      // 응답 데이터에서 인증 코드 추출
-      // const responseData = response.data;
-      // const receivedVerifyCode = responseData.data.verifyCode;
-      const responseCode = '123456';
-      // 인증 코드를 상태에 저장
-      setReceivedVerifyCode(responseCode);
-      // console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
-      setVerifyNumErrorIcon('errorG');
-      setVerifyNumMsg('해당 번호로 인증 번호를 발송했습니다.');
-    } catch {
-      setIsValid(false);
-      setVerifyNumErrorIcon('wrong');
-      setVerifyNumMsg('이미 등록된 휴대폰 번호입니다.');
-    }
-  };
-
-  // 인증 번호 확인 함수
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      // 서버로부터 받은 인증코드가 빈 문자열인지도 체크 추가 (receivedVerifyCode &&)
-      if (receivedVerifyCode && name && phoneNumber && verifyCode === receivedVerifyCode) {
-        try {
-          // 1. 서버로 전화번호 & 인증번호 전송(API호출)
-          // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
-          setVerifyNumErrorIcon('correct');
-          setVerifyNumMsg('인증이 완료되었습니다.');
-          setVerificationComplete(true);
-          setDisabled(false); // 다음 버튼 활성화
-        } catch (error) {
-          //c.error('인증 실패:', error);
-        }
+  // 인증번호 요청
+  const handleCodeReq = (e: React.FormEvent) => {
+    e.preventDefault();
+    createhAuthCode(name, phoneNumber).then(
+      response => {
+        const responseData = response.data;
+        const receivedVerifyCode = responseData.verifyCode;
+        console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
+        setReceivedVerifyCode(receivedVerifyCode);
+        setVerifyCodeErrorIcon('errorG');
+        setVerifyCodeMsg('해당 번호로 인증 번호를 발송했습니다.');
+        notify();
+      },
+      (error: IErrorResponse) => {
+        setIsValid(false);
+        setVerifyCodeErrorIcon('wrong');
+        setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
+        console.log(error.errorMessage);
         return;
       }
+    );
+  };
+  // 인증번호 토스트
+  const notify = () => toast(`인증번호 : ${receivedVerifyCode}`);
+
+  // 인증 번호 확인
+  const handleVerifyCodeReq = useCallback(
+    (verifyCode: string) => {
+      // e.preventDefault();
+      if (receivedVerifyCode && name && phoneNumber) {
+        createCodeConfirm(phoneNumber, verifyCode).then(
+          response => {
+            const responseData = response.data;
+            console.log(responseData);
+            setVerifyCodeErrorIcon('correct');
+            setVerifyCodeMsg('인증이 완료되었습니다.');
+            setVerificationComplete(true);
+            setDisabled(true);
+          },
+          (error: IErrorResponse) => {
+            setVerifyCodeErrorIcon('wrong');
+            setVerifyCodeMsg('인증번호가 맞지 않습니다.');
+            setVerificationComplete(false);
+            console.log(error.errorMessage);
+            // 400에러일때 조건 추가
+            return;
+          }
+        );
+        return;
+      } else return;
+    },
+    [receivedVerifyCode, name, phoneNumber, verifyCode]
+  );
+
+  // 회원가입 요청
+  const handleSignupReq = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
     },
     [receivedVerifyCode, name, phoneNumber, verifyCode]
   );
@@ -154,7 +177,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledContainer onSubmit={handleSubmit}>
+        <StyledContainer onSubmit={handleSignupReq}>
           <StyledInput>
             <FormField
               isType="text"
@@ -183,10 +206,20 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               />
               <StyledButton
                 type="button"
-                onClick={sendApiRequest}
+                onClick={handleCodeReq}
                 disabled={!isValid}>
                 {isVerificationComplete ? '인증완료' : '인증요청'}
               </StyledButton>
+              <ToastContainer
+                position="top-right"
+                limit={1}
+                closeButton={false}
+                autoClose={3000}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                hideProgressBar
+              />
             </StyledBox>
             <FormField
               isType={'text'}
@@ -195,8 +228,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               value={verifyCode}
               placeholder="6자리 인증번호를 입력해 주세요."
               onChange={handleVerifyCodeChange}
-              errorMessage={verifyNumMsg}
-              redErrorIcon={verifyNumErrorIcon}
+              errorMessage={verifyCodeMsg}
+              redErrorIcon={verifyCodeErrorIcon}
             />
           </StyledInput>
         </StyledContainer>
@@ -206,7 +239,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             type="cta"
             title="다음"
             width="100%"
-            disabled={disabled}
+            disabled={!disabled}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>

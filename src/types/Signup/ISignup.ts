@@ -18,6 +18,3 @@ export interface IAccount {
   password: string;
 }
 
-// export interface IVerifyCode {
-//   code: string
-// }
