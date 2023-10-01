@@ -3,7 +3,7 @@ export interface ISignup {
   email: string;
   password: string;
   buildingName: string;
-  officengName: string;
+  officenName: string;
   name: string;
   phoneNumber: string;
 }

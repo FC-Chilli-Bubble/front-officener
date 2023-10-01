@@ -7,9 +7,9 @@ import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
-import { userBuildingsAtom } from '@/states/buildingAtom';
 import { IBuildings } from '@/types/Signup/IBuilding';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -122,7 +122,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
                 <StyledList key={building.id}>
                   <RadioInput
                     type="radio"
-                    name="building"
+                    name={building.id.toString()}
                     id={building.id.toString()}
                     value={building.id}
                     checked={selectedBuildingLocal?.id === building.id}

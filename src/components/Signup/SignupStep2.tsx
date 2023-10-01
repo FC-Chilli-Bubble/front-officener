@@ -6,8 +6,8 @@ import SearchButton from '@/components/Common/SearchButton';
 import SelectedButton from '@/components/Common/SelectedButton';
 import Button from '@/components/Common/Button';
 import Icon_gray_error from '@/assets/ico_gray_error.svg';
-import { userBuildingsAtom } from '@/states/buildingAtom';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars

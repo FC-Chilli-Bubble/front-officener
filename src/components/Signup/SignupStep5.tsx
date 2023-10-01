@@ -36,6 +36,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     onNextStep(5);
     return;
   };
+  
   const handleNextStep = () => {
     onNextStep(7);
     return;

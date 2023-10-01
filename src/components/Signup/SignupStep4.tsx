@@ -5,8 +5,8 @@ import Header from '@/components/Common/Header';
 import ico_building from '@/assets/ico_building.svg';
 import ico_blue_arrow from '@/assets/ico_blue_arrow.svg';
 import Button from '@/components/Common/Button';
-import { userBuildingsAtom } from '@/states/buildingAtom';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars

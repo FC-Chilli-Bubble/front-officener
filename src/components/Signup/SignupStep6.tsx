@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 // import { useRecoilValue } from 'recoil';
 // import {
 //   agreementCheckboxAtom,
 //   userResidentAtom,
 //   SignupAccountAtom,
-//   verificationResultState
 // } from '@/states/signupRequestAtom';
 import { toast, ToastContainer } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
@@ -26,6 +26,7 @@ interface SignupStepProps {
 type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
+  const navigate = useNavigate();
   // 유효성 검사
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -41,6 +42,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false);
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
+
   // 리코일에서 받아온 상태값
   // const agreementCheckboxAtom = useRecoilValue(agreementCheckboxAtom);
   // const userBuildingsAtom = useRecoilValue(userBuildingsAtom);
@@ -48,9 +50,10 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // const verificationResultState = useRecoilValue(verificationResultState);
 
   const handleServiceClick = () => {
-    onNextStep(6);
+    navigate('/login', { replace: true });
     return;
   };
+
   const handleNextStep = () => {
     onNextStep(8);
     return;
@@ -84,7 +87,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       return;
     } else if (!VERIFICATION_CODE_REGEX.test(newCode)) {
       setVerifyCodeErrorIcon('wrong');
-      setVerifyCodeMsg('인증번호가 일치하지 않습니다.');
+      setVerifyCodeMsg('6자리 인증번호를 입력해주세요.');
       return;
     } else {
       setVerifyCodeMsg('');
@@ -108,17 +111,17 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   };
 
   // 인증번호 요청
-  const handleCodeReq = (e: React.FormEvent) => {
+  const handleReceivedCodeReq = (e: React.FormEvent) => {
     e.preventDefault();
     createhAuthCode(name, phoneNumber).then(
       response => {
         const responseData = response.data;
-        const receivedVerifyCode = responseData.verifyCode;
-        console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
-        setReceivedVerifyCode(receivedVerifyCode);
+        const verifyCode = responseData.verifyCode;
+        console.log('API 요청 성공! 인증 코드:', verifyCode);
+        setReceivedVerifyCode(verifyCode);
         setVerifyCodeErrorIcon('errorG');
         setVerifyCodeMsg('해당 번호로 인증 번호를 발송했습니다.');
-        notify();
+        notify(verifyCode);
       },
       (error: IErrorResponse) => {
         setIsValid(false);
@@ -130,13 +133,12 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     );
   };
   // 인증번호 토스트
-  const notify = () => toast(`인증번호 : ${receivedVerifyCode}`);
+  const notify = (verifyCode: string) => toast(`✅ 휴대폰 인증번호 : ${verifyCode}`);
 
-  // 인증 번호 확인
+  // 인증번호 확인 요청
   const handleVerifyCodeReq = useCallback(
     (verifyCode: string) => {
-      // e.preventDefault();
-      if (receivedVerifyCode && name && phoneNumber) {
+      if (receivedVerifyCode !== '' && name && phoneNumber) {
         createCodeConfirm(phoneNumber, verifyCode).then(
           response => {
             const responseData = response.data;
@@ -148,15 +150,16 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
           },
           (error: IErrorResponse) => {
             setVerifyCodeErrorIcon('wrong');
-            setVerifyCodeMsg('인증번호가 맞지 않습니다.');
+            setVerifyCodeMsg('인증번호가 일치하지 않습니다.');
             setVerificationComplete(false);
             console.log(error.errorMessage);
-            // 400에러일때 조건 추가
+            setPhoneNumber('');
+            setVerifyCode('');
             return;
           }
         );
-        return;
-      } else return;
+      }
+      return;
     },
     [receivedVerifyCode, name, phoneNumber, verifyCode]
   );
@@ -182,9 +185,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             <FormField
               isType="text"
               label="이름"
+              name="name"
               value={name}
-              name="userName"
-              //name props 다 고유하게 그 input에 대한 name으로 변경했어여
               placeholder="실명을 입력해 주세요."
               onChange={handleNameChange}
               errorMessage=""
@@ -196,7 +198,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               <FormField
                 isType="text"
                 label="휴대폰 번호"
-                name="phoneNum"
+                name="phoneNumber"
                 value={phoneNumber}
                 placeholder="‘_’없이 숫자만 입력해 주세요."
                 maxLength={11}
@@ -206,15 +208,15 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               />
               <StyledButton
                 type="button"
-                onClick={handleCodeReq}
+                onClick={handleReceivedCodeReq}
                 disabled={!isValid}>
                 {isVerificationComplete ? '인증완료' : '인증요청'}
               </StyledButton>
-              <ToastContainer
+              <StyledToastContainer
                 position="top-right"
                 limit={1}
                 closeButton={false}
-                autoClose={3000}
+                autoClose={4000}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
@@ -271,6 +273,7 @@ const StyledBox = styled.div`
   display: flex;
   align-items: end;
 `;
+
 const StyledButton = styled.button`
   width: 94px;
   height: 48px;
@@ -288,6 +291,15 @@ const StyledButton = styled.button`
   cursor: pointer;
   &:active {
     background-color: ${({ theme }) => theme.colors.ctaPressedColor};
+  }
+`;
+const StyledToastContainer = styled(ToastContainer)`
+  .Toastify__toast {
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 16px 28px;
+    color: ${({ theme }) => theme.colors.grayColor5};
+    background-color: ${({ theme }) => theme.colors.white};
   }
 `;
 
