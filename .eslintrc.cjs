@@ -13,6 +13,7 @@ module.exports = {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'no-console': 'warn',
     'no-unused-vars': 'warn',
-    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }] //
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    'no-useless-catch': 'off'
   }
 };

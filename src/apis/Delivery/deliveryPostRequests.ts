@@ -10,23 +10,22 @@ export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
 };
 
 // 함께 배달 등록
-export const createDeliveryPost = async (
-  post: IDeliveryPostRequest
-): Promise<ICommonResponse<IMessageResponse>> => {
+export const createDeliveryPost = async (post: IDeliveryPostRequest): Promise<boolean> => {
   const response = await apiClient.post('/api/room/create', post);
-  return response.data;
+  return response.status === 200;
 };
 
 // 함께배달 글 삭제
-export const deleteDeliveryPost = async (
-  roomId: string
-): Promise<ICommonResponse<IMessageResponse>> => {
+export const deleteDeliveryPost = async (roomId: string): Promise<boolean> => {
   const response = await apiClient.post(`/api/room/${roomId}/terminate`);
-  return response.data;
+  return response.status === 200;
 };
 
 // 함께배달 글 수정
-export const updateDeliveryPost = async (roomId: number, post: IDeliveryPostRequest) => {
+export const updateDeliveryPost = async (
+  roomId: number,
+  post: IDeliveryPostRequest
+): Promise<boolean> => {
   const response = await apiClient.put(`/api/room/${roomId}`, post);
-  return response.data;
+  return response.status === 200;
 };
