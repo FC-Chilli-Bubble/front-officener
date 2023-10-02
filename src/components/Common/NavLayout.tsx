@@ -1,13 +1,16 @@
+import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import BottomNavigation from '@/components/Common//BottomNavigation';
 
 const NavLayout = () => {
+  const isIos = useMemo(() => /iPhone|iPad|iPod/i.test(navigator.userAgent), []);
+
   return (
     <StyledLayout>
       <StyledContainer>
-        <StyledBox>
+        <StyledBox isIos={isIos}>
           <Outlet />
         </StyledBox>
         <BottomNavigation />
@@ -29,8 +32,8 @@ const StyledContainer = styled.div`
   position: relative;
 `;
 
-const StyledBox = styled.div`
-  height: calc(100% - 90px);
+const StyledBox = styled.div<{ isIos: boolean; }>`
+  height:${({ isIos }) => isIos ? 'calc(100% - 90px)' : 'calc(100% - 56px)'}; 
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
