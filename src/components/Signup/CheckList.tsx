@@ -11,6 +11,7 @@ interface ICheckListProps {
 }
 
 const CheckList = ({ label, checked, onChange }: ICheckListProps) => {
+
   const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.checked);
   };

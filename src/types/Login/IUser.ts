@@ -9,6 +9,7 @@ interface Company {
   officeName: string;
   officeNum: string;
 }
+
 export interface IUser {
   userInfo: {
     id: number;
