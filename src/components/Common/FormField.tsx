@@ -116,7 +116,7 @@ const StyledContainer = styled.div`
   width: 100%;
 `;
 
-const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType; }>`
+const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType }>`
   display: flex;
   width: 100%;
   height: 48px;
@@ -126,15 +126,15 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType; }>`
   border-radius: 8px;
   border: 1px solid
     ${({ redErrorIcon, theme }) => {
-    if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
-      return theme.colors.errorColor;
-    }
-    if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
-      return theme.colors.grayColor4;
-    } else {
-      return theme.colors.successColor;
-    }
-  }};
+      if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
+        return theme.colors.errorColor;
+      }
+      if (redErrorIcon === 'errorG' || redErrorIcon === 'none') {
+        return theme.colors.grayColor4;
+      } else {
+        return theme.colors.successColor;
+      }
+    }};
   ::placeholder {
     color: ${({ theme }) => theme.colors.grayColor3};
   }
@@ -142,11 +142,21 @@ const StyledErrorIBox = styled.input<{ redErrorIcon: ErrorIconType; }>`
     &::placeholder {
       color: transparent;
     }
+    border: 1px solid
+      ${({ redErrorIcon, theme }) => {
+        if (redErrorIcon === 'wrong' || redErrorIcon === 'error') {
+          return theme.colors.errorColor;
+        }
+        if (redErrorIcon === 'errorG') {
+          return theme.colors.grayColor4;
+        } else {
+          return theme.colors.ctaColor;
+        }
+      }};
   }
-
   &:disabled {
     color: ${({ theme }) => theme.colors.grayColor4};
-    border-color: ${({ theme }) => theme.colors.grayColor3};
+    border: ${({ theme }) => theme.colors.grayColor3};
   }
 `;
 
@@ -159,7 +169,7 @@ const StyledIcon = styled.img`
   cursor: pointer;
 `;
 
-const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorIconType; }>`
+const StyledIErrorMessage = styled.div<{ redErrorIcon: ErrorIconType }>`
   display: flex;
   color: ${({ redErrorIcon, theme }) => {
     if (redErrorIcon === 'none') {

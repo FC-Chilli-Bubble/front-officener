@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
+// import { useRecoilValue } from 'recoil';
+// import {
+//   agreementCheckboxAtom,
+//   userResidentAtom,
+//   SignupAccountAtom,
+//   verificationResultState
+// } from '@/states/signupRequestAtom';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
@@ -29,13 +36,18 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false); //임시로 false
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
+  // 리코일에서 받아온 상태값
+  // const agreementCheckboxAtom = useRecoilValue(agreementCheckboxAtom);
+  // const userBuildingsAtom = useRecoilValue(userBuildingsAtom);
+  // const SignupAccountAtom = useRecoilValue(SignupAccountAtom);
+  // const verificationResultState = useRecoilValue(verificationResultState);
 
   const handleServiceClick = () => {
-    onNextStep(5);
+    onNextStep(6);
     return;
   };
   const handleNextStep = () => {
-    onNextStep(7);
+    onNextStep(8);
     return;
   };
 
@@ -44,7 +56,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     setName(newName);
     if (!USER_NAME_REGEX.test(newName)) {
       return;
-    } else return
+    } else return;
   };
 
   // 전화번호 입력 유효성 검사
