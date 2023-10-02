@@ -1,40 +1,39 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
 import { userBuildingsAtom } from '@/states/buildingAtom';
-import { IBuildings } from '@/types/Signup/IBuilding';
 import { userOfficeAtom } from '@/states/officeAtom';
+import { IOffice } from '@/types/Signup/IBuilding';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
   onNextStep: (stepNum: number) => void;
 }
 
-const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
+const SignupStep3Office = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false);
   // 검색 입력값
   const [inputValue, setInputValue] = useState('');
   // 검색 결과 상태
-  const [searchResults, setSearchResults] = useState<IBuildings[]>([]);
+  const [searchResults, setSearchResults] = useState<IOffice[]>([]);
   // 선택된 값 로컬 저장
-  const [selectedBuildingLocal, setSelectedBuildingLocal] = useState<IBuildings | null>(null);
-  // 선택된 값 업데이트
-  const setSelectedBuilding = useSetRecoilState(userBuildingsAtom);
-  // 오피스값 업데이트(초기화)
-  const setUserOffice = useSetRecoilState(userOfficeAtom);
+  const [selectedOfficeLocal, setSelectedOfficeLocal] = useState<IOffice | null>(null);
+  // 선택된 값 상태관리
+  const setSelectedOffice = useSetRecoilState(userOfficeAtom);
+  // 선택했던 빌딩 값 받아오기
+  const userBuildings = useRecoilValue(userBuildingsAtom);
 
   const handleServiceClick = () => {
     onNextStep(2);
     return;
   };
 
-  // 선택된변경될 때마다 버튼을 활성화 여부를 업데이트
+  // 선택변경될 때마다 버튼을 활성화 여부를 업데이트
   useEffect(() => {
     handleSearchSubmit;
   }, [inputValue]);
@@ -43,24 +42,17 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
   const handleSearchSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      setSelectedBuildingLocal(null); //라디오버튼 초기화
-      fetchBuilding(inputValue).then(
-        response => {
-          const results = response.data.buildings
-            .filter(building =>
-              building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
-            )
-            .sort((a, b) => {
-              // 영문 → 한글 / abc → 가나다 순으로 정렬
-              return a.buildingName.localeCompare(b.buildingName);
-            });
-          setSearchResults(results);
-        },
-        (error: IErrorResponse) => {
-          console.log(error.errorMessage);
-          return;
-        }
+      setSelectedOfficeLocal(null); //라디오버튼 초기화
+      // 오피스 배열
+      const officeNames = userBuildings.offices.map(office => office);
+      const results = officeNames.filter(office =>
+        office.officeName.toLowerCase().includes(inputValue.toLowerCase())
       );
+      setSearchResults(results);
+      (error: IErrorResponse) => {
+        console.log(error.errorMessage);
+        return;
+      };
     },
     [inputValue]
   );
@@ -71,28 +63,22 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     setInputValue(value);
   };
 
-  const handleRadioChange = (selectValue: IBuildings) => {
-    setSelectedBuildingLocal(selectValue);
+  const handleRadioChange = (selectValue: IOffice) => {
+    setSelectedOfficeLocal(selectValue);
     setDisabled(true);
   };
 
   const handleNextStep = () => {
-    if (selectedBuildingLocal) {
-      setSelectedBuilding(selectedBuildingLocal);
-      //빌딩 상태값 업데이트 될때, 오피스 값 초기화
-      setUserOffice({
-        id: 0,
-        officeName: '',
-        officeNum: ''
-      });
+    if (selectedOfficeLocal) {
+      setSelectedOffice(selectedOfficeLocal);
       onNextStep(2);
-    } else return;
+    }
   };
 
   return (
     <>
       <Header
-        title="건물 검색"
+        title="회사 검색"
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
@@ -100,10 +86,10 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         <StyledFormContainer onSubmit={handleSearchSubmit}>
           <FormField
             isType="text"
-            label="건물"
-            name="building"
+            label="회사"
+            name="office"
             value={inputValue}
-            placeholder="건물 이름으로 검색"
+            placeholder="회사명으로 검색"
             onChange={handleInputChange}
             errorMessage=""
           />
@@ -118,22 +104,22 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
         <SytledListContainer>
           {searchResults.length > 0 ? (
             <StyledListBox>
-              {searchResults.map((building: IBuildings) => (
-                <StyledList key={building.id}>
+              {searchResults.map((office: IOffice) => (
+                <StyledList key={office.id}>
                   <RadioInput
                     type="radio"
                     name="building"
-                    id={building.id.toString()}
-                    value={building.id}
-                    checked={selectedBuildingLocal?.id === building.id}
-                    onChange={() => handleRadioChange(building)}
+                    id={office.id.toString()}
+                    value={office.id}
+                    checked={selectedOfficeLocal?.id === office.id}
+                    onChange={() => handleRadioChange(office)}
                   />
-                  <label htmlFor={building.id.toString()}>{building.buildingName}</label>
+                  <label htmlFor={office.id.toString()}>{office.officeName}</label>
                 </StyledList>
               ))}
             </StyledListBox>
           ) : (
-            <StyledTextBox>검색하실 건물을 먼저 입력해주세요.</StyledTextBox>
+            <StyledTextBox>검색하실 회사를 먼저 입력해주세요.</StyledTextBox>
           )}
         </SytledListContainer>
         <StyledButtonContainer>
@@ -256,4 +242,4 @@ const StyledButtonContainer = styled.div`
   margin: 30px 0;
 `;
 
-export default SignupStep3;
+export default SignupStep3Office;

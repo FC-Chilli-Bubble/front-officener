@@ -29,11 +29,11 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(true);
 
   const handleServiceClick = () => {
-    onNextStep(4);
+    onNextStep(5);
     return;
   };
   const handleNextStep = () => {
-    onNextStep(6);
+    onNextStep(7);
     return;
   };
 
@@ -139,7 +139,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       setPwdMsg('비밀번호가 일치합니다.');
     }
   };
-  // 여기 조건을 
+  // 여기 조건을
   const updateLoginButtonState = useCallback(
     (newEmail: string, newPassword: string) => {
       if (newEmail && newPassword && !emailMsg && pwdMsg == 'correct') {
