@@ -1,4 +1,9 @@
 import Food1 from '@/assets/food/Rectangle 487.svg';
+import Food2 from '@/assets/food/Rectangle 477.svg';
+import Food3 from '@/assets/food/Rectangle 477-1.svg';
+import Food4 from '@/assets/food/Rectangle 487-2.svg';
+import Food5 from '@/assets/food/Rectangle 487-3.svg';
+import Food6 from '@/assets/food/Rectangle 487.svg';
 
 export interface IFoodData {
   사진?: string;
@@ -22,7 +27,7 @@ export const foodData: {
       이체해야하는시간: '18:01'
     },
     {
-      사진: Food1,
+      사진: Food2,
       가게이름: '분식 천국2',
       참여인원: 3,
       배달비: '3,002원',
@@ -30,7 +35,7 @@ export const foodData: {
       이체해야하는시간: '18:02'
     },
     {
-      사진: Food1,
+      사진: Food3,
       가게이름: '분식 천국3',
       참여인원: 3,
       배달비: '3,003원',
@@ -41,7 +46,7 @@ export const foodData: {
   ],
   '족발,보쌈': [
     {
-      사진: Food1,
+      사진: Food4,
       가게이름: '족발 전설1',
       참여인원: 2,
       배달비: '4,001원',
@@ -130,13 +135,21 @@ interface IChatData {
 
 export const dummyChatData: IChatData[] = [
   {
-    profileImage: 'src/assets/food/Rectangle 477-1.svg',
+    profileImage: Food5,
     name: '햄버거',
     message: '안녕하세요, 배달에 참여하고 싶습니다.'
   },
   {
-    profileImage: 'src/assets/food/Rectangle 477.svg',
+    profileImage: Food6,
     name: 'User2',
     message: '주문 마감시간 언제인가요?'
   }
 ];
+
+export const hostDetails = {
+  호스트: '호스트 (주문자)',
+  닉네임: '빵먹다살찐떡',
+  은행계좌: '우리은행 0000-0000-000',
+  추가설명:
+    '엽기떡볶이 마라맛 새로 나왔대요!! 배달 같이 시켜요! 엽기떡볶이 닭볶음탕도 진짜 맛있습니다!'
+};

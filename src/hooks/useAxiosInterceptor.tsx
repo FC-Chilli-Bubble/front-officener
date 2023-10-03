@@ -19,7 +19,7 @@ const useAxiosInterceptor = () => {
 
   // 응답 공통 에러 처리
   const handleError = async (error: AxiosError) => {
-    // TODO : 401 인증 에러 처리 추가 필요
+    // 인증 에러 처리
     if (error.response?.status === 401 && error.config?.url !== '/api/login') {
       // 로그인 세션 만료 팝업
       openModal({
@@ -32,13 +32,14 @@ const useAxiosInterceptor = () => {
         }
       });
     }
-    // TODO : 인증 에러 시 로그아웃 처리
+
     return Promise.reject<IErrorResponse>(
       (error.response?.data as IErrorResponse) || { errorMessage: error.message }
     );
   };
 
   const authConfig = (config: InternalAxiosRequestConfig<unknown>) => {
+    console.log('accessToken:', accessToken);
     if (config.headers && accessToken) {
       // AccessToken이 정상적으로 저장되어 있으면 headers에 Authorization에 값을 추가해준다.
       config.headers.Authorization = `Bearer ${accessToken}`;

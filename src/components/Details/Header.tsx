@@ -1,7 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HEADER_LEFT_ICONS } from '@/constants/commonUiData';
-import { useNavigate } from 'react-router-dom';
+import HeaderBg from '@/assets/food/img_details_bg.svg';
 
 type LeftIconType = 'back' | 'close' | 'none';
 
@@ -19,7 +20,7 @@ const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
   };
 
   return (
-    <StyledHeader>
+    <StyledHeader bgImage={HeaderBg}>
       {leftIcon !== 'none' && (
         <StyledLeftIcon onClick={handleIconClick}>
           <img
@@ -36,12 +37,12 @@ const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
   );
 };
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.div<{ bgImage: string }>`
   height: 254px;
   background-image: none;
   width: 100%;
   padding: 90px 0 112px 25px;
-  background-image: url('src/assets/food/img_details_bg.svg');
+  background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-repeat: no-repeat;
   background-position: right bottom;
 

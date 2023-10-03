@@ -1,6 +1,9 @@
 import { atom, selector } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
 import { IUser } from '@/types/Login/IUser';
 
+const { persistAtom } = recoilPersist();
 export const userInfoAtom = atom<IUser>({
   key: 'userInfoAtom',
   default: {
@@ -22,7 +25,8 @@ export const userInfoAtom = atom<IUser>({
       },
       token: ''
     }
-  }
+  },
+  effects_UNSTABLE: [persistAtom]
 });
 
 export const userInfoSelector = selector<IUser>({

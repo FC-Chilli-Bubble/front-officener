@@ -9,8 +9,10 @@ const BottomNavigation = () => {
   const pathName = useLocation().pathname;
   const currentPath = useMemo(() => pathName === '/' ? '/home' : pathName, [pathName]);
 
+  const isIos = useMemo(() => /iPhone|iPad|iPod/i.test(navigator.userAgent), []);
+
   return (
-    <StyledNav>
+    <StyledNav isIos={isIos}>
       <ul>
         {
           NAV_MENU.map(nav => (
@@ -27,9 +29,9 @@ const BottomNavigation = () => {
   );
 };
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<{ isIos: boolean; }>`
   width: 100%; 
-  height: 90px; 
+  height: ${({ isIos }) => isIos ? '90px' : '56px'};
   padding: 9px 0 7px;
   background-color: ${({ theme }) => theme.colors.white};
   border-top: 0.3px solid ${({ theme }) => theme.colors.barBorderColor};
