@@ -136,7 +136,6 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         setIsValid(false);
         setVerifyCodeErrorIcon('wrong');
         setVerifyCodeMsg(errorData);
-        // setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
         return;
       }
     );
@@ -150,25 +149,18 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       if (receivedVerifyCode !== '' && name && phoneNumber) {
         createCodeConfirm(phoneNumber, verifyCode).then(
           response => {
-            const responseData = response.data;
-            const message = responseData.data;
-            console.log(message); //undefined
+            const message = response.message;
             setVerifyCodeErrorIcon('correct');
-            // setVerifyCodeMsg(message);
-            setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
+            setVerifyCodeMsg(message);
             setVerificationComplete(true);
             setDisabled(true);
             setIsEditDisabled(true);
-            // handleNextStep();
           },
           (error: IErrorResponse) => {
             const errorData = error.errorMessage;
-            console.log(errorData);
             setVerifyCodeErrorIcon('wrong');
-            // setVerifyCodeMsg(errorData);
             setVerifyCodeMsg(errorData);
             setVerificationComplete(false);
-            // setPhoneNumber('');
             setVerifyCode('');
             return;
           }
@@ -178,22 +170,19 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     [receivedVerifyCode, name, phoneNumber]
   );
 
-
   // 회원가입 요청
   const handleSignupReq = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
     console.log('handleSignupReq 함수 호출됨');
-    createSignup(
-      {
-        agree: agreementCheckbox.agree,
-        buildingName: userBuilding.buildingName,
-        companyName: userOffice.officeName,
-        email: userAccount.email,
-        password: userAccount.password,
-        name,
-        phoneNumber
-      }
-    ).then(
+    createSignup({
+      agree: agreementCheckbox.agree,
+      buildingName: userBuilding.buildingName,
+      companyName: userOffice.officeName,
+      email: userAccount.email,
+      password: userAccount.password,
+      name,
+      phoneNumber
+    }).then(
       response => {
         const responseData = response;
         console.log(responseData);
@@ -203,7 +192,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         console.log(error.errorMessage);
         openModal({
           ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
-          positiveCallback: () => { }
+          positiveCallback: () => {}
         });
         return;
       }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { useSetRecoilState } from 'recoil';
@@ -56,28 +56,6 @@ const Login = () => {
     } else {
       setEmailErrorIcon('none');
       setEmailMsg('');
-      updateLoginButtonState(newEmail, password);
-    }
-  };
-
-  // 비밀번호 입력 유효성 검사
-  const handlePasswordChange = (newPassword: string) => {
-    setPassword(newPassword);
-    if (!newPassword) {
-      setPwsErrorIcon('none');
-      setPwdMsg('');
-      setIsValid(false);
-      return;
-    }
-    if (!PASSWORD_REGEX.test(newPassword)) {
-      setPwsErrorIcon('none');
-      setPwdMsg('');
-      setIsValid(false);
-      return;
-    } else {
-      setPwsErrorIcon('none');
-      setPwdMsg('');
-      updateLoginButtonState(email, newPassword);
     }
   };
 
@@ -97,70 +75,58 @@ const Login = () => {
     }
   };
 
-  // 비밀번호 입력 필드에서 포커스 아웃 시 에러메세지 출력
-  const handlePasswordBlur = (newPassword: string) => {
+  // 비밀번호 입력 유효성 검사
+  const handlePasswordChange = (newPassword: string) => {
     setPassword(newPassword);
-    if (!password) {
+    if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 입력해 주세요');
-    } else if (!PASSWORD_REGEX.test(password)) {
-      setPwsErrorIcon('error');
-      setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
-    } else {
+      setIsValid(false);
+      return;
+    }
+    if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('none');
       setPwdMsg('');
-    }
-  };
-
-  // 버튼 활성화 상태 변경
-  const updateLoginButtonState = (newEmail: string, newPassword: string) => {
-    if (newEmail && newPassword && !emailMsg && !pwdMsg) {
       setIsValid(true);
       return;
     } else {
-      setIsValid(false);
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      setIsValid(true);
     }
   };
 
   // 로그인 로직
   const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isValid) {
-      createLogin(email, password).then(
-        response => {
-          const token = response.data.userInfo.token;
-          const userInfo = response.data;
-          if (token) {
-            // setCookie(쿠키 이름, 쿠키에 넣을 값, 옵션)
-            setCookie('token', token, { path: '/' });
-          }
-          setUser(userInfo);
-          navigate('/', { replace: true });
-        },
-        (error: IErrorResponse) => {
+    createLogin(email, password).then(
+      response => {
+        const token = response.data.userInfo.token;
+        const userInfo = response.data;
+        if (token) {
+          // setCookie(쿠키 이름, 쿠키에 넣을 값, 옵션)
+          setCookie('token', token, { path: '/' });
+        }
+        setUser(userInfo);
+        navigate('/', { replace: true });
+      },
+      (error: IErrorResponse) => {
+        if (!password) {
+          setPwsErrorIcon('error');
+          setPwdMsg('비밀번호를 입력해 주세요');
+        } else if (!PASSWORD_REGEX.test(password)) {
+          setPwsErrorIcon('error');
+          setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
+        } else {
           setPwsErrorIcon('wrong');
           setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
-          console.log(error.errorMessage);
-          return;
         }
-      );
-    }
+        console.log(error.errorMessage);
+        return;
+      }
+    );
   };
 
-  // 이메일과 비밀번호 업데이트 감지
-  useEffect(() => {
-    updateLoginButtonState(email, password);
-  }, [email, password]);
-
-  // 로그인 상태면 메인으로~
-  // useEffect(() => {
-  //   const token = getCookie('token');
-  //   if (token) {
-  //     navigate('/');
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // }, [])
 
   return (
     <>
@@ -194,7 +160,7 @@ const Login = () => {
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
-              onBlur={handlePasswordBlur}
+              // onBlur={handlePasswordBlur}
               redErrorIcon={pwsErrorIcon}
               isRequired
             />

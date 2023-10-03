@@ -12,6 +12,6 @@ export interface IVerifyCode {
   verifyCode: string;
 }
 
-export interface IVerifyCodeRes {
-  data: string;
-}
+// export interface IVerifyCodeRes {
+//   data: string;
+// }
