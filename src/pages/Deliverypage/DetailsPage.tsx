@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-
 import Header from '@/components/Details/Header';
 import MenuLinkCard from '@/components/Details/MenuLinkCard';
 import HostInfo from '@/components/Details/HostInfo';
@@ -19,7 +18,6 @@ import OutlineButton from '@/components/Common/OutlineButton';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { TBankKey } from '@/constants/banks';
 
-
 const DetailsPage = () => {
   const userInfo = useRecoilValue(userInfoAtom);
   const { openModal } = useModal();
@@ -33,14 +31,12 @@ const DetailsPage = () => {
       const res = await fetchDeliveryPostDetail(roomId);
       setDetail(res.data);
     } catch (error) {
-      openModal(
-        {
-          ...MODAL_DATAS.DELIVERY_POST_DETAIL_FAILURE,
-          positiveCallback: () => {
-            navigate(-1);
-          }
+      openModal({
+        ...MODAL_DATAS.DELIVERY_POST_DETAIL_FAILURE,
+        positiveCallback: () => {
+          navigate(-1);
         }
-      );
+      });
     }
   };
 
@@ -49,28 +45,28 @@ const DetailsPage = () => {
       getDeliveryPostDetail(params.id);
       return;
     }
-    openModal(
-      {
-        ...MODAL_DATAS.DELIVERY_DETAIL_INVALID,
-        positiveCallback: () => {
-          navigate(-1);
-        }
+    openModal({
+      ...MODAL_DATAS.DELIVERY_DETAIL_INVALID,
+      positiveCallback: () => {
+        navigate(-1);
       }
-    );
+    });
   }, [params]);
-
 
   // 삭제 API
   const handleDeletePost = () => {
     params.id &&
-      deleteDeliveryPost(params.id).then(() => {
-        navigate(-1);
-      }, (error: IErrorResponse) => {
-        openModal({
-          ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
-          content: error.errorMessage[0] || '오류가 발생했습니다.',
-        });
-      });
+      deleteDeliveryPost(params.id).then(
+        () => {
+          navigate(-1);
+        },
+        (error: IErrorResponse) => {
+          openModal({
+            ...MODAL_DATAS.DELIVERY_POST_DELETE_FAILURE,
+            content: error.errorMessage[0] || '오류가 발생했습니다.'
+          });
+        }
+      );
   };
 
   // 삭제 버튼 클릭 핸들러
@@ -118,31 +114,59 @@ const DetailsPage = () => {
     <>
       <Header leftIcon="back" />
       <StyledContainer>
-        {
-          detail && (
-            <>
-              <StoreInfo detail={detail} />
-              <MenuLinkCard menuLink={detail.menuLink} storeName={detail.storeName} />
-              <StyledDivider />
-              <HostInfo userName={detail.hostName} bank={detail.bankName as TBankKey} account={detail.account} desc={detail.description} />
-            </>
-          )
-        }
+        {detail && (
+          <>
+            <StoreInfo detail={detail} />
+            <MenuLinkCard
+              menuLink={detail.menuLink}
+              storeName={detail.storeName}
+            />
+            <StyledDivider />
+            <HostInfo
+              userName={detail.hostName}
+              bank={detail.bankName as TBankKey}
+              account={detail.account}
+              desc={detail.description}
+            />
+          </>
+        )}
       </StyledContainer>
       <StyledButtonBox>
-        {
-          detail?.hostId === userInfo.userInfo.id ?
-            (
-              <StyledHostButtons>
-                <OutlineButton size='small' title='수정' onClick={handleClickEdit} width='fit-content' />
-                <OutlineButton size='small' title='삭제' onClick={handleDeleteClick} width='fit-content' />
-                <Button size='small' type='cta' title='채팅방 참여' onClick={handleClickEnterChat} width='fit-content' />
-              </StyledHostButtons>
-            )
-            : detail?.isJoin ? (
-              <Button type='cta' title='채팅방 참여' onClick={handleClickEnterChat} />
-            ) : <Button type='cta' title='함께배달' onClick={handleClickJoinRoom} />
-        }
+        {detail?.hostId === userInfo.userInfo.id ? (
+          <StyledHostButtons>
+            <OutlineButton
+              size="small"
+              title="수정"
+              onClick={handleClickEdit}
+              width="fit-content"
+            />
+            <OutlineButton
+              size="small"
+              title="삭제"
+              onClick={handleDeleteClick}
+              width="fit-content"
+            />
+            <Button
+              size="small"
+              type="cta"
+              title="채팅방 참여"
+              onClick={handleClickEnterChat}
+              width="fit-content"
+            />
+          </StyledHostButtons>
+        ) : detail?.isJoin ? (
+          <Button
+            type="cta"
+            title="채팅방 참여"
+            onClick={handleClickEnterChat}
+          />
+        ) : (
+          <Button
+            type="cta"
+            title="함께배달"
+            onClick={handleClickJoinRoom}
+          />
+        )}
       </StyledButtonBox>
     </>
   );
