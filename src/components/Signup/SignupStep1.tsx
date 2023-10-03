@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState} from 'react';
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -38,22 +38,18 @@ const SignupStep1 = ({ onNextStep }: SignupStepProps) => {
     setChildChecked([newAllChecked, newAllChecked, newAllChecked]);
   };
 
-  // 세부 체크박스가 변경 호출
+  // 자식 체크박스 변경 호출
   const handleChildCheckChange = (index: number, isChecked: boolean) => {
     const newChildChecked = [...childChecked];
     newChildChecked[index] = isChecked;
     setChildChecked(newChildChecked);
-
-    if (newChildChecked.every(checked => checked)) {
-      setAllChecked(true);
-    } else {
-      setAllChecked(false);
-    }
+    // 모든 자식 체크박스가 체크되었는지 확인
+    const allChildrenChecked = newChildChecked.every(checked => checked);
+    setAllChecked(allChildrenChecked);
   };
+// 😃
 
-  const childCheckValues = useMemo(() => [...childChecked], [childChecked]);
-  const isAllChildChecked = childCheckValues.every(isChecked => isChecked);
-  const isDisabled = !isAllChildChecked;
+  const isDisabled = !(childChecked[0] && childChecked[1]);
 
   return (
     <>

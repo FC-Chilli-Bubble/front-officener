@@ -104,7 +104,6 @@ const Login = () => {
         const token = response.data.userInfo.token;
         const userInfo = response.data;
         if (token) {
-          // setCookie(쿠키 이름, 쿠키에 넣을 값, 옵션)
           setCookie('token', token, { path: '/' });
         }
         setUser(userInfo);
@@ -126,7 +125,6 @@ const Login = () => {
       }
     );
   };
-
 
   return (
     <>
@@ -160,7 +158,6 @@ const Login = () => {
               placeholder="비밀번호를 입력해 주세요."
               onChange={handlePasswordChange}
               errorMessage={pwdMsg}
-              // onBlur={handlePasswordBlur}
               redErrorIcon={pwsErrorIcon}
               isRequired
             />
