@@ -1,16 +1,16 @@
 import { apiClient } from '@/apis/apiClient';
-import { ICommonResponse } from '@/types/Common/ICommonResponse';
-import { ISignup } from '@/types/Signup/ISignup';
+import { IMessageResponse } from '@/types/Common/ICommonResponse';
+
 
 export const createSignup = async (
   agree: boolean,
   email: string,
   password: string,
   buildingName: string,
-  officenName: string,
+  companyName: string,
   name: string,
   phoneNumber: string
-): Promise<ICommonResponse<ISignup>> => {
+): Promise<IMessageResponse> => {
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await apiClient.post('/api/signup', {
@@ -18,7 +18,7 @@ export const createSignup = async (
       email,
       password,
       buildingName,
-      officenName,
+      companyName,
       name,
       phoneNumber
     });

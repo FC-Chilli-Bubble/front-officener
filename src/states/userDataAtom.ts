@@ -14,9 +14,8 @@ export const userInfoAtom = atom<IUser>({
         buildingName: '',
         buildingAddress: ''
       },
-      // office로 변경 예정
-      company: {
-        officeId: 0,
+      office: {
+        id: 0,
         officeName: '',
         officeNum: ''
       },

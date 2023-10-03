@@ -17,4 +17,8 @@ export interface IAccount {
   email: string;
   password: string;
 }
+export interface IInfo {
+  name: string;
+  phoneNumber: string;
+}
 

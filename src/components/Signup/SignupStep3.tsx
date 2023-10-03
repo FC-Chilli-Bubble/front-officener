@@ -34,7 +34,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     return;
   };
 
-  // 선택된변경될 때마다 버튼을 활성화 여부를 업데이트
+  // 선택 변경될 때마다 버튼을 활성화 여부를 업데이트
   useEffect(() => {
     handleSearchSubmit;
   }, [inputValue]);

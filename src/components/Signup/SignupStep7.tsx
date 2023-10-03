@@ -1,8 +1,9 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
+import { userDataAtom, userBuildingsAtom, userOfficeAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -10,8 +11,20 @@ interface SignupStepProps {
 }
 
 const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
-  const navigate = useNavigate();
+  // 리코일에서 받아온 상태값
+  const userInfo = useRecoilValue(userDataAtom);
+  const userName = userInfo.name;
 
+  const userBuilding = useRecoilValue(userBuildingsAtom);
+  const userBuildingName = userBuilding.buildingName;
+
+  const userOffice = useRecoilValue(userOfficeAtom);
+  const userOfficeName = userOffice.officeName;
+  const officeNum = userOffice.officeNum;
+
+  const navigate = useNavigate();
+  const clearUser = useResetRecoilState(userBuildingsAtom);
+  const clearData = useResetRecoilState(userOfficeAtom);
 
   const handleServiceClick = () => {
     onNextStep(7);
@@ -19,6 +32,9 @@ const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
   };
   // 로그인 페이지 이동 버튼
   const handleNavigate = () => {
+    //회원가입 과정이 끝나면 저장된 값 삭제
+    clearUser();
+    clearData();
     navigate('/login', { replace: true });
     return;
   };
@@ -34,11 +50,11 @@ const SignupStep7 = ({ onNextStep }: SignupStepProps) => {
         <StyledContainer>
           짝짝짝
           <br />
-          홍길동님
+          {userName}님
           <br />
           입주 축하드려요!
           <div>
-            미왕빌딩 A동 102(COIPSG)호 칠리버블
+            {userBuildingName} {officeNum} {userOfficeName}
             <br />
             관리센터 승인이 완료되었어요.
           </div>

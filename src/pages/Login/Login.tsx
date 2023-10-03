@@ -128,7 +128,6 @@ const Login = () => {
     if (isValid) {
       createLogin(email, password).then(
         response => {
-          // console.log(response);
           const token = response.data.userInfo.token;
           const userInfo = response.data;
           if (token) {
@@ -139,8 +138,8 @@ const Login = () => {
           navigate('/', { replace: true });
         },
         (error: IErrorResponse) => {
-          setEmailErrorIcon('wrong');
-          setEmailMsg('이메일 또는 비밀번호가 틀렸습니다.');
+          setPwsErrorIcon('wrong');
+          setPwdMsg('이메일 또는 비밀번호가 틀렸습니다.');
           console.log(error.errorMessage);
           return;
         }

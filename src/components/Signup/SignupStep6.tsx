@@ -1,22 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
 import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
-import { useNavigate } from 'react-router-dom';
-
-// import { useRecoilValue } from 'recoil';
-// import {
-//   agreementCheckboxAtom,
-//   userResidentAtom,
-//   SignupAccountAtom,
-// } from '@/states/signupRequestAtom';
+// import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useModal } from '@/hooks/useModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
+import MODAL_DATAS from '@/constants/modalDatas';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { createhAuthCode } from '@/apis/Signup/AuthCodeRequests';
 import { createCodeConfirm } from '@/apis/Signup/CodeConfirmRequests';
+import { createSignup } from '@/apis/Signup/SignupRequests';
+import {
+  agreementCheckboxAtom,
+  signupAccountAtom,
+  userDataAtom,
+  userBuildingsAtom,
+  userOfficeAtom
+} from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -26,11 +31,13 @@ interface SignupStepProps {
 type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { openModal } = useModal();
   // 유효성 검사
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
+
   // 오류 메시지 상태
   const [verifyCodeMsg, setVerifyCodeMsg] = useState('');
   const [verifyCodeErrorIcon, setVerifyCodeErrorIcon] = useState<TErrorIconType>('none');
@@ -42,19 +49,40 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [disabled, setDisabled] = useState(false);
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
-
+  // 인증 용청 확인 후 인풋창 수정 불가설정
+  const [isEditDisabled, setIsEditDisabled] = useState(false);
   // 리코일에서 받아온 상태값
-  // const agreementCheckboxAtom = useRecoilValue(agreementCheckboxAtom);
-  // const userBuildingsAtom = useRecoilValue(userBuildingsAtom);
-  // const SignupAccountAtom = useRecoilValue(SignupAccountAtom);
-  // const verificationResultState = useRecoilValue(verificationResultState);
+  const agreementCheckbox = useRecoilValue(agreementCheckboxAtom);
+  const agreement = agreementCheckbox.agree;
+
+  const userAccount = useRecoilValue(signupAccountAtom);
+  const userEmail = userAccount.email;
+  const userPassword = userAccount.password;
+
+  const userBuilding = useRecoilValue(userBuildingsAtom);
+  const userBuildingName = userBuilding.buildingName;
+
+  const userOffice = useRecoilValue(userOfficeAtom);
+  const userOfficeName = userOffice.officeName;
+
+  // 리코일에 상태 저장
+  const setUserInfo = useSetRecoilState(userDataAtom);
+  const handleUserInfo = (value: string, key: string) => {
+    setUserInfo(prevState => ({
+      ...prevState,
+      [key]: value
+    }));
+  };
 
   const handleServiceClick = () => {
-    navigate('/login', { replace: true });
+    onNextStep(6);
     return;
   };
 
   const handleNextStep = () => {
+    //페이지 이동 시 상태값 저장
+    handleUserInfo(name, 'name');
+    handleUserInfo(phoneNumber, 'phoneNumber');
     onNextStep(8);
     return;
   };
@@ -62,9 +90,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 이름 입력 유효성 검사
   const handleNameChange = (newName: string) => {
     setName(newName);
-    if (!USER_NAME_REGEX.test(newName)) {
-      return;
-    } else return;
+    return;
   };
 
   // 전화번호 입력 유효성 검사
@@ -103,7 +129,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
 
   const requsetButtonState = (newName: string, newPhoneNum: string) => {
     if (USER_NAME_REGEX.test(newName) && PHONE_NUMBER_REGEX.test(newPhoneNum)) {
-      setIsValid(true); //인증 요청 활성화
+      setIsValid(true);
       return;
     } else {
       setIsValid(false);
@@ -117,17 +143,17 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       response => {
         const responseData = response.data;
         const verifyCode = responseData.verifyCode;
-        console.log('API 요청 성공! 인증 코드:', verifyCode);
         setReceivedVerifyCode(verifyCode);
         setVerifyCodeErrorIcon('errorG');
         setVerifyCodeMsg('해당 번호로 인증 번호를 발송했습니다.');
         notify(verifyCode);
       },
       (error: IErrorResponse) => {
+        const errorData = error.errorMessage.join(', ');
         setIsValid(false);
         setVerifyCodeErrorIcon('wrong');
-        setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
-        console.log(error.errorMessage);
+        setVerifyCodeMsg(errorData);
+        // setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
         return;
       }
     );
@@ -142,35 +168,69 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         createCodeConfirm(phoneNumber, verifyCode).then(
           response => {
             const responseData = response.data;
-            console.log(responseData);
+            const message = responseData.data;
+            console.log(message); //undefined
             setVerifyCodeErrorIcon('correct');
-            setVerifyCodeMsg('인증이 완료되었습니다.');
+            // setVerifyCodeMsg(message);
+            setVerifyCodeMsg('이미 등록된 휴대폰 번호입니다.');
             setVerificationComplete(true);
             setDisabled(true);
+            setIsEditDisabled(true);
+            handleNextStep();
           },
           (error: IErrorResponse) => {
+            const errorData = error.errorMessage.join(', ');
+            console.log(errorData);
             setVerifyCodeErrorIcon('wrong');
-            setVerifyCodeMsg('인증번호가 일치하지 않습니다.');
+            // setVerifyCodeMsg(errorData);
+            setVerifyCodeMsg('잘못된 인증 코드입니다.');
             setVerificationComplete(false);
-            console.log(error.errorMessage);
             setPhoneNumber('');
             setVerifyCode('');
             return;
           }
         );
-      }
-      return;
+      } else return;
     },
     [receivedVerifyCode, name, phoneNumber, verifyCode]
   );
 
+  // 확인용
+  console.log(agreement);
+  console.log(userEmail);
+  console.log(userPassword);
+  console.log(userBuildingName);
+  console.log(userOfficeName);
+  console.log(name);
+  console.log(phoneNumber);
+
   // 회원가입 요청
-  const handleSignupReq = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-    },
-    [receivedVerifyCode, name, phoneNumber, verifyCode]
-  );
+  const handleSignupReq = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('handleSignupReq 함수 호출됨');
+    createSignup(
+      agreement,
+      userEmail,
+      userPassword,
+      userBuildingName,
+      userOfficeName,
+      name,
+      phoneNumber
+    ).then(
+      response => {
+        const responseData = response;
+        console.log(responseData);
+      },
+      (error: IErrorResponse) => {
+        console.log(error.errorMessage);
+        openModal({
+          ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
+          positiveCallback: () => {}
+        });
+        return;
+      }
+    );
+  };
 
   return (
     <>
@@ -179,8 +239,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
-      <StyledLayout>
-        <StyledContainer onSubmit={handleSignupReq}>
+      <StyledLayout onSubmit={handleSignupReq}>
+        <StyledContainer>
           <StyledInput>
             <FormField
               isType="text"
@@ -191,6 +251,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               onChange={handleNameChange}
               errorMessage=""
               redErrorIcon="none"
+              disabled={isEditDisabled}
             />
           </StyledInput>
           <StyledInput>
@@ -205,6 +266,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
                 onChange={value => handlePhoneNumberChange(value.replace(/[^0-9]/g, ''))}
                 errorMessage=""
                 redErrorIcon={'none'}
+                disabled={isEditDisabled}
               />
               <StyledButton
                 type="button"
@@ -232,6 +294,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               onChange={handleVerifyCodeChange}
               errorMessage={verifyCodeMsg}
               redErrorIcon={verifyCodeErrorIcon}
+              disabled={isEditDisabled}
             />
           </StyledInput>
         </StyledContainer>
@@ -249,7 +312,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     </>
   );
 };
-const StyledLayout = styled.div`
+
+const StyledLayout = styled.form`
   height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
@@ -257,7 +321,7 @@ const StyledLayout = styled.div`
   justify-content: space-between;
 `;
 
-const StyledContainer = styled.form`
+const StyledContainer = styled.div`
   width: 100%;
   height: 267px;
   display: flex;
@@ -267,6 +331,9 @@ const StyledContainer = styled.form`
 
 const StyledInput = styled.div`
   margin-top: 23px;
+  &:last-child {
+    height: 100%;
+  }
 `;
 
 const StyledBox = styled.div`
@@ -293,6 +360,7 @@ const StyledButton = styled.button`
     background-color: ${({ theme }) => theme.colors.ctaPressedColor};
   }
 `;
+
 const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
     font-size: 16px;

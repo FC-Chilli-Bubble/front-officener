@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { useSetRecoilState } from 'recoil';
@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
-import { SignupAccountAtom } from '@/states/signupRequestAtom';
+import { signupAccountAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -20,24 +20,29 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVerify, setPasswordVerify] = useState('');
-  const [isValid, setIsValid] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState(false);
   // 오류 메시지 상태
   const [emailMsg, setEmailMsg] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorIconType>('none');
   //계정 정보 저장하기
-  const setUserAccount = useSetRecoilState(SignupAccountAtom);
-
-  // 버튼 상태
-  const [disabled, setDisabled] = useState(true);
+  const setUserAccount = useSetRecoilState(signupAccountAtom);
+  const handleUserAccount = (value: string, key: string) => {
+    setUserAccount(prevState => ({
+      ...prevState,
+      [key]: value
+    }));
+  };
 
   const handleServiceClick = () => {
     onNextStep(5);
     return;
   };
-  
+
   const handleNextStep = () => {
+    handleUserAccount(email, 'email');
+    handleUserAccount(password, 'password');
     onNextStep(7);
     return;
   };
@@ -52,6 +57,23 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else if (!EMAIL_REGEX.test(newEmail)) {
       setEmailErrorIcon('none');
       setEmailMsg('');
+      return;
+    } else {
+      setEmailMsg('');
+      setEmailErrorIcon('none');
+    }
+  };
+
+  // 이메일 입력 유효성 검사 (포커스아웃 시에 에러메시지 반응)
+  const handleEmailBlur = (newEmail: string) => {
+    setEmail(newEmail);
+    if (!newEmail) {
+      setEmailErrorIcon('none');
+      setEmailMsg('이메일을 입력해 주세요');
+      return;
+    } else if (!EMAIL_REGEX.test(newEmail)) {
+      setEmailErrorIcon('error');
+      setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
       return;
     } else {
       setEmailMsg('');
@@ -76,41 +98,6 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  // 비밀번호 재확인
-  const handlePasswordVerify = (newPassword: string) => {
-    setPasswordVerify(newPassword.toString());
-    if (!newPassword) {
-      setPwsErrorIcon('none');
-      setPwdMsg('');
-      return;
-    } else if (password !== newPassword) {
-      setPwsErrorIcon('none');
-      setPwdMsg('');
-      return;
-    } else {
-      setPwsErrorIcon('correct');
-      setPwdMsg('비밀번호가 일치합니다.');
-      setDisabled(false); // 임시 활성화
-    }
-  };
-
-  // 이메일 입력 유효성 검사 (포커스아웃 시에 에러메시지 반응)
-  const handleEmailBlur = (newEmail: string) => {
-    setEmail(newEmail);
-    if (!newEmail) {
-      setEmailErrorIcon('none');
-      setEmailMsg('이메일을 입력해 주세요');
-      return;
-    } else if (!EMAIL_REGEX.test(newEmail)) {
-      setEmailErrorIcon('error');
-      setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
-      return;
-    } else {
-      setEmailMsg('');
-      setEmailErrorIcon('none');
-    }
-  };
-
   // 비밀번호 입력 유효성 검사 (포커스아웃 시에 에러메시지 반응)
   const handlePasswordBlur = (newPassword: string) => {
     setPassword(newPassword);
@@ -128,16 +115,38 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
+  // 비밀번호 재확인
+  const handlePasswordVerify = (newPassword: string) => {
+    setPasswordVerify(newPassword.toString());
+    if (!newPassword) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      setIsValid(false);
+      return;
+    } else if (password !== newPassword) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
+      setIsValid(false);
+      return;
+    } else {
+      setPwsErrorIcon('correct');
+      setPwdMsg('비밀번호가 일치합니다.');
+      setIsValid(true);
+    }
+  };
+
   // 비밀번호 재확인 (포커스아웃 시에 에러메시지 반응)
   const handlePasswordVerifyBlur = (newPassword: string) => {
     setPasswordVerify(newPassword.toString());
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 다시 입력해 주세요');
+
       return;
     } else if (password !== newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호가 일치하지 않습니다.');
+
       return;
     } else {
       setPwsErrorIcon('correct');
@@ -145,31 +154,12 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     }
   };
 
-  const updateLoginButtonState = useCallback(
-    (newEmail: string, newPassword: string) => {
-      if (newEmail && newPassword && !emailMsg && pwdMsg == 'correct') {
-        setIsValid(true);
-        return;
-      } else {
-        setIsValid(false);
-      }
-    },
-    [emailMsg, pwdMsg]
-  );
-
-  // 이메일과 비밀번호 업데이트 감지
-  useEffect(() => {
-    return () => updateLoginButtonState(email, password);
-  }, [email, password, updateLoginButtonState]);
-
-  // 회원가입 로직
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // 계정 생성(저장))
+  const handleAccountSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
-      setUserAccount({
-        email,
-        password
-      });
+      handleUserAccount(email, 'email');
+      handleUserAccount(password, 'password');
       return;
     }
   };
@@ -181,7 +171,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
-      <StyledLayout onSubmit={handleLoginSubmit}>
+      <StyledLayout onSubmit={handleAccountSubmit}>
         <StyleContainer>
           <StyledInput>
             <FormField
@@ -227,7 +217,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
             type="cta"
             title="다음"
             width="100%"
-            disabled={disabled}
+            disabled={!isValid}
             onClick={handleNextStep}
           />
         </StyledButtonContainer>
