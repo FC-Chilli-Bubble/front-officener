@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import IconSend from '@/assets/chatrooms/ico_send.svg';
 import { chatInputFocusAtom, isMobileAtom } from '@/states/chatInputFocusAtom';
 
-const ChatInput = ({ socket }: { socket: any }) => {
+const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
   const [inputValue, setInputValue] = useState('');
   const isMobile = useRecoilValue(isMobileAtom);
   const [inputFocus, setInputFocus] = useRecoilState(chatInputFocusAtom);
@@ -14,11 +14,10 @@ const ChatInput = ({ socket }: { socket: any }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+  console.log(socket,"인풋");
 
   const socketSend = () => {
-    console.log('인풋', socket.readyState);
-
-    if (socket.readyState === WebSocket.OPEN) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
       const nowDate = new Date().toISOString().slice(0, -1);
       const MESSAGE_DATA = {
         messageType: 'TALK',
@@ -26,8 +25,9 @@ const ChatInput = ({ socket }: { socket: any }) => {
         sendTime: nowDate
       };
       socket.send(JSON.stringify(MESSAGE_DATA));
+      console.log(MESSAGE_DATA, '성공');
     } else {
-      console.log('실패');
+      console.log('WebSocket 연결이 열리지 않았습니다.');
     }
   };
 
