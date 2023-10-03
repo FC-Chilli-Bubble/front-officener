@@ -13,7 +13,7 @@ type THostInfoProps = {
 const HostInfo = React.memo(({ userName, bank, account, desc }: THostInfoProps) => {
   return (
     <StyledHostInfo>
-      <h4>{details?.호스트}</h4> <br />
+      {/* <h4>{details?.호스트}</h4> <br /> */}
       <HostDetailContainer>
         <img
           src={IconProfile}
@@ -65,7 +65,7 @@ const StyledHostInfo = styled.div`
   span {
     color: black;
     font-size: 14px;
-    padding: 3px 0 0 0;
+    padding-left: 3px;
   }
 `;
 
