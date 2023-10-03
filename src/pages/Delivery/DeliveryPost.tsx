@@ -65,21 +65,19 @@ const DeliveryPost = () => {
   }, [postDetail, setPostData, setSavedTag, setSavedTime]);
 
   // 은행 목록 조회 api
-  const getBankList = () => {
-    fetchBankList().then(
-      res => {
-        setBankList(res.data.banks);
-      },
-      (error: IErrorResponse) => {
-        openModal({
-          ...MODAL_DATAS.DELIVERY_POST_BANK_FAILURE,
-          content: error.errorMessage[0] || '오류가 발생했습니다.',
-          positiveCallback: () => {
-            clearState();
-          }
-        });
-      }
-    );
+  const getBankList = async () => {
+    try {
+      const res = await fetchBankList();
+      setBankList(res.data.banks);
+    } catch (error) {
+      openModal({
+        ...MODAL_DATAS.DELIVERY_POST_BANK_FAILURE,
+        content: (error as IErrorResponse).errorMessage || '오류가 발생했습니다.',
+        positiveCallback: () => {
+          clearState();
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -95,35 +93,32 @@ const DeliveryPost = () => {
   };
 
   // 함께배달 등록
-  const createNewPost = () => {
-    createDeliveryPost(postData).then(
-      () => {
+  const createNewPost = async () => {
+    try {
+      const isSuccess = await createDeliveryPost(postData);
+      isSuccess &&
         openModal({
           ...MODAL_DATAS.DELIVERY_POST_SUCCESS, positiveCallback: () => {
             clearState();
           }
         });
-      },
-      () => {
-        openModal(MODAL_DATAS.DELIVERY_POST_FAILURE);
-      }
-    );
+    } catch (error) {
+      openModal(MODAL_DATAS.DELIVERY_POST_FAILURE);
+    }
   };
 
-
   // 수정 API 호출
-  const handleEditPost = () => {
-    updateDeliveryPost(postDetail.id, postData).then(
-      () => {
-        openModal({
-          ...MODAL_DATAS.DELIVERY_POST_EDIT_SUCCESS, positiveCallback: () => {
-            clearState();
-          }
-        });
-      }, () => {
-        openModal(MODAL_DATAS.DELIVERY_POST_EDIT_FAILURE);
-      }
-    );
+  const handleEditPost = async () => {
+    try {
+      const isSuccess = await updateDeliveryPost(postDetail.id, postData);
+      isSuccess && openModal({
+        ...MODAL_DATAS.DELIVERY_POST_EDIT_SUCCESS, positiveCallback: () => {
+          clearState();
+        }
+      });
+    } catch (error) {
+      openModal(MODAL_DATAS.DELIVERY_POST_EDIT_FAILURE);
+    }
   };
 
   const handleClickButton = () => {

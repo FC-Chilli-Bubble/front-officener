@@ -17,6 +17,13 @@ const App = () => {
   useAxiosInterceptor();
 
   useEffect(() => {
+    window.addEventListener("scroll", (e) => {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!userInfo.userInfo.token) {
       navigate('/intro', { replace: true });
     }

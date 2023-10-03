@@ -35,12 +35,7 @@ const DeliveryPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          // console.error('Token is null');
-          return;
-        }
-        const joinedRoomsResponse = await getJoinedRooms(token);
+        const joinedRoomsResponse = await getJoinedRooms();
         setJoinedRooms(joinedRoomsResponse.data.rooms);
       } catch (error) {
         console.error('Error fetching data from API:', error);
@@ -112,7 +107,7 @@ const StyledButtonBox = styled.div`
   padding-right: 26px;
 `;
 
-const PostButton = styled.button<{ img: string }>`
+const PostButton = styled.button<{ img: string; }>`
   position: sticky;
   width: 48px;
   height: 48px;

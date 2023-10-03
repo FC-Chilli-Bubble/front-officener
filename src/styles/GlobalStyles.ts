@@ -17,6 +17,11 @@ const GlobalStyles = createGlobalStyle`
   body {
     height: 100vh;
     color: #000;
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0;
   }
 
   *{
