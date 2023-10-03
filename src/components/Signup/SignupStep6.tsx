@@ -1,12 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
-// import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useModal } from '@/hooks/useModal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useModal } from '@/hooks/useModal';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
@@ -15,6 +13,7 @@ import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { createhAuthCode } from '@/apis/Signup/AuthCodeRequests';
 import { createCodeConfirm } from '@/apis/Signup/CodeConfirmRequests';
 import { createSignup } from '@/apis/Signup/SignupRequests';
+import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
 import {
   agreementCheckboxAtom,
   signupAccountAtom,
@@ -53,26 +52,11 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const [isEditDisabled, setIsEditDisabled] = useState(false);
   // 리코일에서 받아온 상태값
   const agreementCheckbox = useRecoilValue(agreementCheckboxAtom);
-  const agreement = agreementCheckbox.agree;
-
   const userAccount = useRecoilValue(signupAccountAtom);
-  const userEmail = userAccount.email;
-  const userPassword = userAccount.password;
-
   const userBuilding = useRecoilValue(userBuildingsAtom);
-  const userBuildingName = userBuilding.buildingName;
-
   const userOffice = useRecoilValue(userOfficeAtom);
-  const userOfficeName = userOffice.officeName;
-
   // 리코일에 상태 저장
   const setUserInfo = useSetRecoilState(userDataAtom);
-  const handleUserInfo = (value: string, key: string) => {
-    setUserInfo(prevState => ({
-      ...prevState,
-      [key]: value
-    }));
-  };
 
   const handleServiceClick = () => {
     onNextStep(6);
@@ -81,8 +65,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
 
   const handleNextStep = () => {
     //페이지 이동 시 상태값 저장
-    handleUserInfo(name, 'name');
-    handleUserInfo(phoneNumber, 'phoneNumber');
+    setUserInfo({ name, phoneNumber });
     onNextStep(8);
     return;
   };
@@ -149,7 +132,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         notify(verifyCode);
       },
       (error: IErrorResponse) => {
-        const errorData = error.errorMessage.join(', ');
+        const errorData = error.errorMessage;
         setIsValid(false);
         setVerifyCodeErrorIcon('wrong');
         setVerifyCodeMsg(errorData);
@@ -176,56 +159,51 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             setVerificationComplete(true);
             setDisabled(true);
             setIsEditDisabled(true);
-            handleNextStep();
+            // handleNextStep();
           },
           (error: IErrorResponse) => {
-            const errorData = error.errorMessage.join(', ');
+            const errorData = error.errorMessage;
             console.log(errorData);
             setVerifyCodeErrorIcon('wrong');
             // setVerifyCodeMsg(errorData);
-            setVerifyCodeMsg('잘못된 인증 코드입니다.');
+            setVerifyCodeMsg(errorData);
             setVerificationComplete(false);
-            setPhoneNumber('');
+            // setPhoneNumber('');
             setVerifyCode('');
             return;
           }
         );
       } else return;
     },
-    [receivedVerifyCode, name, phoneNumber, verifyCode]
+    [receivedVerifyCode, name, phoneNumber]
   );
 
-  // 확인용
-  console.log(agreement);
-  console.log(userEmail);
-  console.log(userPassword);
-  console.log(userBuildingName);
-  console.log(userOfficeName);
-  console.log(name);
-  console.log(phoneNumber);
 
   // 회원가입 요청
-  const handleSignupReq = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSignupReq = (e?: React.MouseEvent<HTMLElement>) => {
+    e?.preventDefault();
     console.log('handleSignupReq 함수 호출됨');
     createSignup(
-      agreement,
-      userEmail,
-      userPassword,
-      userBuildingName,
-      userOfficeName,
-      name,
-      phoneNumber
+      {
+        agree: agreementCheckbox.agree,
+        buildingName: userBuilding.buildingName,
+        companyName: userOffice.officeName,
+        email: userAccount.email,
+        password: userAccount.password,
+        name,
+        phoneNumber
+      }
     ).then(
       response => {
         const responseData = response;
         console.log(responseData);
+        handleNextStep();
       },
       (error: IErrorResponse) => {
         console.log(error.errorMessage);
         openModal({
           ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
-          positiveCallback: () => {}
+          positiveCallback: () => { }
         });
         return;
       }
@@ -239,7 +217,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         leftIcon="back"
         leftIconClick={handleServiceClick}
       />
-      <StyledLayout onSubmit={handleSignupReq}>
+      <StyledLayout>
         <StyledContainer>
           <StyledInput>
             <FormField
@@ -305,7 +283,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             title="다음"
             width="100%"
             disabled={!disabled}
-            onClick={handleNextStep}
+            onClick={handleSignupReq}
           />
         </StyledButtonContainer>
       </StyledLayout>
