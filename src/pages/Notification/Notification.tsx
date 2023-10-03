@@ -35,7 +35,6 @@ const Notification = () => {
   };
 
   const handleClickNotification = async (notifyId: number, roomId: number) => {
-
     try {
       const res = await updateNotificationReadStatus(notifyId);
       if (res) {
@@ -68,7 +67,7 @@ const Notification = () => {
         <div>
           <StyledNewTitle>
             <h2>새로운 알림</h2>
-            <button onClick={handleClickReadAll}>모두 읽음</button>
+            <button onClick={handleClickReadAll} disabled={newNotifications.length === 0}>모두 읽음</button>
           </StyledNewTitle>
           {
             newNotifications.length > 0

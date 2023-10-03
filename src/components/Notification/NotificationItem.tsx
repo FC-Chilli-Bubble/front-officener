@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 
-import IconDelivery from '@/assets/ico_delivery_off.svg';
 import { INotification } from '@/types/Notify/INotification';
+import { FOOD_IMAGE } from '@/constants/commonUiData';
 
 type TNotificationItemProps = {
   // TODO : 추후 알림 인터페이스 수정 필요
@@ -39,7 +39,7 @@ const NotificationItem = React.memo((
 
   return (
     <StyledContainer onClick={handleUpdateRead}>
-      <img src={IconDelivery} alt='음식태그' />
+      <img src={FOOD_IMAGE[notification.menuTag]} alt='음식태그' />
       <StyledBox>
         <p>{type}</p>
         <h5>{content}</h5>

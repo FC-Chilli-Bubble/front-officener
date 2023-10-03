@@ -26,7 +26,7 @@ const Home = () => {
         {/* 빌딩 정보 */}
         <StyledBuildingInfo>
           <h3>{user.userInfo.building.buildingName}</h3>
-          <p>{user.userInfo.company.officeNum} {user.userInfo.company.officeName}</p>
+          {/* <p>{user.userInfo.company.officeNum} {user.userInfo.company.officeName}</p> */}
         </StyledBuildingInfo>
         <StyledBox>
           {/* 우리 오피스 소식 */}

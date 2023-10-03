@@ -32,16 +32,6 @@ export const HEADER_LEFT_ICONS = {
   none: null
 };
 
-// export const INPUT_ERROR_MESSAGE = {
-//   error: IconGrayError,
-//   none: null
-// };
-
-// export const INPUT_GRAYERROR_MESSAGE = {
-//   error: IconGrayError,
-//   none: null
-// };
-
 export const INPUT_ERROR_ICONS = {
   errorG: IconGrayError, //grey !
   error: IconRedError, // red !
