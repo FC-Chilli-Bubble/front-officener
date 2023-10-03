@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
-import { foodData } from '@/pages/Deliverypage/dummyData';
-import FoodItem from './FoodItem';
-
+import { roomsAtom } from '@/states/rommsAtom';
+// import { IRoom } from '@/types/Delivery/IDeliveryList';
+import FoodItem from '@/components/Delivery/FoodItem';
 import IconTime from '@/assets/food/Time.svg';
 
 interface ITogetherDeliveryProps {
@@ -10,6 +12,26 @@ interface ITogetherDeliveryProps {
 }
 
 const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }) => {
+  const [rooms] = useRecoilState(roomsAtom);
+
+  // deadline (마감시감만)필터링
+  // const filteredData = useMemo(() => {
+  //   return rooms.filter(item => {
+  //     const deadline = dayjs(item.deadLine);
+  //     const diff = dayjs().diff(deadline, 'hour');
+  //     return diff < 500 && diff >= 0;
+  //   });
+  // }, [rooms]);
+
+  // deadline, category (마감시간, 카테고리) 필터링
+  const filteredData = useMemo(() => {
+    return rooms.filter(item => {
+      const deadline = dayjs(item.deadLine);
+      const diff = dayjs().diff(deadline, 'hour');
+      return item.tag === selectedCategory && diff < 500 && diff >= 0;
+    });
+  }, [rooms, selectedCategory]);
+
   return (
     <>
       <Heading>
@@ -22,14 +44,18 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
           />
         </SubHeadingContainer>
       </Heading>
-      <FoodCardContainer>
-        {foodData[selectedCategory].map(food => (
-          <FoodItem
-            key={food.가게이름}
-            food={food}
-          />
-        ))}
-      </FoodCardContainer>
+      {filteredData.length === 0 ? (
+        <StyledNoData>곧 마감하는 배달이 없습니다</StyledNoData>
+      ) : (
+        <FoodCardContainer>
+          {filteredData.map(room => (
+            <FoodItem
+              key={room.roomId}
+              room={room}
+            />
+          ))}
+        </FoodCardContainer>
+      )}
     </>
   );
 };
@@ -37,7 +63,7 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
 // "함께 배달" 문구의 스타일 컴포넌트
 const Heading = styled.h2`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   padding: 30px 0 10px 25px;
   margin: 0;
   display: flex;
@@ -92,9 +118,24 @@ const FoodCardContainer = styled(ScrollHidden)`
   overflow-x: scroll;
   white-space: nowrap;
 
-  &::-webkit-scrollbar{
-    display:none;
+  &::-webkit-scrollbar {
+    display: none;
   }
+`;
+
+const StyledNoData = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px dashed ${props => props.theme.colors.grayColor3};
+  color: ${props => props.theme.colors.grayColor5};
+  width: 330px;
+  height: 405px;
+  flex-shrink: 0;
+  margin: 30px auto auto auto;
 `;
 
 export default TogetherDelivery;

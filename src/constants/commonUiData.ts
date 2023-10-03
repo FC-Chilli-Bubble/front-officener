@@ -13,6 +13,18 @@ import IconHomeOff from '@/assets/ico_home_off.svg';
 import IconDeliveryOff from '@/assets/ico_delivery_off.svg';
 import IconMyOff from '@/assets/ico_my_off.svg';
 import IconMore from '@/assets/ico_more.svg';
+import ImagePorkmeet from '@/assets/food/PORKFEET.svg';
+import ImageSUSHI from '@/assets/food/SUSHI.svg';
+import ImageZZIM from '@/assets/food/ZZIM.svg';
+import ImagePIZZA from '@/assets/food/PIZZA.svg';
+import ImageCHICKEN from '@/assets/food/CHICKEN.svg';
+import ImageASIAN from '@/assets/food/ASIAN.svg';
+import ImageBAEKBAN from '@/assets/food/BAEKBAN.svg';
+import ImageBUNSIK from '@/assets/food/BUNSIK.svg';
+import ImageCAFE from '@/assets/food/CAFE.svg';
+import ImageCHINESE from '@/assets/food/CHINESE.svg';
+import ImageMEET from '@/assets/food/MEET.svg';
+import ImageDOSIRAK from '@/assets/food/DOSIRAK.svg';
 
 export const HEADER_LEFT_ICONS = {
   back: IconBack,
@@ -119,6 +131,21 @@ export const FOODTAGS: IFoodTagType = {
   중식: 'CHINESE',
   '고기,구이': 'MEET',
   도시락: 'DOSIRAK'
+};
+
+export const FOOD_IMAGE: IFoodTagType = {
+  PORKMEET: ImagePorkmeet,
+  SUSHI: ImageSUSHI,
+  ZZIM: ImageZZIM,
+  PIZZA: ImagePIZZA,
+  CHICKEN: ImageCHICKEN,
+  ASAIN: ImageASIAN,
+  BAEKBAN: ImageBAEKBAN,
+  BUNSIK: ImageBUNSIK,
+  CAFE: ImageCAFE,
+  CHINESE: ImageCHINESE,
+  MEET: ImageMEET,
+  DOSIRAK: ImageDOSIRAK
 };
 
 export const MY_PAGE_MENU = [
