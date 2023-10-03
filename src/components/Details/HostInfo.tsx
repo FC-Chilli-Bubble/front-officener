@@ -1,34 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import IconProfile from '@/assets/img_profile.svg';
 import { BANKS, TBankKey } from '@/constants/banks';
 
 type THostInfoProps = {
-  userName: string,
-  bank: TBankKey,
-  account: string,
+  userName: string;
+  bank: TBankKey;
+  account: string;
   desc: string;
 };
 
 const HostInfo = React.memo(({ userName, bank, account, desc }: THostInfoProps) => {
   return (
     <StyledHostInfo>
-      <h4>호스트 (주문자)</h4> <br />
+      {/* <h4>{details?.호스트}</h4> <br /> */}
       <HostDetailContainer>
         <img
           src={IconProfile}
-          alt="Food Photo"
+          alt="Profile Photo"
         />
         <h3>{userName}</h3>
-        <h1>{BANKS[bank]} {account}</h1>
+        <h1>
+          {BANKS[bank]} {account}
+        </h1>
       </HostDetailContainer>
       <br />
       <h2>추가설명</h2>
       <br />
-      <span>
-        {desc}
-      </span>
+      <span>{desc}</span>
     </StyledHostInfo>
   );
 });
@@ -66,6 +65,7 @@ const StyledHostInfo = styled.div`
   span {
     color: black;
     font-size: 14px;
+    padding-left: 3px;
   }
 `;
 
@@ -78,7 +78,7 @@ const HostDetailContainer = styled.div`
   img {
     width: 30px;
     height: 30px;
-    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.10));
+    filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.1));
   }
 `;
 export default HostInfo;

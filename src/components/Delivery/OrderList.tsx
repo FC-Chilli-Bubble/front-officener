@@ -1,63 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IFoodData } from '@/pages/Deliverypage/dummyData';
+import { IRoom } from '@/types/Delivery/IDeliveryList';
+import { FOODTAGS } from '@/constants/commonUiData';
 
 interface IOrderListProps {
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
-  data: IFoodData;
+  data: IRoom[];
 }
+
+const categories = [
+  { name: '분식', key: '분식' },
+  { name: '족발,보쌈', key: '족발,보쌈' },
+  { name: '회, 일식', key: '회,일식' },
+  { name: '찜, 탕, 찌개', key: '찜,탕,찌개' },
+  { name: '피자', key: '피자' },
+  { name: '치킨', key: '치킨' },
+  { name: '아시안', key: '아시안' },
+  { name: '백반', key: '백반' },
+  { name: '카페, 디저트', key: '카페,디저트' }
+];
 
 const OrderList: React.FC<IOrderListProps> = ({ selectedCategory, handleCategoryClick }) => {
   return (
     <>
       <Heading>함께 주문 리스트</Heading>
       <MenuContainer>
-        <CategoryButton
-          className={selectedCategory === '분식' ? 'active' : ''}
-          onClick={() => handleCategoryClick('분식')}>
-          분식
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '족발,보쌈' ? 'active' : ''}
-          onClick={() => handleCategoryClick('족발,보쌈')}>
-          족발, 보쌈
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '회, 일식' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          회, 일식
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '찜, 탕, 찌개' ? 'active' : ''}
-          onClick={() => handleCategoryClick('찜, 탕, 찌개')}>
-          찜, 탕, 찌개
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '피자' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          피자
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '치킨' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          치킨
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '아시안' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          아시안
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '백반' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          백반
-        </CategoryButton>
-        <CategoryButton
-          className={selectedCategory === '카페, 디저트' ? 'active' : ''}
-          onClick={() => handleCategoryClick('회,일식')}>
-          카페, 디저트
-        </CategoryButton>
+        {categories.map(category => (
+          <CategoryButton
+            key={category.key}
+            className={selectedCategory === category.name ? 'active' : ''}
+            onClick={() => handleCategoryClick(FOODTAGS[category.key])}>
+            {category.name}
+          </CategoryButton>
+        ))}
       </MenuContainer>
     </>
   );
@@ -101,8 +77,8 @@ const MenuContainer = styled(ScrollHidden)`
   padding-bottom: 10px;
   padding-left: 20px;
 
-  &::-webkit-scrollbar{
-    display:none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
