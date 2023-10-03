@@ -124,8 +124,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     e.preventDefault();
     createhAuthCode(name, phoneNumber).then(
       response => {
-        const responseData = response.data;
-        const verifyCode = responseData.verifyCode;
+        const verifyCode = response.data.verifyCode;
         setReceivedVerifyCode(verifyCode);
         setVerifyCodeErrorIcon('errorG');
         setVerifyCodeMsg('해당 번호로 인증 번호를 발송했습니다.');
@@ -149,7 +148,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       if (receivedVerifyCode !== '' && name && phoneNumber) {
         createCodeConfirm(phoneNumber, verifyCode).then(
           response => {
-            const message = response.message;
+            const message = response.data;
             setVerifyCodeErrorIcon('correct');
             setVerifyCodeMsg(message);
             setVerificationComplete(true);

@@ -11,7 +11,3 @@ export interface IVerifyCode {
   phoneNumber: string;
   verifyCode: string;
 }
-
-// export interface IVerifyCodeRes {
-//   data: string;
-// }

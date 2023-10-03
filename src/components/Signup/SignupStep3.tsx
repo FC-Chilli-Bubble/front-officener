@@ -51,7 +51,6 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
               building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
             )
             .sort((a, b) => {
-              // 영문 → 한글 / abc → 가나다 순으로 정렬
               return a.buildingName.localeCompare(b.buildingName);
             });
           setSearchResults(results);
