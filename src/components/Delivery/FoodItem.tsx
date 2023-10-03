@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
-import IconAlarm from '@/assets/food/icon_alarm.svg';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
 import { FOOD_IMAGE } from '@/constants/commonUiData';
-import dayjs from 'dayjs';
+import IconAlarm from '@/assets/food/icon_alarm.svg';
 
 interface IFoodItemProps {
   room: IRoom;
@@ -19,14 +19,13 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
     console.log('room', room);
   }, []);
 
-  const handleMoveDetail = () => {
-    // TODO: roomId로 변경 필요
-    navigate(`/delivery/4`);
+  const handleMovePost = () => {
+    navigate(`/delivery/${room.roomId}`);
   };
 
   if (listStyle) {
     return (
-      <StyledFoodCardListStyle onClick={handleMoveDetail}>
+      <StyledFoodCardListStyle onClick={handleMovePost}>
         <img
           src={FOOD_IMAGE[room.tag]}
           alt="음식사진"
@@ -55,8 +54,7 @@ const FoodItem: React.FC<IFoodItemProps> = ({ room, showTimeLimit = true, listSt
   }
 
   return (
-    // <StyledFoodCard onClick={handleMovePost}>
-    <StyledFoodCard onClick={handleMoveDetail}>
+    <StyledFoodCard onClick={handleMovePost}>
       <img
         src={FOOD_IMAGE[room.tag]}
         alt="음식사진"

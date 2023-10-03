@@ -1,7 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HEADER_LEFT_ICONS } from '@/constants/commonUiData';
-import { useNavigate } from 'react-router-dom';
 import HeaderBg from '@/assets/food/img_details_bg.svg';
 
 type LeftIconType = 'back' | 'close' | 'none';

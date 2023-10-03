@@ -1,48 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
-import FoodItem from './FoodItem';
-import { roomsAtom } from '@/states/rommsAtom';
-import IconTime from '@/assets/food/Time.svg';
 import dayjs from 'dayjs';
-import { IRoom } from '@/types/Delivery/IDeliveryList';
+import styled from 'styled-components';
+import { roomsAtom } from '@/states/rommsAtom';
+// import { IRoom } from '@/types/Delivery/IDeliveryList';
+import FoodItem from '@/components/Delivery/FoodItem';
+import IconTime from '@/assets/food/Time.svg';
 
 interface ITogetherDeliveryProps {
   selectedCategory: string;
 }
 
 const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }) => {
-  const [filteredData, setFilteredData] = useState<IRoom[]>([]);
   const [rooms] = useRecoilState(roomsAtom);
 
-  // deadline 필터링
-  useEffect(() => {
-    const now = dayjs();
-    console.log('Now:', now.toString());
-    const filtered = rooms.filter(item => {
-      const deadline = dayjs(item.deadLine);
-      console.log('Deadline:', deadline.toString());
-      const diff = now.diff(deadline, 'hour');
-      return diff < 50 && diff >= 0;
-    });
-    console.log('Filtered:', filtered);
-    setFilteredData(filtered);
-  }, [rooms]);
-
-  // deadline, category 필터링
-  // useEffect(() => {
-  //   const now = dayjs();
-  //   const filtered = rooms.filter(item => {
+  // deadline (마감시감만)필터링
+  // const filteredData = useMemo(() => {
+  //   return rooms.filter(item => {
   //     const deadline = dayjs(item.deadLine);
-  //     const diff = now.diff(deadline, 'hour');
-  //     return item.tag === selectedCategory && diff < 60 && diff >= 0;
+  //     const diff = dayjs().diff(deadline, 'hour');
+  //     return diff < 500 && diff >= 0;
   //   });
-  //   setFilteredData(filtered);
-  // }, [rooms, selectedCategory]);
+  // }, [rooms]);
 
-  if (filteredData.length === 0) {
-    return <StyledNoData>현재 데이터가 없습니다.</StyledNoData>;
-  }
+  // deadline, category (마감시간, 카테고리) 필터링
+  const filteredData = useMemo(() => {
+    return rooms.filter(item => {
+      const deadline = dayjs(item.deadLine);
+      const diff = dayjs().diff(deadline, 'hour');
+      return item.tag === selectedCategory && diff < 500 && diff >= 0;
+    });
+  }, [rooms, selectedCategory]);
 
   return (
     <>
@@ -56,15 +44,18 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
           />
         </SubHeadingContainer>
       </Heading>
-      <FoodCardContainer>
-        {filteredData &&
-          filteredData.map(room => (
+      {filteredData.length === 0 ? (
+        <StyledNoData>곧 마감하는 배달이 없습니다</StyledNoData>
+      ) : (
+        <FoodCardContainer>
+          {filteredData.map(room => (
             <FoodItem
               key={room.roomId}
               room={room}
             />
           ))}
-      </FoodCardContainer>
+        </FoodCardContainer>
+      )}
     </>
   );
 };
@@ -72,7 +63,7 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
 // "함께 배달" 문구의 스타일 컴포넌트
 const Heading = styled.h2`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   padding: 30px 0 10px 25px;
   margin: 0;
   display: flex;
@@ -133,12 +124,18 @@ const FoodCardContainer = styled(ScrollHidden)`
 `;
 
 const StyledNoData = styled.div`
-  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   font-size: 16px;
+  border-radius: 10px;
+  border: 1px dashed ${props => props.theme.colors.grayColor3};
+  color: ${props => props.theme.colors.grayColor5};
+  width: 330px;
+  height: 405px;
+  flex-shrink: 0;
+  margin: 30px auto auto auto;
 `;
 
 export default TogetherDelivery;
