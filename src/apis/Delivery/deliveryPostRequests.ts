@@ -1,5 +1,5 @@
 import { apiClient } from '@/apis/apiClient';
-import { ICommonResponse, IMessageResponse } from '@/types/Common/ICommonResponse';
+import { ICommonResponse } from '@/types/Common/ICommonResponse';
 import { IBank } from '@/types/Delivery/IBank';
 import { IDeliveryPostRequest } from '@/types/Delivery/IDeliveryPostRequest';
 
