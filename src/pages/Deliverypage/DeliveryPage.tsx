@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
 import AddButton from '@/assets/food/postbutton.svg';
 import { deliverylist } from '@/apis/Delivery/deliverylist';
-import { useRecoilState } from 'recoil';
+import { getJoinedRooms } from '@/apis/Delivery/getJoinedRooms';
 import { roomsAtom } from '@/states/rommsAtom';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
 import { FOODTAGS } from '@/constants/commonUiData';
@@ -16,15 +17,37 @@ const DeliveryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(FOODTAGS['분식']);
   const [data, setData] = useState<IRoom[] | null>(null);
   const [rooms, setRooms] = useRecoilState(roomsAtom);
+  const [joinedRooms, setJoinedRooms] = useState<IRoom[] | null>(null);
 
   useEffect(() => {
-    deliverylist()
-      .then(data => {
-        setRooms(data.data.rooms);
-      })
-      .catch(error => {
+    const fetchData = async () => {
+      try {
+        const response = await deliverylist();
+        setRooms(response.data.rooms);
+      } catch (error) {
         console.error('Error fetching data from API:', error);
-      });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          // console.error('Token is null');
+          return;
+        }
+        const joinedRoomsResponse = await getJoinedRooms(token);
+        setJoinedRooms(joinedRoomsResponse.data.rooms);
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -60,6 +83,7 @@ const DeliveryPage = () => {
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
           data={data}
+          joinedRooms={joinedRooms}
         />
         <StyledButtonBox>
           <PostButton
