@@ -34,12 +34,7 @@ const MenuContent: React.FC<IMenuContentProps> = ({
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          // console.error('Token is null');
-          return;
-        }
-        const chatResponse = await getChats(token);
+        const chatResponse = await getChats();
         setChats(chatResponse.data.chats);
       } catch (error) {
         console.error('Error fetching chats:', error);
