@@ -19,3 +19,8 @@ export interface IMemberData {
 
 export interface IChat {
     messages: IChatData[]}
+
+export interface IChatAndMembers {
+    messages: IChatData[],
+    members: IMemberData[]
+}

@@ -12,10 +12,13 @@ import { isMobileAtom, keyboardHeightAtom } from '@/states/chatInputFocusAtom';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { isBottomsheetOpenAtom } from '@/states/chatBottomSheetAtom';
 import ChatHeaderBottomSheet from '@/components/ChatRoom/ChatHeader/ChatHeaderBottomSheet';
+import { chatInfoAtom } from '@/states/chatRoomdataAtom';
+import { getRoomInfo } from '@/apis/ChatRoom/ChatEnterApi';
 
 const ChatRoom = () => {
   const userInfo = useRecoilValue(userInfoAtom);
   const roomNum = 20;
+  const setChatInfo = useSetRecoilState(chatInfoAtom);
   const setIsMobile = useSetRecoilState(isMobileAtom);
   const setKeyboardHeight = useSetRecoilState(keyboardHeightAtom);
   const setIsBottomsheetOpen = useSetRecoilState(isBottomsheetOpenAtom);
@@ -48,11 +51,24 @@ const ChatRoom = () => {
   
       setSocket(newSocket); // WebSocket을 상태로 설정
     };
-  
+
+    // 채팅방 정보 get api 호출 함수
+    const getRoomInfoApi = async () => {
+      try{
+        const response = await getRoomInfo(roomNum)
+        setChatInfo(response.data);
+        console.log(response.data);
+      }catch (error) {
+        console.error('Error fetching data from API:', error);
+      }
+    }
 
   useEffect(() => {
     // WebSocket 연결 초기화
     initializeWebSocket();
+
+    // 채팅방 정보 get api 호출
+    getRoomInfoApi();
 
     // 스크롤 확인
     handleScroll();
