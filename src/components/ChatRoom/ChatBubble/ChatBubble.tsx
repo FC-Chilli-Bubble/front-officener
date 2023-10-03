@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 // import { messageData } from '@/apis/dummy_ChatAPI';
 import ChatAlert from '@/components/ChatRoom/ChatBubble/ChatAlert';
 import ChatBubbleRender from '@/components/ChatRoom/ChatBubble/ChatBubbleRender';
 import { chatInputFocusAtom, isMobileAtom, keyboardHeightAtom } from '@/states/chatInputFocusAtom';
-import { IChat } from '@/types/Chatroom/IChatContent';
+import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 
 const ChatBubble = ({ socket }:{socket : WebSocket | null}) => {
   const inputFocus = useRecoilValue(chatInputFocusAtom);
   const keyboardHeight = useRecoilValue(keyboardHeightAtom);
   const isMobile = useRecoilValue(isMobileAtom);
-  const [messageData, setMessageData] = useState<IChat>({messages:[]})
+  const [messageData, setMessageData] = useRecoilState(chatInfoAtom)
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   //화면을 맨 끝으로 옮기기
@@ -20,18 +20,20 @@ const ChatBubble = ({ socket }:{socket : WebSocket | null}) => {
     messageEndRef.current?.scrollIntoView({ behavior: 'auto' });
   }, []);
   console.log(socket,"버블");
+
   //수신받기
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN){
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data, "왜 안 되는거?");
-        setMessageData((prevData) => ({
-          messages: [...prevData.messages, data],
-        }));
+        setMessageData({
+          messages: [...messageData.messages, data],
+          members: messageData.members
+        })
       }
     }
-  }, [socket]);
+  }, []);
 
   return (
     <StyledContainer

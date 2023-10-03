@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import IconUser from '@/assets/ico_user.svg';
 import IconBlueCheck from '@/assets/chatrooms/ico_checkBlue.svg';
 import IconGreenWon from '@/assets/chatrooms/ico_wonGreen.svg';
-import { getName, isHost, isReceived, isRemitted } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 import { MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { useModal } from '@/hooks/useModal';
 import ChatProfileModal from '@/components/ChatRoom/ChatProfile/ChatProfileModal';
@@ -13,6 +13,7 @@ type TsenderId = {
 };
 
 const ChatProfile = ({ senderId }: TsenderId) => {
+const { getName, isHost, isReceived, isRemitted } = useMemberInfo();
   const { openModal, closeModal } = useModal();
   const USER_ICON = IconUser;
   const BADGE_REMITTED = IconGreenWon;

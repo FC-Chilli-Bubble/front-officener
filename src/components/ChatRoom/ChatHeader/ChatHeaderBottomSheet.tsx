@@ -5,10 +5,12 @@ import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { isBottomsheetOpenAtom } from '@/states/chatBottomSheetAtom';
 import { useModal } from '@/hooks/useModal';
-import { isHost } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 
 const ChatHeaderBottomSheet = () => {
   const { openModal, closeModal } = useModal();
+  const { isHost } = useMemberInfo();
+
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useRecoilState(isBottomsheetOpenAtom);
   const myid = 1; //로그인시 데이터 내려받아 사용
   const amIHost = isHost(myid);

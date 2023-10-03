@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { getName } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 
 type Tprops = {
   senderId: number;
@@ -7,6 +7,7 @@ type Tprops = {
 };
 
 const ChatAlert = ({ senderId, type }: Tprops) => {
+  const { getName } = useMemberInfo();
   //알람 타입 지정
   const renderAlertText = (type: string) => {
     switch (type) {

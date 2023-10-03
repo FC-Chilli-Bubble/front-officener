@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import IconUser from '@/assets/ico_user.svg';
-import { getCompany, getName } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 import {
   chatDeclarationDataAtom,
   declarationStepAtom,
@@ -15,6 +15,7 @@ type TSenderId = {
 };
 
 const ChatProfileModal = ({ senderId }: TSenderId) => {
+  const { getCompany, getName } = useMemberInfo();
   const { closeModal } = useModal();
 
   const [chatDeclarationData, setChatDeclarationData] = useRecoilState(chatDeclarationDataAtom);

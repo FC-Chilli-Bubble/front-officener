@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { useModal } from '@/hooks/useModal';
 import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
-import { isHost, isRemitted } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 import Button from '@/components/Common/Button';
 import IconCopy from '@/assets/chatrooms/ico_copy.svg';
 import IconWon from '@/assets/chatrooms/ico_won.svg';
@@ -18,6 +18,7 @@ import {
 } from '@/apis/ChatRoom/ChatHeaderButtonApis';
 
 const ChatHeader = () => {
+  const { isHost, isRemitted } = useMemberInfo();
   const { openModal, closeModal } = useModal();
 
   const myid = 1; //로그인시 데이터 내려받아 사용
