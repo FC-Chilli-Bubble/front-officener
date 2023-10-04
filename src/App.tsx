@@ -10,6 +10,7 @@ import GlobalStyles from '@/styles/GlobalStyles';
 import theme from '@/styles/theme';
 import Modal from '@/components/Common/Modal';
 import useAxiosInterceptor from '@/hooks/useAxiosInterceptor';
+import '@/firebase-messaging-sw.ts';
 
 const App = () => {
   const userInfo = useRecoilValue(userInfoAtom);
