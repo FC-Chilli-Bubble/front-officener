@@ -53,7 +53,7 @@ const FoodItem = ({ room }: IFoodItemProps) => {
   );
 };
 
-const StyledFoodCardListStyle = styled.div`
+const StyledFoodCardListStyle = styled.li`
   padding: 10px;
   margin: 5px 5px;
   display: flex;

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { roomsAtom } from '@/states/rommsAtom';
@@ -8,7 +8,7 @@ import DeadLineItem from '@/components/Delivery/DeadLineItem';
 
 
 const TogetherDelivery = () => {
-  const [rooms] = useRecoilState(roomsAtom);
+  const rooms = useRecoilValue(roomsAtom);
 
   const filteredData = useMemo(() => {
     return rooms.filter(item => {

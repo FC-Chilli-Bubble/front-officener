@@ -136,7 +136,7 @@ const DetailsPage = () => {
 
   return (
     <>
-      <DetailHeader leftIcon="back" />
+      <DetailHeader />
       <StyledContainer>
         {detail && (
           <>

@@ -89,7 +89,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />
           },
           {
-            path: '/chatroom',
+            path: '/chat/:id',
             element: <ChatRoom />,
             errorElement: <ErrorComponent />
           },
