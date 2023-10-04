@@ -7,9 +7,9 @@ import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { fetchBuilding } from '@/apis/Signup/buildingSearchRequests';
-import { userBuildingsAtom } from '@/states/buildingAtom';
 import { IBuildings } from '@/types/Signup/IBuilding';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -34,7 +34,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
     return;
   };
 
-  // 선택된변경될 때마다 버튼을 활성화 여부를 업데이트
+  // 선택 변경될 때마다 버튼을 활성화 여부를 업데이트
   useEffect(() => {
     handleSearchSubmit;
   }, [inputValue]);
@@ -51,7 +51,6 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
               building.buildingName.toLowerCase().includes(inputValue.toLowerCase())
             )
             .sort((a, b) => {
-              // 영문 → 한글 / abc → 가나다 순으로 정렬
               return a.buildingName.localeCompare(b.buildingName);
             });
           setSearchResults(results);
@@ -122,7 +121,7 @@ const SignupStep3 = ({ onNextStep }: SignupStepProps) => {
                 <StyledList key={building.id}>
                   <RadioInput
                     type="radio"
-                    name="building"
+                    name={building.id.toString()}
                     id={building.id.toString()}
                     value={building.id}
                     checked={selectedBuildingLocal?.id === building.id}

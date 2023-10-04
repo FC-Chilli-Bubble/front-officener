@@ -5,6 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { useEffect } from 'react';
 
+
 import GlobalStyles from '@/styles/GlobalStyles';
 import theme from '@/styles/theme';
 import Modal from '@/components/Common/Modal';
@@ -15,6 +16,7 @@ const App = () => {
   const navigate = useNavigate();
   // Axios Interceptor Hooks
   useAxiosInterceptor();
+
 
   useEffect(() => {
     window.addEventListener("scroll", (e) => {

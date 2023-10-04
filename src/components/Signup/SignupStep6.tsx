@@ -1,17 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
 import { styled } from 'styled-components';
-import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
-// import { useRecoilValue } from 'recoil';
-// import {
-//   agreementCheckboxAtom,
-//   userResidentAtom,
-//   SignupAccountAtom,
-//   verificationResultState
-// } from '@/states/signupRequestAtom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import { useModal } from '@/hooks/useModal';
 import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
+import MODAL_DATAS from '@/constants/modalDatas';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
+import { createhAuthCode } from '@/apis/Signup/AuthCodeRequests';
+import { createCodeConfirm } from '@/apis/Signup/CodeConfirmRequests';
+import { createSignup } from '@/apis/Signup/SignupRequests';
+import { USER_NAME_REGEX, PHONE_NUMBER_REGEX, VERIFICATION_CODE_REGEX } from '@/constants/regexp';
+import {
+  agreementCheckboxAtom,
+  signupAccountAtom,
+  userDataAtom,
+  userBuildingsAtom,
+  userOfficeAtom
+} from '@/states/signupRequestAtom';
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -21,32 +30,41 @@ interface SignupStepProps {
 type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
+  const { openModal } = useModal();
   // 유효성 검사
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifyCode, setVerifyCode] = useState('');
+
   // 오류 메시지 상태
-  const [verifyNumMsg, setVerifyNumMsg] = useState('');
-  const [verifyNumErrorIcon, setVerifyNumErrorIcon] = useState<TErrorIconType>('none');
+  const [verifyCodeMsg, setVerifyCodeMsg] = useState('');
+  const [verifyCodeErrorIcon, setVerifyCodeErrorIcon] = useState<TErrorIconType>('none');
   // 인증요청 버튼 상태
   const [isValid, setIsValid] = useState(false);
   // 인증요청 버튼 텍스트 상태
   const [isVerificationComplete, setVerificationComplete] = useState(false);
   // 페이지 이동 버튼 상태
-  const [disabled, setDisabled] = useState(false); //임시로 false
+  const [disabled, setDisabled] = useState(false);
   // 서버로부터 받은 인증코드
   const [receivedVerifyCode, setReceivedVerifyCode] = useState('');
+  // 인증 용청 확인 후 인풋창 수정 불가설정
+  const [isEditDisabled, setIsEditDisabled] = useState(false);
   // 리코일에서 받아온 상태값
-  // const agreementCheckboxAtom = useRecoilValue(agreementCheckboxAtom);
-  // const userBuildingsAtom = useRecoilValue(userBuildingsAtom);
-  // const SignupAccountAtom = useRecoilValue(SignupAccountAtom);
-  // const verificationResultState = useRecoilValue(verificationResultState);
+  const agreementCheckbox = useRecoilValue(agreementCheckboxAtom);
+  const userAccount = useRecoilValue(signupAccountAtom);
+  const userBuilding = useRecoilValue(userBuildingsAtom);
+  const userOffice = useRecoilValue(userOfficeAtom);
+  // 리코일에 상태 저장
+  const setUserInfo = useSetRecoilState(userDataAtom);
 
   const handleServiceClick = () => {
     onNextStep(6);
     return;
   };
+
   const handleNextStep = () => {
+    //페이지 이동 시 상태값 저장
+    setUserInfo({ name, phoneNumber });
     onNextStep(8);
     return;
   };
@@ -54,9 +72,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 이름 입력 유효성 검사
   const handleNameChange = (newName: string) => {
     setName(newName);
-    if (!USER_NAME_REGEX.test(newName)) {
-      return;
-    } else return;
+    return;
   };
 
   // 전화번호 입력 유효성 검사
@@ -65,8 +81,8 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
     if (!PHONE_NUMBER_REGEX.test(newPhoneNum)) {
       return;
     } else {
-      setVerifyNumMsg('');
-      setVerifyNumErrorIcon('none');
+      setVerifyCodeMsg('');
+      setVerifyCodeErrorIcon('none');
     }
   };
 
@@ -74,16 +90,17 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   const handleVerifyCodeChange = (newCode: string) => {
     setVerifyCode(newCode);
     if (!newCode) {
-      setVerifyNumErrorIcon('error');
-      setVerifyNumMsg('인증번호를 입력해 주세요');
+      setVerifyCodeErrorIcon('error');
+      setVerifyCodeMsg('인증번호를 입력해 주세요');
       return;
     } else if (!VERIFICATION_CODE_REGEX.test(newCode)) {
-      setVerifyNumErrorIcon('wrong');
-      setVerifyNumMsg('인증번호가 일치하지 않습니다.');
+      setVerifyCodeErrorIcon('wrong');
+      setVerifyCodeMsg('6자리 인증번호를 입력해주세요.');
       return;
     } else {
-      setVerifyNumMsg('');
-      setVerifyNumErrorIcon('none');
+      setVerifyCodeMsg('');
+      setVerifyCodeErrorIcon('none');
+      handleVerifyCodeReq(newCode);
     }
   };
 
@@ -93,58 +110,90 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   }, [name, phoneNumber, verifyCode]);
 
   const requsetButtonState = (newName: string, newPhoneNum: string) => {
-    if (newName && newPhoneNum) {
+    if (USER_NAME_REGEX.test(newName) && PHONE_NUMBER_REGEX.test(newPhoneNum)) {
       setIsValid(true);
-      //인증 요청 활성화
       return;
     } else {
       setIsValid(false);
     }
   };
 
-  // 인증번호 요청 함수
-  const sendApiRequest = async () => {
-    try {
-      setIsValid(true);
-      // API 요청 보내기
-      // const response = await axios.post(apiUrl, requestData);
-      // 응답 데이터에서 인증 코드 추출
-      // const responseData = response.data;
-      // const receivedVerifyCode = responseData.data.verifyCode;
-      const responseCode = '123456';
-      // 인증 코드를 상태에 저장
-      setReceivedVerifyCode(responseCode);
-      // console.log('API 요청 성공! 인증 코드:', receivedVerifyCode);
-      setVerifyNumErrorIcon('errorG');
-      setVerifyNumMsg('해당 번호로 인증 번호를 발송했습니다.');
-    } catch {
-      setIsValid(false);
-      setVerifyNumErrorIcon('wrong');
-      setVerifyNumMsg('이미 등록된 휴대폰 번호입니다.');
-    }
-  };
-
-  // 인증 번호 확인 함수
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      // 서버로부터 받은 인증코드가 빈 문자열인지도 체크 추가 (receivedVerifyCode &&)
-      if (receivedVerifyCode && name && phoneNumber && verifyCode === receivedVerifyCode) {
-        try {
-          // 1. 서버로 전화번호 & 인증번호 전송(API호출)
-          // 2. 성공 메시지를 표시하거나 다음 페이지로 이동
-          setVerifyNumErrorIcon('correct');
-          setVerifyNumMsg('인증이 완료되었습니다.');
-          setVerificationComplete(true);
-          setDisabled(false); // 다음 버튼 활성화
-        } catch (error) {
-          //c.error('인증 실패:', error);
-        }
+  // 인증번호 요청
+  const handleReceivedCodeReq = (e: React.FormEvent) => {
+    e.preventDefault();
+    createhAuthCode(name, phoneNumber).then(
+      response => {
+        const verifyCode = response.data.verifyCode;
+        setReceivedVerifyCode(verifyCode);
+        setVerifyCodeErrorIcon('errorG');
+        setVerifyCodeMsg('해당 번호로 인증 번호를 발송했습니다.');
+        notify(verifyCode);
+      },
+      (error: IErrorResponse) => {
+        const errorData = error.errorMessage;
+        setIsValid(false);
+        setVerifyCodeErrorIcon('wrong');
+        setVerifyCodeMsg(errorData);
         return;
       }
+    );
+  };
+  // 인증번호 토스트
+  const notify = (verifyCode: string) => toast(`✅ 휴대폰 인증번호 : ${verifyCode}`);
+  // 인증번호 확인 요청
+  const handleVerifyCodeReq = useCallback(
+    (verifyCode: string) => {
+      if (receivedVerifyCode !== '' && name && phoneNumber) {
+        createCodeConfirm(phoneNumber, verifyCode).then(
+          response => {
+            const message = response.data;
+            setVerifyCodeErrorIcon('correct');
+            setVerifyCodeMsg(message);
+            setVerificationComplete(true);
+            setDisabled(true);
+            setIsEditDisabled(true);
+          },
+          (error: IErrorResponse) => {
+            const errorData = error.errorMessage;
+            setVerifyCodeErrorIcon('wrong');
+            setVerifyCodeMsg(errorData);
+            setVerificationComplete(false);
+            setVerifyCode('');
+            return;
+          }
+        );
+      } else return;
     },
-    [receivedVerifyCode, name, phoneNumber, verifyCode]
+    [receivedVerifyCode, name, phoneNumber]
   );
+
+  // 회원가입 요청
+  const handleSignupReq = (e?: React.MouseEvent<HTMLElement>) => {
+    e?.preventDefault();
+    createSignup({
+      agree: agreementCheckbox.agree,
+      buildingName: userBuilding.buildingName,
+      officeName: userOffice.officeName,
+      email: userAccount.email,
+      password: userAccount.password,
+      name,
+      phoneNumber
+    }).then(
+      response => {
+        const responseData = response;
+        console.log(responseData);
+        handleNextStep();
+      },
+      (error: IErrorResponse) => {
+        console.log(error.errorMessage);
+        openModal({
+          ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
+          positiveCallback: () => {}
+        });
+        return;
+      }
+    );
+  };
 
   return (
     <>
@@ -154,18 +203,18 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
         leftIconClick={handleServiceClick}
       />
       <StyledLayout>
-        <StyledContainer onSubmit={handleSubmit}>
+        <StyledContainer>
           <StyledInput>
             <FormField
               isType="text"
               label="이름"
+              name="name"
               value={name}
-              name="userName"
-              //name props 다 고유하게 그 input에 대한 name으로 변경했어여
               placeholder="실명을 입력해 주세요."
               onChange={handleNameChange}
               errorMessage=""
               redErrorIcon="none"
+              disabled={isEditDisabled}
             />
           </StyledInput>
           <StyledInput>
@@ -173,20 +222,31 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               <FormField
                 isType="text"
                 label="휴대폰 번호"
-                name="phoneNum"
+                name="phoneNumber"
                 value={phoneNumber}
                 placeholder="‘_’없이 숫자만 입력해 주세요."
                 maxLength={11}
                 onChange={value => handlePhoneNumberChange(value.replace(/[^0-9]/g, ''))}
                 errorMessage=""
                 redErrorIcon={'none'}
+                disabled={isEditDisabled}
               />
               <StyledButton
                 type="button"
-                onClick={sendApiRequest}
+                onClick={handleReceivedCodeReq}
                 disabled={!isValid}>
                 {isVerificationComplete ? '인증완료' : '인증요청'}
               </StyledButton>
+              <StyledToastContainer
+                position="top-right"
+                limit={1}
+                closeButton={false}
+                autoClose={4000}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                hideProgressBar
+              />
             </StyledBox>
             <FormField
               isType={'text'}
@@ -195,8 +255,9 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
               value={verifyCode}
               placeholder="6자리 인증번호를 입력해 주세요."
               onChange={handleVerifyCodeChange}
-              errorMessage={verifyNumMsg}
-              redErrorIcon={verifyNumErrorIcon}
+              errorMessage={verifyCodeMsg}
+              redErrorIcon={verifyCodeErrorIcon}
+              disabled={isEditDisabled}
             />
           </StyledInput>
         </StyledContainer>
@@ -206,15 +267,16 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
             type="cta"
             title="다음"
             width="100%"
-            disabled={disabled}
-            onClick={handleNextStep}
+            disabled={!disabled}
+            onClick={handleSignupReq}
           />
         </StyledButtonContainer>
       </StyledLayout>
     </>
   );
 };
-const StyledLayout = styled.div`
+
+const StyledLayout = styled.form`
   height: calc(100% - 56px);
   padding: 0 17px;
   display: flex;
@@ -222,7 +284,7 @@ const StyledLayout = styled.div`
   justify-content: space-between;
 `;
 
-const StyledContainer = styled.form`
+const StyledContainer = styled.div`
   width: 100%;
   height: 267px;
   display: flex;
@@ -232,12 +294,16 @@ const StyledContainer = styled.form`
 
 const StyledInput = styled.div`
   margin-top: 23px;
+  &:last-child {
+    height: 100%;
+  }
 `;
 
 const StyledBox = styled.div`
   display: flex;
   align-items: end;
 `;
+
 const StyledButton = styled.button`
   width: 94px;
   height: 48px;
@@ -255,6 +321,16 @@ const StyledButton = styled.button`
   cursor: pointer;
   &:active {
     background-color: ${({ theme }) => theme.colors.ctaPressedColor};
+  }
+`;
+
+const StyledToastContainer = styled(ToastContainer)`
+  .Toastify__toast {
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 16px 28px;
+    color: ${({ theme }) => theme.colors.grayColor5};
+    background-color: ${({ theme }) => theme.colors.white};
   }
 `;
 

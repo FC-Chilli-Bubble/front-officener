@@ -26,7 +26,10 @@ const Home = () => {
         {/* 빌딩 정보 */}
         <StyledBuildingInfo>
           <h3>{user.userInfo.building.buildingName}</h3>
-          {/* <p>{user.userInfo.company.officeNum} {user.userInfo.company.officeName}</p> */}
+          <p>
+            {user.userInfo.office.officeNum}
+            {user.userInfo.office.officeName}
+          </p>
         </StyledBuildingInfo>
         <StyledBox>
           {/* 우리 오피스 소식 */}
@@ -35,17 +38,20 @@ const Home = () => {
               <h6>우리 오피스 소식</h6>
               <div className="title__more">
                 <span>더보기</span>
-                <img src={IconRight} alt="더보기" />
+                <img
+                  src={IconRight}
+                  alt="더보기"
+                />
               </div>
             </div>
             <StyledDivider />
             <ul>
-              {
-                HOME_OFFICE.map(item => (<li key={item.title}>
+              {HOME_OFFICE.map(item => (
+                <li key={item.title}>
                   <h6>{item.title}</h6>
                   <div>{item.content}</div>
-                </li>))
-              }
+                </li>
+              ))}
             </ul>
           </StyledOfficeInfo>
 
@@ -54,21 +60,25 @@ const Home = () => {
             <h6>입주자 전용 서비스</h6>
             <StyledDivider />
             <ul>
-              {
-                HOME_SERVICES.map(service => (
-                  <li key={service.title} onClick={() => { handleServiceClick(service.title); }}>
-                    <div>
-                      <img src={service.icon} alt={service.title} />
-                    </div>
-                    <p>{service.title}</p>
-                  </li>
-                ))
-              }
+              {HOME_SERVICES.map(service => (
+                <li
+                  key={service.title}
+                  onClick={() => {
+                    handleServiceClick(service.title);
+                  }}>
+                  <div>
+                    <img
+                      src={service.icon}
+                      alt={service.title}
+                    />
+                  </div>
+                  <p>{service.title}</p>
+                </li>
+              ))}
             </ul>
           </StyledServiceBox>
-
         </StyledBox>
-      </StyledContainer >
+      </StyledContainer>
     </>
   );
 };
