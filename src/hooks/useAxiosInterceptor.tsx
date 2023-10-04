@@ -31,6 +31,8 @@ const useAxiosInterceptor = () => {
           // 스택 초기화 추가 작성 필요
         }
       });
+      // 이행되지 않는 Promise를 반환하여 Promise Chaining 끊어주기
+      return new Promise(() => { });
     }
 
     return Promise.reject<IErrorResponse>(
@@ -39,7 +41,6 @@ const useAxiosInterceptor = () => {
   };
 
   const authConfig = (config: InternalAxiosRequestConfig<unknown>) => {
-    console.log('accessToken:', accessToken);
     if (config.headers && accessToken) {
       // AccessToken이 정상적으로 저장되어 있으면 headers에 Authorization에 값을 추가해준다.
       config.headers.Authorization = `Bearer ${accessToken}`;

@@ -88,6 +88,14 @@ const MODAL_DATAS = {
     title: '회원가입 실패',
     content: '회원가입 정보를\n다시 확인해주세요..',
     positive: '닫기'
+  },
+  NOTIFICATIONS_FETCH_FAILURE: {
+    title: '알림 목록을 가져오는데 실패했습니다',
+    positive: '확인'
+  },
+  NOTIFICATIONS_UPDATE_FAILURE: {
+    title: '유효하지 않은 알림입니다',
+    positive: '확인'
   }
 };
 
