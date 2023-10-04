@@ -4,7 +4,7 @@ import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 export const useMemberInfo = () => {
   const messageData = useRecoilValue(chatInfoAtom);
 
-  console.log(messageData)
+  console.log('messageData:', messageData);
 
   const getMemberDataById = (senderId: number) => {
     if (messageData) {
@@ -21,7 +21,7 @@ export const useMemberInfo = () => {
 
   const getName = (senderId: number) => {
     const memberData = getMemberDataById(senderId);
-    console.log("백호야", memberData)
+    console.log('백호야', memberData);
     return memberData ? memberData.name : 'Unknown';
   };
 
@@ -49,13 +49,13 @@ export const useMemberInfo = () => {
     if (messageData) {
       const receivedCount = messageData.members.filter(member => member.hasReceived).length;
       return receivedCount === messageData.members.length;
-    }
+    } 
     return false;
   };
 
   const isHost = (senderId: number) => {
     const memberData = getMemberDataById(senderId);
-    console.log("코코", memberData)
+    console.log('코코', memberData);
     return memberData ? memberData.host : false;
   };
 
@@ -67,6 +67,6 @@ export const useMemberInfo = () => {
     isRemitted,
     isReceived,
     isAllReceived,
-    isHost,
+    isHost
   };
 };

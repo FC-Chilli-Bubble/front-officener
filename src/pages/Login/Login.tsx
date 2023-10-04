@@ -31,7 +31,7 @@ const Login = () => {
 
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
-    navigate('/');
+    navigate('/intro');
     return;
   };
   // 회원가입 페이지 이동 버튼

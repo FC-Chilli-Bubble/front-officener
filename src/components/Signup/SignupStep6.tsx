@@ -57,6 +57,7 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 리코일에 상태 저장
   const setUserInfo = useSetRecoilState(userDataAtom);
 
+
   const handleServiceClick = () => {
     onNextStep(6);
     return;

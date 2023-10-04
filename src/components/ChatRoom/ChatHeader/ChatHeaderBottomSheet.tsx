@@ -6,6 +6,8 @@ import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData
 import { isBottomsheetOpenAtom } from '@/states/chatBottomSheetAtom';
 import { useModal } from '@/hooks/useModal';
 import { useMemberInfo } from '@/hooks/useMemberInfo';
+import { createKickRequestPost, createExitPost } from '@/apis/ChatRoom/ChatExitApis';
+import { IErrorResponse } from '@/types/Common/IErrorResponse';
 
 const ChatHeaderBottomSheet = () => {
   const { openModal, closeModal } = useModal();
@@ -14,63 +16,151 @@ const ChatHeaderBottomSheet = () => {
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useRecoilState(isBottomsheetOpenAtom);
   const myid = getMyId();
   const amIHost = isHost(myid);
-
+  const roomId = 24; //임시
   const closeBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
+  console.log('isAllReceived :', isAllReceived());
+  console.log('amIHost :', amIHost);
 
-    const handleClickModalExitHost = () => {
-      if (isAllReceived()) {
-        //나가기 api 
-      } else {
-        openModal({
-        ...MODAL_DATA_HOST.cantExitModal,
+  const handleClickModalExitHost = () => {
+    if (isAllReceived()) {
+      //모두가 수령했을때
+      openModal({
+        ...MODAL_DATA_HOST.exitModal,
         positiveCallback: () => {
-        //api
+          //나가기 api
+          createExitPost(roomId).then(
+            response => {
+              const responseData = response.message;
+              console.log(responseData);
+            },
+            (error: IErrorResponse) => {
+              console.log(error.errorMessage);
+            }
+          );
         },
         negativeCallback: () => {
-        closeModal();
+          closeModal();
         }
-      })
+      });
+    } else {
+      //모두 수령전
+      openModal({
+        ...MODAL_DATA_HOST.exileExitModal,
+        positiveCallback: () => {
+          // 나가기 요청 api
+          createKickRequestPost(roomId, body).then(
+            response => {
+              const responseData = response.data;
+              console.log(responseData);
+              openModal({
+                ...MODAL_DATA_HOST.exitModal,
+                positiveCallback: () => {
+                  //나가기 api
+                  createExitPost(roomId).then(
+                    response => {
+                      const responseData = response.message;
+                      console.log(responseData);
+                    },
+                    (error: IErrorResponse) => {
+                      console.log(error.errorMessage);
+                    }
+                  );
+                },
+                negativeCallback: () => {
+                  closeModal();
+                }
+              });
+            },
+            (error: IErrorResponse) => {
+              console.log(error.errorMessage);
+            }
+          );
+        },
+        negativeCallback: () => {
+          closeModal();
+        }
+      });
     }
   };
 
   const handleClickModalExitGuest = () => {
     if (isAllReceived()) {
+      //모두가 수령했을때
       openModal({
         ...MODAL_DATA_GUEST.afterExitModal,
         positiveCallback: () => {
-        //api
-        },
-        negativeCallback: () => {
-        closeModal();
-        }
-      })
-    } else {
-      openModal({
-        ...MODAL_DATA_GUEST.exitModal,
-        positiveCallback: () => {
-          //api
+          //나가기 api
+          createExitPost(roomId).then(
+            response => {
+              const responseData = response.message;
+              console.log(responseData);
+            },
+            (error: IErrorResponse) => {
+              console.log(error.errorMessage);
+            }
+          );
         },
         negativeCallback: () => {
           closeModal();
         }
-      })
-    } 
+      });
+    } else {
+      //모두 수령 전
+      openModal({
+        ...MODAL_DATA_GUEST.exitModal,
+        positiveCallback: () => {
+          // 나가기 요청 api
+          createKickRequestPost(roomId, body).then(
+            response => {
+              const responseData = response.data;
+              console.log(responseData);
+              openModal({
+                ...MODAL_DATA_GUEST.afterExitModal,
+                positiveCallback: () => {
+                  //나가기 api
+                  createExitPost(roomId).then(
+                    response => {
+                      const responseData = response.message;
+                      console.log(responseData);
+                    },
+                    (error: IErrorResponse) => {
+                      console.log(error.errorMessage);
+                    }
+                  );
+                },
+                negativeCallback: () => {
+                  closeModal();
+                }
+              });
+            },
+            (error: IErrorResponse) => {
+              console.log(error.errorMessage);
+            }
+          );
+        },
+        negativeCallback: () => {
+          closeModal();
+        }
+      });
+    }
   };
 
   const handleClickExit = () => {
+    console.log('handleClickExit is called');
     amIHost
-      ? openModal({
-          ...MODAL_DATA_HOST.exitModal,
-          positiveCallback: () => {
-            handleClickModalExitHost();
-          },
-          negativeCallback: () => {
-            closeModal();
-          }
-        })
-      : handleClickModalExitGuest()
+      ? handleClickModalExitHost()
+      : // openModal({
+        //     ...MODAL_DATA_HOST.exitModal,
+        //     positiveCallback: () => {
+        //       handleClickModalExitHost();
+        //     },
+        //     negativeCallback: () => {
+        //       closeModal();
+        //     }
+        //   })
+        handleClickModalExitGuest();
   };
 
   return (
