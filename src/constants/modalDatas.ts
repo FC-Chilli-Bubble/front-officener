@@ -73,7 +73,8 @@ const MODAL_DATAS = {
   DELIVERY_CHAT_JOIN_CONFIRM: {
     title: '함께배달에 참여하시겠습니까?',
     content: '참여 이후에는 호스트의 승인을 받아야 나가실 수 있습니다',
-    positive: '확인'
+    positive: '참여할래요',
+    nagative: '아니요'
   },
   DELIVERY_DETAIL_INVALID: {
     title: '유효하지 않은 게시글입니다.',
@@ -95,6 +96,18 @@ const MODAL_DATAS = {
   },
   NOTIFICATIONS_UPDATE_FAILURE: {
     title: '유효하지 않은 알림입니다',
+    positive: '확인'
+  },
+  DELIVERY_POST_END_TIME: {
+    title: '이미 마감된 게시글입니다',
+    positive: '확인'
+  },
+  DELIVERY_JOIN_FULL: {
+    title: '이미 모집인원이 충원되었습니다',
+    positive: '확인'
+  },
+  DELIVERY_DELETE_ATTENDESS: {
+    title: '게스트가 있는 경우 삭제할 수 없습니다',
     positive: '확인'
   }
 };

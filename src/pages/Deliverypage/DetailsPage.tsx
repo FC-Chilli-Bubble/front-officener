@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import dayjs from 'dayjs';
 
 import Header from '@/components/Details/Header';
 import MenuLinkCard from '@/components/Details/MenuLinkCard';
@@ -72,6 +73,11 @@ const DetailsPage = () => {
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
+    // 참여자가 있는 경우 삭제 예외처리
+    if (detail!.attendees > 1) {
+      openModal(MODAL_DATAS.DELIVERY_DELETE_ATTENDESS);
+      return;
+    }
     openModal({
       ...MODAL_DATAS.DELIVERY_POST_DELETE,
       positiveCallback: () => {
@@ -82,6 +88,15 @@ const DetailsPage = () => {
 
   // 수정 버튼 클릭 핸들러
   const handleClickEdit = () => {
+    if (!detail) {
+      return;
+    }
+    // 이미 마감된 게시글일 경우 예외처리
+    if (dayjs(detail.deadline).isBefore(dayjs())) {
+      openModal(MODAL_DATAS.DELIVERY_POST_END_TIME);
+      return;
+    }
+
     navigate(`/delivery/post`, { state: { id: params.id, detail: detail } });
   };
 
@@ -98,17 +113,25 @@ const DetailsPage = () => {
 
   // 채팅방 참여 클릭 핸들러
   const handleClickEnterChat = () => {
+    navigate(`/chat/${params.id}`);
+  };
+
+  // 함께배달 클릭 핸들러
+  const handleClickJoinRoom = () => {
+    if (!detail) {
+      return;
+    }
+    // 참여 인원이 꽉 찬 경우 예외처리
+    if (detail.maxAttendees === detail.attendees) {
+      openModal(MODAL_DATAS.DELIVERY_JOIN_FULL);
+      return;
+    }
     openModal({
       ...MODAL_DATAS.DELIVERY_CHAT_JOIN_CONFIRM,
       positiveCallback: () => {
         handleJoinChat();
       }
     });
-  };
-
-  // 함께배달 클릭 핸들러
-  const handleClickJoinRoom = () => {
-    // TODO : 배달 참여 API 연동
   };
 
   return (

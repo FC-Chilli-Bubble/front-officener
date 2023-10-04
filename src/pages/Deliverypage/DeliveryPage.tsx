@@ -11,6 +11,7 @@ import { getJoinedRooms } from '@/apis/Delivery/getJoinedRooms';
 import { roomsAtom } from '@/states/rommsAtom';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
 import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
+import dayjs from 'dayjs';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
@@ -22,7 +23,7 @@ const DeliveryPage = () => {
     const fetchData = async () => {
       try {
         const response = await deliverylist();
-        setRooms(response.data.rooms);
+        setRooms(response.data.rooms.filter(room => dayjs().isBefore(dayjs(room.deadLine)), 'day'));
       } catch (error) {
         console.error('Error fetching data from API:', error);
       }

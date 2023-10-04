@@ -3,8 +3,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 
 import { IRoom } from '@/types/Delivery/IDeliveryList';
-import { FOOD_IMAGE } from '@/constants/commonUiData';
-import IconAlarm from '@/assets/food/icon_alarm.svg';
+import { FOODTAGS, FOOD_IMAGE } from '@/constants/commonUiData';
 
 interface IFoodItemProps {
   room: IRoom;
@@ -14,15 +13,23 @@ const FoodItem = ({ room }: IFoodItemProps) => {
   const navigate = useNavigate();
 
   const handleMovePost = () => {
+    // if (dayjs(room.deadLine).isBefore(dayjs())) {
+    //   return;
+    // }
     navigate(`/delivery/${room.roomId}`);
   };
 
   return (
     <StyledFoodCardListStyle onClick={handleMovePost}>
-      <img
-        src={FOOD_IMAGE[room.tag]}
-        alt="음식사진"
-      />
+      {
+        dayjs(room.deadLine).isBefore(dayjs())
+          ? <StyledEndBox >마감</StyledEndBox>
+          : (<img
+            src={FOOD_IMAGE[room.tag]}
+            alt="음식사진"
+          />)
+      }
+
       <StyledFoodInfoListStyle>
         <StyledRow>
           <ListGrayText>가게이름</ListGrayText> <ListBlackText>{room.storeName}</ListBlackText>
@@ -35,7 +42,7 @@ const FoodItem = ({ room }: IFoodItemProps) => {
           <ListGrayText>배달비</ListGrayText> <ListBlackText>{room.deliveryFee}</ListBlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>태그</ListGrayText> <ListBlackText>{room.tag}</ListBlackText>
+          <ListGrayText>태그</ListGrayText> <ListBlackText>{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === room.tag)}</ListBlackText>
         </StyledRow>
         <StyledRow>
           <ListGrayText>이체마감</ListGrayText>{' '}
@@ -53,6 +60,7 @@ const StyledFoodCardListStyle = styled.div`
   align-items: start;
   gap: 20px;
   cursor: pointer;
+
   > img {
     flex-shrink: 0;
     width: 150px;
@@ -62,15 +70,25 @@ const StyledFoodCardListStyle = styled.div`
     object-position: center;
   }
 
-  > div {
-    flex-grow: 1;
+`;
+
+const StyledEndBox = styled.div`
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+    background-color: ${({ theme }) => theme.colors.primaryDisabledColor};
+    color: #2563EB66;
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledFoodInfoListStyle = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin: 10px 0 0 0;
 `;
 
@@ -97,27 +115,6 @@ const ListBlackText = styled.p`
   max-width: 100px;
 `;
 
-const TimeLimit = styled.div<{ diffMin: number; }>`
-  display: flex;
-  background-color: ${props => props.diffMin <= 10 ? props.theme.colors.redColor0 : props.theme.colors.grayColor90};
-  color: ${props => props.theme.colors.white};
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 700;
-  margin: 13px 5px;
-  padding: 5px 25px;
-  text-align: center;
-  border-radius: 50px;
-`;
-
-const TimeIcon = styled.img`
-  width: 16px;
-  margin: 0 5px 0 0;
-  padding: 2px 0 2px 0;
-  vertical-align: middle;
-`;
-
 const StyledRow = styled.div`
   display: flex;
   align-items: center;
@@ -125,51 +122,5 @@ const StyledRow = styled.div`
   justify-content: flex-start;
 `;
 
-const GrayText = styled.h1`
-  flex-shrink: 0;
-  width: 100px;
-  text-align: left;
-  padding-left: 5px;
-  color: ${props => props.theme.colors.grayColor10};
-  display: inline-block;
-`;
-
-const BlackText = styled.p`
-  flex-grow: 1;
-  padding-left: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 180px;
-`;
-
-const StyledFoodCard = styled.div`
-  padding: 10px;
-  margin: 10px 5px;
-  border-radius: 5px;
-  font-size: 14px;
-  width: 220px;
-  max-width: 100%;
-  cursor: pointer;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  h1 {
-    color: ${props => props.theme.colors.grayColor10};
-  }
-  > img {
-    width: 180px;
-    height: 170px;
-    border-radius: 15px;
-    object-fit: cover;
-  }
-`;
-
-const StyledFoodCardText = styled.div`
-  padding: 0;
-  width: 180px;
-`;
 
 export default FoodItem;
