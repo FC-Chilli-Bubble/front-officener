@@ -6,8 +6,8 @@ import Header from '@/components/Common/Header';
 import FormField from '@/components/Common/FormField';
 import Button from '@/components/Common/Button';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
-import { userBuildingsAtom } from '@/states/buildingAtom';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
 import { IOffice } from '@/types/Signup/IBuilding';
 
 interface SignupStepProps {

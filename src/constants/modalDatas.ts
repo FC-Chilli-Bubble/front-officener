@@ -83,6 +83,11 @@ const MODAL_DATAS = {
     title: '로그인 세션 만료',
     content: '로그인 세션이 만료되었습니다.\n다시 로그인해주세요.',
     positive: '확인'
+  },
+  SIGNUP_FAIL_ALERT: {
+    title: '회원가입 실패',
+    content: '회원가입 정보를\n다시 확인해주세요..',
+    positive: '닫기'
   }
 };
 

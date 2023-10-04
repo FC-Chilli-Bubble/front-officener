@@ -47,7 +47,7 @@ const FormField = ({
           <Required>*</Required>
         </StyledLabel>
       ) : (
-        <RequiredLabel htmlFor={isType}>{label}</RequiredLabel>
+        <RequiredLabel htmlFor={name}>{label}</RequiredLabel>
       )}
       <StyledContainer>
         <StyledErrorIBox

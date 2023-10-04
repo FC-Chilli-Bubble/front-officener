@@ -6,8 +6,9 @@ import SearchButton from '@/components/Common/SearchButton';
 import SelectedButton from '@/components/Common/SelectedButton';
 import Button from '@/components/Common/Button';
 import Icon_gray_error from '@/assets/ico_gray_error.svg';
-import { userBuildingsAtom } from '@/states/buildingAtom';
-import { userOfficeAtom } from '@/states/officeAtom';
+import { userBuildingsAtom } from '@/states/signupRequestAtom';
+import { userOfficeAtom } from '@/states/signupRequestAtom';
+
 
 interface SignupStepProps {
   // eslint-disable-next-line no-unused-vars
@@ -18,9 +19,10 @@ const SignupStep2 = ({ onNextStep }: SignupStepProps) => {
   const userBuildings = useRecoilValue(userBuildingsAtom);
   //저장된 오피스 불러오기
   const userOffice = useRecoilValue(userOfficeAtom);
-
   const userBuildingName = userBuildings.buildingName;
   const userOfficegName = userOffice.officeName;
+
+
 
   const handleServiceClick = () => {
     onNextStep(1);

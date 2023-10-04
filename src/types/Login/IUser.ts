@@ -1,11 +1,11 @@
 interface IBuilding {
-  id: 0;
+  id: number;
   buildingName: '';
   buildingAddress: '';
 }
 
-interface Company {
-  officeId: number;
+interface IOffice {
+  id: number;
   officeName: string;
   officeNum: string;
 }
@@ -17,7 +17,7 @@ export interface IUser {
     name: string;
     phoneNumber: string;
     building: IBuilding;
-    company: Company;
+    office: IOffice;
     token: string;
   };
 }
