@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import IconSend from '@/assets/chatrooms/ico_send.svg';
 import { chatInputFocusAtom, isMobileAtom } from '@/states/chatInputFocusAtom';
 
-const ChatInput = () => {
+const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
   const [inputValue, setInputValue] = useState('');
   const isMobile = useRecoilValue(isMobileAtom);
   const [inputFocus, setInputFocus] = useRecoilState(chatInputFocusAtom);
@@ -14,18 +14,36 @@ const ChatInput = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+  console.log(socket,"인풋");
+
+  const socketSend = () => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      const nowDate = new Date().toISOString().slice(0, -1);
+      const MESSAGE_DATA = {
+        messageType: 'TALK',
+        content: inputValue,
+        sendTime: nowDate
+      };
+      socket.send(JSON.stringify(MESSAGE_DATA));
+      console.log(MESSAGE_DATA, '성공');
+    } else {
+      console.log('WebSocket 연결이 열리지 않았습니다.');
+    }
+  };
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    // 웹소켓 통신 연결
-    setInputValue('');
+    if (inputValue.length > 0) {
+      socketSend();
+      setInputValue('');
+    }
   };
 
   // 엔터 누를 때 보내기
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      // 웹소켓 통신 연결
+    e.preventDefault();
+    if (e.key === 'Enter' && inputValue.length > 0) {
+      socketSend();
       setInputValue('');
     }
   };
@@ -43,7 +61,7 @@ const ChatInput = () => {
       inputfocus={inputFocus}
       ismobile={isMobile}>
       <StyledInputBox
-        placeholder={String(isMobile)}
+        placeholder={'메세지를 입력해주세요.'}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
         onFocus={handleInputFocus}

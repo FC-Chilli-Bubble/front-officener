@@ -9,19 +9,19 @@ export const MODAL_DATA_GUEST = {
     positive: '예',
     negative: '아니오'
   },
-  ExitModal: {
+  exitModal: {
     title: '채팅방을 나가시겠습니까?',
     content: '호스트에게 나가기 요청을 할 수 있습니다.',
     positive: '나가기 요청',
     negative: '닫기'
   },
-  AfterExitModal: {
+  afterExitModal: {
     title: '채팅방을 나가시겠습니까?',
     content: '채팅을 한 번 나가면 다시 들어올 수 없습니다.',
     positive: '나가기',
     negative: '닫기'
   },
-  CantExitModal: {
+  cantExitModal: {
     title: '앗! 잠시만요!',
     content: '게스트 모두 수령 완료 시 채팅방을 나갈 수 있습니다.',
     positive: '닫기'

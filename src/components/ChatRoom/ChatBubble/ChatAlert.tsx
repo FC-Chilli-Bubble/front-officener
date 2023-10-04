@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { getName } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 
 type Tprops = {
   senderId: number;
@@ -7,23 +7,30 @@ type Tprops = {
 };
 
 const ChatAlert = ({ senderId, type }: Tprops) => {
+  const { getName } = useMemberInfo();
   //알람 타입 지정
   const renderAlertText = (type: string) => {
     switch (type) {
-      case 'REMITTED_ALERT':
+      case 'COMPLETE_REMITTANCE':
         return '님이 송금을 완료했어요! 호스트님 확인해주세요.';
-      case 'EXIT_ALERT':
+      case 'REQUEST_EXIT':
         return '님이 나가기 요청을 했어요! 호스트님 확인해주세요';
-      case 'ENTER_ALERT':
+      case 'CLOSE_PARTICIPATION':
         return '님이 참여한 배달의 모집이 완료되었습니다.';
+      case 'COMPLETE_DELIVERY':
+        return '배달이 완료되었어요. 음식을 수령해주세요.';
+      case 'COMPLETE_RECEIPT':
+        return '님이 수령을 완료했어요!';
       default:
         return '알람 메세지 오류!';
     }
   };
-
+  console.log("아이뒤",senderId)
   return (
     <StyledContainer id={type}>
-      <StyledNameSpace>{getName(senderId)}</StyledNameSpace>
+      {type!=="COMPLETE_DELIVERY" &&
+        <StyledNameSpace>{getName(senderId)}</StyledNameSpace>
+      }
       <p>{renderAlertText(type)}</p>
     </StyledContainer>
   );
@@ -40,17 +47,17 @@ const StyledContainer = styled.div`
   align-items: center;
   border-radius: 8px;
   font-size: 12px;
-  &#REMITTED_ALERT {
+  &#COMPLETE_REMITTANCE, &#COMPLETE_RECEIPT {
     border: 1px solid ${({ theme }) => theme.colors.barBorderColor};
     background: ${({ theme }) => theme.colors.white};
   }
-  &#EXIT_ALERT {
+  &#REQUEST_EXIT {
     font-size: 14px;
     font-weight: 700;
     border: 1px solid ${({ theme }) => theme.colors.barBorderColor};
     background: ${({ theme }) => theme.colors.white};
   }
-  &#ENTER_ALERT {
+  &#CLOSE_PARTICIPATION {
     font-weight: 700;
     color: ${({ theme }) => theme.colors.white};
     background: ${({ theme }) => theme.colors.ctaColor};

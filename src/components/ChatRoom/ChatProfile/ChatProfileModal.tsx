@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import IconUser from '@/assets/ico_user.svg';
-import { getCompany, getName } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 import {
+  chatDeclarationDataAtom,
   declarationStepAtom,
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
@@ -14,8 +15,10 @@ type TSenderId = {
 };
 
 const ChatProfileModal = ({ senderId }: TSenderId) => {
+  const { getCompany, getName } = useMemberInfo();
   const { closeModal } = useModal();
 
+  const [chatDeclarationData, setChatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
 
@@ -24,6 +27,7 @@ const ChatProfileModal = ({ senderId }: TSenderId) => {
   const handleDeclarationClick = () => {
     setDeclarationStep(1);
     closeModal();
+    setChatDeclarationData({ ...chatDeclarationData, reportedUserId: senderId });
     setIsBottomsheetOpen(true);
   };
 
