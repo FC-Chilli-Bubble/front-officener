@@ -8,6 +8,7 @@ type Tprops = {
 
 const ChatAlert = ({ senderId, type }: Tprops) => {
   const { getName } = useMemberInfo();
+
   //알람 타입 지정
   const renderAlertText = (type: string) => {
     switch (type) {
@@ -25,12 +26,10 @@ const ChatAlert = ({ senderId, type }: Tprops) => {
         return '알람 메세지 오류!';
     }
   };
-  console.log("아이뒤",senderId)
+
   return (
     <StyledContainer id={type}>
-      {type!=="COMPLETE_DELIVERY" &&
-        <StyledNameSpace>{getName(senderId)}</StyledNameSpace>
-      }
+      {type !== 'COMPLETE_DELIVERY' && <StyledNameSpace>{getName(senderId)}</StyledNameSpace>}
       <p>{renderAlertText(type)}</p>
     </StyledContainer>
   );
@@ -47,7 +46,9 @@ const StyledContainer = styled.div`
   align-items: center;
   border-radius: 8px;
   font-size: 12px;
-  &#COMPLETE_REMITTANCE, &#COMPLETE_RECEIPT {
+  &#COMPLETE_REMITTANCE,
+  &#COMPLETE_RECEIPT,
+  &#COMPLETE_DELIVERY {
     border: 1px solid ${({ theme }) => theme.colors.barBorderColor};
     background: ${({ theme }) => theme.colors.white};
   }
