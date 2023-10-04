@@ -1,40 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 
 import Tag from '@/components/Common/Tag';
-import { Floor_TAG } from '@/constants/commonUiData';
-import { floorAtom } from '@/states/floorAtom';
+import { elevatorAtom } from '@/states/elevatorAtom';
+import { IObjectElevator } from '@/types/Elevator/IElevator';
+import { updateSelectedElevators } from '@/apis/Elevator/elevatorRequests';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
-type TFloorListProps = {
-  closeSheet: () => void;
+type TElevatorTagListProps = {
+  elevators: IObjectElevator[],
+  closeSheet: (isUpdated: boolean) => void;
 };
 
-const FloorList = React.memo(({ closeSheet }: TFloorListProps) => {
-  // 1. api 호출
-  // 2. 응답 -> [1, 2, 3, 4]
-  // 3. setSavedTags([1,2,3,4])
-  // 4.
-  const [savedTags, setSavedTags] = useRecoilState(floorAtom);
-  const [selectedTags, setSelectedTags] = useState<string[]>(savedTags);
+const ElevatorTagList = React.memo(({ elevators, closeSheet }: TElevatorTagListProps) => {
+  const [savedTags, setSavedTags] = useRecoilState(elevatorAtom);
+  const [selectedTags, setSelectedTags] = useState<number[]>(savedTags);
+  const { openModal } = useModal();
 
-  const handleClickTag = (tag: string) => {
+  const handleClickTag = (id: number) => {
     // 이미 선택되어 있는 경우 선택 해제
-    console.log('selectedTags : ', selectedTags);
-    if (selectedTags.includes(tag)) {
-      const newTags = selectedTags.filter(t => t !== tag);
-      console.log('newTags : ', newTags);
+    if (selectedTags.includes(id)) {
+      const newTags = selectedTags.filter(t => t !== id);
       setSelectedTags(newTags);
       return;
     }
     // 선택 처리
-    setSelectedTags([...selectedTags, tag]);
-    console.log('selectedTags2 : ', [...selectedTags, tag]);
+    setSelectedTags([...selectedTags, id]);
+  };
+
+  const updateElevators = async (selectedTags: number[]) => {
+    try {
+      const isUpdated = await updateSelectedElevators(selectedTags);
+      if (isUpdated) {
+        closeSheet(true);
+      }
+    } catch (error) {
+      // 에러처리
+      closeSheet(false);
+    }
   };
 
   const handleSaveTag = () => {
     setSavedTags(selectedTags);
-    closeSheet();
+    updateElevators(selectedTags);
   };
 
   return (
@@ -49,14 +59,14 @@ const FloorList = React.memo(({ closeSheet }: TFloorListProps) => {
         <p>{'오산테라타워'}</p>
       </div>
       <ul>
-        {Floor_TAG.map(tag => (
-          <li key={tag}>
+        {elevators.map(elevator => (
+          <li key={elevator.id}>
             <Tag
               width="fixed"
-              title={tag}
-              isActive={selectedTags.includes(tag)}
+              title={`${elevator.id}호기`}
+              isActive={selectedTags.includes(elevator.id)}
               onClick={() => {
-                handleClickTag(tag);
+                handleClickTag(elevator.id);
               }}
             />
           </li>
@@ -106,4 +116,4 @@ const StyledConfirm = styled.button`
   }
 `;
 
-export default FloorList;
+export default ElevatorTagList;

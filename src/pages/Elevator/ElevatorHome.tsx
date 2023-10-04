@@ -1,20 +1,23 @@
 import { styled } from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
-import FloorList from '@/components/Elevator/FloorList';
-import { fetchElevatorObj } from '@/apis/Elevator/elevatorGetRequests';
+import ElevatorTagList from '@/components/Elevator/ElevatorTagList';
+import { featchElevators } from '@/apis/Elevator/elevatorRequests';
 import { IObjectElevator } from '@/types/Elevator/IElevator';
 import MissingCard from '@/components/Elevator/MissingCard';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
   const [elevatorList, setElevatorList] = useState<IObjectElevator[]>([]);
-
+  const [allElevatorList, setAllElevatorList] = useState<IObjectElevator[]>([]);
+  const { openModal } = useModal();
   const navigate = useNavigate();
 
   const handleClickClose = () => {
@@ -26,24 +29,36 @@ const ElevatorHome = () => {
   };
 
   // 바텀시트 닫기
-  const closeBottomSheet = () => {
+  const closeBottomSheet = (isUpdated: boolean) => {
+    if (isUpdated) {
+      getElevator();
+    }
     setOpen(false);
   };
 
   // 엘리베이터 목록 조회 API
-  const getElevator = async () => {
-    try {
-      const response = await fetchElevatorObj();
-      setElevatorList(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const getElevator = useCallback(
+    async () => {
+      try {
+        const res = await featchElevators();
+        setAllElevatorList(res.allElevators);
+        setElevatorList(res.userElevators);
+      } catch (error) {
+        openModal({
+          ...MODAL_DATAS.ELEVATOR_FETCH_FAILURE,
+          positiveCallback: () => {
+            navigate(-1);
+          }
+        });
+      }
+    },
+    [openModal, navigate],
+  );
+
 
   useEffect(() => {
     getElevator();
-  }, []);
+  }, [getElevator]);
 
   return (
     <StyledLayout>
@@ -67,9 +82,9 @@ const ElevatorHome = () => {
             <BottomSheetModal
               isOpen={isOpen}
               onClose={() => setOpen(false)}>
-              <>
-                <FloorList closeSheet={closeBottomSheet} />
-              </>
+              {
+                allElevatorList && <ElevatorTagList elevators={allElevatorList} closeSheet={closeBottomSheet} />
+              }
             </BottomSheetModal>
           </StyledSettingButton>
         </StyledStyledElevatorSetting>

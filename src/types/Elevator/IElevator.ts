@@ -4,3 +4,8 @@ export interface IObjectElevator {
   direction: 'stop' | 'UP' | 'DOWN' | null; // 엘리베이터 방향
   status: 'NORMAL' | 'REPAIR' | 'full'; // 엘리베이터 상태
 }
+
+export interface IElevator {
+  allElevators: IObjectElevator[];
+  userElevators: IObjectElevator[];
+}
