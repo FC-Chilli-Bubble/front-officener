@@ -1,27 +1,63 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import dayjs from 'dayjs';
 
 import Header from '@/components/Common/Header';
-import DummyNotifications from './DummyNotifications';
 import NotificationItem from '@/components/Notification/NotificationItem';
+import { fetchAllNotifications, updateNotificationReadAll, updateNotificationReadStatus } from '@/apis/Notify/notifyRequests';
+import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { filterdNotificationsState, notificationsAtom } from '@/states/notificationsAtom';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
 
 const Notification = () => {
   const navigate = useNavigate();
-  const newNotifications = DummyNotifications.filter(noti => !noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
-  const lastNotifications = DummyNotifications.filter(noti => noti.read).sort((a, b) => dayjs(b.date).diff(dayjs(a.date)));
+  const [notifications, setNotifications] = useRecoilState(notificationsAtom);
+  const { newNotifications, lastNotifications } = useRecoilValue(filterdNotificationsState);
+  const { openModal } = useModal();
+
+  const getAllNotifications = async () => {
+    try {
+      const res = await fetchAllNotifications();
+      setNotifications(res.data);
+    } catch (error) {
+      openModal(MODAL_DATAS.NOTIFICATIONS_FETCH_FAILURE);
+    }
+  };
+
+  useEffect(() => {
+    getAllNotifications();
+  }, []);
 
   const handleClickBack = () => {
     navigate(-1);
   };
 
-  const handleClickNotification = () => {
-    // TODO : 개별 읽음 처리
+  const handleClickNotification = async (notifyId: number, roomId: number) => {
+    try {
+      const res = await updateNotificationReadStatus(notifyId);
+      if (res) {
+        navigate(`/chat/${roomId}`);
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.NOTIFICATIONS_UPDATE_FAILURE);
+    }
   };
 
-  const handleClickReadAll = () => {
-    // TODO : 모두 읽음 처리
+  const handleClickLastNotification = (_: number, roomId: number) => {
+    navigate(`/chat/${roomId}`);
+  };
+
+  const handleClickReadAll = async () => {
+    try {
+      const res = await updateNotificationReadAll();
+      if (res) {
+        setNotifications(notifications.map(notification => { return { ...notification, read: true }; }));
+      }
+    } catch (error) {
+      openModal(MODAL_DATAS.NOTIFICATIONS_UPDATE_FAILURE);
+    }
   };
 
   return (
@@ -31,7 +67,7 @@ const Notification = () => {
         <div>
           <StyledNewTitle>
             <h2>새로운 알림</h2>
-            <button onClick={handleClickReadAll}>모두 읽음</button>
+            <button onClick={handleClickReadAll} disabled={newNotifications.length === 0}>모두 읽음</button>
           </StyledNewTitle>
           {
             newNotifications.length > 0
@@ -39,7 +75,7 @@ const Notification = () => {
                 <ul>
                   {
                     newNotifications.map(notification =>
-                      <NotificationItem key={notification.date} notification={notification} onClick={handleClickNotification} />)
+                      <NotificationItem key={notification.createdAt} notification={notification} onClick={handleClickNotification} />)
                   }
                 </ul>
               )
@@ -53,7 +89,7 @@ const Notification = () => {
               ? (
                 <ul>
                   {
-                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickBack} />)
+                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickLastNotification} />)
                   }
                 </ul>
               )
