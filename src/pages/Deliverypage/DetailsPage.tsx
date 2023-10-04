@@ -10,7 +10,7 @@ import HostInfo from '@/components/Details/HostInfo';
 import StoreInfo from '@/components/Details/StoreInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
-import { fetchDeliveryPostDetail, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
+import { fetchDeliveryPostDetail, requestFirstEnterChat, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
 import { useModal } from '@/hooks/useModal';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
@@ -104,7 +104,10 @@ const DetailsPage = () => {
     try {
       const isSuccessJoin = await requestJoinChat(params.id!);
       if (isSuccessJoin) {
-        navigate(`/chat/${params.id}`);
+        const isSuccessEnter = await requestFirstEnterChat(params.id!);
+        if (isSuccessEnter) {
+          navigate(`/chat/${params.id}`);
+        }
       }
     } catch (error) {
       openModal(MODAL_DATAS.DELIVERY_CHAT_JOIN_FAILURE);
@@ -178,7 +181,7 @@ const DetailsPage = () => {
               width="fit-content"
             />
           </StyledHostButtons>
-        ) : detail?.isJoin ? (
+        ) : !detail?.isJoin ? (
           <Button
             type="cta"
             title="채팅방 참여"
