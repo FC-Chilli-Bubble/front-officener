@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 
 import { chatDeclarationDataAtom, declarationStepAtom } from '@/states/chatDeclarationAtom';
 import { modalInputFocusAtom } from '@/states/chatInputFocusAtom';
@@ -22,12 +23,13 @@ const ChatDeclarationStepDetail = () => {
     setDeclarationStep(1);
   };
 
-  const roomId = 1;
+  const params = useParams();
 
   //api post
   const createDeclaration = async () => {
     try {
-      await createDeclarationPost(roomId);
+      await createDeclarationPost(String(params.roomId), chatDeclarationData);
+      console.log(chatDeclarationData);
     } catch (err) {
       console.log(err);
     } finally {

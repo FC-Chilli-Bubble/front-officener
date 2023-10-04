@@ -6,13 +6,14 @@ interface IChatData {
   profileImage: string;
   name: string;
   message: string;
+  roomId: number;
 }
 
-const ChatItem: React.FC<IChatData> = ({ profileImage, name, message }) => {
+const ChatItem: React.FC<IChatData> = ({ profileImage, name, message, roomId }) => {
   const navigate = useNavigate();
 
   const handleMoveChat = () => {
-    navigate('/chatroom');
+    navigate(`/chatroom/${roomId}`);
   };
 
   return (

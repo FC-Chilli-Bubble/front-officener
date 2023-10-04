@@ -16,13 +16,14 @@ import {
   createHostClosedPost,
   createHostDeliveredPost
 } from '@/apis/ChatRoom/ChatHeaderButtonApis';
+import { useParams } from 'react-router-dom';
 
 const ChatHeader = () => {
   const { getMyId, isHost, isRemitted } = useMemberInfo();
   const { openModal, closeModal } = useModal();
 
   const myid = getMyId();
-  const roomId = 20;
+  const params = useParams();
 
   const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(false);
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
@@ -31,7 +32,7 @@ const ChatHeader = () => {
   //host api post
   const createHostClosed = async () => {
     try {
-      await createHostClosedPost(roomId);
+      await createHostClosedPost(String(params.roomId));
     } catch (err) {
       console.log(err);
     } finally {
@@ -41,7 +42,7 @@ const ChatHeader = () => {
   };
   const createHostDelivered = async () => {
     try {
-      await createHostDeliveredPost(roomId);
+      await createHostDeliveredPost(String(params.roomId));
     } catch (err) {
       console.log(err);
     } finally {
@@ -81,9 +82,9 @@ const ChatHeader = () => {
   const createGuestPost = async () => {
     try {
       if (isRemitted(myid)) {
-        await createGuestReceivedPost(roomId);
+        await createGuestReceivedPost(String(params.roomId));
       } else {
-        await createGuestRemittedPost(roomId);
+        await createGuestRemittedPost(String(params.roomId));
       }
     } catch (err) {
       console.log(err);
