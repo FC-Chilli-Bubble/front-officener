@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { roomsAtom } from '@/states/rommsAtom';
@@ -17,17 +17,15 @@ interface IMenuContentProps {
   selectedMenu: string;
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
-  data: IRoom[] | null;
   joinedRooms: IRoom[] | null;
 }
 
-const MenuContent: React.FC<IMenuContentProps> = ({
+const MenuContent = ({
   selectedMenu,
   selectedCategory,
   handleCategoryClick,
-  data,
   joinedRooms
-}) => {
+}: IMenuContentProps) => {
   const [rooms] = useRecoilState(roomsAtom);
   const [chats, setChats] = useState<IChat[] | null>(null);
 
@@ -43,53 +41,35 @@ const MenuContent: React.FC<IMenuContentProps> = ({
 
     fetchChats();
   }, []);
-  if (!rooms) {
-    return null;
-  }
-  const filteredRooms = rooms.filter(room => room.tag === selectedCategory);
+
+  const filteredRooms = useMemo(() => rooms.filter(room => room.tag === selectedCategory), [rooms, selectedCategory]);
 
   if (selectedMenu === '함께배달') {
     return (
       <div>
-        <TogetherDelivery selectedCategory={selectedCategory} />
-        {data && (
-          <OrderList
-            data={data}
-            selectedCategory={selectedCategory}
-            handleCategoryClick={handleCategoryClick}
-          />
-        )}
-
+        {/* 마감 리스트 */}
+        <TogetherDelivery />
+        {/* 카테고리 버튼 */}
+        <OrderList
+          selectedCategory={selectedCategory}
+          handleCategoryClick={handleCategoryClick}
+        />
+        {/* 카테고리별 리스트 */}
         {filteredRooms.length > 0 ? (
           filteredRooms.map(room => (
             <FoodItem
               key={room.roomId}
               room={room}
-              showTimeLimit={false}
-              listStyle
             />
           ))
         ) : (
           <StyledNoData>
-            <p>함께 주문 리스트가 비었습니다.</p>
+            함께 주문 리스트가 비었습니다.
           </StyledNoData>
         )}
       </div>
     );
   } else if (selectedMenu === '내가 참여한 배달') {
-    // return (
-    //   <div>
-    //     {rooms &&
-    //       rooms.map(room => (
-    //         <FoodItem
-    //           key={room.roomId}
-    //           room={room}
-    //           showTimeLimit={false}
-    //           listStyle
-    //         />
-    //       ))}
-    //   </div>
-    // );
     return (
       <div>
         {joinedRooms &&
@@ -97,25 +77,11 @@ const MenuContent: React.FC<IMenuContentProps> = ({
             <FoodItem
               key={room.roomId}
               room={room}
-              showTimeLimit={false}
-              listStyle
             />
           ))}
       </div>
     );
   } else if (selectedMenu === '나의 채팅') {
-    // return (
-    //   <div>
-    //     {dummyChatData.map(chat => (
-    //       <ChatItem
-    //         key={chat.name}
-    //         profileImage={chat.profileImage}
-    //         name={chat.name}
-    //         message={chat.message}
-    //       />
-    //     ))}
-    //   </div>
-    // );
     return (
       <div>
         {chats &&
@@ -142,10 +108,8 @@ const StyledNoData = styled.div`
   border-radius: 10px;
   border: 1px dashed ${props => props.theme.colors.grayColor3};
   color: ${props => props.theme.colors.grayColor5};
-  width: 330px;
   height: 405px;
-  flex-shrink: 0;
-  margin: 20px auto auto auto;
+  margin: 20px 24px;
 `;
 
 export default MenuContent;

@@ -10,12 +10,11 @@ import { deliverylist } from '@/apis/Delivery/deliverylist';
 import { getJoinedRooms } from '@/apis/Delivery/getJoinedRooms';
 import { roomsAtom } from '@/states/rommsAtom';
 import { IRoom } from '@/types/Delivery/IDeliveryList';
-import { FOODTAGS } from '@/constants/commonUiData';
+import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
-  const [selectedCategory, setSelectedCategory] = useState(FOODTAGS['분식']);
-  const [data, setData] = useState<IRoom[] | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState(FOODTAGS[FOOD_TAG[0]]);
   const [rooms, setRooms] = useRecoilState(roomsAtom);
   const [joinedRooms, setJoinedRooms] = useState<IRoom[] | null>(null);
 
@@ -45,10 +44,6 @@ const DeliveryPage = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const filteredRooms = rooms ? rooms.filter(room => room.tag === selectedCategory) : [];
-    setData(filteredRooms);
-  }, [selectedCategory, rooms]);
 
   const handleMenuClick = (menu: string) => {
     setSelectedMenu(menu);
@@ -77,7 +72,6 @@ const DeliveryPage = () => {
           selectedMenu={selectedMenu}
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
-          data={data}
           joinedRooms={joinedRooms}
         />
         <StyledButtonBox>

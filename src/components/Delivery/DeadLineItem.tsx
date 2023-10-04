@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
@@ -6,11 +7,7 @@ import { IRoom } from '@/types/Delivery/IDeliveryList';
 import { FOOD_IMAGE } from '@/constants/commonUiData';
 import IconAlarm from '@/assets/food/icon_alarm.svg';
 
-interface IFoodItemProps {
-  room: IRoom;
-}
-
-const FoodItem = ({ room }: IFoodItemProps) => {
+const DeadLineItem = React.memo(({ room }: { room: IRoom; }) => {
   const navigate = useNavigate();
 
   const handleMovePost = () => {
@@ -18,84 +15,42 @@ const FoodItem = ({ room }: IFoodItemProps) => {
   };
 
   return (
-    <StyledFoodCardListStyle onClick={handleMovePost}>
+    <StyledFoodCard onClick={handleMovePost}>
       <img
         src={FOOD_IMAGE[room.tag]}
         alt="음식사진"
       />
-      <StyledFoodInfoListStyle>
+      <TimeLimit diffMin={dayjs(room.deadLine).diff(dayjs(), 'minutes')}>
+        <TimeIcon
+          src={IconAlarm}
+          alt="Time Icon"
+        />
+        {dayjs(room.deadLine).format('A hh:mm')}까지
+      </TimeLimit>
+
+      <StyledFoodCardText>
         <StyledRow>
-          <ListGrayText>가게이름</ListGrayText> <ListBlackText>{room.storeName}</ListBlackText>
+          <GrayText>가게이름</GrayText> <BlackText>{room.storeName}</BlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>참여인원</ListGrayText>{' '}
-          <ListBlackText>{`${room.attendees}/${room.maxAttendees}`}</ListBlackText>
+          <GrayText>참여인원</GrayText>{' '}
+          <BlackText>{`${room.attendees}/${room.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>배달비</ListGrayText> <ListBlackText>{room.deliveryFee}</ListBlackText>
+          <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee}</BlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>태그</ListGrayText> <ListBlackText>{room.tag}</ListBlackText>
+          <GrayText>태그</GrayText> <BlackText>{room.tag}</BlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>이체마감</ListGrayText>{' '}
-          <ListBlackText>{dayjs(room.deadLine).format('A hh:mm')}</ListBlackText>
+          <GrayText>이체마감</GrayText>{' '}
+          <BlackText>{dayjs(room.deadLine).format('A hh:mm')}</BlackText>
         </StyledRow>
-      </StyledFoodInfoListStyle>
-    </StyledFoodCardListStyle>
+      </StyledFoodCardText>
+    </StyledFoodCard>
   );
-};
+});
 
-const StyledFoodCardListStyle = styled.div`
-  padding: 10px;
-  margin: 5px 5px;
-  display: flex;
-  align-items: start;
-  gap: 20px;
-  cursor: pointer;
-  > img {
-    flex-shrink: 0;
-    width: 150px;
-    height: 150px;
-    border-radius: 15px;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  > div {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-`;
-
-const StyledFoodInfoListStyle = styled.div`
-  margin: 10px 0 0 0;
-`;
-
-const ListGrayText = styled.h1`
-  flex-shrink: 0;
-  width: 70px;
-  text-align: left;
-  padding-left: 5px;
-  font-size: 14px;
-  font-weight: 400;
-  color: ${props => props.theme.colors.grayColor10};
-  display: inline-block;
-`;
-
-const ListBlackText = styled.p`
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 400;
-  flex-grow: 1;
-  padding-left: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100px;
-`;
 
 const TimeLimit = styled.div<{ diffMin: number; }>`
   display: flex;
@@ -127,7 +82,7 @@ const StyledRow = styled.div`
 
 const GrayText = styled.h1`
   flex-shrink: 0;
-  width: 100px;
+  width: 35%;
   text-align: left;
   padding-left: 5px;
   color: ${props => props.theme.colors.grayColor10};
@@ -140,7 +95,6 @@ const BlackText = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 180px;
 `;
 
 const StyledFoodCard = styled.div`
@@ -172,4 +126,4 @@ const StyledFoodCardText = styled.div`
   width: 180px;
 `;
 
-export default FoodItem;
+export default DeadLineItem;

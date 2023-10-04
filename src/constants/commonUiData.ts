@@ -124,12 +124,12 @@ export const FOODTAGS: IFoodTagType = {
 };
 
 export const FOOD_IMAGE: IFoodTagType = {
-  PORKMEET: ImagePorkmeet,
+  PORKFEET: ImagePorkmeet,
   SUSHI: ImageSUSHI,
   ZZIM: ImageZZIM,
   PIZZA: ImagePIZZA,
   CHICKEN: ImageCHICKEN,
-  ASAIN: ImageASIAN,
+  ASIAN: ImageASIAN,
   BAEKBAN: ImageBAEKBAN,
   BUNSIK: ImageBUNSIK,
   CAFE: ImageCAFE,

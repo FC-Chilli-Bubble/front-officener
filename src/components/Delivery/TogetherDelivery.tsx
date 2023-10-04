@@ -1,36 +1,23 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { roomsAtom } from '@/states/rommsAtom';
-// import { IRoom } from '@/types/Delivery/IDeliveryList';
-import FoodItem from '@/components/Delivery/FoodItem';
 import IconTime from '@/assets/food/Time.svg';
+import DeadLineItem from '@/components/Delivery/DeadLineItem';
 
-interface ITogetherDeliveryProps {
-  selectedCategory: string;
-}
 
-const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }) => {
+const TogetherDelivery = () => {
   const [rooms] = useRecoilState(roomsAtom);
 
-  // deadline (마감시감만)필터링
-  // const filteredData = useMemo(() => {
-  //   return rooms.filter(item => {
-  //     const deadline = dayjs(item.deadLine);
-  //     const diff = dayjs().diff(deadline, 'hour');
-  //     return diff < 500 && diff >= 0;
-  //   });
-  // }, [rooms]);
-
-  // deadline, category (마감시간, 카테고리) 필터링
   const filteredData = useMemo(() => {
     return rooms.filter(item => {
       const deadline = dayjs(item.deadLine);
-      const diff = dayjs().diff(deadline, 'hour');
-      return item.tag === selectedCategory && diff < 500 && diff >= 0;
-    });
-  }, [rooms, selectedCategory]);
+      const diff = deadline.diff(dayjs(), 'minutes');
+      return diff <= 20 && diff > 0;
+    })
+      .sort((a, b) => dayjs(a.deadLine).diff(dayjs(b.deadLine)));
+  }, [rooms]);
 
   return (
     <>
@@ -49,7 +36,7 @@ const TogetherDelivery: React.FC<ITogetherDeliveryProps> = ({ selectedCategory }
       ) : (
         <FoodCardContainer>
           {filteredData.map(room => (
-            <FoodItem
+            <DeadLineItem
               key={room.roomId}
               room={room}
             />
@@ -118,9 +105,9 @@ const FoodCardContainer = styled(ScrollHidden)`
   overflow-x: scroll;
   white-space: nowrap;
 
-  &::-webkit-scrollbar {
+  /* &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const StyledNoData = styled.div`
@@ -132,10 +119,8 @@ const StyledNoData = styled.div`
   border-radius: 10px;
   border: 1px dashed ${props => props.theme.colors.grayColor3};
   color: ${props => props.theme.colors.grayColor5};
-  width: 330px;
   height: 405px;
-  flex-shrink: 0;
-  margin: 30px auto auto auto;
+  margin: 20px 24px;
 `;
 
 export default TogetherDelivery;
