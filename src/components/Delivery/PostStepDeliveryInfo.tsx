@@ -40,7 +40,7 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
           <select required id='bank' value={postData.bankName} onChange={handleChangeBank}>
             <option value="" disabled selected>은행/증권사</option>
             {
-              bankList.map(bank => <option value={BANKS[bank.bankName]}>{bank.bankName}</option>)
+              bankList.map(bank => <option value={bank.name}>{BANKS[bank.name]}</option>)
             }
           </select>
           <img src={IconDown} />
