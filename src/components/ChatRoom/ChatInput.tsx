@@ -17,7 +17,7 @@ const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
 
   const socketSend = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      const getTime = new Date().getTime() - (new Date().getTimezoneOffset() * 60000)
+      const getTime = new Date().getTime() - new Date().getTimezoneOffset() * 60000;
       const nowDate = new Date(getTime).toISOString().slice(0, -1);
       const MESSAGE_DATA = {
         messageType: 'TALK',
@@ -41,6 +41,9 @@ const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
 
   // 엔터 누를 때 보내기
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
     e.preventDefault();
     if (e.key === 'Enter' && inputValue.length > 0) {
       socketSend();
@@ -63,7 +66,9 @@ const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
       <StyledInputBox
         placeholder={'메세지를 입력해주세요.'}
         onChange={handleChange}
-        onKeyDown={handleKeyPress}
+        onKeyDown={e => {
+          e.key === 'Enter' && handleKeyPress;
+        }}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         value={inputValue}
