@@ -181,7 +181,7 @@ const DetailsPage = () => {
               width="fit-content"
             />
           </StyledHostButtons>
-        ) : !detail?.isJoin ? (
+        ) : detail?.isJoin ? (
           <Button
             type="cta"
             title="채팅방 참여"
