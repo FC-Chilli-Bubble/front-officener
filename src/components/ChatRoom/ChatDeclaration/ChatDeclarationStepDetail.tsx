@@ -28,7 +28,8 @@ const ChatDeclarationStepDetail = () => {
   //api post
   const createDeclaration = async () => {
     try {
-      await createDeclarationPost(String(params.roomId));
+      await createDeclarationPost(String(params.roomId), chatDeclarationData);
+      console.log(chatDeclarationData);
     } catch (err) {
       console.log(err);
     } finally {
