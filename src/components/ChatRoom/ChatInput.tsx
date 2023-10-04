@@ -14,11 +14,11 @@ const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  console.log(socket,"인풋");
 
   const socketSend = () => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      const nowDate = new Date().toISOString().slice(0, -1);
+      const getTime = new Date().getTime() - (new Date().getTimezoneOffset() * 60000)
+      const nowDate = new Date(getTime).toISOString().slice(0, -1);
       const MESSAGE_DATA = {
         messageType: 'TALK',
         content: inputValue,
