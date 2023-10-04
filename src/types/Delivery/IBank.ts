@@ -1,9 +1,10 @@
 import { TBankKey } from '@/constants/banks';
 
 export interface IBank {
-  banks: IBankInfo[];
+  bankList: IBankInfo[];
 }
 
 export interface IBankInfo {
-  bankName: TBankKey;
+  id: number;
+  name: TBankKey;
 }

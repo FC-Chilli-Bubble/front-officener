@@ -68,7 +68,7 @@ const DeliveryPost = () => {
   const getBankList = async () => {
     try {
       const res = await fetchBankList();
-      setBankList(res.data.banks);
+      setBankList(res.data.bankList);
     } catch (error) {
       openModal({
         ...MODAL_DATAS.DELIVERY_POST_BANK_FAILURE,

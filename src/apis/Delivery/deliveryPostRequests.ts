@@ -11,8 +11,8 @@ export const fetchBankList = async (): Promise<ICommonResponse<IBank>> => {
 
 // 함께 배달 등록
 export const createDeliveryPost = async (post: IDeliveryPostRequest): Promise<boolean> => {
-  const response = await apiClient.post('/api/room/create', post);
-  return response.status === 200;
+  const response = await apiClient.post('/api/room', post);
+  return response.status === 201;
 };
 
 // 함께배달 글 삭제
