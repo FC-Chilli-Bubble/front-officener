@@ -1,12 +1,7 @@
 import { atom } from 'recoil';
+import { IChatDeclarationData } from '@/types/Chatroom/IDeclarationData';
 
-type TChatDeclarationDataAtom = {
-  reportType: string;
-  reportMessage: string;
-  reportedUserId: number;
-};
-
-export const chatDeclarationDataAtom = atom<TChatDeclarationDataAtom>({
+export const chatDeclarationDataAtom = atom<IChatDeclarationData>({
   key: 'chatDeclarationDataAtom',
   default: {
     reportType: '',

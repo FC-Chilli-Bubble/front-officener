@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 
 import { useMemberInfo } from '@/hooks/useMemberInfo';
-import { messageData } from '@/apis/dummy_ChatAPI';
+import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 import ChatProfile from '@/components/ChatRoom/ChatProfile/ChatProfile';
 
 type TMessageContent = {
@@ -17,17 +18,23 @@ type Tprops = {
   index: number;
 };
 
+
 const ChatBubbleRender = ({ messageContent, index }: Tprops) => {
   const { isSenderMe } = useMemberInfo();
+  const messageData = useRecoilValue(chatInfoAtom);
 
-  //이전의 메세지와 보내는 사람이 같은지 판별
+
+  // 메세지와 보내는 사람이 같은지 판별
   const isSameAuthorAsPrevious =
-    index > 0 && messageData.messages[index - 1].senderId === messageContent.senderId;
+    index > 0 && messageData?.messages[index - 1]?.senderId === messageContent.senderId;
+    
   //보내는 사람이 나와 같은지 판별
   const isAuthorMe = isSenderMe(messageContent.senderId);
+
   //이전의 메세지가 같은 타입인지 판별
   const isTypeSameAsPrevious =
-    index > 0 && messageData.messages[index - 1].messageType === messageContent.messageType;
+    index > 0 && messageData.messages[index - 1]?.messageType === messageContent.messageType;
+
   //프로필이 필요한지 판별
   const isProfileNeed =
     (!isAuthorMe && !isSameAuthorAsPrevious) || (!isAuthorMe && !isTypeSameAsPrevious);
