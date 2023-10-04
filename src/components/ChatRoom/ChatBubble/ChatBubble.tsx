@@ -23,35 +23,32 @@ const ChatBubble = () => {
 
     // 채팅방 정보 api 호출
     getRoomInfoApi();
-
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     // 수신시 화면을 맨 끝으로 옮기기
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messageData])
+  }, [messageData]);
 
-  console.log(params.roomId)
-    // 채팅방 정보 get api 호출 함수
-    const getRoomInfoApi = async () => {
-      try {
-        const response = await getRoomInfo(String(params.roomId));
-        setMessageData(response);
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-      }
-    }; 
-
+  console.log(params.roomId);
+  // 채팅방 정보 get api 호출 함수
+  const getRoomInfoApi = async () => {
+    try {
+      const response = await getRoomInfo(String(params.roomId));
+      setMessageData(response);
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+    }
+  };
 
   return (
     <StyledContainer
       inputfocus={inputFocus}
       keyboardheight={keyboardHeight}
-      ismobile={isMobile}
-    >
+      ismobile={isMobile}>
       {messageData?.messages.map((messageContent, index) => {
         const reversedIndex = messageData.messages.length - 1 - index;
-        return messageData.messages[reversedIndex].messageType === 'TALK' ? (
+        return messageContent && messageData.messages[reversedIndex].messageType === 'TALK' ? (
           <ChatBubbleRender
             messageContent={messageData.messages[reversedIndex]}
             index={reversedIndex}
