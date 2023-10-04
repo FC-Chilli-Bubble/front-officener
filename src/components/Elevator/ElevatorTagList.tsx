@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Tag from '@/components/Common/Tag';
 import { elevatorAtom } from '@/states/elevatorAtom';
@@ -8,6 +8,7 @@ import { IObjectElevator } from '@/types/Elevator/IElevator';
 import { updateSelectedElevators } from '@/apis/Elevator/elevatorRequests';
 import { useModal } from '@/hooks/useModal';
 import MODAL_DATAS from '@/constants/modalDatas';
+import { userInfoAtom } from '@/states/userDataAtom';
 
 type TElevatorTagListProps = {
   elevators: IObjectElevator[],
@@ -18,6 +19,7 @@ const ElevatorTagList = React.memo(({ elevators, closeSheet }: TElevatorTagListP
   const [savedTags, setSavedTags] = useRecoilState(elevatorAtom);
   const [selectedTags, setSelectedTags] = useState<number[]>(savedTags);
   const { openModal } = useModal();
+  const user = useRecoilValue(userInfoAtom);
 
   const handleClickTag = (id: number) => {
     // 이미 선택되어 있는 경우 선택 해제
@@ -56,7 +58,7 @@ const ElevatorTagList = React.memo(({ elevators, closeSheet }: TElevatorTagListP
       </StyledConfirm>
       <div>
         <h2>엘리베이터를 선택해주세요</h2>
-        <p>{'오산테라타워'}</p>
+        <p>{user.userInfo.building.buildingName}</p>
       </div>
       <ul>
         {elevators.map(elevator => (

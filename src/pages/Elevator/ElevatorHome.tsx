@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
@@ -12,13 +13,17 @@ import { IObjectElevator } from '@/types/Elevator/IElevator';
 import MissingCard from '@/components/Elevator/MissingCard';
 import { useModal } from '@/hooks/useModal';
 import MODAL_DATAS from '@/constants/modalDatas';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { elevatorAtom } from '@/states/elevatorAtom';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
   const [elevatorList, setElevatorList] = useState<IObjectElevator[]>([]);
   const [allElevatorList, setAllElevatorList] = useState<IObjectElevator[]>([]);
+  const setSavedTags = useSetRecoilState(elevatorAtom);
   const { openModal } = useModal();
   const navigate = useNavigate();
+  const user = useRecoilValue(userInfoAtom);
 
   const handleClickClose = () => {
     navigate(-1);
@@ -43,6 +48,7 @@ const ElevatorHome = () => {
         const res = await featchElevators();
         setAllElevatorList(res.allElevators);
         setElevatorList(res.userElevators);
+        setSavedTags(res.userElevators.map(elevator => elevator.id));
       } catch (error) {
         openModal({
           ...MODAL_DATAS.ELEVATOR_FETCH_FAILURE,
@@ -69,7 +75,7 @@ const ElevatorHome = () => {
       />
       <StyledContainer>
         <StyledStyledElevatorSetting>
-          <StyledElevatorTitle>오산 테라타워</StyledElevatorTitle>
+          <StyledElevatorTitle>{user.userInfo.building.buildingName}</StyledElevatorTitle>
           <StyledSettingButton>
             <Button
               size="small"
@@ -106,7 +112,7 @@ const ElevatorHome = () => {
 };
 
 const StyledContainer = styled.div`
-  padding: 0 20px;
+  padding: 0 20px 56px;
 `;
 const StyledLayout = styled.div``;
 
@@ -131,7 +137,7 @@ const StyledSettingButton = styled.div`
 const StyledElevators = styled.ul`
   margin-top: 37px;
   display: grid;
-  grid-template-rows: repeat(2, 217px);
+  grid-template-rows: 1fr;
   grid-template-columns: repeat(2, 1fr);
   text-align: center;
   gap: 14px;
