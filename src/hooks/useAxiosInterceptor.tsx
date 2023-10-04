@@ -31,6 +31,8 @@ const useAxiosInterceptor = () => {
           // 스택 초기화 추가 작성 필요
         }
       });
+      // 이행되지 않는 Promise를 반환하여 Promise Chaining 끊어주기
+      return new Promise(() => { });
     }
 
     return Promise.reject<IErrorResponse>(
