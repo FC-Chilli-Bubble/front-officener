@@ -3,7 +3,7 @@ export interface ISignup {
   email: string;
   password: string;
   buildingName: string;
-  companyName: string; // officeName으로 수정 필요
+  officeName: string; // officeName으로 수정 필요
   name: string;
   phoneNumber: string;
 }

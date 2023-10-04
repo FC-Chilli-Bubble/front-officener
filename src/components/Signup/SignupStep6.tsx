@@ -30,7 +30,6 @@ interface SignupStepProps {
 type TErrorIconType = 'wrong' | 'error' | 'correct' | 'errorG' | 'none';
 
 const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
-  // const navigate = useNavigate();
   const { openModal } = useModal();
   // 유효성 검사
   const [name, setName] = useState('');
@@ -141,7 +140,6 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   };
   // 인증번호 토스트
   const notify = (verifyCode: string) => toast(`✅ 휴대폰 인증번호 : ${verifyCode}`);
-
   // 인증번호 확인 요청
   const handleVerifyCodeReq = useCallback(
     (verifyCode: string) => {
@@ -172,11 +170,10 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 회원가입 요청
   const handleSignupReq = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
-    console.log('handleSignupReq 함수 호출됨');
     createSignup({
       agree: agreementCheckbox.agree,
       buildingName: userBuilding.buildingName,
-      companyName: userOffice.officeName,
+      officeName: userOffice.officeName,
       email: userAccount.email,
       password: userAccount.password,
       name,
