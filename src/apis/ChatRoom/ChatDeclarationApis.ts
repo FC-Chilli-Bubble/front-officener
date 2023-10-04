@@ -1,6 +1,6 @@
 import { apiClient } from '@/apis/apiClient';
 
-export const createDeclarationPost = async (roomId: number) => {
+export const createDeclarationPost = async (roomId: string) => {
   try {
     const response = await apiClient.post(`/api/chat/${roomId}/report`);
     return response.data;
