@@ -8,6 +8,7 @@ type Tprops = {
 
 const ChatAlert = ({ senderId, type }: Tprops) => {
   const { getName } = useMemberInfo();
+  
   //알람 타입 지정
   const renderAlertText = (type: string) => {
     switch (type) {
@@ -25,7 +26,7 @@ const ChatAlert = ({ senderId, type }: Tprops) => {
         return '알람 메세지 오류!';
     }
   };
-  console.log("아이뒤",senderId)
+
   return (
     <StyledContainer id={type}>
       {type!=="COMPLETE_DELIVERY" &&
