@@ -106,7 +106,7 @@ const DetailsPage = () => {
       if (isSuccessJoin) {
         const isSuccessEnter = await requestFirstEnterChat(params.id!);
         if (isSuccessEnter) {
-          navigate(`/chat/${params.id}`);
+          navigate(`/chatroom/${params.id}`);
         }
       }
     } catch (error) {
@@ -116,7 +116,7 @@ const DetailsPage = () => {
 
   // 채팅방 참여 클릭 핸들러
   const handleClickEnterChat = () => {
-    navigate(`/chat/${params.id}`);
+    navigate(`/chatroom/${params.id}`);
   };
 
   // 함께배달 클릭 핸들러

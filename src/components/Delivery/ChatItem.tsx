@@ -13,7 +13,7 @@ const ChatItem = React.memo(({ chatItem }: IChatData) => {
   const navigate = useNavigate();
 
   const handleMoveChat = () => {
-    navigate(`/chat/${chatItem.chatRoomId}`);
+    navigate(`/chatroom/${chatItem.chatRoomId}`);
   };
 
   return (
