@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import ChatBubble from '@/components/ChatRoom/ChatBubble/ChatBubble';
 import ChatDeclarationBotomSheet from '@/components/ChatRoom/ChatDeclaration/ChatDeclarationBotomSheet';
@@ -12,17 +12,19 @@ import { isMobileAtom, keyboardHeightAtom } from '@/states/chatInputFocusAtom';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { isBottomsheetOpenAtom } from '@/states/chatBottomSheetAtom';
 import ChatHeaderBottomSheet from '@/components/ChatRoom/ChatHeader/ChatHeaderBottomSheet';
+import { chatInfoAtom } from '@/states/chatRoomdataAtom';
+
 
 const ChatRoom = () => {
   const userInfo = useRecoilValue(userInfoAtom);
-  const roomNum = 24; // 가져오기
+  const params = useParams()
   const setIsMobile = useSetRecoilState(isMobileAtom);
   const setKeyboardHeight = useSetRecoilState(keyboardHeightAtom);
   const setIsBottomsheetOpen = useSetRecoilState(isBottomsheetOpenAtom);
   const navigate = useNavigate();
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const setMessageData = useSetRecoilState(chatInfoAtom);
 
-  console.log(socket,"챗룸");
 
   // 접속한 유저가 모바일인지 확인
   const detectMobile = () => {
@@ -35,11 +37,20 @@ const ChatRoom = () => {
     // WebSocket 연결 초기화 함수
     const initializeWebSocket = () => {
       const newSocket = new WebSocket(
-        `ws://ec2-3-38-247-92.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${roomNum}?ticket=${userInfo.userInfo.token}`
+        `ws://ec2-3-38-247-92.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${params.roomId}?ticket=${userInfo.userInfo.token}`
       );
   
       newSocket.onopen = () => {
         console.log('[open] 커넥션이 만들어졌습니다.');
+      };
+
+      // WebSocket 수신
+      newSocket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        setMessageData((prevData) => ({
+          messages: [data, ...(prevData?.messages || [])],
+          members: prevData?.members || [],
+        }));
       };
   
       newSocket.onclose = () => {
@@ -52,8 +63,6 @@ const ChatRoom = () => {
   useEffect(() => {
     // WebSocket 연결 초기화
     initializeWebSocket();
-
-   
 
     // 스크롤 확인
     handleScroll();
@@ -110,7 +119,7 @@ const ChatRoom = () => {
       />
 
       <ChatHeader />
-      <ChatBubble socket={socket} />
+      <ChatBubble />
       <ChatInput socket={socket} />
       <ChatHeaderBottomSheet />
       <ChatDeclarationBotomSheet />
