@@ -6,12 +6,12 @@ import {
   declarationStepAtom,
   isDeclarationBottomsheetOpenAtom
 } from '@/states/chatDeclarationAtom';
-import { DECLARATION_DATA } from '@/constants/declarationCategory';
+import { DECLARATION_DATA, DECLARATION_DATA_ENG } from '@/constants/declarationCategory';
 
 const ChatDeclarationStepCategory = () => {
   const setIsBottomsheetOpen = useSetRecoilState(isDeclarationBottomsheetOpenAtom);
   const setDeclarationStep = useSetRecoilState(declarationStepAtom);
-  const [ChatDeclarationData, setchatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
+  const [chatDeclarationData, setChatDeclarationData] = useRecoilState(chatDeclarationDataAtom);
 
   const handleCloseBottomSheet = () => {
     setIsBottomsheetOpen(false);
@@ -19,7 +19,9 @@ const ChatDeclarationStepCategory = () => {
   };
 
   const handleCategoryClick = (data: string) => {
-    setchatDeclarationData({ ...ChatDeclarationData, category: `${data}` });
+    const indexNum = DECLARATION_DATA.indexOf(data);
+    const dataInEnglish = DECLARATION_DATA_ENG[indexNum];
+    setChatDeclarationData({ ...chatDeclarationData, reportType: `${dataInEnglish}` });
     setDeclarationStep(2);
   };
 

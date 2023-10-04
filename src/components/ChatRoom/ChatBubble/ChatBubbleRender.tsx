@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { isSenderMe } from '@/components/ChatRoom/ChatFunctions';
+import { useMemberInfo } from '@/hooks/useMemberInfo';
 import { messageData } from '@/apis/dummy_ChatAPI';
 import ChatProfile from '@/components/ChatRoom/ChatProfile/ChatProfile';
 
@@ -18,6 +18,8 @@ type Tprops = {
 };
 
 const ChatBubbleRender = ({ messageContent, index }: Tprops) => {
+  const { isSenderMe } = useMemberInfo();
+
   //이전의 메세지와 보내는 사람이 같은지 판별
   const isSameAuthorAsPrevious =
     index > 0 && messageData.messages[index - 1].senderId === messageContent.senderId;

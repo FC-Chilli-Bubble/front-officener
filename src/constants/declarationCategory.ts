@@ -9,3 +9,14 @@ export const DECLARATION_DATA = [
   '관련 없는 내용',
   '기타'
 ];
+export const DECLARATION_DATA_ENG = [
+  'PROMOTION',
+  'SPAM_CHAT',
+  'ABUSE',
+  'LUSTY',
+  'ILLEGAL_INFO',
+  'PERSONAL_INFO',
+  'INJURY',
+  'IRRELEVANT_CONTENT',
+  'ETC'
+];
