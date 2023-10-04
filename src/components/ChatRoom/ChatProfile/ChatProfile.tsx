@@ -13,13 +13,13 @@ type TsenderId = {
 };
 
 const ChatProfile = ({ senderId }: TsenderId) => {
-const { getName, isHost, isReceived, isRemitted } = useMemberInfo();
+const { getName, isHost, isReceived, isRemitted, getMyId } = useMemberInfo();
   const { openModal, closeModal } = useModal();
   const USER_ICON = IconUser;
   const BADGE_REMITTED = IconGreenWon;
   const BADGE_RECEIVED = IconBlueCheck;
 
-  const myid = 1; //로그인시 받아오는 내 데이터 연동
+  const myid = getMyId();
 
   const handleClickProfileIcon = () => {
     const profileModalDataGuest = {

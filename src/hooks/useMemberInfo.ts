@@ -4,39 +4,59 @@ import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 export const useMemberInfo = () => {
   const messageData = useRecoilValue(chatInfoAtom);
 
+  console.log(messageData)
+
+  const getMemberDataById = (senderId: number) => {
+    if (messageData) {
+      return messageData.members.find(member => member.id === senderId);
+    } else {
+      return null;
+    }
+  };
+
   const getMyId = () => {
-    const getMyData = messageData.members.find(member => member.amI);
+    const getMyData = messageData && messageData.members.find(member => member.amI);
     return getMyData ? getMyData.id : 0;
   };
 
   const getName = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.name : 'Unknown';
+    const memberData = getMemberDataById(senderId);
+    console.log("백호야", memberData)
+    return memberData ? memberData.name : 'Unknown';
   };
 
   const getCompany = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.companyName : false;
+    const memberData = getMemberDataById(senderId);
+    return memberData ? memberData.companyName : null;
   };
 
   const isSenderMe = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.amI : false;
+    const memberData = getMemberDataById(senderId);
+    return memberData ? memberData.amI : false;
   };
 
   const isRemitted = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.hasRemitted : false;
+    const memberData = getMemberDataById(senderId);
+    return memberData ? memberData.hasRemitted : false;
   };
 
   const isReceived = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.hasReceived : false;
+    const memberData = getMemberDataById(senderId);
+    return memberData ? memberData.hasReceived : false;
+  };
+
+  const isAllReceived = () => {
+    if (messageData) {
+      const receivedCount = messageData.members.filter(member => member.hasReceived).length;
+      return receivedCount === messageData.members.length;
+    }
+    return false;
   };
 
   const isHost = (senderId: number) => {
-    const getMemberData = messageData.members.find(member => member.id === senderId);
-    return getMemberData ? getMemberData.isHost : false;
+    const memberData = getMemberDataById(senderId);
+    console.log("코코", memberData)
+    return memberData ? memberData.host : false;
   };
 
   return {
@@ -46,6 +66,7 @@ export const useMemberInfo = () => {
     isSenderMe,
     isRemitted,
     isReceived,
+    isAllReceived,
     isHost,
   };
 };

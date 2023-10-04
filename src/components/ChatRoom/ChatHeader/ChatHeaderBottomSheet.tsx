@@ -9,70 +9,68 @@ import { useMemberInfo } from '@/hooks/useMemberInfo';
 
 const ChatHeaderBottomSheet = () => {
   const { openModal, closeModal } = useModal();
-  const { isHost } = useMemberInfo();
+  const { isHost, getMyId, isAllReceived } = useMemberInfo();
 
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useRecoilState(isBottomsheetOpenAtom);
-  const myid = 1; //로그인시 데이터 내려받아 사용
+  const myid = getMyId();
   const amIHost = isHost(myid);
 
   const closeBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
 
-  //호스트임, 익짓
+    const handleClickModalExitHost = () => {
+      if (isAllReceived()) {
+        //나가기 api 
+      } else {
+        openModal({
+        ...MODAL_DATA_HOST.cantExitModal,
+        positiveCallback: () => {
+        //api
+        },
+        negativeCallback: () => {
+        closeModal();
+        }
+      })
+    }
+  };
 
-  //2차모달
-  //호스트임 , 수령완료되지 않음 -> 캔익짓
-  // 호스트임, 수령완료 -> 나가기 api
-
-  // 게스트임, 익짓요청
-  /// 게스트임, 모두 수령완료 -> 애프터익짓
-
-  // 2차모달
-  // 게스트임 , 본인 수령완료 -> 캔익짓
-
-  //   const handleClickModalExit = () => {
-  //     amIHost && !수령완료
-  //     ? openModal({
-  //         ...MODAL_DATA_HOST.cantExitModal,
-  //         positiveCallback: () => {
-  //           //api
-  //         },
-  //         negativeCallback: () => {
-  //           closeModal();
-  //         }
-  //       })
-  // : openModal({
-  //     ...MODAL_DATA_GUEST.cantExitModal,
-  //     positiveCallback: () => {
-  //     //api
-  //     },
-  //     negativeCallback: () => {
-  //     closeModal();
-  //     }
-  // });
-  //   };
+  const handleClickModalExitGuest = () => {
+    if (isAllReceived()) {
+      openModal({
+        ...MODAL_DATA_GUEST.afterExitModal,
+        positiveCallback: () => {
+        //api
+        },
+        negativeCallback: () => {
+        closeModal();
+        }
+      })
+    } else {
+      openModal({
+        ...MODAL_DATA_GUEST.exitModal,
+        positiveCallback: () => {
+          //api
+        },
+        negativeCallback: () => {
+          closeModal();
+        }
+      })
+    } 
+  };
 
   const handleClickExit = () => {
     amIHost
       ? openModal({
           ...MODAL_DATA_HOST.exitModal,
           positiveCallback: () => {
-            //api
+            handleClickModalExitHost();
           },
           negativeCallback: () => {
             closeModal();
           }
         })
-      : openModal({
-          ...MODAL_DATA_GUEST.exitModal,
-          positiveCallback: () => {
-            //api
-          },
-          negativeCallback: () => {
-            closeModal();
-          }
-        });
+      : handleClickModalExitGuest()
   };
 
   return (

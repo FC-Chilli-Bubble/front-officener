@@ -17,18 +17,15 @@ const ChatInput = ({ socket }: { socket: WebSocket | null }) => {
   console.log(socket,"인풋");
 
   const socketSend = () => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      const nowDate = new Date().toISOString().slice(0, -1);
-      const MESSAGE_DATA = {
-        messageType: 'TALK',
-        content: inputValue,
-        sendTime: nowDate
-      };
-      socket.send(JSON.stringify(MESSAGE_DATA));
-      console.log(MESSAGE_DATA, '성공');
-    } else {
-      console.log('WebSocket 연결이 열리지 않았습니다.');
-    }
+        const nowDate = new Date().toISOString().slice(0, -1);
+        const MESSAGE_DATA = {
+          messageType: 'TALK',
+          content: inputValue,
+          sendTime: nowDate
+        };
+        socket.send(JSON.stringify(MESSAGE_DATA));
+        console.log(JSON.stringify(MESSAGE_DATA), '성공');
+
   };
 
   const handleSubmit = (e: React.MouseEvent) => {

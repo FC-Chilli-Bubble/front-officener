@@ -18,11 +18,11 @@ import {
 } from '@/apis/ChatRoom/ChatHeaderButtonApis';
 
 const ChatHeader = () => {
-  const { isHost, isRemitted } = useMemberInfo();
+  const { getMyId, isHost, isRemitted } = useMemberInfo();
   const { openModal, closeModal } = useModal();
 
-  const myid = 1; //로그인시 데이터 내려받아 사용
-  const roomId = 14;
+  const myid = getMyId();
+  const roomId = 20;
 
   const [isReceiveButtonDisabled, setIsReceiveButtonDisabled] = useState(false);
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
@@ -35,7 +35,8 @@ const ChatHeader = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      setIsReceiveButtonDisabled(true);
+      setIsEndButtonDisabled(true);
+      
     }
   };
   const createHostDelivered = async () => {
@@ -44,7 +45,7 @@ const ChatHeader = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      setIsEndButtonDisabled(true);
+      setIsReceiveButtonDisabled(true);
     }
   };
 

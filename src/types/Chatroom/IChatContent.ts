@@ -12,7 +12,7 @@ export interface IMemberData {
     companyName: string,
     profileImage: string,
     amI: boolean,
-    isHost: boolean,
+    host: boolean,
     hasRemitted: boolean,
     hasReceived: boolean
 }
