@@ -125,6 +125,7 @@ const MenuContent: React.FC<IMenuContentProps> = ({
               profileImage={FOOD_IMAGE[chat.foodTag]}
               name={chat.storeName}
               message={chat.recentMessage}
+              roomId={chat.chatRoomId}
             />
           ))}
       </div>
