@@ -4,7 +4,12 @@ import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 export const useMemberInfo = () => {
   const messageData = useRecoilValue(chatInfoAtom);
 
-  console.log('messageData:', messageData);
+  const dataMember = messageData?.members;
+  const dataMessage = messageData?.messages;
+
+  console.log('messageData ?:', messageData);
+  console.log('dataMember🧑‍⚖️:', dataMember);
+  console.log('dataMessage📨:', dataMessage);
 
   const getMemberDataById = (senderId: number) => {
     if (messageData) {
@@ -49,7 +54,7 @@ export const useMemberInfo = () => {
     if (messageData) {
       const receivedCount = messageData.members.filter(member => member.hasReceived).length;
       return receivedCount === messageData.members.length;
-    } 
+    }
     return false;
   };
 

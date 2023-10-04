@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
@@ -16,14 +17,14 @@ const ChatHeaderBottomSheet = () => {
   const [isBottomsheetOpen, setIsBottomsheetOpen] = useRecoilState(isBottomsheetOpenAtom);
   const myid = getMyId();
   const amIHost = isHost(myid);
-  const roomId = 24; //임시
+  const roomId = 18; //임시
   const closeBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
-  console.log('isAllReceived :', isAllReceived());
-  console.log('amIHost :', amIHost);
+  // console.log('isAllReceived😍 :', isAllReceived());
+  // console.log('amIHost😍 :', amIHost);
 
-  const handleClickModalExitHost = () => {
+  const handleClickModalExitHost = useCallback(() => {
     if (isAllReceived()) {
       //모두가 수령했을때
       openModal({
@@ -50,9 +51,9 @@ const ChatHeaderBottomSheet = () => {
         ...MODAL_DATA_HOST.exileExitModal,
         positiveCallback: () => {
           // 나가기 요청 api
-          createKickRequestPost(roomId, body).then(
+          createKickRequestPost(roomId).then(
             response => {
-              const responseData = response.data;
+              const responseData = response.message;
               console.log(responseData);
               openModal({
                 ...MODAL_DATA_HOST.exitModal,
@@ -83,9 +84,9 @@ const ChatHeaderBottomSheet = () => {
         }
       });
     }
-  };
+  }, [isAllReceived, openModal, closeModal, roomId]);
 
-  const handleClickModalExitGuest = () => {
+  const handleClickModalExitGuest = useCallback(() => {
     if (isAllReceived()) {
       //모두가 수령했을때
       openModal({
@@ -112,9 +113,9 @@ const ChatHeaderBottomSheet = () => {
         ...MODAL_DATA_GUEST.exitModal,
         positiveCallback: () => {
           // 나가기 요청 api
-          createKickRequestPost(roomId, body).then(
+          createKickRequestPost(roomId).then(
             response => {
-              const responseData = response.data;
+              const responseData = response.message;
               console.log(responseData);
               openModal({
                 ...MODAL_DATA_GUEST.afterExitModal,
@@ -145,22 +146,11 @@ const ChatHeaderBottomSheet = () => {
         }
       });
     }
-  };
+  }, [isAllReceived, openModal, closeModal, roomId]);
 
   const handleClickExit = () => {
     console.log('handleClickExit is called');
-    amIHost
-      ? handleClickModalExitHost()
-      : // openModal({
-        //     ...MODAL_DATA_HOST.exitModal,
-        //     positiveCallback: () => {
-        //       handleClickModalExitHost();
-        //     },
-        //     negativeCallback: () => {
-        //       closeModal();
-        //     }
-        //   })
-        handleClickModalExitGuest();
+    amIHost ? handleClickModalExitHost() : handleClickModalExitGuest();
   };
 
   return (
@@ -171,7 +161,7 @@ const ChatHeaderBottomSheet = () => {
         <StyledSheetContainer>
           <StyledCancelButton onClick={closeBottomSheet}>취소</StyledCancelButton>
           <StyledSheetBox>알림끄기</StyledSheetBox>
-          <StyledSheetBox onClick={() => handleClickExit}>채팅방 나가기</StyledSheetBox>
+          <StyledSheetBox onClick={handleClickExit}>채팅방 나가기</StyledSheetBox>
         </StyledSheetContainer>
       }
     </BottomSheetModal>
