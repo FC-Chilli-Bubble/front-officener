@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 
-import Header from '@/components/Details/Header';
+import DetailHeader from '@/components/Details/DetailHeader';
 import MenuLinkCard from '@/components/Details/MenuLinkCard';
 import HostInfo from '@/components/Details/HostInfo';
 import StoreInfo from '@/components/Details/StoreInfo';
@@ -136,7 +136,7 @@ const DetailsPage = () => {
 
   return (
     <>
-      <Header leftIcon="back" />
+      <DetailHeader leftIcon="back" />
       <StyledContainer>
         {detail && (
           <>
