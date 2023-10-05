@@ -18,16 +18,14 @@ type Tprops = {
   index: number;
 };
 
-
 const ChatBubbleRender = ({ messageContent, index }: Tprops) => {
   const { isSenderMe } = useMemberInfo();
   const messageData = useRecoilValue(chatInfoAtom);
 
-
-  // 메세지와 보내는 사람이 같은지 판별
+  // 이전의 메세지와 보내는 사람이 같은지 판별
   const isSameAuthorAsPrevious =
     index > 0 && messageData?.messages[index - 1]?.senderId === messageContent.senderId;
-    
+
   //보내는 사람이 나와 같은지 판별
   const isAuthorMe = isSenderMe(messageContent.senderId);
 
@@ -36,8 +34,7 @@ const ChatBubbleRender = ({ messageContent, index }: Tprops) => {
     index > 0 && messageData.messages[index - 1]?.messageType === messageContent.messageType;
 
   //프로필이 필요한지 판별
-  const isProfileNeed =
-    (!isAuthorMe && !isSameAuthorAsPrevious) || (!isAuthorMe && !isTypeSameAsPrevious);
+  const isProfileNeed = isSameAuthorAsPrevious && isTypeSameAsPrevious;
 
   const gapSize = isSameAuthorAsPrevious && isTypeSameAsPrevious ? '6px' : '16px';
 
@@ -56,7 +53,7 @@ const ChatBubbleRender = ({ messageContent, index }: Tprops) => {
 const StyledBubble = styled.div<{ margintop: string }>`
   display: flex;
   flex-direction: column;
-  margin-top: ${props => props.margintop};
+  margin-bottom: ${props => props.margintop};
 `;
 const StyledBubbleContent = styled.div`
   padding: 11px 16px;

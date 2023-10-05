@@ -40,7 +40,7 @@ const StyledContainer = styled.div`
   display: flex;
   width: 100%;
   height: 40px;
-  margin-top: 16px;
+  margin-bottom: 16px;
   padding: 13px 26px;
   justify-content: center;
   align-items: center;
