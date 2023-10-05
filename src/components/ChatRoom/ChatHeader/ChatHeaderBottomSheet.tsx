@@ -23,8 +23,7 @@ const ChatHeaderBottomSheet = () => {
   const closeBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
-  console.log('isAllReceived😍 :', isAllReceived());
-  console.log('amIHost😍 :', amIHost);
+
 
   const handleClickModalExitHost = useCallback(() => {
     if (isAllReceived()) {
@@ -50,38 +49,8 @@ const ChatHeaderBottomSheet = () => {
     } else {
       //모두 수령전
       openModal({
-        ...MODAL_DATA_HOST.exileExitModal,
+        ...MODAL_DATA_HOST.cantExitModal,
         positiveCallback: () => {
-          // 나가기 요청 api
-          createKickRequestPost(String(params.roomId)).then(
-            response => {
-              const responseData = response.message;
-              console.log(responseData);
-              openModal({
-                ...MODAL_DATA_HOST.exitModal,
-                positiveCallback: () => {
-                  //나가기 api
-                  createExitPost(String(params.roomId)).then(
-                    response => {
-                      const responseData = response.message;
-                      console.log(responseData);
-                    },
-                    (error: IErrorResponse) => {
-                      console.log(error.errorMessage);
-                    }
-                  );
-                },
-                negativeCallback: () => {
-                  closeModal();
-                }
-              });
-            },
-            (error: IErrorResponse) => {
-              console.log(error.errorMessage);
-            }
-          );
-        },
-        negativeCallback: () => {
           closeModal();
         }
       });
@@ -120,18 +89,9 @@ const ChatHeaderBottomSheet = () => {
               const responseData = response.message;
               console.log(responseData);
               openModal({
-                ...MODAL_DATA_GUEST.afterExitModal,
+                ...MODAL_DATA_HOST.exitModal,
                 positiveCallback: () => {
-                  //나가기 api
-                  createExitPost(String(params.roomId)).then(
-                    response => {
-                      const responseData = response.message;
-                      console.log(responseData);
-                    },
-                    (error: IErrorResponse) => {
-                      console.log(error.errorMessage);
-                    }
-                  );
+                  closeModal();
                 },
                 negativeCallback: () => {
                   closeModal();
