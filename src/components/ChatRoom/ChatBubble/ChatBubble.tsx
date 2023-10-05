@@ -17,20 +17,31 @@ const ChatBubble = () => {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const [messageData, setMessageData] = useRecoilState(chatInfoAtom);
 
-  useEffect(() => {
-    // 컴포넌트 진입시 화면을 맨 끝으로 옮기기
+  const scrollToBottom = () => {
     messageEndRef.current?.scrollIntoView({ behavior: 'auto' });
+  };
 
+  useEffect(() => {
     // 채팅방 정보 api 호출
     getRoomInfoApi();
+
+    // 화면 크기가 변경될 때 스크롤 위치를 맨 아래로 이동
+    const handleResize = () => {
+      scrollToBottom();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
-    // 수신시 화면을 맨 끝으로 옮기기
-    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollToBottom();
   }, [messageData]);
 
-  console.log(params.roomId);
   // 채팅방 정보 get api 호출 함수
   const getRoomInfoApi = async () => {
     try {
