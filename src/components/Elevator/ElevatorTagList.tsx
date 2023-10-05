@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -12,7 +12,7 @@ import { userInfoAtom } from '@/states/userDataAtom';
 
 type TElevatorTagListProps = {
   elevators: IObjectElevator[],
-  closeSheet: (isUpdated: boolean) => void;
+  closeSheet: (_isUpdated: boolean) => void;
 };
 
 const ElevatorTagList = React.memo(({ elevators, closeSheet }: TElevatorTagListProps) => {
@@ -39,8 +39,12 @@ const ElevatorTagList = React.memo(({ elevators, closeSheet }: TElevatorTagListP
         closeSheet(true);
       }
     } catch (error) {
-      // 에러처리
-      closeSheet(false);
+      openModal({
+        ...MODAL_DATAS.ELEVATOR_UPDATE_FAILURE,
+        positiveCallback: () => {
+          closeSheet(false);
+        }
+      });
     }
   };
 
