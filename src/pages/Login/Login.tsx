@@ -108,7 +108,7 @@ const Login = () => {
           setCookie('token', token, { path: '/' });
         }
         setUser(userInfo);
-        navigate('/intro', { replace: true });
+        navigate('/', { replace: true });
       },
       (error: IErrorResponse) => {
         if (!password) {
