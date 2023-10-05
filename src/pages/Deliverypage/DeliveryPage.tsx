@@ -1,54 +1,58 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 import styled from 'styled-components';
+
 import MenuContent from '@/components/Delivery/MenuContent';
 import TopMenu from '@/components/Delivery/TopMenu';
 import Header from '@/components/Delivery/Header';
 import AddButton from '@/assets/food/postbutton.svg';
 import { deliverylist } from '@/apis/Delivery/deliverylist';
 import { getJoinedRooms } from '@/apis/Delivery/getJoinedRooms';
-import { roomsAtom } from '@/states/rommsAtom';
-import { IRoom } from '@/types/Delivery/IDeliveryList';
-import { FOODTAGS } from '@/constants/commonUiData';
+import { roomsAtom, joinedRoomsAtom, myChatListAtom } from '@/states/rommsAtom';
+import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
+import { getChats } from '@/apis/Delivery/deliveryChat';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
-  const [selectedCategory, setSelectedCategory] = useState(FOODTAGS['분식']);
-  const [data, setData] = useState<IRoom[] | null>(null);
-  const [rooms, setRooms] = useRecoilState(roomsAtom);
-  const [joinedRooms, setJoinedRooms] = useState<IRoom[] | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState(FOODTAGS[FOOD_TAG[0]]);
+  const setRooms = useSetRecoilState(roomsAtom);
+  const setJoinedRooms = useSetRecoilState(joinedRoomsAtom);
+  const setMyChatList = useSetRecoilState(myChatListAtom);
+
+  const getRoomList = useCallback(async () => {
+    try {
+      const response = await deliverylist();
+      setRooms(response.data.rooms.filter(room => dayjs().isBefore(dayjs(room.deadLine)), 'day'));
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+    }
+  }, [setRooms]);
+
+  const getJoinedRoomList = useCallback(async () => {
+    try {
+      const joinedRoomsResponse = await getJoinedRooms();
+      setJoinedRooms(joinedRoomsResponse.data.rooms.sort((a, b) => dayjs(b.createdAt).diff(dayjs(a.createdAt))));
+    } catch (error) {
+      console.error('Error fetching data from API:', error);
+    }
+  }, [setJoinedRooms]);
+
+  const getMyChatList = useCallback(async () => {
+    try {
+      const chatResponse = await getChats();
+      setMyChatList(chatResponse.data.chats);
+    } catch (error) {
+      console.error('Error fetching chats:', error);
+    }
+  }, [setMyChatList]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await deliverylist();
-        setRooms(response.data.rooms);
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const joinedRoomsResponse = await getJoinedRooms();
-        setJoinedRooms(joinedRoomsResponse.data.rooms);
-      } catch (error) {
-        console.error('Error fetching data from API:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const filteredRooms = rooms ? rooms.filter(room => room.tag === selectedCategory) : [];
-    setData(filteredRooms);
-  }, [selectedCategory, rooms]);
+    getRoomList();
+    getJoinedRoomList();
+    getMyChatList();
+  }, [getRoomList, getJoinedRoomList, getMyChatList]);
 
   const handleMenuClick = (menu: string) => {
     setSelectedMenu(menu);
@@ -73,12 +77,9 @@ const DeliveryPage = () => {
       />
       <StyledContainer>
         <MenuContent
-          rooms={rooms}
           selectedMenu={selectedMenu}
           selectedCategory={selectedCategory}
           handleCategoryClick={handleCategoryClick}
-          data={data}
-          joinedRooms={joinedRooms}
         />
         <StyledButtonBox>
           <PostButton

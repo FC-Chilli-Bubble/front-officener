@@ -38,7 +38,7 @@ const Notification = () => {
     try {
       const res = await updateNotificationReadStatus(notifyId);
       if (res) {
-        navigate(`/chat/${roomId}`);
+        navigate(`/chatroom/${roomId}`);
       }
     } catch (error) {
       openModal(MODAL_DATAS.NOTIFICATIONS_UPDATE_FAILURE);
@@ -46,7 +46,7 @@ const Notification = () => {
   };
 
   const handleClickLastNotification = (_: number, roomId: number) => {
-    navigate(`/chat/${roomId}`);
+    navigate(`/chatroom/${roomId}`);
   };
 
   const handleClickReadAll = async () => {
