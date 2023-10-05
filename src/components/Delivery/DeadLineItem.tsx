@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import styled from 'styled-components';
 
 import { IRoom } from '@/types/Delivery/IDeliveryList';
-import { FOOD_IMAGE } from '@/constants/commonUiData';
+import { FOODTAGS, FOOD_IMAGE } from '@/constants/commonUiData';
 import IconAlarm from '@/assets/food/icon_alarm.svg';
 
 const DeadLineItem = React.memo(({ room }: { room: IRoom; }) => {
@@ -40,7 +40,7 @@ const DeadLineItem = React.memo(({ room }: { room: IRoom; }) => {
           <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>태그</GrayText> <BlackText>{room.tag}</BlackText>
+          <GrayText>태그</GrayText> <BlackText>{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === room.tag)}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>이체마감</GrayText>{' '}
