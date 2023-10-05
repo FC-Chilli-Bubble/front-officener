@@ -108,14 +108,14 @@ const Login = () => {
     e.preventDefault();
     createLogin(email, password).then(
       response => {
-        // FCM Token 서버로 등록
-        setFcmTokenToLogin();
         const token = response.data.userInfo.token;
         const userInfo = response.data;
         if (token) {
           setCookie('token', token, { path: '/' });
         }
         setUser(userInfo);
+        // FCM Token 서버로 등록
+        setFcmTokenToLogin();
         navigate('/', { replace: true });
       },
       (error: IErrorResponse) => {
