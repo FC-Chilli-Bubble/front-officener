@@ -112,8 +112,6 @@ const ChatRoom = () => {
     navigate(-1);
   };
 
-  console.log(detail);
-
   return (
     <StyledContainer>
       <Header
