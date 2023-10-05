@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 
 import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
-import { FOODTAGS } from '@/constants/commonUiData';
-import Sample from '@/assets/food/Rectangle 477-1.svg'; // 추후 삭제 필요
+import { FOODTAGS, FOOD_IMAGE } from '@/constants/commonUiData';
 
 type TStoreInfoProps = {
   detail: IDeliveryPost;
@@ -14,7 +13,7 @@ const StoreInfo = React.memo(({ detail }: TStoreInfoProps) => {
   return (
     <StyledFoodCardListStyle>
       <img
-        src={Sample}
+        src={FOOD_IMAGE[detail.tag]}
         alt="음식 사진"
       />
       <StyledFoodCardText>
@@ -22,16 +21,19 @@ const StoreInfo = React.memo(({ detail }: TStoreInfoProps) => {
           <GrayText>가게이름</GrayText> <BlackText>{detail.storeName}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>참여인원</GrayText> <BlackText>{`${detail.attendees}/${detail.maxAttendees}`}</BlackText>
+          <GrayText>참여인원</GrayText>{' '}
+          <BlackText>{`${detail.attendees}/${detail.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>배달비</GrayText> <BlackText>{detail.deliveryFee.toLocaleString()}원</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>태그</GrayText> <BlackText>#{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag)}</BlackText>
+          <GrayText>태그</GrayText>{' '}
+          <BlackText>#{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === detail.tag)}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>이체마감</GrayText> <BlackText>{dayjs(detail.deadline).format('A hh:mm')}</BlackText>
+          <GrayText>이체마감</GrayText>{' '}
+          <BlackText>{dayjs(detail.deadline).format('A hh:mm')}</BlackText>
         </StyledRow>
       </StyledFoodCardText>
     </StyledFoodCardListStyle>

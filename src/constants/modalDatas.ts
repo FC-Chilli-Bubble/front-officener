@@ -98,6 +98,14 @@ const MODAL_DATAS = {
     title: '유효하지 않은 알림입니다',
     positive: '확인'
   },
+  ELEVATOR_FETCH_FAILURE: {
+    title: '엘리베이터 현황 조회 중 오류가 발생했습니다',
+    positive: '뒤로가기'
+  },
+  ELEVATOR_UPDATE_FAILURE: {
+    title: '엘리베이터 설정 중 오류가 발생했습니다',
+    positive: '확인'
+  },
   DELIVERY_POST_END_TIME: {
     title: '이미 마감된 게시글입니다',
     positive: '확인'

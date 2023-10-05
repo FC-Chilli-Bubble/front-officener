@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { useSetRecoilState } from 'recoil';
@@ -61,7 +61,8 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       return;
     } else {
       setEmailErrorIcon('none');
-      setEmailMsg('');
+      setEmailMsg('pass');
+      handleIsValid();
     }
   };
 
@@ -80,7 +81,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       return;
     } else {
       setEmailErrorIcon('none');
-      setEmailMsg('');
+      setEmailMsg('pass');
       handleIsValid();
     }
   };
@@ -98,6 +99,10 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
       setPwdMsg('');
       setIsValid(false);
       return;
+    } else if (newPassword === passwordVerify) {
+      setPwsErrorIcon('correct');
+      setPwdMsg('비밀번호가 일치합니다.');
+      return;
     } else {
       setPwsErrorIcon('none');
       setPwdMsg('');
@@ -114,6 +119,10 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
+      return;
+    } else if (newPassword === passwordVerify) {
+      setPwsErrorIcon('correct');
+      setPwdMsg('비밀번호가 일치합니다.');
       return;
     } else {
       setPwdMsg('');
@@ -139,6 +148,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
+      handleIsValid();
       return;
     }
   };
@@ -161,16 +171,24 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
+      handleIsValid();
       return;
     }
   };
 
   const handleIsValid = () => {
-    if (!emailMsg && pwsErrorIcon === 'correct') {
+    if (emailMsg === 'pass' && pwsErrorIcon === 'correct') {
       setIsValid(true);
       return;
+    } else {
+      setIsValid(false);
     }
   };
+
+  // passwordVerify 상태 변경 시 handleIsValid 호출
+  useEffect(() => {
+    handleIsValid();
+  }, [email, passwordVerify, password, emailMsg, pwdMsg]);
 
   // 계정 생성(저장))
   const handleAccountSubmit = (e: React.FormEvent<HTMLFormElement>) => {
