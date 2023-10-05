@@ -12,6 +12,7 @@ export const useMemberInfo = () => {
     }
   };
 
+  
   const getMyId = () => {
     const getMyData = messageData && messageData.members.find(member => member.amI);
     return getMyData ? getMyData.id : 0;
@@ -44,8 +45,9 @@ export const useMemberInfo = () => {
 
   const isAllReceived = () => {
     if (messageData) {
-      const receivedCount = messageData.members.filter(member => member.hasReceived).length;
-      return receivedCount === messageData.members.length;
+      const onlyGuest = messageData.members.filter(member => !member.isHost);
+      const receivedCount = onlyGuest.filter(member => member.hasReceived).length;
+      return receivedCount === messageData.members.length - 1;
     }
     return false;
   };
@@ -63,6 +65,6 @@ export const useMemberInfo = () => {
     isRemitted,
     isReceived,
     isAllReceived,
-    isHost,
+    isHost
   };
 };

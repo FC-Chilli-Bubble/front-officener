@@ -17,6 +17,7 @@ import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
 import { fetchDeliveryPostDetail } from '@/apis/Delivery/deliveryDetailRequests';
 
 const ChatRoom = () => {
+
   const params = useParams();
   const navigate = useNavigate();
 
