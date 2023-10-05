@@ -115,8 +115,14 @@ const Login = () => {
         }
         setUser(userInfo);
         // FCM Token 서버로 등록
-        setFcmTokenToLogin();
-        navigate('/', { replace: true });
+        try {
+          setFcmTokenToLogin().then(() => {
+            navigate('/', { replace: true });
+          });
+        } catch (error) {
+          alert('fcm 토큰 등록 실패');
+          navigate('/', { replace: true });
+        }
       },
       (error: IErrorResponse) => {
         if (!password) {
