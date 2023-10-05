@@ -29,11 +29,12 @@ const Login = () => {
   const [, setCookie] = useCookies(['token']);
   const setUser = useSetRecoilState(userInfoAtom);
 
-  // 헤더 뒤로가기 버튼
+  // 헤더 뒤로가기 버튼;
   const handleServiceClick = () => {
-    navigate('/');
+    navigate('/intro');
     return;
   };
+
   // 회원가입 페이지 이동 버튼
   const handleNavigate = () => {
     navigate('/intro/signup');
@@ -107,7 +108,7 @@ const Login = () => {
           setCookie('token', token, { path: '/' });
         }
         setUser(userInfo);
-        navigate('/intro', { replace: true });
+        navigate('/', { replace: true });
       },
       (error: IErrorResponse) => {
         if (!password) {

@@ -21,6 +21,11 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 217px;
+  padding: 88px 0;
+  line-height: normal;
+  
+
   p {
     font-size: 15px;
     color: ${({ theme }) => theme.colors.grayColor4};
