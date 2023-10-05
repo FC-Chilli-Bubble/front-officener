@@ -7,18 +7,21 @@ import { useMemberInfo } from '@/hooks/useMemberInfo';
 import { MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
 import { useModal } from '@/hooks/useModal';
 import ChatProfileModal from '@/components/ChatRoom/ChatProfile/ChatProfileModal';
+import { useParams } from 'react-router-dom';
+import { createKickPost } from '@/apis/ChatRoom/ChatExitApis';
 
 type TsenderId = {
   senderId: number;
 };
 
 const ChatProfile = ({ senderId }: TsenderId) => {
-const { getName, isHost, isReceived, isRemitted, getMyId } = useMemberInfo();
+  const { getName, isHost, isReceived, isAllReceived, isRemitted, getMyId } = useMemberInfo();
   const { openModal, closeModal } = useModal();
   const USER_ICON = IconUser;
   const BADGE_REMITTED = IconGreenWon;
   const BADGE_RECEIVED = IconBlueCheck;
 
+  const params = useParams();
   const myid = getMyId();
 
   const handleClickProfileIcon = () => {
@@ -35,7 +38,17 @@ const { getName, isHost, isReceived, isRemitted, getMyId } = useMemberInfo();
       openModal({
         ...MODAL_DATA_HOST.exileExitModal,
         positiveCallback: () => {
-          //api 호출
+          const body = {
+            kickedUserId: senderId
+          };
+          isRemitted(senderId) && isAllReceived()
+            ? createKickPost(String(params.roomId), body)
+            : openModal({
+                ...MODAL_DATA_HOST.cantExileExitModal,
+                positiveCallback: () => {
+                  closeModal();
+                }
+              });
         },
         negativeCallback: () => {
           closeModal();

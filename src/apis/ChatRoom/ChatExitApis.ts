@@ -1,4 +1,5 @@
 import { apiClient } from '@/apis/apiClient';
+import { IProfileExileBody } from '@/types/Chatroom/IChatContent';
 import { IMessageResponse } from '@/types/Common/ICommonResponse';
 
 //채팅 나가기 post
@@ -12,9 +13,7 @@ export const createExitPost = async (roomId: string): Promise<IMessageResponse> 
 };
 
 //나가기 요청 post
-export const createKickRequestPost = async (
-  roomId: string,
-): Promise<IMessageResponse> => {
+export const createKickRequestPost = async (roomId: string): Promise<IMessageResponse> => {
   try {
     const response = await apiClient.post(`/api/chat/${roomId}/kickRequest`);
     return response.data;
@@ -24,9 +23,12 @@ export const createKickRequestPost = async (
 };
 
 //강퇴 post
-export const createKickPost = async (roomId: string): Promise<IMessageResponse> => {
+export const createKickPost = async (
+  roomId: string,
+  body: IProfileExileBody
+): Promise<IMessageResponse> => {
   try {
-    const response = await apiClient.post(`/api/chat/${roomId}/kick`);
+    const response = await apiClient.post(`/api/chat/${roomId}/kick`, body);
     return response.data;
   } catch (error) {
     throw error;
