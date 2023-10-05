@@ -39,7 +39,7 @@ const ChatRoom = () => {
   // WebSocket 연결 초기화 함수
   const initializeWebSocket = () => {
     const newSocket = new WebSocket(
-      `ws://chillibubble.site/api/chat/${params.roomId}?ticket=${userInfo.userInfo.token}`
+      `wss://chillibubble.site/api/chat/${params.roomId}?ticket=${userInfo.userInfo.token}`
     );
 
     // WebSocket 수신
