@@ -13,17 +13,21 @@ import { userInfoAtom } from '@/states/userDataAtom';
 import { isBottomsheetOpenAtom } from '@/states/chatBottomSheetAtom';
 import ChatHeaderBottomSheet from '@/components/ChatRoom/ChatHeader/ChatHeaderBottomSheet';
 import { chatInfoAtom } from '@/states/chatRoomdataAtom';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+import { fetchDeliveryPostDetail } from '@/apis/Delivery/deliveryDetailRequests';
 
 const ChatRoom = () => {
-  const userInfo = useRecoilValue(userInfoAtom);
 
   const params = useParams();
+  const navigate = useNavigate();
+
+  const userInfo = useRecoilValue(userInfoAtom);
   const setIsMobile = useSetRecoilState(isMobileAtom);
   const setKeyboardHeight = useSetRecoilState(keyboardHeightAtom);
   const setIsBottomsheetOpen = useSetRecoilState(isBottomsheetOpenAtom);
-  const navigate = useNavigate();
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const setMessageData = useSetRecoilState(chatInfoAtom);
+  const [detail, setDetail] = useState<IDeliveryPost | null>(null);
 
   // 접속한 유저가 모바일인지 확인
   const detectMobile = () => {
@@ -39,10 +43,6 @@ const ChatRoom = () => {
       `ws://ec2-3-38-247-92.ap-northeast-2.compute.amazonaws.com:8080/api/chat/${params.roomId}?ticket=${userInfo.userInfo.token}`
     );
 
-    newSocket.onopen = () => {
-      console.log('[open] 커넥션이 만들어졌습니다.');
-    };
-
     // WebSocket 수신
     newSocket.onmessage = e => {
       const data = JSON.parse(e.data);
@@ -52,26 +52,31 @@ const ChatRoom = () => {
       }));
     };
 
-    newSocket.onclose = () => {
-      console.log('[close] 커넥션이 닫혔습니다.');
-    };
-
     setSocket(newSocket); // WebSocket을 상태로 설정
+  };
+
+  const getDeliveryPostDetail = async (roomId: string) => {
+    const res = await fetchDeliveryPostDetail(roomId);
+    setDetail(res.data);
   };
 
   useEffect(() => {
     // WebSocket 연결 초기화
     initializeWebSocket();
 
+    // 정보 불러오기 api
+    getDeliveryPostDetail(String(params.roomId));
+
     // 스크롤 확인
     handleScroll();
+
+    //모바일 확인
     detectMobile();
 
     // 컴포넌트 언마운트 시 WebSocket 연결 닫기
     return () => {
       if (socket) {
         socket.close();
-        console.log('WebSocket 연결이 닫혔습니다.');
       }
     };
   }, []);
@@ -107,17 +112,19 @@ const ChatRoom = () => {
     navigate(-1);
   };
 
+  console.log(detail);
+
   return (
     <StyledContainer>
       <Header
-        title={'태리로제떡볶이 3/6'}
+        title={`${detail?.storeName} ${detail?.attendees}/${detail?.maxAttendees}`}
         leftIcon={'back'}
         leftIconClick={handleLeftIconClick}
         rightIcon={'more'}
         rightIconClick={handleRightIconClick}
       />
 
-      <ChatHeader />
+      <ChatHeader detail={detail} />
       <ChatBubble />
       <ChatInput socket={socket} />
       <ChatHeaderBottomSheet />

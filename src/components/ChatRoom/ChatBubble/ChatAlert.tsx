@@ -22,6 +22,8 @@ const ChatAlert = ({ senderId, type }: Tprops) => {
         return '배달이 완료되었어요. 음식을 수령해주세요.';
       case 'COMPLETE_RECEIPT':
         return '님이 수령을 완료했어요!';
+      case 'ENTER':
+        return '님이 함께배달에 입장하셨습니다.';
       default:
         return '알람 메세지 오류!';
     }
@@ -62,6 +64,9 @@ const StyledContainer = styled.div`
     font-weight: 700;
     color: ${({ theme }) => theme.colors.white};
     background: ${({ theme }) => theme.colors.ctaColor};
+  }
+  &#ENTER {
+    color: ${({ theme }) => theme.colors.grayColor6};
   }
 `;
 const StyledNameSpace = styled.div`

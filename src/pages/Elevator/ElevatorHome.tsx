@@ -48,7 +48,7 @@ const ElevatorHome = () => {
       try {
         const res = await featchElevators();
         setAllElevatorList(res.allElevators);
-        setElevatorList(res.userElevators);
+        setElevatorList(res.userElevators.sort((a, b) => a.id - b.id));
         setSavedTags(res.userElevators.map(elevator => elevator.id));
       } catch (error) {
         openModal({
