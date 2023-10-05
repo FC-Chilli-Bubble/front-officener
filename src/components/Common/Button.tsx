@@ -9,7 +9,7 @@ type TButtonProps = {
   title: string | JSX.Element;
   width?: string;
   disabled?: boolean;
-  onClick: (e?: React.MouseEvent<HTMLElement>) => void;
+  onClick: (_e?: React.MouseEvent<HTMLElement>) => void;
 };
 
 const Button = ({

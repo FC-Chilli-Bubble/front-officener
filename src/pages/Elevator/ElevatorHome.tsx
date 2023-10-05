@@ -29,7 +29,8 @@ const ElevatorHome = () => {
     navigate(-1);
   };
 
-  const handleElevatorSetting = () => {
+  const handleElevatorSetting = (e?: React.MouseEvent<HTMLElement>) => {
+    e?.stopPropagation();
     setOpen(true);
   };
 
@@ -61,6 +62,9 @@ const ElevatorHome = () => {
     [openModal, navigate],
   );
 
+  const handleCloseBottomSheet = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     getElevator();
@@ -73,7 +77,7 @@ const ElevatorHome = () => {
         title="엘리베이터"
         leftIconClick={handleClickClose}
       />
-      <StyledContainer>
+      <StyledContainer onClick={handleCloseBottomSheet}>
         <StyledStyledElevatorSetting>
           <StyledElevatorTitle>{user.userInfo.building.buildingName}</StyledElevatorTitle>
           <StyledSettingButton>
@@ -81,9 +85,7 @@ const ElevatorHome = () => {
               size="small"
               type="primary"
               title="엘리베이터 설정"
-              onClick={() => {
-                handleElevatorSetting();
-              }}
+              onClick={handleElevatorSetting}
             />
             <BottomSheetModal
               isOpen={isOpen}

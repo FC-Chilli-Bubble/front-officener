@@ -45,7 +45,7 @@ const StyledElevator = styled.li<{ status: string; }>`
   max-width: 200px;
   border: 1px solid
     ${({ status, theme }) =>
-    status === 'full'
+    status === 'FULL'
       ? theme.colors.redColor0
       : status === 'REPAIR'
         ? theme.colors.white
@@ -121,7 +121,7 @@ const StyledStatus = styled.div<{ status: string; }>`
     line-height: 31.2px;
     &.full {
       color: ${({ status, theme }) =>
-    status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};
+    status === 'FULL' ? theme.colors.redColor0 : theme.colors.grayColor3};
     }
 
     &.repair {

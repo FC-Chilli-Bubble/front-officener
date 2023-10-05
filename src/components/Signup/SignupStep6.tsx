@@ -179,16 +179,13 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       name,
       phoneNumber
     }).then(
-      response => {
-        const responseData = response;
-        console.log(responseData);
+      () => {
         handleNextStep();
       },
-      (error: IErrorResponse) => {
-        console.log(error.errorMessage);
+      () => {
         openModal({
           ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
-          positiveCallback: () => {}
+          positiveCallback: () => { }
         });
         return;
       }
