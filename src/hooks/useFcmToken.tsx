@@ -38,7 +38,7 @@ const useFcmToken = () => {
     }
 
     // 처음 거부한 경우
-    if (localPermission !== 'denied') {
+    if (localPermission !== 'denied' && localPermission !== null) {
       if (permission === 'denied') {
         localStorage.setItem('pushNotifyPermission', 'denied');
         openModal({
