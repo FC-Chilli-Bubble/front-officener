@@ -139,7 +139,6 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
-      // handleIsValid();
       return;
     }
   };
@@ -150,17 +149,14 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 다시 입력해 주세요');
-      // setIsValid(false);
       return;
     } else if (password !== newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호가 일치하지 않습니다.');
-      // setIsValid(false);
       return;
     } else if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('error');
       setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
-      // setIsValid(false);
       return;
     } else {
       setPwsErrorIcon('correct');

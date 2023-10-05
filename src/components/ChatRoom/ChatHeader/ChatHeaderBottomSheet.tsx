@@ -18,11 +18,13 @@ const ChatHeaderBottomSheet = () => {
   const myid = getMyId();
   const amIHost = isHost(myid);
   const roomId = 18; //임시
+  
+
   const closeBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
-  // console.log('isAllReceived😍 :', isAllReceived());
-  // console.log('amIHost😍 :', amIHost);
+  console.log('isAllReceived😍 :', isAllReceived());
+  console.log('amIHost😍 :', amIHost);
 
   const handleClickModalExitHost = useCallback(() => {
     if (isAllReceived()) {
@@ -149,7 +151,6 @@ const ChatHeaderBottomSheet = () => {
   }, [isAllReceived, openModal, closeModal, roomId]);
 
   const handleClickExit = () => {
-    console.log('handleClickExit is called');
     amIHost ? handleClickModalExitHost() : handleClickModalExitGuest();
   };
 
