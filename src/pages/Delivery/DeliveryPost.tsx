@@ -196,7 +196,7 @@ const DeliveryPost = () => {
         {stepNum === 1 ? (
           <PostStepStoreInfo openBottomSheet={handleOpenBottomSheet} isEdit={isEdit} />
         ) : (
-          <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} />
+          <PostStepDeliveryInfo openBottomSheet={handleOpenBottomSheet} attendees={postDetail?.detail ? postDetail.detail?.attendees : 0} />
         )}
       </StyledContainer>
 

@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import dayjs from 'dayjs';
 
-import Header from '@/components/Details/Header';
+import DetailHeader from '@/components/Details/DetailHeader';
 import MenuLinkCard from '@/components/Details/MenuLinkCard';
 import HostInfo from '@/components/Details/HostInfo';
 import StoreInfo from '@/components/Details/StoreInfo';
 import MODAL_DATAS from '@/constants/modalDatas';
 import { deleteDeliveryPost } from '@/apis/Delivery/deliveryPostRequests';
-import { fetchDeliveryPostDetail, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
+import { fetchDeliveryPostDetail, requestFirstEnterChat, requestJoinChat } from '@/apis/Delivery/deliveryDetailRequests';
 import { useModal } from '@/hooks/useModal';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
@@ -72,6 +73,11 @@ const DetailsPage = () => {
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
+    // 참여자가 있는 경우 삭제 예외처리
+    if (detail!.attendees > 1) {
+      openModal(MODAL_DATAS.DELIVERY_DELETE_ATTENDESS);
+      return;
+    }
     openModal({
       ...MODAL_DATAS.DELIVERY_POST_DELETE,
       positiveCallback: () => {
@@ -82,6 +88,15 @@ const DetailsPage = () => {
 
   // 수정 버튼 클릭 핸들러
   const handleClickEdit = () => {
+    if (!detail) {
+      return;
+    }
+    // 이미 마감된 게시글일 경우 예외처리
+    if (dayjs(detail.deadline).isBefore(dayjs())) {
+      openModal(MODAL_DATAS.DELIVERY_POST_END_TIME);
+      return;
+    }
+
     navigate(`/delivery/post`, { state: { id: params.id, detail: detail } });
   };
 
@@ -89,7 +104,10 @@ const DetailsPage = () => {
     try {
       const isSuccessJoin = await requestJoinChat(params.id!);
       if (isSuccessJoin) {
-        navigate(`/chat/${params.id}`);
+        const isSuccessEnter = await requestFirstEnterChat(params.id!);
+        if (isSuccessEnter) {
+          navigate(`/chatroom/${params.id}`);
+        }
       }
     } catch (error) {
       openModal(MODAL_DATAS.DELIVERY_CHAT_JOIN_FAILURE);
@@ -98,6 +116,19 @@ const DetailsPage = () => {
 
   // 채팅방 참여 클릭 핸들러
   const handleClickEnterChat = () => {
+    navigate(`/chatroom/${params.id}`);
+  };
+
+  // 함께배달 클릭 핸들러
+  const handleClickJoinRoom = () => {
+    if (!detail) {
+      return;
+    }
+    // 참여 인원이 꽉 찬 경우 예외처리
+    if (detail.maxAttendees === detail.attendees) {
+      openModal(MODAL_DATAS.DELIVERY_JOIN_FULL);
+      return;
+    }
     openModal({
       ...MODAL_DATAS.DELIVERY_CHAT_JOIN_CONFIRM,
       positiveCallback: () => {
@@ -106,14 +137,9 @@ const DetailsPage = () => {
     });
   };
 
-  // 함께배달 클릭 핸들러
-  const handleClickJoinRoom = () => {
-    // TODO : 배달 참여 API 연동
-  };
-
   return (
     <>
-      <Header leftIcon="back" />
+      <DetailHeader />
       <StyledContainer>
         {detail && (
           <>
