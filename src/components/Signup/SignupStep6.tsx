@@ -57,7 +57,6 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
   // 리코일에 상태 저장
   const setUserInfo = useSetRecoilState(userDataAtom);
 
-
   const handleServiceClick = () => {
     onNextStep(6);
     return;
@@ -303,15 +302,15 @@ const StyledInput = styled.div`
 const StyledBox = styled.div`
   display: flex;
   align-items: end;
+  button {
+    flex-shrink: 0;
+  }
 `;
 
 const StyledButton = styled.button`
   width: 94px;
   height: 48px;
   margin-left: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.colors.grayColor1 : theme.colors.ctaColor};
   color: ${({ disabled, theme }) => (disabled ? theme.colors.grayColor4 : theme.colors.white)};
