@@ -21,3 +21,10 @@ export const updateFcmToken = async (tokenStatus: IFcmTokenStatus) => {
   const response = await apiClient.post('/api/notify/fcm-token', tokenStatus);
   return response.status === 200 || response.status === 201;
 };
+
+export const updateFcmTokenToLogin = async (tokenStatus: IFcmTokenStatus, accessToken: string) => {
+  const response = await apiClient.post('/api/notify/fcm-token', tokenStatus, {
+    headers: { Authorization: 'Bearer ' + accessToken }
+  });
+  return response.status === 200 || response.status === 201;
+};

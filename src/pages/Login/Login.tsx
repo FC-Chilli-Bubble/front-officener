@@ -116,7 +116,7 @@ const Login = () => {
         setUser(userInfo);
         // FCM Token 서버로 등록
         try {
-          setFcmTokenToLogin().then(() => {
+          setFcmTokenToLogin(token).then(() => {
             navigate('/', { replace: true });
           });
         } catch (error) {

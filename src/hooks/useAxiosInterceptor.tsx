@@ -13,7 +13,6 @@ import MODAL_DATAS from '@/constants/modalDatas';
 const useAxiosInterceptor = () => {
   const { openModal } = useModal();
   const [cookies, removeCookie] = useCookies(['token']);
-  const accessToken = cookies.token || ''; // 쿠키에 저장된 토큰 값
   const clearUser = useResetRecoilState(userInfoAtom);
   const navigate = useNavigate();
 
@@ -41,7 +40,8 @@ const useAxiosInterceptor = () => {
   };
 
   const authConfig = (config: InternalAxiosRequestConfig<unknown>) => {
-    if (config.headers && accessToken) {
+    const accessToken = cookies.token || ''; // 쿠키에 저장된 토큰 값
+    if (config.headers && accessToken && typeof accessToken === 'string') {
       // AccessToken이 정상적으로 저장되어 있으면 headers에 Authorization에 값을 추가해준다.
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

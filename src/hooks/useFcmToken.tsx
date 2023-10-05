@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { fcmTokenAtom } from '@/states/fcmTokenAtom';
-import { updateFcmToken } from '@/apis/Notify/notifyRequests';
+import { updateFcmToken, updateFcmTokenToLogin } from '@/apis/Notify/notifyRequests';
 import { getFcmToken } from '@/utils/getFcmToken';
 import { useModal } from './useModal';
 import { useCallback, useMemo } from 'react';
@@ -58,9 +58,9 @@ const useFcmToken = () => {
     });
   };
 
-  const setFcmTokenToLogin = async () => {
+  const setFcmTokenToLogin = async (accessToken: string) => {
     console.log(fcmToken);
-    await updateFcmToken({ fcmToken: fcmToken, type: 'KEEP' });
+    await updateFcmTokenToLogin({ fcmToken: fcmToken, type: 'KEEP' }, accessToken);
   };
 
   const setFcmTokenToOnNotify = async () => {

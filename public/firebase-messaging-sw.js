@@ -5,8 +5,7 @@ self.addEventListener('install', () => {
 self.addEventListener('activate', () => {});
 
 self.addEventListener('push', e => {
-  console.log('push >>>>>>');
-  console.log(e.data);
+  console.log('push 알림 발생');
   if (!e.data.json()) {
     return;
   }
