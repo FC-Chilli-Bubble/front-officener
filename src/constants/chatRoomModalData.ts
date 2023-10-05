@@ -54,5 +54,9 @@ export const MODAL_DATA_HOST = {
     content: '강퇴한 참여자는 다시 초대할 수 없습니다.',
     positive: '강퇴하기',
     negative: '아니오'
+  },
+  cantExileExitModal: {
+    title: '게스트 모두 수령 완료 시 강퇴 할 수 있습니다.',
+    positive: '닫기'
   }
 };

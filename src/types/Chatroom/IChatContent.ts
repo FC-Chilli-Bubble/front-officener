@@ -25,3 +25,7 @@ export interface IChatAndMembers {
   messages: IChatData[];
   members: IMemberData[];
 }
+
+export interface IProfileExileBody {
+  kickedUserId: number;
+}

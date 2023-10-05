@@ -1,8 +1,8 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { chatInfoAtom } from '@/states/chatRoomdataAtom';
 
 export const useMemberInfo = () => {
-  const messageData = useRecoilValue(chatInfoAtom);
+  const [messageData, setMessageData] = useRecoilState(chatInfoAtom);
 
   const getMemberDataById = (senderId: number) => {
     if (messageData) {
@@ -12,7 +12,6 @@ export const useMemberInfo = () => {
     }
   };
 
-  
   const getMyId = () => {
     const getMyData = messageData && messageData.members.find(member => member.amI);
     return getMyData ? getMyData.id : 0;
@@ -57,6 +56,17 @@ export const useMemberInfo = () => {
     return memberData ? memberData.isHost : false;
   };
 
+  const updateMemberData = (senderId: number) => {
+    const oldData = getMemberDataById(senderId);
+    if (oldData) {
+      const newData = { ...oldData, isRemitted: true };
+      setMessageData({
+        messages: messageData.messages,
+        members: [...messageData.members.filter(member => member.id !== senderId), newData]
+      });
+    }
+  };
+
   return {
     getMyId,
     getName,
@@ -65,6 +75,7 @@ export const useMemberInfo = () => {
     isRemitted,
     isReceived,
     isAllReceived,
-    isHost
+    isHost,
+    updateMemberData
   };
 };
