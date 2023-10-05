@@ -21,7 +21,7 @@ import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
 import { BANKS, TBankKey } from '@/constants/banks';
 
 const ChatHeader = ({ detail }: { detail: IDeliveryPost | null }) => {
-  const { getMyId, isHost, isRemitted } = useMemberInfo();
+  const { getMyId, isHost, isRemitted, updateMemberData } = useMemberInfo();
   const { openModal, closeModal } = useModal();
 
   const myid = getMyId();
@@ -31,7 +31,6 @@ const ChatHeader = ({ detail }: { detail: IDeliveryPost | null }) => {
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
   const [isGuestButtonDisabled, setIsGuestButtonDisabled] = useState(false);
 
-  console.log('넘어노나', detail);
   //host api post
   const createHostClosed = async () => {
     try {
@@ -103,6 +102,7 @@ const ChatHeader = ({ detail }: { detail: IDeliveryPost | null }) => {
       ...changeModalGuest,
       positiveCallback: () => {
         createGuestPost();
+        updateMemberData(myid);
       },
       negativeCallback: () => {
         closeModal();
