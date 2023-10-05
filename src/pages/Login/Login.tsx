@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { useSetRecoilState } from 'recoil';
@@ -11,6 +11,7 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { createLogin } from '@/apis/Login/LoginRequests';
+import useFcmToken from '@/hooks/useFcmToken';
 
 type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
@@ -28,6 +29,11 @@ const Login = () => {
 
   const [, setCookie] = useCookies(['token']);
   const setUser = useSetRecoilState(userInfoAtom);
+  const { setFcmTokenToLogin, getNewFcmToken } = useFcmToken();
+
+  useEffect(() => {
+    getNewFcmToken();
+  }, [getNewFcmToken]);
 
   // 헤더 뒤로가기 버튼;
   const handleServiceClick = () => {
@@ -102,6 +108,8 @@ const Login = () => {
     e.preventDefault();
     createLogin(email, password).then(
       response => {
+        // FCM Token 서버로 등록
+        setFcmTokenToLogin();
         const token = response.data.userInfo.token;
         const userInfo = response.data;
         if (token) {
