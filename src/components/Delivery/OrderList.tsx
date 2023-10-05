@@ -1,37 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IRoom } from '@/types/Delivery/IDeliveryList';
-import { FOODTAGS } from '@/constants/commonUiData';
+import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
 
 interface IOrderListProps {
   selectedCategory: string;
   handleCategoryClick: (_category: string) => void;
-  data: IRoom[];
 }
-
-const categories = [
-  { name: '분식', key: '분식' },
-  { name: '족발,보쌈', key: '족발,보쌈' },
-  { name: '회, 일식', key: '회,일식' },
-  { name: '찜, 탕, 찌개', key: '찜,탕,찌개' },
-  { name: '피자', key: '피자' },
-  { name: '치킨', key: '치킨' },
-  { name: '아시안', key: '아시안' },
-  { name: '백반', key: '백반' },
-  { name: '카페, 디저트', key: '카페,디저트' }
-];
 
 const OrderList: React.FC<IOrderListProps> = ({ selectedCategory, handleCategoryClick }) => {
   return (
     <>
       <Heading>함께 주문 리스트</Heading>
       <MenuContainer>
-        {categories.map(category => (
+        {FOOD_TAG.map(category => (
           <CategoryButton
-            key={category.key}
-            className={selectedCategory === category.name ? 'active' : ''}
-            onClick={() => handleCategoryClick(FOODTAGS[category.key])}>
-            {category.name}
+            key={category}
+            className={selectedCategory === FOODTAGS[category] ? 'active' : ''}
+            onClick={() => handleCategoryClick(FOODTAGS[category])}>
+            {category}
           </CategoryButton>
         ))}
       </MenuContainer>
@@ -77,9 +63,9 @@ const MenuContainer = styled(ScrollHidden)`
   padding-bottom: 10px;
   padding-left: 20px;
 
-  &::-webkit-scrollbar {
+  /* &::-webkit-scrollbar {
     display: none;
-  }
+  } */
 `;
 
 const CategoryButton = styled.button`

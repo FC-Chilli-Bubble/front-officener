@@ -8,12 +8,12 @@ import { timePickerAtom } from '@/states/timePickerAtom';
 import { BANKS, BANKS_MAX_NUM } from '@/constants/banks';
 
 type TPostStepDeliveryInfoProps = {
-  // eslint-disable-next-line no-unused-vars
-  openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  openBottomSheet: (_e: React.MouseEvent<HTMLButtonElement>) => void;
+  attendees?: number;
 };
 
 
-const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) => {
+const PostStepDeliveryInfo = ({ openBottomSheet, attendees = 1 }: TPostStepDeliveryInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTime] = useRecoilState(timePickerAtom);
   const bankList = useRecoilValue(postBankAtom);
@@ -63,15 +63,15 @@ const PostStepDeliveryInfo = ({ openBottomSheet }: TPostStepDeliveryInfoProps) =
         <StyledDropdown>
           <select required id='maxNum' value={(postData.maxAttendees ?? '').toString()} onChange={(e) => { setPostData({ ...postData, maxAttendees: Number(e.target.value) }); }}>
             <option value="" disabled selected>인원선택</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+            <option value="2" disabled={attendees > 2}>2</option>
+            <option value="3" disabled={attendees > 3}>3</option>
+            <option value="4" disabled={attendees > 4}>4</option>
+            <option value="5" disabled={attendees > 5}>5</option>
+            <option value="6" disabled={attendees > 6}>6</option>
+            <option value="7" disabled={attendees > 7}>7</option>
+            <option value="8" disabled={attendees > 8}>8</option>
+            <option value="9" disabled={attendees > 9}>9</option>
+            <option value="10" disabled={attendees > 10}>10</option>
           </select>
           <img src={IconDown} />
         </StyledDropdown>
