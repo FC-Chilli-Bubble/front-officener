@@ -1,34 +1,25 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { HEADER_LEFT_ICONS } from '@/constants/commonUiData';
 import HeaderBg from '@/assets/food/img_details_bg.svg';
+import IconBack from '@/assets/ico_back_w.svg';
 
-type LeftIconType = 'back' | 'close' | 'none';
 
-type THeaderProps = {
-  leftIcon?: LeftIconType;
-};
-
-const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
+const DetailHeader = () => {
   const navigate = useNavigate();
 
   const handleIconClick = () => {
-    if (leftIcon !== 'none') {
-      navigate('/delivery');
-    }
+    navigate('/delivery');
   };
 
   return (
     <StyledHeader bgImage={HeaderBg}>
-      {leftIcon !== 'none' && (
-        <StyledLeftIcon onClick={handleIconClick}>
-          <img
-            src={HEADER_LEFT_ICONS[leftIcon]}
-            alt=""
-          />
-        </StyledLeftIcon>
-      )}
+      <StyledLeftIcon onClick={handleIconClick}>
+        <img
+          src={IconBack}
+          alt=""
+        />
+      </StyledLeftIcon>
+
       <h3>함께 배달시 유의사항</h3>
       <StyledP>-&gt; 이체시간을 엄수해주세요!</StyledP>
       <StyledP>-&gt; 호스트님께 감사인사를 꼭 해주세요</StyledP>
@@ -37,7 +28,7 @@ const Header: React.FC<THeaderProps> = ({ leftIcon = 'none' }) => {
   );
 };
 
-const StyledHeader = styled.div<{ bgImage: string }>`
+const StyledHeader = styled.div<{ bgImage: string; }>`
   height: 254px;
   background-image: none;
   width: 100%;
@@ -45,8 +36,9 @@ const StyledHeader = styled.div<{ bgImage: string }>`
   background-image: ${({ bgImage }) => `url(${bgImage})`};
   background-repeat: no-repeat;
   background-position: right bottom;
-
+  position:relative;
   background-color: ${props => props.theme.colors.marinblueColor};
+  
   h3 {
     color: ${props => props.theme.colors.white};
     font-size: 25px;
@@ -74,4 +66,4 @@ const StyledP = styled.p`
   font-size: 12px;
 `;
 
-export default Header;
+export default DetailHeader;

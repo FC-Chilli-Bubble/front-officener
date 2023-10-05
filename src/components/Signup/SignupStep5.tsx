@@ -26,6 +26,7 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const [pwdMsg, setPwdMsg] = useState('');
   const [emailErrorIcon, setEmailErrorIcon] = useState<TErrorIconType>('none');
   const [pwsErrorIcon, setPwsErrorIcon] = useState<TErrorIconType>('none');
+
   //계정 정보 저장하기
   const setUserAccount = useSetRecoilState(signupAccountAtom);
   const handleUserAccount = (value: string, key: string) => {
@@ -51,16 +52,16 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const handleEmailChange = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('none');
-      setEmailMsg('');
+      setEmailErrorIcon('error');
+      setEmailMsg('이메일을 입력해 주세요');
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
       setEmailErrorIcon('none');
       setEmailMsg('');
       return;
     } else {
-      setEmailMsg('');
       setEmailErrorIcon('none');
+      setEmailMsg('');
     }
   };
 
@@ -68,16 +69,19 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
   const handleEmailBlur = (newEmail: string) => {
     setEmail(newEmail);
     if (!newEmail) {
-      setEmailErrorIcon('none');
+      setEmailErrorIcon('error');
       setEmailMsg('이메일을 입력해 주세요');
+      setIsValid(false);
       return;
     } else if (!EMAIL_REGEX.test(newEmail)) {
       setEmailErrorIcon('error');
       setEmailMsg('정확한 이메일 형식을 입력해 주세요.');
+      setIsValid(false);
       return;
     } else {
-      setEmailMsg('');
       setEmailErrorIcon('none');
+      setEmailMsg('');
+      handleIsValid();
     }
   };
 
@@ -87,14 +91,16 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     if (!newPassword) {
       setPwsErrorIcon('none');
       setPwdMsg('');
+      setIsValid(false);
       return;
     } else if (!PASSWORD_REGEX.test(newPassword)) {
       setPwsErrorIcon('none');
       setPwdMsg('');
+      setIsValid(false);
       return;
     } else {
-      setPwdMsg('');
       setPwsErrorIcon('none');
+      setPwdMsg('');
     }
   };
 
@@ -121,17 +127,20 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     if (!newPassword) {
       setPwsErrorIcon('none');
       setPwdMsg('');
-      setIsValid(false);
       return;
     } else if (password !== newPassword) {
       setPwsErrorIcon('none');
       setPwdMsg('');
-      setIsValid(false);
+      return;
+    } else if (!PASSWORD_REGEX.test(newPassword)) {
+      setPwsErrorIcon('none');
+      setPwdMsg('');
       return;
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
-      setIsValid(true);
+      // handleIsValid();
+      return;
     }
   };
 
@@ -141,16 +150,29 @@ const SignupStep5 = ({ onNextStep }: SignupStepProps) => {
     if (!newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호를 다시 입력해 주세요');
-
+      // setIsValid(false);
       return;
     } else if (password !== newPassword) {
       setPwsErrorIcon('error');
       setPwdMsg('비밀번호가 일치하지 않습니다.');
-
+      // setIsValid(false);
+      return;
+    } else if (!PASSWORD_REGEX.test(newPassword)) {
+      setPwsErrorIcon('error');
+      setPwdMsg('8~16자의 영문, 숫자, 특수문자를 모두 포함한 비밀번호를 입력해주세요');
+      // setIsValid(false);
       return;
     } else {
       setPwsErrorIcon('correct');
       setPwdMsg('비밀번호가 일치합니다.');
+      return;
+    }
+  };
+
+  const handleIsValid = () => {
+    if (!emailMsg && pwsErrorIcon === 'correct') {
+      setIsValid(true);
+      return;
     }
   };
 

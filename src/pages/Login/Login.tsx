@@ -132,7 +132,7 @@ const Login = () => {
           setCookie('token', token, { path: '/' });
         }
         setUser(userInfo);
-        navigate('/', { replace: true });
+        navigate('/intro', { replace: true });
       },
       (error: IErrorResponse) => {
         if (!password) {
