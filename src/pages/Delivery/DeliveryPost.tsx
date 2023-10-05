@@ -94,7 +94,6 @@ const DeliveryPost = () => {
 
   // 함께배달 등록
   const createNewPost = async () => {
-    console.log("등록 데이터 : ", postData);
     try {
       const isSuccess = await createDeliveryPost(postData);
       isSuccess &&

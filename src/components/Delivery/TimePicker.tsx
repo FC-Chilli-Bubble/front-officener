@@ -27,8 +27,8 @@ const TimePicker = ({ closeSheet }: TTimePickerProps) => {
   const handleClickSave = () => {
     closeSheet();
     const today = dayjs();
-    const selectedDeadline =
-      dayjs(`${today.year()} ${today.month() + 1} ${today.date()} ${pickerValue.houres}:${pickerValue.minutes} ${pickerValue.time}`).format("YYYY-MM-DDTHH:mm:ss");
+
+    const selectedDeadline = dayjs(`${today.year()}/${today.month() + 1}/${today.date()} ${pickerValue.houres}:${pickerValue.minutes} ${pickerValue.time}`).format('YYYY-MM-DDTHH:mm:ss');
 
     // 이미 지난 시간 선택 시 예외처리
     if (dayjs(selectedDeadline).diff(today) < 0) {
