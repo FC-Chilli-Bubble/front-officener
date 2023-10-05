@@ -75,7 +75,7 @@ const StyledContainer = styled.div<{
   display: flex;
   height: inherit;
   flex-direction: column;
-  padding: 0 12px 16px 12px;
+  padding: 0 16px 12px 16px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
