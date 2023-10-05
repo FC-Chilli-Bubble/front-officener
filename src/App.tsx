@@ -5,24 +5,27 @@ import { useRecoilValue } from 'recoil';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { useEffect } from 'react';
 
-
 import GlobalStyles from '@/styles/GlobalStyles';
 import theme from '@/styles/theme';
 import Modal from '@/components/Common/Modal';
 import useAxiosInterceptor from '@/hooks/useAxiosInterceptor';
+import useFcmToken from '@/hooks/useFcmToken';
+import '@/firebase-messaging-sw.ts';
 
 const App = () => {
   const userInfo = useRecoilValue(userInfoAtom);
   const navigate = useNavigate();
+  const { requestFcmTokenPermission } = useFcmToken();
   // Axios Interceptor Hooks
   useAxiosInterceptor();
-
 
   useEffect(() => {
     window.addEventListener("scroll", (e) => {
       e.preventDefault();
       window.scrollTo(0, 0);
     });
+    // FCM Token 요청
+    requestFcmTokenPermission();
   }, []);
 
   useEffect(() => {
@@ -30,6 +33,8 @@ const App = () => {
       navigate('/intro', { replace: true });
     }
   }, [userInfo, navigate]);
+
+
 
   return (
     <>

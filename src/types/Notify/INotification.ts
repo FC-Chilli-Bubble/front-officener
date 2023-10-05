@@ -8,3 +8,10 @@ export interface INotification {
   createdAt: string;
   read: boolean;
 }
+
+type FcmStatus = 'ACTIVATE' | 'INACTIVATE' | 'KEEP';
+
+export interface IFcmTokenStatus {
+  fcmToken: string;
+  type: FcmStatus;
+}
