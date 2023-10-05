@@ -324,6 +324,7 @@ const StyledButton = styled.button`
   }
 `;
 
+
 const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
     font-size: 16px;
