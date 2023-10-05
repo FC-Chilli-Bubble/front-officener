@@ -72,9 +72,9 @@ const MODAL_DATAS = {
   },
   DELIVERY_CHAT_JOIN_CONFIRM: {
     title: '함께배달에 참여하시겠습니까?',
-    content: '참여 이후에는 호스트의 승인을 받아야 나가실 수 있습니다',
+    content: '참여 이후에는 호스트의 승인을\n받아야 나가실 수 있습니다',
     positive: '참여할래요',
-    nagative: '아니요'
+    negative: '아니요'
   },
   DELIVERY_DETAIL_INVALID: {
     title: '유효하지 않은 게시글입니다.',
@@ -116,6 +116,21 @@ const MODAL_DATAS = {
   },
   DELIVERY_DELETE_ATTENDESS: {
     title: '게스트가 있는 경우 삭제할 수 없습니다',
+    positive: '확인'
+  },
+  DELIVERY_LIST_FETCH_FAILURE: {
+    title: '함께배달 게시글 조회 중 오류가 발생했습니다',
+    content: '오류가 지속적으로 발생하는 경우\n관리자에게 문의해주세요',
+    positive: '확인'
+  },
+  JOINED_LIST_FETCH_FAILURE: {
+    title: '내가 참여한 배달 조회 중 오류가 발생했습니다',
+    content: '오류가 지속적으로 발생하는 경우\n관리자에게 문의해주세요',
+    positive: '확인'
+  },
+  MY_CHAT_LIST_FETCH_FAILURE: {
+    title: '채팅 목록 조회 중 오류가 발생했습니다',
+    content: '오류가 지속적으로 발생하는 경우\n관리자에게 문의해주세요',
     positive: '확인'
   }
 };

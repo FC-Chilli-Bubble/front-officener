@@ -31,6 +31,9 @@ const DetailsPage = () => {
     try {
       const res = await fetchDeliveryPostDetail(roomId);
       setDetail(res.data);
+      if (res.data.status === 'TERMINATED') {
+        moveBackInvalidPost();
+      }
     } catch (error) {
       openModal({
         ...MODAL_DATAS.DELIVERY_POST_DETAIL_FAILURE,
@@ -41,17 +44,21 @@ const DetailsPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (params.id) {
-      getDeliveryPostDetail(params.id);
-      return;
-    }
+  const moveBackInvalidPost = () => {
     openModal({
       ...MODAL_DATAS.DELIVERY_DETAIL_INVALID,
       positiveCallback: () => {
         navigate(-1);
       }
     });
+  };
+
+  useEffect(() => {
+    if (params.id) {
+      getDeliveryPostDetail(params.id);
+      return;
+    }
+    moveBackInvalidPost();
   }, [params]);
 
   // 삭제 API
@@ -124,7 +131,9 @@ const DetailsPage = () => {
 
   // 채팅방 참여 클릭 핸들러
   const handleClickEnterChat = () => {
-    navigate(`/chatroom/${params.id}`);
+    if (detail!.status !== 'TERMINATED') {
+      navigate(`/chatroom/${params.id}`);
+    }
   };
 
   // 함께배달 클릭 핸들러
