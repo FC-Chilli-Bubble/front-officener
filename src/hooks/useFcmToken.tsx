@@ -59,7 +59,8 @@ const useFcmToken = () => {
   };
 
   const setFcmTokenToLogin = async () => {
-    await updateFcmToken({ fcmToken: fcmToken, status: '' });
+    console.log(fcmToken);
+    await updateFcmToken({ fcmToken: fcmToken, type: 'KEEP' });
   };
 
   const setFcmTokenToOnNotify = async () => {
@@ -73,17 +74,33 @@ const useFcmToken = () => {
     }
 
     if (fcmToken) {
-      await updateFcmToken({ fcmToken: fcmToken, status: 'ACTIVE' });
+      try {
+        await updateFcmToken({ fcmToken: fcmToken, type: 'ACTIVATE' });
+      } catch (error) {
+        openModal({
+          title: '알림 활성화',
+          content: '알림 상태 변경 중 오류가 발생했습니다',
+          positive: '확인',
+        });
+      }
       return;
     }
   };
 
   const setFcmTokenToOffNotify = async () => {
-    await updateFcmToken({ fcmToken: '', status: 'INACTIVE' });
+    try {
+      await updateFcmToken({ fcmToken: '', type: 'INACTIVATE' });
+    } catch (error) {
+      openModal({
+        title: '알림 비활성화',
+        content: '알림 상태 변경 중 오류가 발생했습니다',
+        positive: '확인',
+      });
+    }
   };
 
   const updateOnNotify = async (token: string) => {
-    await updateFcmToken({ fcmToken: token, status: 'ACTIVE' });
+    await updateFcmToken({ fcmToken: token, type: 'ACTIVATE' });
   };
 
   return { requestFcmTokenPermission, setFcmTokenToLogin, setFcmTokenToOnNotify, setFcmTokenToOffNotify, getNewFcmToken };

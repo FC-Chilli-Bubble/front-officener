@@ -9,9 +9,9 @@ export interface INotification {
   read: boolean;
 }
 
-type FcmStatus = 'ACTIVE' | 'INACTIVE' | '';
+type FcmStatus = 'ACTIVATE' | 'INACTIVATE' | 'KEEP';
 
 export interface IFcmTokenStatus {
   fcmToken: string;
-  status: FcmStatus;
+  type: FcmStatus;
 }

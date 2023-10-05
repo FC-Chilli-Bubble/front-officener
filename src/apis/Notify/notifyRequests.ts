@@ -18,6 +18,6 @@ export const updateNotificationReadAll = async (): Promise<boolean> => {
 };
 
 export const updateFcmToken = async (tokenStatus: IFcmTokenStatus) => {
-  const response = await apiClient.post('', tokenStatus);
+  const response = await apiClient.post('/api/notify/fcm-token', tokenStatus);
   return response.status === 200 || response.status === 201;
 };
