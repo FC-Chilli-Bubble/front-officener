@@ -17,6 +17,8 @@ const ChatDeclarationStepDetail = () => {
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextAreaValue(e.target.value);
     setTextAreaCount(e.target.value.length);
+    const newChatDeclarationData = { ...chatDeclarationData, reportMessage: textAreaValue };
+    setChatDeclarationData(newChatDeclarationData);
   };
 
   const handleBackClick = () => {
@@ -27,6 +29,7 @@ const ChatDeclarationStepDetail = () => {
 
   //api post
   const createDeclaration = async () => {
+    console.log(chatDeclarationData);
     try {
       await createDeclarationPost(String(params.roomId), chatDeclarationData);
       console.log(chatDeclarationData);
@@ -38,8 +41,6 @@ const ChatDeclarationStepDetail = () => {
   };
 
   const handleDeclarationClick = () => {
-    const newChatDeclarationData = { ...chatDeclarationData, reportMessage: textAreaValue };
-    setChatDeclarationData(newChatDeclarationData);
     createDeclaration();
   };
 

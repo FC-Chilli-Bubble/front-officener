@@ -179,16 +179,13 @@ const SignupStep6 = ({ onNextStep }: SignupStepProps) => {
       name,
       phoneNumber
     }).then(
-      response => {
-        const responseData = response;
-        console.log(responseData);
+      () => {
         handleNextStep();
       },
-      (error: IErrorResponse) => {
-        console.log(error.errorMessage);
+      () => {
         openModal({
           ...MODAL_DATAS.SIGNUP_FAIL_ALERT,
-          positiveCallback: () => {}
+          positiveCallback: () => { }
         });
         return;
       }
@@ -302,15 +299,15 @@ const StyledInput = styled.div`
 const StyledBox = styled.div`
   display: flex;
   align-items: end;
+  button {
+    flex-shrink: 0;
+  }
 `;
 
 const StyledButton = styled.button`
   width: 94px;
   height: 48px;
   margin-left: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: ${({ disabled, theme }) =>
     disabled ? theme.colors.grayColor1 : theme.colors.ctaColor};
   color: ${({ disabled, theme }) => (disabled ? theme.colors.grayColor4 : theme.colors.white)};
@@ -323,6 +320,7 @@ const StyledButton = styled.button`
     background-color: ${({ theme }) => theme.colors.ctaPressedColor};
   }
 `;
+
 
 const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {

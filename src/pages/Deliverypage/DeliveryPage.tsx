@@ -13,6 +13,8 @@ import { getJoinedRooms } from '@/apis/Delivery/getJoinedRooms';
 import { roomsAtom, joinedRoomsAtom, myChatListAtom } from '@/states/rommsAtom';
 import { FOODTAGS, FOOD_TAG } from '@/constants/commonUiData';
 import { getChats } from '@/apis/Delivery/deliveryChat';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
 
 const DeliveryPage = () => {
   const [selectedMenu, setSelectedMenu] = useState('함께배달');
@@ -20,33 +22,34 @@ const DeliveryPage = () => {
   const setRooms = useSetRecoilState(roomsAtom);
   const setJoinedRooms = useSetRecoilState(joinedRoomsAtom);
   const setMyChatList = useSetRecoilState(myChatListAtom);
+  const { openModal } = useModal();
 
   const getRoomList = useCallback(async () => {
     try {
       const response = await deliverylist();
       setRooms(response.data.rooms.filter(room => dayjs().isBefore(dayjs(room.deadLine)), 'day'));
     } catch (error) {
-      console.error('Error fetching data from API:', error);
+      openModal(MODAL_DATAS.DELIVERY_LIST_FETCH_FAILURE);
     }
-  }, [setRooms]);
+  }, [setRooms, openModal]);
 
   const getJoinedRoomList = useCallback(async () => {
     try {
       const joinedRoomsResponse = await getJoinedRooms();
       setJoinedRooms(joinedRoomsResponse.data.rooms.sort((a, b) => dayjs(b.createdAt).diff(dayjs(a.createdAt))));
     } catch (error) {
-      console.error('Error fetching data from API:', error);
+      openModal(MODAL_DATAS.JOINED_LIST_FETCH_FAILURE);
     }
-  }, [setJoinedRooms]);
+  }, [setJoinedRooms, openModal]);
 
   const getMyChatList = useCallback(async () => {
     try {
       const chatResponse = await getChats();
       setMyChatList(chatResponse.data.chats);
     } catch (error) {
-      console.error('Error fetching chats:', error);
+      openModal(MODAL_DATAS.MY_CHAT_LIST_FETCH_FAILURE);
     }
-  }, [setMyChatList]);
+  }, [setMyChatList, openModal]);
 
   useEffect(() => {
     getRoomList();

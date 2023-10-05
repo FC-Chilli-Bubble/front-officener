@@ -18,7 +18,7 @@ const ChatItem = React.memo(({ chatItem }: IChatData) => {
 
   return (
     <>
-      <StyledChatItem onClick={handleMoveChat} >
+      <StyledChatItem onClick={handleMoveChat}>
         <img
           src={FOOD_IMAGE[chatItem.foodTag]}
           alt="Profile"
@@ -27,12 +27,9 @@ const ChatItem = React.memo(({ chatItem }: IChatData) => {
           <strong>{chatItem.storeName}</strong>
           <p>{chatItem.recentMessage}</p>
         </div>
-        {
-          chatItem.numUnreadMessages > 0 &&
-          <StyledChatNum>
-            {chatItem.numUnreadMessages}
-          </StyledChatNum>
-        }
+        {chatItem.numUnreadMessages > 0 && (
+          <StyledChatNum>{chatItem.numUnreadMessages}</StyledChatNum>
+        )}
       </StyledChatItem>
       <StyledDivider />
     </>

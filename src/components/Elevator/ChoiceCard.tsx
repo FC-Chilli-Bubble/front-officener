@@ -11,10 +11,10 @@ type TChoiceCardProps = {
 const ChoiceCard = ({ elevator }: TChoiceCardProps) => {
   const ElevatorSetting = (direction: string | null) => {
     if (direction === 'DOWN') {
-      return <img src={Down} />;
+      return <img src={Down} className='down' />;
     }
     if (direction === 'UP') {
-      return <img src={Up} />;
+      return <img src={Up} className='up' />;
     }
     {
       return <img src={Stop} />;
@@ -45,7 +45,7 @@ const StyledElevator = styled.li<{ status: string; }>`
   max-width: 200px;
   border: 1px solid
     ${({ status, theme }) =>
-    status === 'full'
+    status === 'FULL'
       ? theme.colors.redColor0
       : status === 'REPAIR'
         ? theme.colors.white
@@ -60,6 +60,7 @@ const StyledElevator = styled.li<{ status: string; }>`
     font-size: 16px;
     color: ${({ theme }) => theme.colors.grayColor6};
     font-weight: 400;
+    line-height: 20px;
   }
 `;
 
@@ -69,11 +70,43 @@ const SyledInfo = styled.div`
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  min-height: 76px;
+
   h2 {
     text-align: center;
     font-size: 64px;
     font-weight: 900;
     margin-right: 10px;
+  }
+
+  img.up {
+    animation: fadeInUp 2s infinite;
+  }
+
+  img.down {
+    animation: fadeInDown 2s infinite;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0.5;
+      transform: translate3d(0, 30%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(-5px);
+    }
+  }
+
+    @keyframes fadeInDown {
+    0% {
+      opacity: 0.5;
+      transform: translate3d(0, -50%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(5px);
+    }
   }
 `;
 
@@ -85,9 +118,10 @@ const StyledStatus = styled.div<{ status: string; }>`
   p {
     font-size: 24px;
     font-weight: 600;
+    line-height: 31.2px;
     &.full {
       color: ${({ status, theme }) =>
-    status === 'full' ? theme.colors.redColor0 : theme.colors.grayColor3};
+    status === 'FULL' ? theme.colors.redColor0 : theme.colors.grayColor3};
     }
 
     &.repair {

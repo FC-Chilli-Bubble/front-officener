@@ -1,49 +1,74 @@
 import { styled } from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
 import BottomSheetModal from '@/components/Common/BottomSheetModal';
 import ChoiceCard from '@/components/Elevator/ChoiceCard';
-import FloorList from '@/components/Elevator/FloorList';
-import { fetchElevatorObj } from '@/apis/Elevator/elevatorGetRequests';
+import ElevatorTagList from '@/components/Elevator/ElevatorTagList';
+import { featchElevators } from '@/apis/Elevator/elevatorRequests';
 import { IObjectElevator } from '@/types/Elevator/IElevator';
 import MissingCard from '@/components/Elevator/MissingCard';
+import { useModal } from '@/hooks/useModal';
+import MODAL_DATAS from '@/constants/modalDatas';
+import { userInfoAtom } from '@/states/userDataAtom';
+import { elevatorAtom } from '@/states/elevatorAtom';
 
 const ElevatorHome = () => {
   const [isOpen, setOpen] = useState(false);
   const [elevatorList, setElevatorList] = useState<IObjectElevator[]>([]);
-
+  const [allElevatorList, setAllElevatorList] = useState<IObjectElevator[]>([]);
+  const setSavedTags = useSetRecoilState(elevatorAtom);
+  const { openModal } = useModal();
   const navigate = useNavigate();
+  const user = useRecoilValue(userInfoAtom);
 
   const handleClickClose = () => {
     navigate(-1);
   };
 
-  const handleElevatorSetting = () => {
+  const handleElevatorSetting = (e?: React.MouseEvent<HTMLElement>) => {
+    e?.stopPropagation();
     setOpen(true);
   };
 
   // 바텀시트 닫기
-  const closeBottomSheet = () => {
+  const closeBottomSheet = (isUpdated: boolean) => {
+    if (isUpdated) {
+      getElevator();
+    }
     setOpen(false);
   };
 
   // 엘리베이터 목록 조회 API
-  const getElevator = async () => {
-    try {
-      const response = await fetchElevatorObj();
-      setElevatorList(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const getElevator = useCallback(
+    async () => {
+      try {
+        const res = await featchElevators();
+        setAllElevatorList(res.allElevators);
+        setElevatorList(res.userElevators.sort((a, b) => a.id - b.id));
+        setSavedTags(res.userElevators.map(elevator => elevator.id));
+      } catch (error) {
+        openModal({
+          ...MODAL_DATAS.ELEVATOR_FETCH_FAILURE,
+          positiveCallback: () => {
+            navigate(-1);
+          }
+        });
+      }
+    },
+    [openModal, navigate],
+  );
+
+  const handleCloseBottomSheet = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
     getElevator();
-  }, []);
+  }, [getElevator]);
 
   return (
     <StyledLayout>
@@ -52,24 +77,22 @@ const ElevatorHome = () => {
         title="엘리베이터"
         leftIconClick={handleClickClose}
       />
-      <StyledContainer>
+      <StyledContainer onClick={handleCloseBottomSheet}>
         <StyledStyledElevatorSetting>
-          <StyledElevatorTitle>오산 테라타워</StyledElevatorTitle>
+          <StyledElevatorTitle>{user.userInfo.building.buildingName}</StyledElevatorTitle>
           <StyledSettingButton>
             <Button
               size="small"
               type="primary"
               title="엘리베이터 설정"
-              onClick={() => {
-                handleElevatorSetting();
-              }}
+              onClick={handleElevatorSetting}
             />
             <BottomSheetModal
               isOpen={isOpen}
               onClose={() => setOpen(false)}>
-              <>
-                <FloorList closeSheet={closeBottomSheet} />
-              </>
+              {
+                allElevatorList && <ElevatorTagList elevators={allElevatorList} closeSheet={closeBottomSheet} />
+              }
             </BottomSheetModal>
           </StyledSettingButton>
         </StyledStyledElevatorSetting>
@@ -91,7 +114,7 @@ const ElevatorHome = () => {
 };
 
 const StyledContainer = styled.div`
-  padding: 0 20px;
+  padding: 0 20px 56px;
 `;
 const StyledLayout = styled.div``;
 
@@ -116,7 +139,7 @@ const StyledSettingButton = styled.div`
 const StyledElevators = styled.ul`
   margin-top: 37px;
   display: grid;
-  grid-template-rows: repeat(2, 217px);
+  grid-template-rows: 1fr;
   grid-template-columns: repeat(2, 1fr);
   text-align: center;
   gap: 14px;

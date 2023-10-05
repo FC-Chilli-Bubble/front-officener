@@ -16,6 +16,7 @@ const BottomSheetModal = ({ isOpen, onClose, children }: TBottomSheetModalProps)
 
   return (
     <Sheet
+      onClick={(e) => { e.stopPropagation(); }}
       isOpen={isOpen}
       onClose={onClose}
       detent="content-height"
@@ -31,7 +32,7 @@ const BottomSheetModal = ({ isOpen, onClose, children }: TBottomSheetModalProps)
   );
 };
 
-const StyledBottomSheet = styled(Sheet.Container)<{ inputfocus: boolean; ismobile: boolean }>`
+const StyledBottomSheet = styled(Sheet.Container) <{ inputfocus: boolean; ismobile: boolean; }>`
   padding-bottom: 20px;
   max-width: 560px !important;
   left: 0;
