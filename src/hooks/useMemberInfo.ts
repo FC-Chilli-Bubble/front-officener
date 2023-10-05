@@ -15,13 +15,6 @@ export const useMemberInfo = () => {
       return null;
     }
   };
-  const getMessageDataById = () => {
-    if (messageData) {
-      return messageData.messages.map(message => message.senderId);
-    } else {
-      return null;
-    }
-  };
 
   const getMyId = () => {
     const getMyData = messageData && messageData.members.find(member => member.amI);
@@ -30,12 +23,13 @@ export const useMemberInfo = () => {
 
   const getName = (senderId: number) => {
     const memberData = getMemberDataById(senderId);
-    console.log('백호야', memberData);
+    console.log('이름', memberData);
     return memberData ? memberData.name : 'Unknown';
   };
 
   const getCompany = (senderId: number) => {
     const memberData = getMemberDataById(senderId);
+    console.log('상대방', memberData);
     return memberData ? memberData.companyName : null;
   };
 
@@ -64,12 +58,11 @@ export const useMemberInfo = () => {
 
   const isHost = (senderId: number) => {
     const memberData = getMemberDataById(senderId);
-    console.log('코코', memberData);
+    console.log('나자신', memberData);
     return memberData ? memberData.isHost : false;
   };
 
   return {
-    getMessageDataById,
     getMyId,
     getName,
     getCompany,
