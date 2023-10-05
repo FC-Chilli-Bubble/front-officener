@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useParams } from 'react-router-dom';
 
 import { useModal } from '@/hooks/useModal';
 import { MODAL_DATA_GUEST, MODAL_DATA_HOST } from '@/constants/chatRoomModalData';
@@ -16,9 +17,10 @@ import {
   createHostClosedPost,
   createHostDeliveredPost
 } from '@/apis/ChatRoom/ChatHeaderButtonApis';
-import { useParams } from 'react-router-dom';
+import { IDeliveryPost } from '@/types/Delivery/IDeliveryPost';
+import { BANKS, TBankKey } from '@/constants/banks';
 
-const ChatHeader = () => {
+const ChatHeader = ({ detail }: { detail: IDeliveryPost | null }) => {
   const { getMyId, isHost, isRemitted } = useMemberInfo();
   const { openModal, closeModal } = useModal();
 
@@ -29,6 +31,7 @@ const ChatHeader = () => {
   const [isEndButtonDisabled, setIsEndButtonDisabled] = useState(false);
   const [isGuestButtonDisabled, setIsGuestButtonDisabled] = useState(false);
 
+  console.log('넘어노나', detail);
   //host api post
   const createHostClosed = async () => {
     try {
@@ -37,7 +40,6 @@ const ChatHeader = () => {
       console.log(err);
     } finally {
       setIsEndButtonDisabled(true);
-      
     }
   };
   const createHostDelivered = async () => {
@@ -108,10 +110,17 @@ const ChatHeader = () => {
     });
   };
 
+  const deadLineTime = detail?.deadline.split('T')[1].split(':', 2);
+  const deadLineHour =
+    deadLineTime &&
+    (Number(deadLineTime[0]) > 12 ? `PM ${Number(deadLineTime[0]) - 12}` : `AM ${deadLineTime[0]}`);
+  const deadLineMinute = deadLineTime && `${deadLineTime[1]}`;
+  const deadLineText = `${deadLineHour}:${deadLineMinute} 까지`;
+
   const roomInfo = {
-    bankName: '카카오뱅크',
-    acountNumber: '12312314123',
-    limitTime: 'PM 12:44까지'
+    bankName: BANKS[detail?.bankName as TBankKey],
+    account: detail?.account,
+    deadLine: deadLineText
   };
 
   const CHAT_HEADER_ICONS = {
@@ -132,9 +141,9 @@ const ChatHeader = () => {
           </StyledIcon>
           호스트 계좌번호
         </StyledDetailTitle>
-        <CopyToClipboard text={`${roomInfo.bankName} ${roomInfo.acountNumber}`}>
+        <CopyToClipboard text={`${roomInfo.bankName} ${roomInfo.account}`}>
           <StyledAcountNumber>
-            {roomInfo.bankName} {roomInfo.acountNumber}
+            {roomInfo.bankName} {roomInfo.account}
             <StyledIconButton>
               <img
                 src={CHAT_HEADER_ICONS['copy']}
@@ -154,7 +163,7 @@ const ChatHeader = () => {
           </StyledIcon>
           이체 마감시간
         </StyledDetailTitle>
-        <div>{roomInfo.limitTime}</div>
+        <div>{roomInfo.deadLine}</div>
       </StyledDetail>
       {isHost(myid) ? (
         <StyledButtonWrap>
@@ -206,12 +215,14 @@ const StyledDetail = styled.div`
   display: flex;
   align-items: center;
   gap: 7px;
+  div:nth-child(2) {
+    font-weight: 700;
+  }
 `;
 const StyledDetailTitle = styled.div`
   display: flex;
   align-items: center;
   gap: 7px;
-  font-weight: 700;
 `;
 const StyledIcon = styled.div`
   width: 16px;
