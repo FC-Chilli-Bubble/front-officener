@@ -1,3 +1,4 @@
+type DeliveryDetailStatus = 'ACTIVE' | 'CLOSED' | 'TERMINATED';
 export interface IDeliveryPost {
   roomId: number;
   hostId: number;
@@ -13,6 +14,7 @@ export interface IDeliveryPost {
   maxAttendees: number;
   description: string;
   isJoin: boolean;
+  status: DeliveryDetailStatus;
   createdAt: string;
   updatedAt: string;
 }

@@ -73,17 +73,21 @@ const DetailsPage = () => {
 
   // 삭제 버튼 클릭 핸들러
   const handleDeleteClick = () => {
-    // 참여자가 있는 경우 삭제 예외처리
-    if (detail!.attendees > 1) {
+    // 참여자가 있고 배달이 진행중인 경우 삭제 불가능 예외처리
+    if (detail!.attendees > 1 && detail!.status === 'ACTIVE') {
       openModal(MODAL_DATAS.DELIVERY_DELETE_ATTENDESS);
       return;
     }
-    openModal({
-      ...MODAL_DATAS.DELIVERY_POST_DELETE,
-      positiveCallback: () => {
-        handleDeletePost();
-      }
-    });
+
+    // 참여자가 호스트뿐이거나, 유효하지 않은 게시글인 경우 삭제
+    if (detail!.attendees === 1 || detail!.status === 'TERMINATED') {
+      openModal({
+        ...MODAL_DATAS.DELIVERY_POST_DELETE,
+        positiveCallback: () => {
+          handleDeletePost();
+        }
+      });
+    }
   };
 
   // 수정 버튼 클릭 핸들러
@@ -92,7 +96,11 @@ const DetailsPage = () => {
       return;
     }
     // 이미 마감된 게시글일 경우 예외처리
-    if (dayjs(detail.deadline).isBefore(dayjs())) {
+    if (
+      dayjs(detail.deadline).isBefore(dayjs()) ||
+      detail.status === 'CLOSED' ||
+      detail.status === 'TERMINATED'
+    ) {
       openModal(MODAL_DATAS.DELIVERY_POST_END_TIME);
       return;
     }
@@ -124,11 +132,19 @@ const DetailsPage = () => {
     if (!detail) {
       return;
     }
+
+    // 이미 마감된 경우
+    if (detail.status === 'CLOSED' || detail.status === 'TERMINATED') {
+      openModal(MODAL_DATAS.DELIVERY_POST_END_TIME);
+      return;
+    }
+
     // 참여 인원이 꽉 찬 경우 예외처리
     if (detail.maxAttendees === detail.attendees) {
       openModal(MODAL_DATAS.DELIVERY_JOIN_FULL);
       return;
     }
+
     openModal({
       ...MODAL_DATAS.DELIVERY_CHAT_JOIN_CONFIRM,
       positiveCallback: () => {
