@@ -24,7 +24,6 @@ const ChatHeaderBottomSheet = () => {
     setIsBottomsheetOpen(false);
   };
 
-
   const handleClickModalExitHost = useCallback(() => {
     if (isAllReceived()) {
       //모두가 수령했을때
