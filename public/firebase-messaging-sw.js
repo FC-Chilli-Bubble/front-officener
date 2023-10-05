@@ -11,7 +11,7 @@ self.addEventListener('push', e => {
     return;
   }
 
-  const resultData = JSON.parse(e.data.json().data.notification);
+  const resultData = e.data.json().data.notification;
   const notificationTitle = resultData.title;
   const notificationOptions = {
     body: resultData.body,
