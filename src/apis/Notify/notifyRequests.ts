@@ -1,6 +1,6 @@
 import { apiClient } from '@/apis/apiClient';
 import { ICommonResponse } from '@/types/Common/ICommonResponse';
-import { INotification } from '@/types/Notify/INotification';
+import { IFcmTokenStatus, INotification } from '@/types/Notify/INotification';
 
 export const fetchAllNotifications = async (): Promise<ICommonResponse<INotification[]>> => {
   const response = await apiClient.get('/api/notify');
@@ -15,4 +15,9 @@ export const updateNotificationReadStatus = async (notifyId: number): Promise<bo
 export const updateNotificationReadAll = async (): Promise<boolean> => {
   const response = await apiClient.post('/api/notify/readAll');
   return response.status === 200;
+};
+
+export const updateFcmToken = async (tokenStatus: IFcmTokenStatus) => {
+  const response = await apiClient.post('', tokenStatus);
+  return response.status === 200 || response.status === 201;
 };

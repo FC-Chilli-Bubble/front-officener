@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { getMessaging, getToken } from 'firebase/messaging';
 
 import Header from '@/components/Common/Header';
 import Button from '@/components/Common/Button';
@@ -12,7 +11,7 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from '@/constants/regexp';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { createLogin } from '@/apis/Login/LoginRequests';
-import { messaging } from '@/firebase-messaging-sw.ts';
+import useFcmToken from '@/hooks/useFcmToken';
 
 type TErrorRedIconType = 'wrong' | 'error' | 'none';
 
@@ -30,25 +29,11 @@ const Login = () => {
 
   const [, setCookie] = useCookies(['token']);
   const setUser = useSetRecoilState(userInfoAtom);
-
-  // FCM 토큰 가져오기
-  const [fcmToken, setFcmToken] = useState('');
-  const getFCMToken = async () => {
-    await getToken(messaging, {
-      vapidKey: import.meta.env.VITE_FB_VAP_ID
-    }).then(
-      token => {
-        setFcmToken(token);
-      },
-      () => {
-        setFcmToken('');
-      }
-    );
-  };
+  const { setFcmTokenToLogin, getNewFcmToken } = useFcmToken();
 
   useEffect(() => {
-    getFCMToken();
-  });
+    getNewFcmToken();
+  }, [getNewFcmToken]);
 
   // 헤더 뒤로가기 버튼
   const handleServiceClick = () => {
@@ -123,9 +108,7 @@ const Login = () => {
     createLogin(email, password).then(
       response => {
         // FCM Token 서버로 등록
-        if (fcmToken) {
-          console.log('fcmToken : ', fcmToken);
-        }
+        setFcmTokenToLogin();
         const token = response.data.userInfo.token;
         const userInfo = response.data;
         if (token) {
