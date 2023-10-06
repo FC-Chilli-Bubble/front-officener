@@ -59,8 +59,9 @@ const useFcmToken = () => {
   };
 
   const setFcmTokenToLogin = async (accessToken: string) => {
-    console.log(fcmToken);
-    await updateFcmTokenToLogin({ fcmToken: fcmToken, type: 'KEEP' }, accessToken);
+    if (fcmToken) {
+      await updateFcmTokenToLogin({ fcmToken: fcmToken, type: 'KEEP' }, accessToken);
+    }
   };
 
   const setFcmTokenToOnNotify = async () => {

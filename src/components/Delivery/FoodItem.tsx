@@ -39,7 +39,7 @@ const FoodItem = ({ room }: IFoodItemProps) => {
           <ListBlackText>{`${room.attendees}/${room.maxAttendees}`}</ListBlackText>
         </StyledRow>
         <StyledRow>
-          <ListGrayText>배달비</ListGrayText> <ListBlackText>{room.deliveryFee}</ListBlackText>
+          <ListGrayText>배달비</ListGrayText> <ListBlackText>{room.deliveryFee.toLocaleString()}</ListBlackText>
         </StyledRow>
         <StyledRow>
           <ListGrayText>태그</ListGrayText> <ListBlackText>{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === room.tag)}</ListBlackText>

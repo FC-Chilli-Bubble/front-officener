@@ -37,7 +37,7 @@ const DeadLineItem = React.memo(({ room }: { room: IRoom; }) => {
           <BlackText>{`${room.attendees}/${room.maxAttendees}`}</BlackText>
         </StyledRow>
         <StyledRow>
-          <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee}</BlackText>
+          <GrayText>배달비</GrayText> <BlackText>{room.deliveryFee.toLocaleString()}</BlackText>
         </StyledRow>
         <StyledRow>
           <GrayText>태그</GrayText> <BlackText>{Object.keys(FOODTAGS).find(key => FOODTAGS[key] === room.tag)}</BlackText>

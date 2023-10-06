@@ -27,7 +27,8 @@ const DeliveryPage = () => {
   const getRoomList = useCallback(async () => {
     try {
       const response = await deliverylist();
-      setRooms(response.data.rooms.filter(room => dayjs().isBefore(dayjs(room.deadLine)), 'day'));
+      setRooms(response.data.rooms.filter(room => dayjs().isBefore(dayjs(room.deadLine)), 'day')
+        .filter(room => room.roomStatus !== 'TERMINATED'));
     } catch (error) {
       openModal(MODAL_DATAS.DELIVERY_LIST_FETCH_FAILURE);
     }

@@ -13,6 +13,7 @@ import { useModal } from '@/hooks/useModal';
 import { userInfoAtom } from '@/states/userDataAtom';
 import { IErrorResponse } from '@/types/Common/IErrorResponse';
 import { createLogout } from '@/apis/Logout/LogoutRequest';
+import { deleteFcmToken } from '@/apis/Notify/notifyRequests';
 
 const MyProfile = () => {
   const user = useRecoilValue(userInfoAtom);
@@ -29,17 +30,18 @@ const MyProfile = () => {
     openModal({
       ...MODAL_DATAS.LOGOUT_CONFIRM,
       negativeCallback: async () => {
-        await createLogout().then(
-          response => {
-            console.log(response.message);
-            clearUser(); // 리코일 유저 정보 삭제
-            removeCookie('token', { path: '/' });
-            navigate('/login', { replace: true });
-          },
-          (error: IErrorResponse) => {
-            console.log(error.errorMessage);
-          }
-        );
+        await deleteFcmToken().finally(() => {
+          createLogout().then(
+            () => {
+              clearUser(); // 리코일 유저 정보 삭제
+              removeCookie('token', { path: '/' });
+              navigate('/login', { replace: true });
+            },
+            (error: IErrorResponse) => {
+              console.log(error.errorMessage);
+            }
+          );
+        });
       }
     });
   };
@@ -86,7 +88,7 @@ const MyProfile = () => {
             size="small"
             type="primary"
             title="비밀번호 변경"
-            onClick={() => {}}
+            onClick={() => { }}
           />
           <StyledLogout onClick={handleClickLogout}>로그아웃</StyledLogout>
         </StyledButtonBox>

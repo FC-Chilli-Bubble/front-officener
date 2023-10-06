@@ -28,3 +28,8 @@ export const updateFcmTokenToLogin = async (tokenStatus: IFcmTokenStatus, access
   });
   return response.status === 200 || response.status === 201;
 };
+
+export const deleteFcmToken = async () => {
+  const response = await apiClient.delete('/api/notify/fcm-token');
+  return response.status === 200 || response.status === 201;
+};

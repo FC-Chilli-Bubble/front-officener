@@ -23,7 +23,7 @@ const ChatItem = React.memo(({ chatItem }: IChatData) => {
           src={FOOD_IMAGE[chatItem.foodTag]}
           alt="Profile"
         />
-        <div>
+        <div className='content'>
           <strong>{chatItem.storeName}</strong>
           <p>{chatItem.recentMessage}</p>
         </div>
@@ -51,11 +51,13 @@ const StyledChatItem = styled.div`
     object-fit: cover;
   }
 
-  div {
+  div.content {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    flex-grow: 1;
   }
+
   p {
     color: ${props => props.theme.colors.grayColor10};
   }
