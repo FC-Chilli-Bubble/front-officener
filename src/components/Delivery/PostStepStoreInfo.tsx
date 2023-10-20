@@ -18,8 +18,7 @@ type TPostStepStoreInfoProps = {
 const PostStepStoreInfo = ({ openBottomSheet, isEdit }: TPostStepStoreInfoProps) => {
   const [postData, setPostData] = useRecoilState(postAtom);
   const [savedTag, setSavedTag] = useRecoilState(postTagAtom);
-
-  const postDeliveryTip = useMemo(() => (postData.deliveryFee ? postData.deliveryFee : '').toString(), [postData]);
+  const postDeliveryTip = useMemo(() => (postData.deliveryFee ? postData.deliveryFee : '').toLocaleString(), [postData]);
 
   const handleClickTagSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     openBottomSheet(e);
@@ -29,6 +28,11 @@ const PostStepStoreInfo = ({ openBottomSheet, isEdit }: TPostStepStoreInfoProps)
     setPostData({ ...postData, foodTag: '' });
     setSavedTag('');
     openBottomSheet(e);
+  };
+
+  const handleChangeFee = (fee: string) => {
+    const feeNum = fee.replace(/[^0-9]/g, '').replace(/,/gi, "");
+    setPostData({ ...postData, deliveryFee: Number(feeNum) });
   };
 
   return (
@@ -65,7 +69,7 @@ const PostStepStoreInfo = ({ openBottomSheet, isEdit }: TPostStepStoreInfoProps)
         placeholder='배달비를 작성해주세요'
         isValid={postDeliveryTip !== ''}
         value={postDeliveryTip}
-        onChange={(tip) => setPostData({ ...postData, deliveryFee: Number(tip.replace(/[^0-9]/g, '')) })}
+        onChange={handleChangeFee}
       />
 
       <StyledTagBox>
