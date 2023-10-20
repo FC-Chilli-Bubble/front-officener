@@ -6,9 +6,8 @@ import { INotification } from '@/types/Notify/INotification';
 import { FOOD_IMAGE } from '@/constants/commonUiData';
 
 type TNotificationItemProps = {
-  // TODO : 추후 알림 인터페이스 수정 필요
   notification: INotification;
-  onClick: (notifyId: number, roomId: number) => void;
+  onClick: (_notifyId: number, _roomId: number) => void;
 };
 
 const NotificationItem = React.memo((

@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Header from '@/components/Common/Header';
 import NotificationItem from '@/components/Notification/NotificationItem';
 import { fetchAllNotifications, updateNotificationReadAll, updateNotificationReadStatus } from '@/apis/Notify/notifyRequests';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import { filterdNotificationsState, notificationsAtom } from '@/states/notificationsAtom';
 import { useModal } from '@/hooks/useModal';
 import MODAL_DATAS from '@/constants/modalDatas';
+import NotificationSkeleton from '@/components/Notification/NotificationSkeleton';
+import DeferredComponent from '@/components/Common/\bDeferredComponent';
 
 
 const Notification = () => {
@@ -16,13 +18,17 @@ const Notification = () => {
   const [notifications, setNotifications] = useRecoilState(notificationsAtom);
   const { newNotifications, lastNotifications } = useRecoilValue(filterdNotificationsState);
   const { openModal } = useModal();
+  const [isLoading, setLoading] = useState(false);
 
   const getAllNotifications = async () => {
+    setLoading(true);
     try {
       const res = await fetchAllNotifications();
       setNotifications(res.data);
     } catch (error) {
       openModal(MODAL_DATAS.NOTIFICATIONS_FETCH_FAILURE);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,30 +76,33 @@ const Notification = () => {
             <button onClick={handleClickReadAll} disabled={newNotifications.length === 0}>모두 읽음</button>
           </StyledNewTitle>
           {
-            newNotifications.length > 0
-              ? (
-                <ul>
-                  {
-                    newNotifications.map(notification =>
-                      <NotificationItem key={notification.createdAt} notification={notification} onClick={handleClickNotification} />)
-                  }
-                </ul>
-              )
-              : <StyledEmptyMessage>새로운 알림이 없습니다.</StyledEmptyMessage>
+            isLoading ? (<DeferredComponent>{[1, 2, 3].map((index) => <NotificationSkeleton key={index} />)}</DeferredComponent>) :
+              newNotifications.length > 0
+                ? (
+                  <ul>
+                    {
+                      newNotifications!.map(notification =>
+                        <NotificationItem key={notification.createdAt} notification={notification} onClick={handleClickNotification} />)
+                    }
+                  </ul>
+                )
+                : <StyledEmptyMessage>새로운 알림이 없습니다.</StyledEmptyMessage>
           }
+
         </div>
         <div>
           <h2>지난 알림</h2>
           {
-            lastNotifications.length > 0
-              ? (
-                <ul>
-                  {
-                    lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickLastNotification} />)
-                  }
-                </ul>
-              )
-              : <StyledEmptyMessage>알림이 없습니다.</StyledEmptyMessage>
+            isLoading ? (<DeferredComponent>{[1, 2, 3].map((index) => <NotificationSkeleton key={index} />)}</DeferredComponent>) :
+              lastNotifications.length > 0
+                ? (
+                  <ul>
+                    {
+                      lastNotifications.map(notification => <NotificationItem notification={notification} onClick={handleClickLastNotification} />)
+                    }
+                  </ul>
+                )
+                : <StyledEmptyMessage>알림이 없습니다.</StyledEmptyMessage>
           }
         </div>
       </StyledContainer>
