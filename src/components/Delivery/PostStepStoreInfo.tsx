@@ -8,6 +8,7 @@ import FormField from "@/components/Common/FormField";
 import OutlineButton from "@/components/Common/OutlineButton";
 import { postTagAtom } from "@/states/postTagAtom";
 import { postAtom } from "@/states/postAtom";
+import { URL_REGEX } from '@/constants/regexp';
 
 type TPostStepStoreInfoProps = {
   openBottomSheet: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -56,7 +57,9 @@ const PostStepStoreInfo = ({ openBottomSheet, isEdit }: TPostStepStoreInfoProps)
         label='메뉴판 링크'
         isRequired
         placeholder='가게링크를 복사해주세요'
-        isValid={postData.menuLink !== ''}
+        redErrorIcon={postData.menuLink === '' ? 'none' : URL_REGEX.test(postData.menuLink) ? 'none' : 'error'}
+        errorMessage='유효하지 않은 형식입니다'
+        isValid={postData.menuLink !== '' && URL_REGEX.test(postData.menuLink)}
         value={postData.menuLink}
         onChange={(menuLink) => setPostData({ ...postData, menuLink })}
       />
